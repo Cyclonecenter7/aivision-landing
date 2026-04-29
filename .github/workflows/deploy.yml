@@ -16,15 +16,18 @@ jobs:
           cache: npm
 
       - run: npm ci
-      - run: npm run build
 
-      - name: Set deploy path
+      - name: Set env and deploy path
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_PROD }}" >> $GITHUB_ENV
+            echo "BUILD_MODE=production" >> $GITHUB_ENV
           else
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
+            echo "BUILD_MODE=development" >> $GITHUB_ENV
           fi
+
+      - run: npx vite build --mode $BUILD_MODE
 
       - name: Deploy via rsync
         run: |

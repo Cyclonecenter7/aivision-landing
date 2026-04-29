@@ -1,0 +1,266 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8" />
+<title>AIVISION · Dashboard UI Kit</title>
+<link rel="stylesheet" href="../../colors_and_type.css" />
+<link rel="stylesheet" href="tokens.css" />
+<style>
+  html, body { margin: 0; background: var(--db-bg); font-family: 'Inter', sans-serif; }
+  * { box-sizing: border-box; }
+  #root { min-height: 100vh; }
+</style>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js"
+        integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js"
+        integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm"
+        crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js"
+        integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y"
+        crossorigin="anonymous"></script>
+</head>
+<body>
+<div id="root"></div>
+<script type="text/babel" src="Primitives.jsx"></script>
+<script type="text/babel">
+// ================================================================
+// AIVISION Dashboard UI Kit — Demo Screen
+// Demonstrates all atoms assembled into a real hybrid E/F layout.
+// ================================================================
+
+const { DB } = window;
+
+// ── DATA ─────────────────────────────────────────────────────────
+const TICKER = [
+  { label: 'РЕВ MTD',  value: '92,4 M ₽',   delta: '+18,2%', pos: true  },
+  { label: 'МАРЖА',    value: '31,8%',        delta: '+2,4пп', pos: true  },
+  { label: 'OPEX',     value: '38,4 M ₽',    delta: '−4,1%',  pos: true  },
+  { label: 'CASH',     value: '142,6 M ₽',   delta: '−2,8%',  pos: false },
+  { label: 'DSO',      value: '38 дн.',       delta: '+3 дн',  pos: false },
+  { label: 'LTV/CAC',  value: '3,8×',         delta: '+0,4×',  pos: true  },
+];
+
+const KPI_STRIP = [
+  { label: 'Оборот · MTD', value: '92,4', unit: 'M ₽', delta: '+18,2% к сентябрю', deltaPos: true, big: true },
+  { label: 'Маржа',        value: '31,8', unit: '%',    delta: '+2,4 п.п.',          deltaPos: true },
+  { label: 'Операц. расходы', value: '38,4', unit: 'M ₽', delta: '−4,1% к плану',  deltaPos: true },
+  { label: 'Cash-gap',     value: '6,2',  unit: ' дн.', delta: '+2,1 — под контролем', deltaPos: false },
+];
+
+const SECONDARY_KPIS = [
+  { label: 'Средний чек',       value: '124 850 ₽', delta: '+8,2%', deltaPos: true  },
+  { label: 'Длина цикла',       value: '18,6 дн.',  delta: '−12%',  deltaPos: true  },
+  { label: 'Конверсия в оффер', value: '4,6%',      delta: '−0,8пп',deltaPos: false },
+  { label: 'Cash-gap',          value: '6,2 дн.',   delta: '+2,1',  deltaPos: false },
+];
+
+const PNL_ROWS = [
+  { name: 'Выручка · линия A',   plan: '48 000 000', fact: '52 114 000', delta: '+8,6%',  pos: true,  spark: [30,32,36,41,48,52,58,64] },
+  { name: 'Выручка · линия B',   plan: '32 000 000', fact: '28 430 000', delta: '−11,2%', pos: false, spark: [44,42,40,38,36,34,32,30] },
+  { name: 'Выручка · линия Pro', plan: '22 000 000', fact: '26 880 000', delta: '+22,2%', pos: true,  spark: [18,22,28,34,42,52,62,72] },
+  { name: 'Прямые расходы',      plan: '44 000 000', fact: '41 280 000', delta: '−6,2%',  pos: true,  spark: [62,60,58,56,54,52,50,48] },
+  { name: 'ФОТ + налоги',        plan: '22 000 000', fact: '23 140 000', delta: '+5,2%',  pos: false, spark: [40,42,42,44,44,46,46,48] },
+  { name: 'Маркетинг',           plan:  '8 400 000', fact:  '7 900 000', delta: '−5,9%',  pos: true,  spark: [22,22,20,20,18,18,17,16] },
+];
+
+const FUNNEL = [
+  { label: 'Лиды',            value: 1824, pct: 100 },
+  { label: 'Квалифицированы', value: 940,  pct: 52,  conv: '−48%' },
+  { label: 'Встреча',         value: 512,  pct: 28,  conv: '−46%', bottleneck: true },
+  { label: 'Оффер',           value: 218,  pct: 12,  conv: '−57%' },
+  { label: 'Сделка',          value: 84,   pct: 5,   conv: '−61%' },
+];
+
+const PIPELINE = [
+  {
+    label: 'Переговоры', dotColor: '#3F6EE8',
+    cards: [
+      { id: '#9',  name: 'Компания 3', amount: '3 400 000 ₽', tag: 'КП отправлено', tagVariant: 'sent' },
+      { id: '#10', name: 'Компания 4', amount: '2 100 000 ₽', tag: 'Согласование',  tagVariant: 'review' },
+    ],
+  },
+  {
+    label: 'Договор', dotColor: '#EAB308',
+    cards: [
+      { id: '#7', name: 'Компания 2', amount: '4 800 000 ₽', tag: 'Юр. проверка', tagVariant: 'review' },
+    ],
+  },
+  {
+    label: 'Оплата', dotColor: '#16A34A',
+    cards: [
+      { id: '#3', name: 'Компания 2', amount: '163 000 ₽', tag: 'Закрыта', tagVariant: 'won' },
+    ],
+  },
+];
+
+const DIAG_ITEMS = [
+  { num: '01 · РОСТ',   title: 'Линия Pro тянет 97% прироста.',     body: 'Концентрация — один продукт держит квартал. Просадка = просадка бизнеса.' },
+  { num: '02 · ПОТЕРЯ', title: 'Линия B теряет выручку 3-й месяц.', body: 'Отток без замены. Похоже на эрозию ценности, не на конкуренцию.' },
+  { num: '03 · ДЕНЬГИ', title: 'DSO +3 дн. P&L растёт, деньги — нет.', body: 'Разрыв P&L и cash-flow. Две недели подряд — замораживаем OPEX.' },
+];
+
+const SIDEBAR_GROUPS = [
+  {
+    label: 'Обзор',
+    items: [
+      { label: 'Финансы',   active: false },
+      { label: 'Продажи',   active: true  },
+      { label: 'Маркетинг', active: false },
+      { label: 'Операции',  active: false },
+    ],
+  },
+  {
+    label: 'Срезы',
+    items: [
+      { label: 'По продуктам',  active: false },
+      { label: 'По сегментам',  active: false },
+      { label: 'По менеджерам', active: false },
+    ],
+  },
+  {
+    label: 'Отчёты',
+    items: [
+      { label: 'P&L',       active: false },
+      { label: 'Cash-flow', active: false },
+      { label: 'Когорты',   active: false },
+    ],
+  },
+];
+
+const CHART_SERIES = [
+  { values: [48,52,54,58,56,62,68,64,70,74,78,92], color: '#3F6EE8', filled: true },
+  { values: [46,50,52,56,58,60,64,66,70,72,74,80], color: '#888', dashed: true, thin: true },
+];
+const CHART_LABELS = ['Н','Д','Я','Ф','М','А','М','И','И','А','С','О'];
+
+// ── TABLE COLS ────────────────────────────────────────────────
+const PNL_COLS = [
+  { key: 'name',  label: 'Статья',  width: '30%' },
+  { key: 'plan',  label: 'План',    align: 'right', width: '20%' },
+  { key: 'fact',  label: 'Факт',    align: 'right', width: '20%',
+    render: (v) => <b>{v}</b> },
+  { key: 'delta', label: 'Δ',       align: 'right', width: '12%',
+    render: (v, row) => <DB.Delta value={v} pos={row.pos} /> },
+  { key: 'spark', label: 'Тренд', width: '18%',
+    render: (v, row) => <DB.SparkMini values={v} pos={row.pos} /> },
+];
+
+// ── APP ───────────────────────────────────────────────────────
+function App() {
+  const [period, setPeriod] = React.useState(1);
+  const [chips, setChips] = React.useState([
+    { label: 'Месяц', active: true },
+    { label: 'Все продукты', active: false },
+    { label: 'Все менеджеры', active: false },
+    { label: '+ Сегмент', active: false },
+  ]);
+
+  return (
+    <div style={{ display: 'grid', gridTemplateRows: 'auto auto 1fr', minHeight: '100vh' }}>
+      {/* ── LIVE TICKER ─────────────────────────────────── */}
+      <DB.Ticker items={TICKER} />
+
+      {/* ── TOPBAR ───────────────────────────────────────── */}
+      <div style={{
+        display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+        padding: '16px 28px', background: 'var(--db-bg)',
+        borderBottom: '1px solid #E8E8E8',
+      }}>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 10, fontSize: 11, fontWeight: 700, letterSpacing: '0.2em' }}>
+          <div style={{ width: 6, height: 6, background: '#3F6EE8', borderRadius: '50%' }} />
+          AIVISION · ОПЕРАТИВНЫЙ КОНТУР
+        </div>
+        <DB.PeriodPicker
+          options={['Неделя','Месяц','Квартал','Год']}
+          active={period}
+          onChange={setPeriod}
+        />
+      </div>
+
+      {/* ── MAIN LAYOUT: sidebar + content + diag col ─── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '200px 1fr 280px', minHeight: 0 }}>
+
+        {/* SIDEBAR */}
+        <DB.Sidebar groups={SIDEBAR_GROUPS} />
+
+        {/* CONTENT */}
+        <main style={{ padding: '24px 28px', display: 'flex', flexDirection: 'column', gap: 16, overflow: 'auto' }}>
+
+          {/* Editorial headline */}
+          <DB.EditorialHead
+            kicker="ПРОДАЖИ · ОКТЯБРЬ · 14 ИЗ 22 ДН."
+            headline="Оборот опережает план на 15,5%. DSO растёт четвёртую неделю."
+            highlightWord="15,5%"
+          />
+
+          {/* Anchor strip: 1 hero + 3 secondary */}
+          <DB.KpiStrip items={KPI_STRIP} />
+
+          {/* Compact KPI row */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 10 }}>
+            {SECONDARY_KPIS.map((k, i) => (
+              <DB.Kpi key={i} size="compact" {...k} />
+            ))}
+          </div>
+
+          {/* Chart + Funnel side by side */}
+          <div style={{ display: 'grid', gridTemplateColumns: '1.6fr 1fr', gap: 14 }}>
+            <div style={{ background: '#fff', border: '1px solid #E8E8E8', padding: '20px 22px', ...DB.ch(12) }}>
+              <DB.LineChart
+                title="Выручка · 12 месяцев (факт vs. план)"
+                series={CHART_SERIES}
+                xLabels={CHART_LABELS}
+              />
+              <div style={{ display: 'flex', gap: 18, fontSize: 10, color: '#888', letterSpacing: '0.12em', textTransform: 'uppercase', marginTop: 8 }}>
+                <span><span style={{ display: 'inline-block', width: 14, height: 2, background: '#3F6EE8', verticalAlign: 'middle', marginRight: 6 }} />Факт</span>
+                <span><span style={{ display: 'inline-block', width: 14, height: 0, borderTop: '1.5px dashed #888', verticalAlign: 'middle', marginRight: 6 }} />План</span>
+              </div>
+            </div>
+            <DB.Funnel stages={FUNNEL} title="Воронка сделок" />
+          </div>
+
+          {/* Callout */}
+          <DB.Callout tag="УЗЕЛ">
+            Переход «Квалифицированы → Встреча» теряет 46% воронки.{' '}
+            <span style={{ color: '#555' }}>Это одно место, где бизнес уходит от денег.</span>
+          </DB.Callout>
+
+          {/* Filter bar */}
+          <DB.FilterBar
+            chips={chips}
+            onSelect={(i) => setChips(chips.map((c, ci) => ({ ...c, active: ci === i })))}
+          />
+
+          {/* P&L table */}
+          <DB.Table
+            cols={PNL_COLS}
+            rows={PNL_ROWS}
+            title="План / Факт · основные статьи"
+            action="6 из 14"
+          />
+
+          {/* Pipeline */}
+          <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 12 }}>
+            {PIPELINE.map((col, i) => (
+              <DB.PipelineColumn key={i} {...col} />
+            ))}
+          </div>
+
+        </main>
+
+        {/* DIAGNOSTIC COLUMN */}
+        <DB.DiagColumn
+          items={DIAG_ITEMS}
+          footer={`Собрано AIVISION · ${new Date().getHours()}:${String(new Date().getMinutes()).padStart(2,'0')}`}
+        />
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Form Inputs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#fff;}
+  .wrap{padding:22px 24px;font-family:var(--av-font-sans);display:grid;grid-template-columns:1fr 1fr;gap:20px;}
+  .surface{padding:18px 20px;display:flex;flex-direction:column;gap:12px;}
+  .light{background:#F4F4F5;border:1px solid #E8E8E8;}
+  .dark{background:#0A0A0A;}
+  .title{font-size:10px;text-transform:uppercase;letter-spacing:.15em;font-weight:600;}
+  .title.light{color:#999;}
+  .title.dark{color:#3F6EE8;}
+  label{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.15em;font-weight:500;margin-bottom:6px;}
+  label.on-dark{color:#666;}
+  label.on-light{color:#888;}
+  .input-light{background:#fff;border:1px solid #E8E8E8;padding:10px 12px;font-size:13px;color:#333;font-family:inherit;width:100%;box-sizing:border-box;outline:none;}
+  .input-light:focus,.input-light.focus{border-color:#3F6EE8;}
+  .input-dark{background:#1a1a1a;border:1px solid #2A2A2A;padding:10px 12px;font-size:13px;color:#fff;font-family:inherit;width:100%;box-sizing:border-box;outline:none;}
+  .input-dark:focus,.input-dark.focus{border-color:#3F6EE8;}
+  .input-dark::placeholder{color:#444;}
+  .toggle{display:flex;gap:0;background:#1a1a1a;border:1px solid #2A2A2A;width:fit-content;}
+  .toggle-btn{padding:7px 14px;font-size:11px;background:transparent;color:#666;border:none;cursor:pointer;font-family:inherit;}
+  .toggle-btn.active{background:#3F6EE8;color:#fff;}
+</style></head>
+<body><div class="wrap">
+  <div class="surface light">
+    <div class="title light">Light surface</div>
+    <div><label class="on-light">Имя</label><input class="input-light" placeholder="Ваше имя" value="Иван"></div>
+    <div><label class="on-light">Контакт</label><input class="input-light focus" placeholder="+7 или @telegram"></div>
+  </div>
+  <div class="surface dark">
+    <div class="title dark">Dark surface</div>
+    <div><label class="on-dark">Имя</label><input class="input-dark" placeholder="Ваше имя"></div>
+    <div><label class="on-dark">Контакт</label>
+      <div class="toggle"><button class="toggle-btn active">Телефон</button><button class="toggle-btn">Telegram</button></div>
+    </div>
+    <input class="input-dark focus" placeholder="+7 999 000 00 00">
+  </div>
+</div></body></html>

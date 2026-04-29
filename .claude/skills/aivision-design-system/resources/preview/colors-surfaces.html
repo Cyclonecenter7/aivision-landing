@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Surfaces</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#fff;font-family:var(--av-font-sans);}
+  .wrap{padding:20px 24px;}
+  .label{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#999;font-weight:600;margin-bottom:10px;}
+  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .swatch{display:flex;flex-direction:column;gap:6px;}
+  .chip{aspect-ratio:2/1;}
+  .name{font-size:10px;font-weight:600;color:#0A0A0A;display:flex;justify-content:space-between;}
+  .hex{font-family:ui-monospace,Menlo,monospace;font-size:9px;color:#888;font-weight:400;}
+</style></head>
+<body><div class="wrap">
+  <div class="label">Light surfaces · page bg → nested tints</div>
+  <div class="row">
+    <div class="swatch"><div class="chip" style="background:#FFFFFF;border:1px solid #E8E8E8"></div><div class="name">White<span class="hex">FFFFFF</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#F8F9FC;border:1px solid #E8E8E8"></div><div class="name">Tint 50<span class="hex">F8F9FC</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#F4F4F5;border:1px solid #E8E8E8"></div><div class="name">Surface 100<span class="hex">F4F4F5</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#F0F2F5;border:1px solid #E8E8E8"></div><div class="name">Surface 200<span class="hex">F0F2F5</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#F0F3FA;border:1px solid #E4E8F0"></div><div class="name">Blue 100<span class="hex">F0F3FA</span></div></div>
+  </div>
+  <div class="label" style="margin-top:18px;">Borders · dividers</div>
+  <div class="row">
+    <div class="swatch"><div class="chip" style="background:#F0F0F0"></div><div class="name">Border 100<span class="hex">F0F0F0</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#E8E8E8"></div><div class="name">Border 200<span class="hex">E8E8E8</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#E8EEF8"></div><div class="name">Border tint<span class="hex">E8EEF8</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#E0E4EA"></div><div class="name">Grid line<span class="hex">E0E4EA</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#2A2A2A"></div><div class="name">Border dark<span class="hex">2A2A2A</span></div></div>
+  </div>
+</div></body></html>

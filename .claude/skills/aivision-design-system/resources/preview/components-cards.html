@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Cards</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#F4F4F5;}
+  .wrap{padding:24px 28px;font-family:var(--av-font-sans);display:grid;grid-template-columns:repeat(3,1fr);gap:14px;}
+  .card{padding:18px 20px;display:flex;flex-direction:column;gap:10px;}
+  .light{background:#fff;border:1px solid #E8E8E8;clip-path:polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%);}
+  .blue{background:#3F6EE8;color:#fff;clip-path:polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%);}
+  .dark{background:#181818;color:#fff;clip-path:polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%);}
+  .kick{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.15em;color:#999;}
+  .kick-on-blue{color:rgba(255,255,255,.7);}
+  .kick-on-dark{color:#555;}
+  .h{font-size:15px;font-weight:700;line-height:1.3;}
+  .p{font-size:12px;line-height:1.55;color:#666;}
+  .p-on-blue{color:rgba(255,255,255,.85);}
+  .p-on-dark{color:#888;}
+  .id{width:30px;height:30px;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);}
+  .id.a{background:#3F6EE8;color:#fff;}
+  .id.b{background:#fff;color:#3F6EE8;}
+  .id.c{background:#3F6EE8;color:#fff;}
+</style></head>
+<body><div class="wrap">
+  <div class="card light"><div class="id a">01</div><div class="kick">Для кого</div><div class="h" style="color:#0A0A0A">Собственник бизнеса от 10 млн ₽/мес</div><div class="p">Устал управлять деньгами вручную. Хочет видеть реальную картину.</div></div>
+  <div class="card blue"><div class="id b">02</div><div class="kick kick-on-blue">Флагман</div><div class="h">Система управляемой прибыли</div><div class="p p-on-blue">Вы управляете бизнесом через цифры, а не через интуицию.</div></div>
+  <div class="card dark"><div class="id c">03</div><div class="kick kick-on-dark">Партнёрство</div><div class="h">Контур роста</div><div class="p p-on-dark">Мы берём ответственность за ваш рост.</div></div>
+</div></body></html>

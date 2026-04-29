@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Ink Neutrals</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#fff;font-family:var(--av-font-sans);}
+  .wrap{padding:20px 24px;}
+  .row{display:grid;grid-template-columns:repeat(5,1fr);gap:8px;}
+  .swatch{display:flex;flex-direction:column;gap:6px;}
+  .chip{aspect-ratio:2/1;}
+  .chip-sharp{}
+  .name{font-size:10px;font-weight:600;color:#0A0A0A;display:flex;justify-content:space-between;}
+  .hex{font-family:ui-monospace,Menlo,monospace;font-size:9px;color:#888;font-weight:400;}
+  .label{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#999;font-weight:600;margin-bottom:10px;}
+</style></head>
+<body><div class="wrap">
+  <div class="label">Ink scale · dark UI</div>
+  <div class="row">
+    <div class="swatch"><div class="chip" style="background:#0A0A0A"></div><div class="name">Black<span class="hex">0A0A0A</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#181818"></div><div class="name">Ink 900<span class="hex">181818</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#252525"></div><div class="name">Ink 700<span class="hex">252525</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#2A2A2A"></div><div class="name">Ink 600<span class="hex">2A2A2A</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#444"></div><div class="name">Ink 500<span class="hex">444444</span></div></div>
+  </div>
+  <div class="label" style="margin-top:18px;">Grey scale · body text</div>
+  <div class="row">
+    <div class="swatch"><div class="chip" style="background:#555"></div><div class="name">fg2<span class="hex">555555</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#666"></div><div class="name">Ink 300<span class="hex">666666</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#888"></div><div class="name">fg3<span class="hex">888888</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#999"></div><div class="name">fg4<span class="hex">999999</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#AAA"></div><div class="name">Ink 50<span class="hex">AAAAAA</span></div></div>
+  </div>
+</div></body></html>

@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Buttons</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#fff;}
+  .wrap{padding:24px 28px;font-family:var(--av-font-sans);display:flex;flex-direction:column;gap:20px;}
+  .group{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .stage-dark{background:#0A0A0A;padding:18px 20px;display:flex;gap:12px;align-items:center;}
+  .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#999;font-weight:600;min-width:90px;}
+  .btn{display:inline-flex;align-items:center;gap:8px;padding:14px 28px;font-size:13px;font-weight:500;border:0;cursor:pointer;font-family:inherit;clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);transition:background .15s;}
+  .primary{background:#3F6EE8;color:#fff;}
+  .primary:hover{background:#2f5dd2;}
+  .dark{background:#0A0A0A;color:#fff;}
+  .dark:hover{background:#3F6EE8;}
+  .invert{background:#fff;color:#3F6EE8;}
+  .small{padding:8px 18px;font-size:12px;clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);}
+  svg{width:12px;height:12px;}
+</style></head>
+<body><div class="wrap">
+  <div class="group"><span class="lbl">Primary</span><button class="btn primary">Разобрать бизнес</button><button class="btn primary">Узнать подробнее <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12H19M19 12L13 6M19 12L13 18"/></svg></button></div>
+  <div class="group"><span class="lbl">Dark → blue</span><div class="stage-dark"><button class="btn dark">Начать</button><span style="color:#666;font-size:11px;">(navbar state: scrolled)</span></div></div>
+  <div class="group"><span class="lbl">Invert</span><div class="stage-dark" style="background:#3F6EE8;"><button class="btn invert">Узнать подробнее</button></div></div>
+  <div class="group"><span class="lbl">Small</span><button class="btn primary small">Начать</button><button class="btn dark small">Назад</button></div>
+</div></body></html>

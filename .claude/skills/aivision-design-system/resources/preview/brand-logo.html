@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="ru"><head><meta charset="UTF-8"><title>Logo</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#F4F4F5;font-family:var(--av-font-sans);color:#0A0A0A;}
+  .wrap{padding:28px;display:grid;grid-template-columns:320px 1fr;gap:24px;align-items:start;}
+  .col{display:flex;flex-direction:column;gap:16px;}
+
+  .hero{background:#fff;border:1px solid #E8E8E8;padding:32px;display:flex;align-items:center;justify-content:center;min-height:200px;}
+  .hero img{width:160px;height:160px;object-fit:contain;}
+
+  .note{background:#fff;border:1px solid #E8E8E8;padding:16px 18px;}
+  .note h4{margin:0 0 6px;font-size:11px;letter-spacing:.12em;text-transform:uppercase;color:#3F6EE8;}
+  .note p{margin:0 0 6px;font-size:12px;line-height:1.55;color:#555;}
+  .note p:last-child{margin:0;}
+
+  .panel{background:#fff;border:1px solid #E8E8E8;padding:18px;}
+  .kicker{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#999;font-weight:600;margin-bottom:12px;}
+
+  .lockup-row{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;}
+  .lock{display:flex;align-items:center;gap:10px;padding:14px 16px;min-height:56px;box-sizing:border-box;}
+  .lock.white{background:#fff;border:1px solid #E8E8E8;}
+  .lock.dark{background:#0A0A0A;}
+  .lock.blue{background:#3F6EE8;}
+  .lock img{width:28px;height:28px;object-fit:contain;flex-shrink:0;}
+  .word{font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.15em;}
+  .lock.white .word{color:#0A0A0A;}
+  .lock.dark .word, .lock.blue .word{color:#fff;}
+  .variant-cap{font-size:9px;color:#AAA;text-transform:uppercase;letter-spacing:.12em;margin-top:8px;text-align:center;font-weight:600;}
+
+  .sizes{display:flex;align-items:flex-end;gap:18px;}
+  .sizes img{object-fit:contain;}
+  .s-caption{font-size:9px;color:#AAA;margin-top:6px;text-align:center;}
+
+  .mono-row{display:flex;gap:10px;}
+  .mono-cell{flex:1;padding:16px;display:flex;align-items:center;justify-content:center;min-height:72px;}
+  .mono-cell.on-light{background:#fff;border:1px solid #E8E8E8;color:#0A0A0A;}
+  .mono-cell.on-dark{background:#0A0A0A;color:#fff;}
+  .mono-cell.on-blue{background:#3F6EE8;color:#fff;}
+  .mono-cell svg{width:36px;height:36px;}
+</style></head>
+<body>
+<div class="wrap">
+  <div class="col">
+    <div class="hero"><img src="../assets/aivision-logo.svg" alt="AIVISION mark"/></div>
+    <div class="note">
+      <h4>Что поменял</h4>
+      <p>Раньше на тёмном и синем фонах мы использовали ту же марку — и она пропадала: на чёрном чёрный квадрат сливался с фоном, на синем инверсия выдавала абстрактную форму. Теперь три специальных версии под каждый контекст.</p>
+      <p>Правило: синий используется максимум один раз в логотипе. Если фон уже синий — внутренний квадрат становится белым. Если фон чёрный — инвертируем внешний квадрат.</p>
+    </div>
+  </div>
+
+  <div class="col">
+    <div class="panel">
+      <div class="kicker">Lockup — три контекстные версии</div>
+      <div class="lockup-row">
+        <div>
+          <div class="lock white"><img src="../assets/aivision-logo.svg"><span class="word">AIVISION</span></div>
+          <div class="variant-cap">On light</div>
+        </div>
+        <div>
+          <div class="lock dark"><img src="../assets/aivision-logo-on-dark.svg"><span class="word">AIVISION</span></div>
+          <div class="variant-cap">On dark</div>
+        </div>
+        <div>
+          <div class="lock blue"><img src="../assets/aivision-logo-on-blue.svg"><span class="word">AIVISION</span></div>
+          <div class="variant-cap">On blue</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="kicker">Mono — для favicons, печати, одноцветных поверхностей</div>
+      <div class="mono-row">
+        <div class="mono-cell on-light"><svg viewBox="0 0 256 256"><use href="../assets/aivision-logo-mono.svg#mark"/><path fill="currentColor" fill-rule="evenodd" d="M 0 0 L 256 0 L 256 208 L 208 256 L 0 256 Z M 72 64 L 72 184 L 156 184 L 192 148 L 192 64 Z"/></svg></div>
+        <div class="mono-cell on-dark"><svg viewBox="0 0 256 256"><path fill="currentColor" fill-rule="evenodd" d="M 0 0 L 256 0 L 256 208 L 208 256 L 0 256 Z M 72 64 L 72 184 L 156 184 L 192 148 L 192 64 Z"/></svg></div>
+        <div class="mono-cell on-blue"><svg viewBox="0 0 256 256"><path fill="currentColor" fill-rule="evenodd" d="M 0 0 L 256 0 L 256 208 L 208 256 L 0 256 Z M 72 64 L 72 184 L 156 184 L 192 148 L 192 64 Z"/></svg></div>
+      </div>
+    </div>
+
+    <div class="panel">
+      <div class="kicker">Sizes — 20 / 32 / 48 / 72 px</div>
+      <div class="sizes">
+        <div><img src="../assets/aivision-logo.svg" style="width:20px;height:20px;"><div class="s-caption">20</div></div>
+        <div><img src="../assets/aivision-logo.svg" style="width:32px;height:32px;"><div class="s-caption">32</div></div>
+        <div><img src="../assets/aivision-logo.svg" style="width:48px;height:48px;"><div class="s-caption">48</div></div>
+        <div><img src="../assets/aivision-logo.svg" style="width:72px;height:72px;"><div class="s-caption">72</div></div>
+      </div>
+    </div>
+  </div>
+</div>
+</body></html>

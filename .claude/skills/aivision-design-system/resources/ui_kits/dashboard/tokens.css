@@ -1,0 +1,125 @@
+/* ============================================================
+   AIVISION Dashboard UI Kit — Design Tokens
+   Load AFTER colors_and_type.css (inherits brand base)
+   ============================================================ */
+
+:root {
+
+  /* --------------------------------------------------------
+     SURFACES
+     Dashboard uses cooler, denser surfaces than marketing.
+     Light-first. Dark surface (#0A0A0A) for accent blocks only.
+     -------------------------------------------------------- */
+  --db-bg:           #F8F9FC;   /* page background */
+  --db-card:         #FFFFFF;   /* card / panel */
+  --db-nested:       #F4F4F6;   /* nested / tinted cell */
+  --db-sidebar:      #FFFFFF;   /* sidebar */
+
+  --db-border:       #E8E8E8;   /* default card border */
+  --db-divider:      #F0F0F0;   /* row divider inside table */
+  --db-border-accent:#E8EEF8;   /* blue-tinted border for deal cards */
+  --db-track:        #F0F3FA;   /* progress bar track */
+
+  /* accent column (the "дерзкость") */
+  --db-accent-bg:    #0A0A0A;
+  --db-accent-fg:    #E8E8E8;
+  --db-accent-muted: #888888;
+  --db-accent-border:#1A1A1A;
+
+  /* LIVE ticker */
+  --db-ticker-bg:    #0A0A0A;
+  --db-ticker-fg:    #E8E8E8;
+  --db-ticker-muted: #666666;
+
+  /* --------------------------------------------------------
+     DATA COLOURS — exactly three. Nothing else.
+     -------------------------------------------------------- */
+  --db-pos:          #16A34A;   /* profit, growth, won, +delta */
+  --db-pos-light:    #22C55E;   /* same on dark surface */
+  --db-neg:          #E5484D;   /* loss, drop, overspend, -delta */
+  --db-neu:          #3F6EE8;   /* revenue, volume, neutral metric (brand blue) */
+  --db-warn:         #EAB308;   /* pipeline status tags ONLY — never KPI numbers */
+
+  --db-pos-soft:     rgba(22,163,74,0.10);
+  --db-neg-soft:     rgba(229,72,77,0.10);
+  --db-neu-soft:     rgba(63,110,232,0.10);
+  --db-warn-soft:    rgba(234,179,8,0.15);
+
+  /* --------------------------------------------------------
+     TYPOGRAPHY SCALE
+     Tighter than marketing. Tabular numerics everywhere.
+     -------------------------------------------------------- */
+  --db-label:        10px;  /* UPPERCASE kicker / column header */
+  --db-micro:        11px;  /* helper text, delta */
+  --db-body:         12px;  /* table cell */
+  --db-body-m:       13px;  /* slightly larger cell / sidebar item */
+  --db-metric-xs:    16px;  /* compact KPI */
+  --db-metric-s:     22px;  /* secondary metric */
+  --db-metric-m:     28px;  /* standard KPI */
+  --db-metric-l:     48px;  /* secondary anchor */
+  --db-metric-xl:    72px;  /* primary anchor number */
+  --db-metric-2xl:   96px;  /* hero / single dominant number */
+
+  /* --------------------------------------------------------
+     CHAMFER SCALE
+     Smaller than marketing (no 28px). Max is 20 on hero card.
+     -------------------------------------------------------- */
+  --db-ch-xs:  4px;    /* inline bar fills */
+  --db-ch-sm:  6px;    /* sidebar nav items, filter chips */
+  --db-ch-md:  8px;    /* deal cards, compact cards */
+  --db-ch-lg: 10px;    /* KPI cards */
+  --db-ch-xl: 12px;    /* callout, table card */
+  --db-ch-2xl:16px;    /* anchor strip */
+  --db-ch-hero:20px;   /* hero card */
+
+  /* --------------------------------------------------------
+     DENSITY TOKENS
+     -------------------------------------------------------- */
+  --db-row-h:         32px;   /* table row */
+  --db-row-h-comfy:   40px;   /* wider table */
+  --db-cell-px:       16px;   /* cell horizontal padding */
+  --db-cell-py:       10px;   /* cell vertical padding */
+  --db-card-pad:      20px;   /* card inner padding */
+  --db-card-pad-l:    28px;   /* large card */
+  --db-gap-xs:        4px;
+  --db-gap-sm:        8px;
+  --db-gap-md:        12px;
+  --db-gap-lg:        16px;
+
+  /* --------------------------------------------------------
+     SIDEBAR
+     -------------------------------------------------------- */
+  --db-sidebar-w:     200px;
+  --db-sidebar-item-h:36px;
+
+  /* --------------------------------------------------------
+     ANIMATION
+     -------------------------------------------------------- */
+  --db-ease:   cubic-bezier(0.4, 0, 0.2, 1);
+  --db-dur:    150ms;
+}
+
+/* ============================================================
+   UTILITY CLASSES
+   ============================================================ */
+
+/* chamfer clip-paths */
+.db-ch-xs   { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4px),  calc(100% - 4px)  100%, 0 100%); }
+.db-ch-sm   { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px),  calc(100% - 6px)  100%, 0 100%); }
+.db-ch-md   { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px),  calc(100% - 8px)  100%, 0 100%); }
+.db-ch-lg   { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%); }
+.db-ch-xl   { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%); }
+.db-ch-2xl  { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%); }
+.db-ch-hero { clip-path: polygon(0 0, 100% 0, 100% calc(100% - 20px), calc(100% - 20px) 100%, 0 100%); }
+
+/* tabular numbers — always on any data cell */
+.db-num { font-variant-numeric: tabular-nums; font-feature-settings: "tnum"; }
+
+/* PII blur for demo mocks */
+.db-pii { filter: blur(4px); user-select: none; }
+
+/* data colour helpers */
+.db-pos  { color: var(--db-pos); }
+.db-neg  { color: var(--db-neg); }
+.db-neu  { color: var(--db-neu); }
+.db-warn { color: var(--db-warn); }

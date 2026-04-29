@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Brand Colors</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#fff;}
+  .wrap{padding:20px 24px;font-family:var(--av-font-sans);}
+  .row{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+  .swatch{display:flex;flex-direction:column;gap:8px;}
+  .chip{aspect-ratio:2.4/1;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}
+  .meta{display:flex;justify-content:space-between;align-items:baseline;}
+  .name{font-size:11px;font-weight:600;color:#0A0A0A;}
+  .hex{font-family:ui-monospace,Menlo,monospace;font-size:10px;color:#888;}
+  .section-label{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#999;font-weight:600;margin-bottom:12px;}
+</style></head>
+<body><div class="wrap">
+  <div class="section-label">Brand action · semantic</div>
+  <div class="row">
+    <div class="swatch"><div class="chip" style="background:#3F6EE8"></div><div class="meta"><span class="name">Blue</span><span class="hex">#3F6EE8</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#2f5dd2"></div><div class="meta"><span class="name">Blue hover</span><span class="hex">#2F5DD2</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#EEF3FD;border:1px solid #E4E8F0"></div><div class="meta"><span class="name">Blue 50</span><span class="hex">#EEF3FD</span></div></div>
+    <div class="swatch"><div class="chip" style="background:#E5484D"></div><div class="meta"><span class="name">Red</span><span class="hex">#E5484D</span></div></div>
+  </div>
+</div></body></html>

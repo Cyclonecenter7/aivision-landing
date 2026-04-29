@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Semantic Colors</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#fff;font-family:var(--av-font-sans);}
+  .wrap{padding:22px 24px;}
+  .label{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#999;font-weight:600;margin-bottom:14px;}
+  .row{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;}
+  .demo{padding:14px 16px;border:1px solid #E8E8E8;background:#fff;}
+  .demo .k{font-size:9px;letter-spacing:.15em;text-transform:uppercase;color:#AAA;font-weight:600;margin-bottom:6px;}
+  .demo .v{font-size:20px;font-weight:700;}
+  .demo .d{font-size:11px;font-weight:600;margin-top:4px;}
+  .green{color:#16a34a;}
+  .red{color:#E5484D;}
+  .blue{color:#3F6EE8;}
+</style></head>
+<body><div class="wrap">
+  <div class="label">Delta colors · used only in metrics / dashboards</div>
+  <div class="row">
+    <div class="demo"><div class="k">Positive</div><div class="v green">+93%</div><div class="d green">rise / gain</div></div>
+    <div class="demo"><div class="k">Neutral</div><div class="v blue">+9%</div><div class="d blue">change / info</div></div>
+    <div class="demo"><div class="k">Negative</div><div class="v red">−32%</div><div class="d red">loss / warning</div></div>
+  </div>
+</div></body></html>

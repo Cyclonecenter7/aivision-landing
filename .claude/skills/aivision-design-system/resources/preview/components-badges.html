@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en"><head><meta charset="UTF-8"><title>Badges / chips / IDs</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<style>
+  html,body{margin:0;background:#fff;}
+  .wrap{padding:24px 28px;font-family:var(--av-font-sans);display:flex;flex-direction:column;gap:18px;}
+  .row{display:flex;align-items:center;gap:14px;flex-wrap:wrap;}
+  .lbl{font-size:10px;text-transform:uppercase;letter-spacing:.15em;color:#999;font-weight:600;min-width:90px;}
+  .tag{background:#EEF3FD;color:#3F6EE8;padding:5px 10px;font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.15em;}
+  .tag-dark{background:#3F6EE8;color:#fff;padding:5px 12px;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.15em;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}
+  .tag-soon{color:#CCC;font-size:10px;text-transform:uppercase;letter-spacing:.15em;}
+  .id{width:40px;height:40px;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:700;clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);}
+  .id.blue{background:#3F6EE8;color:#fff;}
+  .id.white{background:#fff;color:#3F6EE8;border:1px solid #E8E8E8;}
+  .id.black{background:#0A0A0A;color:#fff;}
+  .pill{display:inline-block;padding:2px 7px;font-size:10px;font-weight:500;border-radius:3px;}
+  .pill.yellow{background:#fef3c7;color:#92400e;}
+  .pill.blue{background:#dbeafe;color:#1e40af;}
+  .pill.green{background:#dcfce7;color:#166534;}
+</style></head>
+<body><div class="wrap">
+  <div class="row"><div class="lbl">Category chip</div><span class="tag">Образование</span><span class="tag">Оборот 200+ млн</span><span class="tag">E-commerce</span></div>
+  <div class="row"><div class="lbl">Chamfered tag</div><span class="tag-dark">Образовательный бизнес</span><span class="tag-soon">Скоро</span></div>
+  <div class="row"><div class="lbl">Numbered ID</div><span class="id blue">01</span><span class="id white">02</span><span class="id black">03</span></div>
+  <div class="row"><div class="lbl">Status pill</div><span class="pill yellow">Согласование</span><span class="pill blue">КП отправлено</span><span class="pill green">Оплачено</span></div>
+</div></body></html>

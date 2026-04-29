@@ -1,0 +1,73 @@
+import { useState } from 'react';
+import { trackClick } from '@/lib/tracker';
+import ContactModal from './ContactModal';
+import HeroDashboard from './HeroDashboard';
+
+const clipBtn = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
+
+export default function Hero() {
+  const [modal, setModal] = useState(false);
+
+  return (
+    <>
+    <section id="hero" className="hero-section min-h-screen flex flex-col justify-center pt-16 relative overflow-hidden"
+      style={{ background: '#3F6EE8' }}>
+      {/* Subtle grid background */}
+      <div
+        className="absolute inset-0 pointer-events-none opacity-20"
+        style={{
+          backgroundImage: 'linear-gradient(rgba(255,255,255,0.35) 1px, transparent 1px), linear-gradient(90deg, rgba(255,255,255,0.35) 1px, transparent 1px)',
+          backgroundSize: '40px 40px',
+        }}
+      />
+
+      <div className="hero-inner relative max-w-7xl mx-auto px-6 py-20 md:py-28 w-full">
+        <div className="hero-grid grid grid-cols-1 md:grid-cols-[minmax(0,1fr)_minmax(0,1.4fr)] gap-10 lg:gap-16 items-center">
+
+          {/* LEFT — Text */}
+          <div>
+            <div className="flex items-center gap-3 mb-8">
+              <div className="w-6 h-px" style={{ background: 'rgba(255,255,255,0.5)' }} />
+              <span className="text-xs font-medium uppercase tracking-widest" style={{ color: 'rgba(255,255,255,0.6)' }}>
+                Система управляемой прибыли
+              </span>
+            </div>
+
+            <h1 className="text-[32px] md:text-5xl font-bold leading-tight mb-6" style={{ color: '#fff' }}>
+              Бизнес растёт —<br />
+              но внутри <span className="italic" style={{ opacity: 0.85 }}>хаос</span>
+            </h1>
+
+            <p className="text-base md:text-lg leading-relaxed mb-10 max-w-md" style={{ color: 'rgba(255,255,255,0.72)' }}>
+              За 30 дней вы видите, где бизнес зарабатывает, где теряет и как управлять ростом через цифры
+            </p>
+
+            <button
+              onClick={() => { trackClick('Получить бесплатный разбор', 'hero_cta'); setModal(true); }}
+              className="hero-cta text-sm font-semibold px-8 py-4 transition-colors inline-block"
+              style={{ clipPath: clipBtn, background: '#fff', color: '#3F6EE8' }}
+              onMouseEnter={e => { e.currentTarget.style.background = '#EEF2FF'; }}
+              onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+            >
+              Получить бесплатный разбор
+            </button>
+
+            <p className="text-xs mt-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
+              Консультация с конкретными шагами к управляемой системе
+            </p>
+          </div>
+
+          {/* RIGHT — Dashboard Slider */}
+          <div className="block">
+            <HeroDashboard />
+          </div>
+
+        </div>
+      </div>
+
+    </section>
+    {/* ContactModal — вне <section overflow-hidden> чтобы не клипалось на iOS */}
+    <ContactModal open={modal} onClose={() => setModal(false)} source="hero_cta" />
+    </>
+  );
+}

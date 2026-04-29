@@ -1,0 +1,172 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 96%;
+    --card: 240 4% 11%;
+    --card-foreground: 0 0% 96%;
+    --popover: 240 4% 11%;
+    --popover-foreground: 0 0% 96%;
+    --primary: 224 78% 57%;
+    --primary-foreground: 0 0% 100%;
+    --secondary: 240 3% 17%;
+    --secondary-foreground: 0 0% 96%;
+    --muted: 240 3% 17%;
+    --muted-foreground: 0 0% 55%;
+    --accent: 224 78% 57%;
+    --accent-foreground: 0 0% 100%;
+    --destructive: 358 72% 59%;
+    --destructive-foreground: 0 0% 100%;
+    --border: 240 3% 20%;
+    --input: 240 3% 20%;
+    --ring: 224 78% 57%;
+    --radius: 0px;
+
+    --color-bg: #0A0A0A;
+    --color-bg-light: #F4F4F5;
+    --color-dark2: #2A2A2E;
+    --color-blue: #3F6EE8;
+    --color-red: #E5484D;
+    --font-inter: 'Inter', sans-serif;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+    outline: none !important;
+  }
+
+  html, body {
+    overflow-x: hidden;
+    max-width: 100vw;
+  }
+
+  body {
+    @apply bg-background text-foreground;
+    font-family: var(--font-inter);
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+/* Chamfer focus fix — remove browser outline on all interactive elements.
+   clip-path clips box-shadow too, so native rings look broken on chamfer shapes. */
+button:focus,
+button:focus-visible,
+input:focus,
+input:focus-visible,
+a:focus,
+a:focus-visible,
+[tabindex]:focus,
+[tabindex]:focus-visible {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+/* Anchor scroll offset — just clear the 64px navbar */
+section[id="products"],
+section[id="cases"],
+section[id="comparison"] {
+  scroll-margin-top: 72px;
+}
+
+@media (max-width: 768px) {
+  /* Page-level overflow safety */
+  #root, body, html {
+    overflow-x: hidden !important;
+    max-width: 100vw !important;
+  }
+
+  /* Anchor offset on mobile */
+  section[id="products"],
+  section[id="cases"],
+  section[id="comparison"] {
+    scroll-margin-top: 68px;
+  }
+
+  /* Footer: column layout, centered */
+  .footer-inner {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+  }
+
+  /* ComparisonWithForm: AIVISION first, then classic on mobile */
+  .comparison-grid {
+    display: flex !important;
+    flex-direction: column !important;
+  }
+
+  /* Hero CTA — full width, block, no horizontal padding eating viewport */
+  .hero-cta {
+    display: block !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+    padding-left: 16px !important;
+    padding-right: 16px !important;
+    text-align: center !important;
+    white-space: normal !important;
+  }
+
+  /* Hero grid columns: prevent intrinsic content from forcing column width */
+  .hero-grid > * {
+    min-width: 0 !important;
+    max-width: 100% !important;
+  }
+
+  /* HeroDashboard wrap: contain inside parent, allow horizontal scroll inside */
+  .av-dashboard-wrap {
+    width: 100% !important;
+    max-width: 100% !important;
+    overflow: hidden !important;
+  }
+  /* Make tabs and stage scroll horizontally inside, not break page */
+  .av-dashboard-tabs {
+    overflow-x: auto !important;
+    flex-wrap: nowrap !important;
+    -webkit-overflow-scrolling: touch;
+    scrollbar-width: none;
+    padding-bottom: 4px !important;
+  }
+  .av-dashboard-tabs::-webkit-scrollbar { display: none; }
+  .av-dashboard-tabs button {
+    flex-shrink: 0 !important;
+  }
+  .av-dashboard-stage {
+    overflow-x: auto !important;
+    -webkit-overflow-scrolling: touch;
+  }
+  .av-dashboard-stage::-webkit-scrollbar { display: none; }
+  .av-dashboard-stage > div {
+    min-width: 460px;
+  }
+
+  /* Products cards — relax min-heights on mobile so cards size to content */
+  .product-card-title  { min-height: 0 !important; }
+  .product-card-result { min-height: 0 !important; }
+
+  /* Hero — tighter top padding on mobile, no full-screen height */
+  .hero-section {
+    min-height: auto !important;
+    padding-top: 64px !important;
+    padding-bottom: 24px !important;
+  }
+  .hero-inner {
+    padding-top: 24px !important;
+    padding-bottom: 24px !important;
+    padding-left: 20px !important;
+    padding-right: 20px !important;
+  }
+  .hero-section h1 {
+    font-size: 30px !important;
+    line-height: 1.15 !important;
+  }
+}

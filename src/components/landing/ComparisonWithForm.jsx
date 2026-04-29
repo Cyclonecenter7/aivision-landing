@@ -1,65 +1,67 @@
-const classic = [
-  'Рекомендации',
-  'Отчёт в PDF',
-  'Нет внедрения и контроля',
-  'Нет цифровой системы',
-];
-
-const aivision = [
-  'Проектирование управленческой архитектуры',
-  'Внедрение KPI',
-  'Создание BI-системы',
-  'Интеграции и автоматизация',
-  'Регламент управленческого ритма',
-];
-
 export default function ComparisonWithForm() {
+  const cards = [
+    {
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect x="6" y="4" width="20" height="24" rx="1" stroke="#E8E8E8" strokeWidth="1.5" fill="none" />
+          <line x1="10" y1="11" x2="22" y2="11" stroke="#E8E8E8" strokeWidth="1.5" />
+          <line x1="10" y1="15" x2="22" y2="15" stroke="#E8E8E8" strokeWidth="1.5" />
+          <line x1="10" y1="19" x2="18" y2="19" stroke="#E8E8E8" strokeWidth="1.5" />
+          <line x1="8" y1="6" x2="24" y2="26" stroke="#E5484D" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      ),
+      crossed: 'Отчёт в PDF',
+      ours: 'Панель управления под ключ',
+    },
+    {
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <circle cx="16" cy="10" r="4" stroke="#E8E8E8" strokeWidth="1.5" fill="none" />
+          <path d="M10 24c0-3.3 2.7-6 6-6s6 2.7 6 6" stroke="#E8E8E8" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          <path d="M22 14l4 4" stroke="#E8E8E8" strokeWidth="1.5" strokeLinecap="round" />
+          <line x1="8" y1="6" x2="24" y2="26" stroke="#E5484D" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      ),
+      crossed: 'Рекомендации и уход',
+      ours: 'Внедрение и результат',
+    },
+    {
+      icon: (
+        <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+          <rect x="12" y="14" width="8" height="10" rx="1" stroke="#E8E8E8" strokeWidth="1.5" fill="none" />
+          <path d="M12 14v-2a4 4 0 1 1 8 0v2" stroke="#E8E8E8" strokeWidth="1.5" fill="none" strokeLinecap="round" />
+          <line x1="8" y1="6" x2="24" y2="26" stroke="#E5484D" strokeWidth="2" strokeLinecap="round" />
+        </svg>
+      ),
+      crossed: 'Зависимость от эксперта',
+      ours: 'Инструмент остаётся у вас',
+    },
+  ];
+
   return (
-    <section id="comparison" className="bg-[#F0F2F5] py-16 md:py-24">
+    <section id="comparison" className="bg-white py-16 md:py-24">
       <div className="max-w-6xl mx-auto px-6">
         <div className="flex items-center gap-3 mb-5">
           <div className="w-6 h-px bg-[#0A0A0A]" />
-          <span className="text-[#0A0A0A] text-xs font-medium uppercase tracking-widest">Отличие</span>
+          <span className="text-[#0A0A0A] text-xs font-medium uppercase tracking-widest">
+            Отличие от консалтинга
+          </span>
         </div>
         <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] leading-tight mb-10">
-          Чем AIVISION отличается от классического консалтинга
+          Мы делаем, а не советуем.
         </h2>
 
-        <div className="grid md:grid-cols-2 gap-6 md:gap-8">
-          {/* Left — Classic */}
-          <div className="bg-white border border-[#E8E8E8] p-8 h-fit">
-            <div className="text-xs font-semibold uppercase tracking-widest text-[#E5484D] mb-6">
-              Обычный консалтинг
+        <div className="grid md:grid-cols-3 gap-6">
+          {cards.map((card, i) => (
+            <div
+              key={i}
+              className="border border-[#E8E8E8] p-5 flex flex-col gap-4"
+            >
+              {card.icon}
+              <div className="text-[#AAA] text-sm line-through">{card.crossed}</div>
+              <div className="text-[#0A0A0A] text-base font-bold">{card.ours}</div>
             </div>
-            <div className="flex flex-col">
-              {classic.map((item, i) => (
-                <div key={i} className="flex items-center gap-4 py-3.5 border-b border-[#F0F0F0] last:border-0">
-                  <div className="w-2 h-px bg-[#E5484D] flex-shrink-0" />
-                  <span className="text-[#666] text-sm">{item}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-
-          {/* Right — AiVision */}
-          <div className="bg-[#3F6EE8] p-8 h-fit">
-            <div className="text-xs font-semibold uppercase tracking-widest text-white mb-6">
-              AIVISION
-            </div>
-            <div className="flex flex-col">
-              {aivision.map((item, i) => (
-                <div key={i} className="flex items-center gap-4 py-3.5 border-b border-[#5b7fec] last:border-0">
-                  <div className="w-1.5 h-1.5 bg-white flex-shrink-0" />
-                  <span className="text-white text-sm">{item}</span>
-                </div>
-              ))}
-            </div>
-            <div className="mt-6 pt-6 border-t border-[#5b7fec]">
-              <p className="text-white text-sm leading-relaxed font-semibold">
-                Мы не даём советы. Мы строим систему и ведём бизнес к результату
-              </p>
-            </div>
-          </div>
+          ))}
         </div>
       </div>
     </section>

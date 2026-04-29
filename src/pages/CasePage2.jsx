@@ -1,6 +1,6 @@
 import { useState, useLayoutEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import DashboardSlider2 from '@/components/landing/DashboardSlider2';
 import ContactModal from '@/components/landing/ContactModal';
 
@@ -9,16 +9,25 @@ const clipBtn = 'polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100
 
 export default function CasePage2() {
   const [contactModal, setContactModal] = useState(false);
+  const navigate = useNavigate();
 
   useLayoutEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, []);
+
+  const handleBack = () => {
+    navigate('/');
+    setTimeout(() => {
+      const el = document.getElementById('cases');
+      if (el) el.scrollIntoView({ behavior: 'instant' });
+    }, 50);
+  };
 
   return (
     <div className="min-h-screen bg-[#F4F4F5] font-inter">
       <div className="max-w-6xl mx-auto px-6 pt-6 flex items-center justify-between">
-        <Link to="/#cases" className="inline-flex items-center gap-2 text-[#666] hover:text-[#0A0A0A] transition-colors text-sm">
+        <button onClick={handleBack} className="inline-flex items-center gap-2 text-[#666] hover:text-[#0A0A0A] transition-colors text-sm bg-transparent border-0 cursor-pointer p-0">
           <ArrowLeft size={16} />
           Назад
-        </Link>
+        </button>
         <Link to="/case/3" className="inline-flex items-center gap-2 text-[#3F6EE8] hover:text-blue-700 transition-colors text-sm font-medium">
           Следующий кейс <ArrowRight size={16} />
         </Link>

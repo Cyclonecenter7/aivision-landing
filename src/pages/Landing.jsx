@@ -14,11 +14,6 @@ export default function Landing() {
   useEffect(() => {
     initTracker();
     window.scrollTo({ top: 0, behavior: 'instant' });
-    const hash = window.location.hash;
-    if (hash) {
-      const el = document.querySelector(hash);
-      if (el) setTimeout(() => el.scrollIntoView({ behavior: 'instant' }), 50);
-    }
   }, []);
 
   return (

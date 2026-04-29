@@ -11,7 +11,7 @@ export default function StarterBanner() {
   const [modalOpen, setModalOpen] = useState(false);
 
   useEffect(() => {
-    if (sessionStorage.getItem('starterBannerShown')) return;
+    if (localStorage.getItem('starterBannerClosed')) return;
     const timer = setTimeout(() => setVisible(true), 5000);
     return () => clearTimeout(timer);
   }, []);
@@ -19,13 +19,12 @@ export default function StarterBanner() {
   const handleBannerClose = (e) => {
     e.stopPropagation();
     setVisible(false);
-    sessionStorage.setItem('starterBannerShown', 'true');
+    localStorage.setItem('starterBannerClosed', 'true');
   };
 
   const handleBannerClick = () => {
     setVisible(false);
     setModalOpen(true);
-    sessionStorage.setItem('starterBannerShown', 'true');
   };
 
   const handleModalClose = () => setModalOpen(false);

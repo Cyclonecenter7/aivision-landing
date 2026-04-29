@@ -18,10 +18,34 @@ function TH({ children }) {
   return <div style={{ fontSize: 7, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.14em', color: t.mutedC }}>{children}</div>;
 }
 
+function THCell({ children, align = 'left' }) {
+  return (
+    <th style={{ textAlign: align, padding: '8px 12px', fontSize: 8, fontWeight: 500, letterSpacing: '0.14em', textTransform: 'uppercase', color: '#888', borderBottom: '1px solid #F0F0F0', whiteSpace: 'nowrap' }}>
+      {children}
+    </th>
+  );
+}
+
+function TD({ children, align = 'left', color }) {
+  return (
+    <td style={{ textAlign: align, padding: '7px 12px', fontSize: 10, fontWeight: 500, color: color || '#333', borderBottom: '1px solid #F4F4F5', fontVariantNumeric: 'tabular-nums' }}>
+      {children}
+    </td>
+  );
+}
+
 function Bar({ pct, color = B }) {
   return (
     <div style={{ height: 4, background: t.trackBg }}>
       <div style={{ height: 4, width: `${pct}%`, background: color }} />
+    </div>
+  );
+}
+
+function BarFull({ pct, color = B, height = 4 }) {
+  return (
+    <div style={{ background: '#F0F3FA', height, width: '100%' }}>
+      <div style={{ height, width: `${Math.min(pct, 100)}%`, background: color }} />
     </div>
   );
 }
@@ -120,50 +144,50 @@ function SlideBrands() {
 
 function SlideFunnel() {
   const stages = [
-    { label:'Просмотры', value:16590, pct:100, conv:'—', bottleneck: false },
-    { label:'В корзину', value:2041, pct:12.3, conv:'12.3%', bottleneck: true },
-    { label:'Заказы', value:1247, pct:7.5, conv:'61.1%', bottleneck: false },
-    { label:'Выкуп', value:1018, pct:6.1, conv:'81.6%', bottleneck: false },
+    { label: 'Просмотры', value: 16590, pct: 100,  conv: '—',     delta: '—',      convPos: null  },
+    { label: 'В корзину', value: 2041,  pct: 12.3, conv: '12.3%', delta: '−87.7%', convPos: false },
+    { label: 'Заказы',    value: 1247,  pct: 7.5,  conv: '61.1%', delta: '−38.9%', convPos: true  },
+    { label: 'Выкуп',     value: 1018,  pct: 6.1,  conv: '81.6%', delta: '−18.4%', convPos: true  },
   ];
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <div style={{ fontSize: 10, fontWeight: 700, color: t.titleC, marginBottom: 2 }}>Воронка продаж · API-автоматизация</div>
-      <Card style={{ padding: 16 }}>
-        {stages.map((st, i) => (
-          <div key={i} style={{ marginBottom: i < stages.length-1 ? 12 : 0 }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 4 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                <span style={{ fontSize: 9, fontWeight: 600, color: t.bodyC }}>{st.label}</span>
-                {st.bottleneck && (
-                  <span style={{ fontSize: 7, fontWeight: 700, padding: '1px 5px', background: R, color: '#fff', letterSpacing: '0.1em' }}>УЗЕЛ</span>
-                )}
-              </div>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-                {st.conv !== '—' && <span style={{ fontSize: 8, fontWeight: 700, color: st.bottleneck ? R : G }}>{st.conv}</span>}
-                <span style={{ fontSize: 9, fontWeight: 700, color: t.titleC, fontVariantNumeric: 'tabular-nums' }}>{st.value.toLocaleString('ru')}</span>
-              </div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
+      <div style={{ background: '#fff', border: '1px solid #E8E8E8', overflow: 'hidden', flex: 1 }}>
+        <div style={{ padding: '8px 12px', borderBottom: '1px solid #F0F0F0', fontSize: 9, fontWeight: 600, color: '#0A0A0A' }}>
+          Воронка продаж · E-commerce
+        </div>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontVariantNumeric: 'tabular-nums' }}>
+          <thead><tr>
+            <THCell>Этап</THCell>
+            <THCell align="right">Кол-во</THCell>
+            <THCell align="right">Конв.</THCell>
+            <THCell align="right">Δ этапа</THCell>
+          </tr></thead>
+          <tbody>
+            {stages.map((st, i) => (
+              <tr key={i}>
+                <TD>{st.label}</TD>
+                <TD align="right" color="#0A0A0A">{st.value.toLocaleString('ru-RU')}</TD>
+                <TD align="right" color={st.convPos === null ? '#AAA' : st.convPos ? G : R}>{st.conv}</TD>
+                <TD align="right" color={st.convPos === null ? '#AAA' : R}>{st.delta}</TD>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+        <div style={{ padding: '6px 12px 10px' }}>
+          {stages.map((st, i) => (
+            <div key={i} style={{ marginBottom: i < stages.length - 1 ? 5 : 0 }}>
+              <BarFull pct={st.pct} color={B} height={4} />
             </div>
-            <div style={{ height: 6, background: t.trackBg }}>
-              <div style={{
-                height: 6,
-                width: `${st.pct}%`,
-                background: st.bottleneck ? R : i === stages.length-1 ? G : B,
-              }} />
-            </div>
+          ))}
+        </div>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
+        {[{l:'Рост выручки',v:'+35%',c:G},{l:'Конверсия',v:'+8%',c:G},{l:'Выкуп',v:'81.6%',c:G}].map((m,i)=>(
+          <div key={i} style={{ background: '#fff', border: '1px solid #E8E8E8', padding: '8px 10px', textAlign: 'center' }}>
+            <div style={{ fontSize: 8, color: '#AAA', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 3 }}>{m.l}</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: m.c, fontVariantNumeric: 'tabular-nums' }}>{m.v}</div>
           </div>
         ))}
-      </Card>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
-        <Card style={{ padding: 10 }}>
-          <div style={{ fontSize: 7, textTransform: 'uppercase', letterSpacing: '0.12em', color: t.mutedC, marginBottom: 3 }}>До автоматизации</div>
-          <div style={{ fontSize: 15, fontWeight: 800, color: R }}>2–3 ч/день</div>
-          <div style={{ fontSize: 7, color: t.subC, marginTop: 2 }}>ручной сбор данных</div>
-        </Card>
-        <Card style={{ padding: 10 }}>
-          <div style={{ fontSize: 7, textTransform: 'uppercase', letterSpacing: '0.12em', color: t.mutedC, marginBottom: 3 }}>После</div>
-          <div style={{ fontSize: 15, fontWeight: 800, color: G }}>0 минут</div>
-          <div style={{ fontSize: 7, color: t.subC, marginTop: 2 }}>API подтягивает сам</div>
-        </Card>
       </div>
     </div>
   );
@@ -171,39 +195,46 @@ function SlideFunnel() {
 
 function SlideProducts() {
   const products = [
-    { name:'SKU-1 Бренд 1', stock:74, views:294, conv:'12.5%', sum:'3 220 ₽' },
-    { name:'SKU-2 Бренд 1', stock:51, views:119, conv:'0%', sum:'1 610 ₽' },
-    { name:'SKU-3 Бренд 1', stock:29, views:342, conv:'33.3%', sum:'9 450 ₽' },
-    { name:'SKU-1 Бренд 2', stock:98, views:359, conv:'10.3%', sum:'7 770 ₽' },
-    { name:'SKU-2 Бренд 2', stock:64, views:171, conv:'33.3%', sum:'8 960 ₽' },
+    { name: 'Артикул А-01',  stock: 74,  views: 294, conv: '12.5%', sum: '3 220 ₽', convPos: true  },
+    { name: 'Артикул А-03',  stock: 29,  views: 342, conv: '33.3%', sum: '9 450 ₽', convPos: true  },
+    { name: 'Артикул Б-01',  stock: 98,  views: 359, conv: '10.3%', sum: '7 770 ₽', convPos: true  },
+    { name: 'Артикул Б-02',  stock: 64,  views: 171, conv: '33.3%', sum: '8 960 ₽', convPos: true  },
   ];
-  const convColor = (c) => parseFloat(c) > 10 ? G : parseFloat(c) === 0 ? R : B;
   return (
-    <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <div style={{ fontSize: 10, fontWeight: 700, color: t.titleC, marginBottom: 2 }}>Детализация по товарам · 6 апр</div>
-      <Card>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', padding: '6px 10px', borderBottom: `1px solid ${t.divBorder}`, gap: 4 }}>
-          {['Товар','Ост.','Просм.','Конв%','Сумма'].map(h => <TH key={h}>{h}</TH>)}
-        </div>
-        {products.map((p,i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', padding: '6px 10px', borderBottom: i < products.length-1 ? `1px solid ${t.divBorder}` : 'none', gap: 4, alignItems: 'center' }}>
-            <div style={{ fontSize: 7, color: t.bodyC, lineHeight: 1.3 }}>{p.name}</div>
-            <div style={{ fontSize: 8, color: t.titleC, fontVariantNumeric: 'tabular-nums' }}>{p.stock}</div>
-            <div style={{ fontSize: 8, color: t.subC, fontVariantNumeric: 'tabular-nums' }}>{p.views}</div>
-            <div style={{ fontSize: 8, fontWeight: 600, color: convColor(p.conv) }}>{p.conv}</div>
-            <div style={{ fontSize: 8, fontWeight: 600, color: B, fontVariantNumeric: 'tabular-nums' }}>{p.sum}</div>
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
+      <div style={{ background: '#fff', border: '1px solid #E8E8E8', overflow: 'hidden', flex: 1 }}>
+        <div style={{ padding: '8px 12px', borderBottom: '1px solid #F0F0F0', fontSize: 9, fontWeight: 600, color: '#0A0A0A' }}>Детализация по товарам · WB</div>
+        <table style={{ width: '100%', borderCollapse: 'collapse', fontVariantNumeric: 'tabular-nums' }}>
+          <thead><tr>
+            <THCell>Товар</THCell><THCell align="right">Остаток</THCell><THCell align="right">Просм.</THCell><THCell align="right">Конв.</THCell><THCell align="right">Сумма</THCell>
+          </tr></thead>
+          <tbody>
+            {products.map((p, i) => (
+              <tr key={i}>
+                <TD>{p.name}</TD>
+                <TD align="right">{p.stock}</TD>
+                <TD align="right" color="#888">{p.views}</TD>
+                <TD align="right" color={p.convPos ? G : B}>{p.conv}</TD>
+                <TD align="right" color={B}>{p.sum}</TD>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
+        {[{l:'Общий оборот',v:'5.2М ₽',c:B},{l:'Ср. конверсия',v:'12.1%',c:G},{l:'Топ SKU',v:'4 из 4',c:G}].map((m,i)=>(
+          <div key={i} style={{ background: '#fff', border: '1px solid #E8E8E8', padding: '8px 10px', textAlign: 'center' }}>
+            <div style={{ fontSize: 8, color: '#AAA', textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 3 }}>{m.l}</div>
+            <div style={{ fontSize: 14, fontWeight: 800, color: m.c, fontVariantNumeric: 'tabular-nums' }}>{m.v}</div>
           </div>
         ))}
-      </Card>
-      <div style={{ background: '#0A0A0A', padding: '10px 14px', ...ch(6) }}>
-        <div style={{ fontSize: 7, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#555', marginBottom: 3 }}>ВЫВОД AIVISION</div>
-        <div style={{ fontSize: 11, color: '#fff', lineHeight: 1.5 }}>SKU-3 Бренд 1 — конверсия 33.3% при минимальном остатке 29 шт. Приоритет пополнения.</div>
       </div>
     </div>
   );
 }
 
 const slideComponents = [SlideOverview, SlideBrands, SlideFunnel, SlideProducts];
+const clipTab = 'polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%)';
 
 export default function DashboardSlider3() {
   const [active, setActive] = useState(0);
@@ -229,23 +260,33 @@ export default function DashboardSlider3() {
   const Slide = slideComponents[active];
 
   return (
-    <div style={{ background: '#fff', border: '1px solid #E8E8E8', padding: 24, ...ch(20) }}>
-      <div style={{ fontSize: 9, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.15em', color: '#999', marginBottom: 10 }}>
-        Система в действии
+    <div className="av-dashboard-wrap" style={{ background: '#fff', border: '1px solid #E8E8E8', ...ch(20) }}>
+      {/* Header bar */}
+      <div style={{ padding: '10px 14px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: '#AAA' }}>
+          Система в действии
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+          <div style={{ width: 5, height: 5, borderRadius: '50%', background: G, boxShadow: `0 0 4px ${G}` }} />
+          <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', color: G }}>LIVE</span>
+        </div>
       </div>
 
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, marginBottom: 10 }}>
+      {/* Tab bar */}
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 4, padding: '8px 14px' }}>
         {SLIDES.map((name, i) => (
           <button
             key={i}
             onClick={() => handleTab(i)}
             style={{
-              fontSize: 9, fontWeight: 500, padding: '4px 10px', cursor: 'pointer', border: 'none',
+              fontSize: 9, fontWeight: 500, padding: '5px 10px',
               background: i === active ? B : '#fff',
-              color: i === active ? '#fff' : '#888',
-              outline: i !== active ? '1px solid #E8E8E8' : 'none',
+              color:      i === active ? '#fff' : '#888',
+              border:     i === active ? `1px solid ${B}` : '1px solid #E8E8E8',
+              cursor: 'pointer',
               transition: 'all 0.15s',
-              ...ch(8),
+              clipPath: clipTab,
+              fontFamily: 'inherit',
             }}
           >
             {name}
@@ -253,21 +294,34 @@ export default function DashboardSlider3() {
         ))}
       </div>
 
-      <div style={{ padding: 14, height: 320, overflow: 'hidden', background: '#F8F9FC', border: '1px solid #E8E8E8' }}>
-        <div style={{ opacity: visible ? 1 : 0, transition: 'opacity 0.2s ease' }}>
+      {/* Slide area */}
+      <div style={{
+        padding: '0 14px 0',
+        height: 320,
+        overflow: 'hidden',
+        background: '#F8F9FC',
+        borderTop: '1px solid #F0F0F0',
+        borderBottom: '1px solid #F0F0F0',
+      }}>
+        <div style={{ height: '100%', padding: '12px 0', opacity: visible ? 1 : 0, transition: 'opacity 0.2s ease' }}>
           <Slide />
         </div>
       </div>
 
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, marginTop: 10 }}>
+      {/* Dot indicators */}
+      <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, padding: '10px 0 12px' }}>
         {SLIDES.map((_, i) => (
           <button
             key={i}
             onClick={() => handleTab(i)}
             style={{
-              height: 6, width: i === active ? 16 : 6, borderRadius: 999,
+              height: 5,
+              width: i === active ? 16 : 5,
+              borderRadius: '50rem',
               background: i === active ? B : '#DDD',
-              border: 'none', cursor: 'pointer', transition: 'all 0.2s',
+              border: 'none', cursor: 'pointer',
+              transition: 'all 0.2s',
+              padding: 0,
             }}
           />
         ))}

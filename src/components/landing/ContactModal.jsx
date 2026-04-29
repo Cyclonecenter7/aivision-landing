@@ -66,14 +66,12 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
 
         {sent ? (
           <div className="py-6 text-center">
-            <div
-              className="w-12 h-12 bg-[#3F6EE8] mx-auto mb-4 flex items-center justify-center"
-              style={{ clipPath: clipBtn }}
-            >
-              <div className="w-3 h-3 bg-white" />
-            </div>
+            <svg width="48" height="48" viewBox="0 0 256 256" className="mx-auto mb-4">
+              <polygon points="0,0 256,0 256,208 208,256 0,256" fill="#0A0A0A" />
+              <polygon points="72,64 192,64 192,148 156,184 72,184" fill="#3F6EE8" />
+            </svg>
             <div className="text-white font-semibold mb-1">Заявка принята</div>
-            <p className="text-[#555] text-xs">Свяжемся в течение 5 минут</p>
+            <p className="text-[#555] text-xs">Свяжемся в течение часа</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">

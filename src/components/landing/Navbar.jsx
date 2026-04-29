@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import ContactModal from './ContactModal';
 
@@ -85,11 +86,12 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [themeName, setThemeName] = useState('hero');
   const [modal, setModal]         = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
 
   useEffect(() => {
     const onScroll = () => setThemeName(getNavTheme());
     window.addEventListener('scroll', onScroll, { passive: true });
-    // Небольшая задержка при маунте — DOM точно прорисован
     const t = setTimeout(() => setThemeName(getNavTheme()), 50);
     return () => { window.removeEventListener('scroll', onScroll); clearTimeout(t); };
   }, []);
@@ -98,7 +100,23 @@ export default function Navbar() {
 
   const handleNavClick = (href) => {
     setMenuOpen(false);
-    if (href === '#hero') { window.scrollTo({ top: 0, behavior: 'smooth' }); return; }
+    if (href === '#hero') {
+      if (location.pathname !== '/') { navigate('/'); return; }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+    if (location.pathname !== '/') {
+      navigate('/');
+      setTimeout(() => {
+        const section = document.querySelector(href);
+        if (section) {
+          const target = section.querySelector('h2') || section;
+          const top = target.getBoundingClientRect().top + window.scrollY - 80;
+          window.scrollTo({ top: Math.max(0, top), behavior: 'instant' });
+        }
+      }, 50);
+      return;
+    }
     const section = document.querySelector(href);
     if (!section) return;
     const target = section.querySelector('h2') || section;

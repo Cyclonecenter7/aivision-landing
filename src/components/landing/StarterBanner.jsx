@@ -23,7 +23,6 @@ export default function StarterBanner() {
   };
 
   const handleBannerClick = () => {
-    setVisible(false);
     setModalOpen(true);
   };
 

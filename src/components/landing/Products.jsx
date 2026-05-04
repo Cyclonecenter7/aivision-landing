@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Target, BarChart2, FileText, Monitor, TrendingUp, Users, Shield, Maximize2 } from 'lucide-react';
 import ContactModal from './ContactModal';
+import { Btn } from '@/components/ui';
 
 const CUT = 28;
 const clipCard = `polygon(0 0, 100% 0, 100% calc(100% - ${CUT}px), calc(100% - ${CUT}px) 100%, 0 100%)`;
@@ -87,7 +88,7 @@ const theme = {
     itemDot:  'bg-[#3F6EE8]',
     tagline:  'text-[#999]',
     price:    'text-[#0A0A0A]',
-    btn:      'bg-[#3F6EE8] text-white hover:bg-blue-700',
+    btn: 'primary',
   },
   blue: {
     card:     'bg-[#3F6EE8]',
@@ -102,7 +103,7 @@ const theme = {
     itemDot:  'bg-white',
     tagline:  'text-blue-100',
     price:    'text-white',
-    btn:      'bg-white text-[#3F6EE8] hover:bg-blue-50',
+    btn: 'white',
   },
   dark: {
     card:     'bg-[#181818]',
@@ -117,7 +118,7 @@ const theme = {
     itemDot:  'bg-[#3F6EE8]',
     tagline:  'text-[#555]',
     price:    'text-white',
-    btn:      'bg-[#3F6EE8] text-white hover:bg-blue-700',
+    btn: 'primary',
   },
 };
 
@@ -198,15 +199,15 @@ export default function Products() {
                 <div className={`text-3xl font-bold pb-4 ${t.price}`}>{p.price}</div>
 
                 {/* CTA */}
-                <button
-                  data-track={`product_cta_${p.id}`}
-                  data-track-block="products"
+                <Btn
+                  variant={t.btn}
+                  track={`product_cta_${p.id}`}
+                  trackBlock="products"
                   onClick={() => setModal(true)}
-                  className={`block w-full text-center text-sm font-medium py-3.5 px-4 transition-colors ${t.btn}`}
-                  style={{ clipPath: clipBtn }}
+                  className="block w-full text-center"
                 >
                   Начать диагностику
-                </button>
+                </Btn>
               </div>
             );
           })}

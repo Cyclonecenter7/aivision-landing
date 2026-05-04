@@ -1,6 +1,8 @@
 import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { saveLead } from '@/lib/tracker';
+import { BRAND } from '@/config/brand';
+import { Btn } from '@/components/ui';
 
 const clipCard  = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
 const clipModal = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
@@ -35,8 +37,8 @@ export default function StarterBanner() {
         <div
           data-track="banner_open"
           data-track-block="starter_banner"
-          className="fixed bottom-6 right-6 z-40 cursor-pointer w-72 select-none"
-          style={{ background: '#0A0A0A', border: '1px solid #333', clipPath: clipCard, padding: '16px 20px 18px' }}
+          className="fixed bottom-6 right-6 z-40 cursor-pointer w-72 select-none bg-[#0A0A0A] border border-[#333] px-5 pt-4 pb-[18px]"
+          style={{ clipPath: clipCard }}
           onClick={handleBannerClick}
         >
           <button
@@ -61,8 +63,7 @@ export default function StarterBanner() {
         <div
           data-track="banner_modal_close"
           data-track-block="starter_banner"
-          className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 overflow-y-auto"
-          style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
+          className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 overflow-y-auto bg-black/70 backdrop-blur-sm"
           onClick={handleModalClose}
         >
           <div
@@ -118,13 +119,10 @@ export default function StarterBanner() {
             </div>
 
             {/* Pricing */}
-            <div
-              className="flex items-center justify-between flex-wrap gap-3 px-5 py-4 mb-6"
-              style={{ background: '#0A0A0A', border: '1px solid #2A2A2A' }}
-            >
+            <div className="flex items-center justify-between flex-wrap gap-3 px-5 py-4 mb-6 bg-[#0A0A0A] border border-[#2A2A2A]">
               <span className="text-white text-sm font-semibold">Стоимость под ключ</span>
               <div className="flex items-center gap-4">
-                <span className="text-white text-xl font-bold">100 000 ₽</span>
+                <span className="text-white text-xl font-bold">{BRAND.promoAmount}</span>
                 <span className="text-[#666] text-sm">срок — 7 дней</span>
               </div>
             </div>
@@ -195,7 +193,7 @@ function StarterForm() {
         onChange={e => setForm({ ...form, website: e.target.value })}
         tabIndex={-1}
         autoComplete="off"
-        style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+        className="absolute -left-[9999px] w-px h-px opacity-0"
         aria-hidden="true"
       />
       <p className="text-[#555] text-xs -mt-2">Свяжемся в течение 5 минут</p>
@@ -225,7 +223,7 @@ function StarterForm() {
           </div>
         </div>
       </div>
-      <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
+      <label className="flex gap-2 items-start">
         <input type="checkbox" required style={{ marginTop: 3, accentColor: '#3F6EE8' }} />
         <span style={{ fontSize: 11, color: '#666', lineHeight: 1.4 }}>
           Я ознакомлен(-а) и согласен(-а) с{' '}
@@ -238,16 +236,15 @@ function StarterForm() {
         </span>
       </label>
       {error && <p className="text-[#E5484D] text-xs">{error}</p>}
-      <button
-        data-track="banner_submit"
-        data-track-block="starter_banner"
+      <Btn
+        track="banner_submit"
+        trackBlock="starter_banner"
         type="submit"
         disabled={loading}
-        className="bg-[#3F6EE8] text-white text-sm font-medium py-4 px-6 hover:bg-blue-700 transition-colors disabled:opacity-50"
-        style={{ clipPath: clipBtn }}
+        className="w-full disabled:opacity-50"
       >
         {loading ? 'Отправляем...' : 'Хочу подключить'}
-      </button>
+      </Btn>
     </form>
   );
 }

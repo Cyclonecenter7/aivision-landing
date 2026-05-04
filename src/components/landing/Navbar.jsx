@@ -2,6 +2,8 @@ import { useState, useEffect } from 'react';
 import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import ContactModal from './ContactModal';
+import { BRAND } from '@/config/brand';
+import { Btn } from '@/components/ui';
 
 const navLinks = [
   { label: 'Продукты', href: '#products' },
@@ -138,11 +140,14 @@ export default function Navbar() {
         <div className="max-w-6xl mx-auto px-6 h-16 flex items-center justify-between">
 
           {/* Logo */}
-          <button
-            data-track="nav_logo"
-            data-track-block="navbar"
+          <Btn
+            variant="ghost"
+            size="sm"
+            track="nav_logo"
+            trackBlock="navbar"
             onClick={() => handleNavClick('#hero')}
-            className="flex items-center gap-2 bg-transparent border-0 p-0 cursor-pointer"
+            className="flex items-center gap-2 p-0"
+            style={{ clipPath: 'none' }}
             aria-label="На главную"
           >
             <LogoMark outerColor={t.markOuter} innerColor={t.markInner} />
@@ -150,41 +155,44 @@ export default function Navbar() {
               className="font-bold text-sm uppercase tracking-widest"
               style={{ color: t.logoText, transition: 'color 0.35s' }}
             >
-              AIVISION
+              {BRAND.name}
             </span>
-          </button>
+          </Btn>
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center" style={{ gap: 32 }}>
             {navLinks.map(link => (
-              <button
+              <Btn
                 key={link.label}
-                data-track={`nav_${link.href.replace('#', '')}`}
-                data-track-block="navbar"
+                variant="ghost"
+                size="sm"
+                track={`nav_${link.href.replace('#', '')}`}
+                trackBlock="navbar"
                 onClick={() => handleNavClick(link.href)}
-                className="bg-transparent border-0 p-0"
-                style={{ fontSize: 13, fontWeight: 500, color: t.link, cursor: 'pointer', transition: 'color 0.2s' }}
+                className="p-0"
+                style={{ fontSize: 13, fontWeight: 500, color: t.link, transition: 'color 0.2s', clipPath: 'none' }}
                 onMouseEnter={e => { e.currentTarget.style.color = t.linkHover; }}
                 onMouseLeave={e => { e.currentTarget.style.color = t.link; }}
               >
                 {link.label}
-              </button>
+              </Btn>
             ))}
           </div>
 
           <div className="flex items-center gap-4">
             {/* Desktop CTA */}
-            <button
-              data-track="nav_cta_top"
-              data-track-block="navbar"
+            <Btn
+              size="sm"
+              track="nav_cta_top"
+              trackBlock="navbar"
               onClick={() => setModal(true)}
-              className="hidden md:block text-sm font-medium px-5 py-2"
-              style={{ clipPath: clipBtn, background: t.ctaBg, color: t.ctaText, transition: 'background 0.25s, color 0.35s' }}
+              className="hidden md:block"
+              style={{ background: t.ctaBg, color: t.ctaText, transition: 'background 0.25s, color 0.35s' }}
               onMouseEnter={e => { e.currentTarget.style.background = t.ctaHover; }}
               onMouseLeave={e => { e.currentTarget.style.background = t.ctaBg; }}
             >
               Начать диагностику
-            </button>
+            </Btn>
 
             {/* Mobile burger */}
             <button
@@ -204,25 +212,28 @@ export default function Navbar() {
         {menuOpen && (
           <div className="md:hidden bg-white border-b border-[#E8E8E8] px-6 py-4 flex flex-col gap-4">
             {navLinks.map(link => (
-              <button
+              <Btn
                 key={link.label}
-                data-track={`mobile_nav_${link.href.replace('#', '')}`}
-                data-track-block="navbar"
+                variant="ghost"
+                size="sm"
+                track={`mobile_nav_${link.href.replace('#', '')}`}
+                trackBlock="navbar"
                 onClick={() => handleNavClick(link.href)}
-                className="text-left bg-transparent border-0 p-0 text-sm font-medium text-[#666] hover:text-[#0A0A0A] transition-colors"
+                className="text-left p-0 text-[#666] hover:text-[#0A0A0A]"
+                style={{ clipPath: 'none' }}
               >
                 {link.label}
-              </button>
+              </Btn>
             ))}
-            <button
-              data-track="mobile_nav_cta"
-              data-track-block="navbar"
+            <Btn
+              variant="dark"
+              track="mobile_nav_cta"
+              trackBlock="navbar"
               onClick={() => { setMenuOpen(false); setModal(true); }}
-              className="text-sm font-medium px-5 py-3 bg-[#0A0A0A] text-white hover:bg-[#3F6EE8] transition-all text-center"
-              style={{ clipPath: clipBtn }}
+              className="w-full text-center"
             >
               Начать диагностику
-            </button>
+            </Btn>
           </div>
         )}
       </nav>

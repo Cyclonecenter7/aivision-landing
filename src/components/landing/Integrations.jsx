@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
+import { Btn } from '@/components/ui';
 
 const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%)';
 const clipTag  = 'polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)';
@@ -185,16 +186,15 @@ export default function Integrations() {
                         className="w-full bg-transparent text-white text-sm px-4 py-3 focus:outline-none placeholder:text-[#444]"
                       />
                     </div>
-                    <button
-                      data-track="integration_submit"
-                      data-track-block="integrations"
+                    <Btn
+                      track="integration_submit"
+                      trackBlock="integrations"
                       type="submit"
                       disabled={loading}
-                      className="bg-[#3F6EE8] text-white text-sm font-medium px-6 py-3 hover:bg-blue-700 transition-colors disabled:opacity-50 whitespace-nowrap"
-                      style={{ clipPath: clipBtn }}
+                      className="disabled:opacity-50 whitespace-nowrap"
                     >
                       {loading ? '...' : 'Связаться →'}
-                    </button>
+                    </Btn>
                   </div>
                   {error && <p className="text-[#E5484D] text-xs">{error}</p>}
                   <p className="text-[#444] text-xs">

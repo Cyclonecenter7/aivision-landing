@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
 import { X } from 'lucide-react';
 import ContactToggleInput from './ContactToggleInput';
+import { Btn } from '@/components/ui';
 
 const clipCard = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
 const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
@@ -138,16 +139,15 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
             {error && (
               <p className="text-[#E5484D] text-xs">{error}</p>
             )}
-            <button
-              data-track="modal_submit"
-              data-track-block="contact_modal"
+            <Btn
+              track="modal_submit"
+              trackBlock="contact_modal"
               type="submit"
               disabled={loading}
-              className="mt-2 bg-[#3F6EE8] text-white text-sm font-medium py-4 px-6 hover:bg-blue-700 transition-colors disabled:opacity-50"
-              style={{ clipPath: clipBtn }}
+              className="mt-2 w-full disabled:opacity-50"
             >
               {loading ? 'Отправляем...' : 'Записаться на разбор'}
-            </button>
+            </Btn>
           </form>
         )}
       </div>

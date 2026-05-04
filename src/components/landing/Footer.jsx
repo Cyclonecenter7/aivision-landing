@@ -1,91 +1,55 @@
 import { useState } from 'react';
 import ContactModal from './ContactModal';
-
-const clipBtn = 'polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)';
+import { BRAND } from '@/config/brand';
+import { Btn } from '@/components/ui';
 
 export default function Footer() {
   const [modal, setModal] = useState(false);
 
   return (
     <>
-      <footer style={{ background: '#0A0A0A' }}>
+      <footer className="bg-[#0A0A0A]">
         {/* CTA layer */}
-        <div
-          style={{
-            maxWidth: 1152,
-            margin: '0 auto',
-            padding: '32px 40px',
-            borderBottom: '1px solid #1A1A1A',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 16,
-          }}
-        >
+        <div className="max-w-6xl mx-auto px-10 py-8 border-b border-[#1A1A1A] flex items-center justify-between flex-wrap gap-4">
           <div>
-            <div style={{ color: '#fff', fontSize: 16, fontWeight: 700, marginBottom: 4 }}>
+            <div className="text-white text-base font-bold mb-1">
               Готовы разобраться с бизнесом?
             </div>
-            <div style={{ color: '#555', fontSize: 13 }}>
+            <div className="text-[#555] text-sm">
               Первый разбор бесплатно
             </div>
           </div>
-          <button
-            data-track="footer_cta"
-            data-track-block="footer"
+          <Btn
+            track="footer_cta"
+            trackBlock="footer"
             onClick={() => setModal(true)}
-            style={{
-              background: '#3F6EE8',
-              color: '#fff',
-              fontSize: 13,
-              fontWeight: 600,
-              padding: '12px 24px',
-              border: 'none',
-              cursor: 'pointer',
-              clipPath: clipBtn,
-              transition: 'background 0.2s',
-            }}
-            onMouseEnter={e => { e.currentTarget.style.background = '#2D5BD4'; }}
-            onMouseLeave={e => { e.currentTarget.style.background = '#3F6EE8'; }}
           >
             Начать диагностику
-          </button>
+          </Btn>
         </div>
 
         {/* Bottom bar */}
-        <div
-          style={{
-            maxWidth: 1152,
-            margin: '0 auto',
-            padding: '18px 40px',
-            display: 'flex',
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            flexWrap: 'wrap',
-            gap: 12,
-          }}
-        >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#444' }}>
-              AIVISION
+        <div className="max-w-6xl mx-auto px-10 py-[18px] flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#444]">
+              {BRAND.name}
             </span>
-            <span style={{ color: '#333' }}>·</span>
+            <span className="text-[#333]">·</span>
             <a
               data-track="footer_email"
               data-track-block="footer"
-              href="mailto:support@aivisionpro.ru"
-              style={{ fontSize: 11, color: '#3F6EE8', textDecoration: 'none' }}
+              href={`mailto:${BRAND.email}`}
+              className="text-[11px] text-[#3F6EE8] no-underline hover:text-blue-400 transition-colors"
             >
-              support@aivisionpro.ru
+              {BRAND.email}
             </a>
           </div>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
-            <a href="/privacy-policy" style={{ fontSize: 11, color: '#333', textDecoration: 'none' }}>Политика ПДн</a>
-            <span style={{ color: '#333' }}>·</span>
-            <a href="/consent" style={{ fontSize: 11, color: '#333', textDecoration: 'none' }}>Согласие на обработку ПДн</a>
-            <span style={{ color: '#333' }}>·</span>
-            <span style={{ fontSize: 11, color: '#333' }}>© 2026 AIVISION</span>
+          <div className="flex items-center gap-3">
+            <a href="/privacy-policy" className="text-[11px] text-[#333] no-underline hover:text-[#555] transition-colors">Политика ПДн</a>
+            <span className="text-[#333]">·</span>
+            <a href="/consent" className="text-[11px] text-[#333] no-underline hover:text-[#555] transition-colors">Согласие на обработку ПДн</a>
+            <span className="text-[#333]">·</span>
+            <span className="text-[11px] text-[#333]">© 2026 {BRAND.name}</span>
           </div>
         </div>
       </footer>

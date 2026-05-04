@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 const DS_COLORS = { green: '#16A34A', red: '#E5484D', blue: '#3F6EE8' };
-const ch = (px) => ({ clipPath: `polygon(0 0,100% 0,100% calc(100% - ${px}px),calc(100% - ${px}px) 100%,0 100%)` });
 
 // metricColor: 'green' | 'red' | 'blue' (only 3 DS data colors)
 const cases = [

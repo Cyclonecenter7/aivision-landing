@@ -139,6 +139,8 @@ export default function Navbar() {
 
           {/* Logo */}
           <button
+            data-track="nav_logo"
+            data-track-block="navbar"
             onClick={() => handleNavClick('#hero')}
             className="flex items-center gap-2 bg-transparent border-0 p-0 cursor-pointer"
             aria-label="На главную"
@@ -157,6 +159,8 @@ export default function Navbar() {
             {navLinks.map(link => (
               <button
                 key={link.label}
+                data-track={`nav_${link.href.replace('#', '')}`}
+                data-track-block="navbar"
                 onClick={() => handleNavClick(link.href)}
                 className="bg-transparent border-0 p-0"
                 style={{ fontSize: 13, fontWeight: 500, color: t.link, cursor: 'pointer', transition: 'color 0.2s' }}
@@ -171,6 +175,8 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {/* Desktop CTA */}
             <button
+              data-track="nav_cta_top"
+              data-track-block="navbar"
               onClick={() => setModal(true)}
               className="hidden md:block text-sm font-medium px-5 py-2"
               style={{ clipPath: clipBtn, background: t.ctaBg, color: t.ctaText, transition: 'background 0.25s, color 0.35s' }}
@@ -182,6 +188,8 @@ export default function Navbar() {
 
             {/* Mobile burger */}
             <button
+              data-track="mobile_menu_toggle"
+              data-track-block="navbar"
               className="md:hidden bg-transparent border-0 p-1"
               style={{ color: t.burger }}
               onClick={() => setMenuOpen(v => !v)}
@@ -198,6 +206,8 @@ export default function Navbar() {
             {navLinks.map(link => (
               <button
                 key={link.label}
+                data-track={`mobile_nav_${link.href.replace('#', '')}`}
+                data-track-block="navbar"
                 onClick={() => handleNavClick(link.href)}
                 className="text-left bg-transparent border-0 p-0 text-sm font-medium text-[#666] hover:text-[#0A0A0A] transition-colors"
               >
@@ -205,6 +215,8 @@ export default function Navbar() {
               </button>
             ))}
             <button
+              data-track="mobile_nav_cta"
+              data-track-block="navbar"
               onClick={() => { setMenuOpen(false); setModal(true); }}
               className="text-sm font-medium px-5 py-3 bg-[#0A0A0A] text-white hover:bg-[#3F6EE8] transition-all text-center"
               style={{ clipPath: clipBtn }}

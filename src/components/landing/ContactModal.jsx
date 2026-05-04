@@ -52,6 +52,8 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
 
   return (
     <div
+      data-track="modal_overlay_close"
+      data-track-block="contact_modal"
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
       style={{ background: 'rgba(10,10,10,0.7)', backdropFilter: 'blur(4px)' }}
       onClick={handleClose}
@@ -62,6 +64,8 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
         onClick={e => e.stopPropagation()}
       >
         <button
+          data-track="modal_close"
+          data-track-block="contact_modal"
           onClick={handleClose}
           className="absolute top-5 right-5 text-[#555] hover:text-white transition-colors"
         >
@@ -135,6 +139,8 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
               <p className="text-[#E5484D] text-xs">{error}</p>
             )}
             <button
+              data-track="modal_submit"
+              data-track-block="contact_modal"
               type="submit"
               disabled={loading}
               className="mt-2 bg-[#3F6EE8] text-white text-sm font-medium py-4 px-6 hover:bg-blue-700 transition-colors disabled:opacity-50"

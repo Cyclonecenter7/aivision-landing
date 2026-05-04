@@ -434,6 +434,9 @@ export default function HeroDashboard() {
         {TABS.map((name, i) => (
           <button
             key={i}
+            data-track={`hero_dashboard_tab_${i}`}
+            data-track-block="hero_dashboard"
+            data-track-text={name}
             onClick={() => handleTab(i)}
             style={{
               fontSize: 9, fontWeight: 500, padding: '5px 10px',
@@ -467,9 +470,12 @@ export default function HeroDashboard() {
 
       {/* Dot indicators */}
       <div style={{ display: 'flex', justifyContent: 'center', alignItems: 'center', gap: 6, padding: '10px 0 12px' }}>
-        {TABS.map((_, i) => (
+        {TABS.map((name, i) => (
           <button
             key={i}
+            data-track={`hero_dashboard_dot_${i}`}
+            data-track-block="hero_dashboard"
+            data-track-text={name}
             onClick={() => handleTab(i)}
             style={{
               height: 5,

@@ -1,5 +1,4 @@
 import { useState } from 'react';
-import { trackClick } from '@/lib/tracker';
 import ContactModal from './ContactModal';
 import HeroDashboard from './HeroDashboard';
 
@@ -43,7 +42,9 @@ export default function Hero() {
             </p>
 
             <button
-              onClick={() => { trackClick('Получить бесплатный разбор', 'hero_cta'); setModal(true); }}
+              data-track="hero_cta"
+              data-track-block="hero"
+              onClick={() => setModal(true)}
               className="hero-cta text-sm font-semibold px-8 py-4 transition-colors inline-block"
               style={{ clipPath: clipBtn, background: '#fff', color: '#3F6EE8' }}
               onMouseEnter={e => { e.currentTarget.style.background = '#EEF2FF'; }}

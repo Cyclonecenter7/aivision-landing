@@ -199,6 +199,8 @@ export default function Products() {
 
                 {/* CTA */}
                 <button
+                  data-track={`product_cta_${p.id}`}
+                  data-track-block="products"
                   onClick={() => setModal(true)}
                   className={`block w-full text-center text-sm font-medium py-3.5 px-4 transition-colors ${t.btn}`}
                   style={{ clipPath: clipBtn }}

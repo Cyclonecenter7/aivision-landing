@@ -32,6 +32,8 @@ export default function Footer() {
             </div>
           </div>
           <button
+            data-track="footer_cta"
+            data-track-block="footer"
             onClick={() => setModal(true)}
             style={{
               background: '#3F6EE8',
@@ -69,7 +71,12 @@ export default function Footer() {
               AIVISION
             </span>
             <span style={{ color: '#333' }}>·</span>
-            <a href="mailto:support@aivisionpro.ru" style={{ fontSize: 11, color: '#3F6EE8', textDecoration: 'none' }}>
+            <a
+              data-track="footer_email"
+              data-track-block="footer"
+              href="mailto:support@aivisionpro.ru"
+              style={{ fontSize: 11, color: '#3F6EE8', textDecoration: 'none' }}
+            >
               support@aivisionpro.ru
             </a>
           </div>

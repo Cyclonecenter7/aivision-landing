@@ -113,6 +113,8 @@ export default function Integrations() {
             return (
               <button
                 key={tag.id}
+                data-track={`integration_${tag.id}`}
+                data-track-block="integrations"
                 onClick={() => toggleTag(tag.id)}
                 className="text-sm font-medium px-4 py-2.5 border transition-colors"
                 style={{
@@ -184,6 +186,8 @@ export default function Integrations() {
                       />
                     </div>
                     <button
+                      data-track="integration_submit"
+                      data-track-block="integrations"
                       type="submit"
                       disabled={loading}
                       className="bg-[#3F6EE8] text-white text-sm font-medium px-6 py-3 hover:bg-blue-700 transition-colors disabled:opacity-50 whitespace-nowrap"

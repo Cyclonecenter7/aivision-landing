@@ -97,21 +97,24 @@ export function getTrackingData() {
   return { visitor_id, session_id, ...utm, referrer, landing_page };
 }
 
-export async function trackClick(element_text, element_id = '') {
+export function trackClick(element_text, element_id = '', source_block = '') {
   const { visitor_id, session_id } = getTrackingData();
-  try {
-    await fetch(`${API_BASE}/api/clicks`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        visitor_id,
-        session_id,
-        element_id,
-        element_text,
-        page_url: window.location.href,
-      }),
-    });
-  } catch (e) { /* silent */ }
+  const payload = JSON.stringify({
+    visitor_id, session_id, element_id, element_text,
+    page_url: window.location.href, source_block,
+  });
+  // sendBeacon гарантирует доставку даже при unload/навигации
+  if (navigator.sendBeacon) {
+    const blob = new Blob([payload], { type: 'application/json' });
+    if (navigator.sendBeacon(`${API_BASE}/api/clicks`, blob)) return;
+  }
+  // Fallback: fetch с keepalive
+  fetch(`${API_BASE}/api/clicks`, {
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: payload,
+    keepalive: true,
+  }).catch(() => {});
 }
 
 export async function saveLead({ name, contact, contact_type, source_block, website }) {

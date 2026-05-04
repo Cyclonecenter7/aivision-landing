@@ -33,11 +33,15 @@ export default function StarterBanner() {
       {/* Баннер — фиксированный, снизу справа, появляется через 15 сек */}
       {visible && (
         <div
+          data-track="banner_open"
+          data-track-block="starter_banner"
           className="fixed bottom-6 right-6 z-40 cursor-pointer w-72 select-none"
           style={{ background: '#0A0A0A', border: '1px solid #333', clipPath: clipCard, padding: '16px 20px 18px' }}
           onClick={handleBannerClick}
         >
           <button
+            data-track="banner_close"
+            data-track-block="starter_banner"
             onClick={handleBannerClose}
             className="absolute top-3 right-3 text-[#555] hover:text-white transition-colors p-0.5"
             aria-label="Закрыть"
@@ -55,6 +59,8 @@ export default function StarterBanner() {
       {/* Модалка стартового стека */}
       {modalOpen && (
         <div
+          data-track="banner_modal_close"
+          data-track-block="starter_banner"
           className="fixed inset-0 z-50 flex items-center justify-center px-4 py-6 overflow-y-auto"
           style={{ background: 'rgba(0,0,0,0.7)', backdropFilter: 'blur(4px)' }}
           onClick={handleModalClose}
@@ -65,6 +71,8 @@ export default function StarterBanner() {
             onClick={e => e.stopPropagation()}
           >
             <button
+              data-track="banner_modal_x"
+              data-track-block="starter_banner"
               onClick={handleModalClose}
               className="absolute top-5 right-5 text-[#555] hover:text-white transition-colors"
               aria-label="Закрыть"
@@ -231,6 +239,8 @@ function StarterForm() {
       </label>
       {error && <p className="text-[#E5484D] text-xs">{error}</p>}
       <button
+        data-track="banner_submit"
+        data-track-block="starter_banner"
         type="submit"
         disabled={loading}
         className="bg-[#3F6EE8] text-white text-sm font-medium py-4 px-6 hover:bg-blue-700 transition-colors disabled:opacity-50"

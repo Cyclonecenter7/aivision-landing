@@ -182,11 +182,11 @@ export default function Navbar() {
           <div className="flex items-center gap-4">
             {/* Desktop CTA */}
             <Btn
-              size="sm"
+              size="none"
               track="nav_cta_top"
               trackBlock="navbar"
               onClick={() => setModal(true)}
-              className="hidden md:block"
+              className="hidden md:block px-5 py-2 text-sm"
               style={{ background: t.ctaBg, color: t.ctaText, transition: 'background 0.25s, color 0.35s' }}
               onMouseEnter={e => { e.currentTarget.style.background = t.ctaHover; }}
               onMouseLeave={e => { e.currentTarget.style.background = t.ctaBg; }}

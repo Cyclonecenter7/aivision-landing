@@ -187,7 +187,7 @@ export default function Navbar() {
               trackBlock="navbar"
               onClick={() => setModal(true)}
               className="hidden md:block px-5 py-2 text-sm"
-              style={{ background: t.ctaBg, color: t.ctaText, transition: 'background 0.25s, color 0.35s' }}
+              style={{ clipPath: 'polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%)', background: t.ctaBg, color: t.ctaText, transition: 'background 0.25s, color 0.35s' }}
               onMouseEnter={e => { e.currentTarget.style.background = t.ctaHover; }}
               onMouseLeave={e => { e.currentTarget.style.background = t.ctaBg; }}
             >

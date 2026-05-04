@@ -1,8 +1,11 @@
 const API_BASE = import.meta.env.VITE_API_URL || '';
 
 function generateUUID() {
+  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
+    return crypto.randomUUID();
+  }
   return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = Math.random() * 16 | 0;
+    const r = (crypto.getRandomValues(new Uint8Array(1))[0]) % 16;
     return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
   });
 }
@@ -111,13 +114,21 @@ export async function trackClick(element_text, element_id = '') {
   } catch (e) { /* silent */ }
 }
 
-export async function saveLead({ name, contact, contact_type, source_block }) {
+export async function saveLead({ name, contact, contact_type, source_block, website }) {
   const tracking = getTrackingData();
-  const res = await fetch(`${API_BASE}/api/leads`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ name, contact, contact_type, source_block, status: 'new', ...tracking }),
-  });
-  const data = await res.json();
+  let res;
+  try {
+    res = await fetch(`${API_BASE}/api/leads`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ name, contact, contact_type, source_block, website, status: 'new', ...tracking }),
+    });
+  } catch (netErr) {
+    throw new Error('Нет связи. Проверь интернет и попробуй снова.');
+  }
+  const data = await res.json().catch(() => ({}));
+  if (!res.ok) {
+    throw new Error(data.error || `Ошибка сервера (${res.status}). Попробуй снова.`);
+  }
   return data.lead || data;
 }

@@ -132,7 +132,7 @@ export default function StarterBanner() {
 
 // Форма внутри того же файла — не отдельный компонент
 function StarterForm() {
-  const [form, setForm] = useState({ name: '', contact: '' });
+  const [form, setForm] = useState({ name: '', contact: '', website: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -141,9 +141,25 @@ function StarterForm() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    // Honeypot
+    if (form.website) { setSent(true); setLoading(false); return; }
+    // Validation
+    const name = form.name.trim();
+    const contact = form.contact.trim();
+    if (name.length < 2 || name.length > 100) {
+      setError('Имя 2–100 символов'); setLoading(false); return;
+    }
+    if (contact.length < 3 || contact.length > 100) {
+      setError('Контакт 3–100 символов'); setLoading(false); return;
+    }
+    const isPhone = /^\+\d{10,15}$/.test(contact.replace(/\s|-/g, ''));
+    const isTg    = /^@?[a-zA-Z0-9_]{5,32}$/.test(contact);
+    if (!isPhone && !isTg) {
+      setError('Введи телефон (+7...) или telegram (@username)'); setLoading(false); return;
+    }
     try {
-      const contact_type = form.contact.startsWith('+') ? 'phone' : 'telegram';
-      await saveLead({ name: form.name, contact: form.contact, contact_type, source_block: 'starter_banner' });
+      const contact_type = isPhone ? 'phone' : 'telegram';
+      await saveLead({ name, contact, contact_type, source_block: 'starter_banner', website: form.website });
       setSent(true);
     } catch (err) {
       setError(err.message || 'Что-то пошло не так. Попробуйте ещё раз.');
@@ -163,6 +179,17 @@ function StarterForm() {
 
   return (
     <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+      {/* Honeypot */}
+      <input
+        type="text"
+        name="website"
+        value={form.website}
+        onChange={e => setForm({ ...form, website: e.target.value })}
+        tabIndex={-1}
+        autoComplete="off"
+        style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+        aria-hidden="true"
+      />
       <p className="text-[#555] text-xs -mt-2">Свяжемся в течение 5 минут</p>
       <div className="grid md:grid-cols-2 gap-4">
         <div>

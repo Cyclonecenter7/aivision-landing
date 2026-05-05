@@ -60,6 +60,8 @@ export default function ContactToggleInput({ value, onChange, dark = false }) {
       <div className="flex items-center gap-0 mb-2" style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)' }}>
         <button
           type="button"
+          data-track="modal_toggle_tg"
+          data-track-block="contact_modal"
           onClick={() => handleModeSwitch('telegram')}
           className={`${tabBase} ${mode === 'telegram' ? tabOn : tabOff}`}
         >
@@ -67,6 +69,8 @@ export default function ContactToggleInput({ value, onChange, dark = false }) {
         </button>
         <button
           type="button"
+          data-track="modal_toggle_phone"
+          data-track-block="contact_modal"
           onClick={() => handleModeSwitch('phone')}
           className={`${tabBase} ${mode === 'phone' ? tabOn : tabOff}`}
         >

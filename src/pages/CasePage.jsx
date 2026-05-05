@@ -1,26 +1,42 @@
 import { useState, useLayoutEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate, useParams, Navigate } from 'react-router-dom';
 import DashboardSlider from '@/components/landing/DashboardSlider';
 import ContactModal from '@/components/landing/ContactModal';
+import { CASES } from '@/data/cases';
+import { Btn } from '@/components/ui';
 
-const clipSm = 'polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)';
-const clipBtn = 'polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%)';
+const clipSm  = 'polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)';
+const clipNum = 'polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%)';
 
 export default function CasePage() {
+  const { id } = useParams();
   const [contactModal, setContactModal] = useState(false);
+  const navigate = useNavigate();
 
-  useLayoutEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, []);
+  const c = CASES[id];
+  if (!c) return <Navigate to="/" replace />;
+
+  useLayoutEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [id]);
+
+  const handleBack = () => {
+    navigate('/');
+    setTimeout(() => {
+      const el = document.getElementById('cases');
+      if (el) el.scrollIntoView({ behavior: 'instant' });
+    }, 50);
+  };
 
   return (
     <div className="min-h-screen bg-[#F4F4F5] font-inter">
+      {/* Nav */}
       <div className="max-w-6xl mx-auto px-6 pt-6 flex items-center justify-between">
-        <Link to="/#cases" className="inline-flex items-center gap-2 text-[#666] hover:text-[#0A0A0A] transition-colors text-sm">
+        <Btn variant="ghost" size="sm" className="inline-flex items-center gap-2 text-[#666] hover:text-[#0A0A0A] p-0" style={{ clipPath: 'none' }} onClick={handleBack}>
           <ArrowLeft size={16} />
           Назад
-        </Link>
-        <Link to="/case/2" className="inline-flex items-center gap-2 text-[#3F6EE8] hover:text-blue-700 transition-colors text-sm font-medium">
-          Следующий кейс <ArrowRight size={16} />
+        </Btn>
+        <Link to={`/case/${c.nextId}`} className="inline-flex items-center gap-2 text-[#3F6EE8] hover:text-blue-700 transition-colors text-sm font-medium">
+          {c.nextLabel} <ArrowRight size={16} />
         </Link>
       </div>
 
@@ -29,44 +45,32 @@ export default function CasePage() {
         <div className="mb-10">
           <div className="flex items-center gap-3 mb-4">
             <div
-              className="bg-[#3F6EE8] px-3 py-1 text-white text-[10px] font-bold uppercase tracking-widest"
-              style={{ clipPath: clipSm }}
+              className="px-3 py-1 text-white text-[10px] font-bold uppercase tracking-widest"
+              style={{ background: c.tagBg, clipPath: clipSm }}
             >
-              Образовательный бизнес
+              {c.tag}
             </div>
-            <span className="text-[#AAA] text-xs">Офлайн + онлайн · 5+ лет</span>
+            <span className="text-[#AAA] text-xs">{c.tagSub}</span>
           </div>
           <h1 className="text-3xl md:text-4xl font-bold text-[#0A0A0A] leading-tight mb-4">
-            Как образовательный проект<br className="hidden md:block" /> перестал терять маржу
+            {c.titleLine1}<br className="hidden md:block" /> {c.titleLine2}
           </h1>
-          <p className="text-[#888] text-sm max-w-xl leading-relaxed">
-            Доход рос, расходы — быстрее. Собственник видел оборот, но не видел маржи.
-            За 30 дней выстроили систему — теперь каждое решение на цифрах.
-          </p>
+          <p className="text-[#888] text-sm max-w-xl leading-relaxed">{c.description}</p>
         </div>
 
         {/* Main grid */}
         <div className="grid lg:grid-cols-2 gap-8">
-
           {/* LEFT */}
           <div className="flex flex-col gap-6">
 
-            {/* Point A */}
+            {/* Problem */}
             <div className="bg-white border border-[#E8E8E8] p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div className="w-6 h-px bg-[#E5484D]" />
                 <span className="text-[#E5484D] text-[10px] font-semibold uppercase tracking-widest">Точка А — Проблема</span>
               </div>
-              <p className="text-[#555] text-sm leading-relaxed mb-4">
-                Школа с устойчивым потоком клиентов и растущим доходом — но прибыли нет.
-                Доход рос на 3% в год, расходы — на 6% ежемесячно.
-              </p>
-              {[
-                '60–70% расходов — ФОТ без привязки к результату',
-                'Часть курсов съедала 30–50% дохода на затраты',
-                'Клиентская база не работала на повторные продажи',
-                'Нет единого свода доходов / расходов / маржи',
-              ].map((p, i) => (
+              <p className="text-[#555] text-sm leading-relaxed mb-4">{c.problemsIntro}</p>
+              {c.problems.map((p, i) => (
                 <div key={i} className="flex items-start gap-2.5 mb-2">
                   <div className="w-1.5 h-1.5 mt-1.5 bg-[#E5484D] rounded-full flex-shrink-0" />
                   <span className="text-[#666] text-sm leading-relaxed">{p}</span>
@@ -80,15 +84,11 @@ export default function CasePage() {
                 <div className="w-6 h-px bg-[#3F6EE8]" />
                 <span className="text-[#3F6EE8] text-[10px] font-semibold uppercase tracking-widest">Что сделали</span>
               </div>
-              {[
-                { n: '01', t: 'Полная оцифровка', d: 'Единый дашборд: маржа, оборот, расходы, воронка' },
-                { n: '02', t: 'Мотивация команды', d: 'Привязка дохода к марже, процент с продаж' },
-                { n: '03', t: 'Фокус на прибыль', d: 'Усиление маржинальных продуктов, реактивация базы' },
-              ].map(a => (
+              {c.actions.map(a => (
                 <div key={a.n} className="flex items-start gap-3 mb-3 bg-[#F8F9FC] border border-[#E8EEF8] p-4">
                   <div
                     className="w-7 h-7 bg-[#3F6EE8] flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0"
-                    style={{ clipPath: 'polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%)' }}
+                    style={{ clipPath: clipNum }}
                   >
                     {a.n}
                   </div>
@@ -107,14 +107,7 @@ export default function CasePage() {
                 <span className="text-[#0A0A0A] text-[10px] font-semibold uppercase tracking-widest">Результат</span>
               </div>
               <div className="grid grid-cols-3 gap-3">
-                {[
-                  { v: '+18–27%', l: 'маржинальность', c: 'text-[#3F6EE8]' },
-                  { v: '−20%', l: 'расходы', c: 'text-green-600' },
-                  { v: '+20%', l: 'повт. продажи', c: 'text-[#3F6EE8]' },
-                  { v: '−10–15%', l: 'доля ФОТ', c: 'text-green-600' },
-                  { v: '85%+', l: 'точность план/факт', c: 'text-[#3F6EE8]' },
-                  { v: '100%', l: 'операций в системе', c: 'text-[#3F6EE8]' },
-                ].map((r, i) => (
+                {c.results.map((r, i) => (
                   <div key={i} className="bg-[#F4F4F5] border border-[#E8E8E8] p-3">
                     <div className={`text-lg font-bold mb-0.5 ${r.c}`}>{r.v}</div>
                     <div className="text-[#999] text-[10px] leading-relaxed">{r.l}</div>
@@ -123,31 +116,35 @@ export default function CasePage() {
               </div>
               <p className="text-[#555] text-sm leading-relaxed mt-4 pt-4 border-t border-[#F0F0F0]">
                 <span className="text-[#0A0A0A] font-semibold">Главное: </span>
-                Все решения принимаются на основе цифр, а не ощущений.
+                {c.resultsSummary}
               </p>
             </div>
           </div>
 
           {/* RIGHT — Dashboard Slider */}
           <div className="self-start md:sticky md:top-6 overflow-hidden">
-            <DashboardSlider light={true} />
+            <DashboardSlider variant={c.sliderVariant} light={c.sliderLight} />
           </div>
         </div>
 
         {/* CTA */}
-        <div className="mt-12 bg-[#0A0A0A] p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
-          style={{ clipPath: 'polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%)' }}>
+        <div
+          className="mt-12 bg-[#0A0A0A] p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          style={{ clipPath: 'polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%)' }}
+        >
           <div>
             <div className="text-white text-lg font-bold mb-1">Хотите такой же результат?</div>
             <p className="text-[#555] text-sm">Начнём с диагностики — покажем, где теряется прибыль именно в вашем бизнесе</p>
           </div>
-          <button
+          <Btn
+            size="lg"
+            track="case_cta_diagnose"
+            trackBlock="case_page"
+            className="flex items-center gap-2 flex-shrink-0"
             onClick={() => setContactModal(true)}
-            className="flex items-center gap-2 bg-[#3F6EE8] text-white text-sm font-medium px-8 py-4 hover:bg-blue-700 transition-colors flex-shrink-0"
-            style={{ clipPath: clipBtn }}
           >
             Начать диагностику <ArrowRight size={14} />
-          </button>
+          </Btn>
         </div>
       </div>
 

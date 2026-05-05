@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Target, BarChart2, FileText, Monitor, TrendingUp, Users, Shield, Maximize2 } from 'lucide-react';
 import ContactModal from './ContactModal';
+import { Btn } from '@/components/ui';
 
 const CUT = 28;
 const clipCard = `polygon(0 0, 100% 0, 100% calc(100% - ${CUT}px), calc(100% - ${CUT}px) 100%, 0 100%)`;
@@ -9,7 +10,7 @@ const clipBtn  = `polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px)
 const products = [
   {
     id: '01',
-    name: 'Анализ Про',
+    name: 'Диагностика бизнеса',
     subtitle: 'Для тех кто хочет разобраться',
     description: 'Не знаете что именно нужно считать? Разбираемся вместе — погружаемся в бизнес, строим карту показателей, проектируем систему.',
     chips: [
@@ -48,13 +49,13 @@ const products = [
     ],
     tagline: 'Вы видите бизнес в цифрах — не через ощущения',
     price: 'от 150 000 ₽',
-    timing: '30 дней',
+    timing: '1–2 месяца',
     style: 'blue',
   },
   {
     id: '03',
     name: 'Контур роста',
-    subtitle: 'Партнёрство',
+    subtitle: '3–6 месяцев',
     description: 'Система работает, данные актуальны. Дорабатываем под рост, разбираем отклонения, остаёмся управленческим партнёром.',
     chips: [
       { label: 'Стратегия роста',  Icon: TrendingUp  },
@@ -68,7 +69,7 @@ const products = [
     ],
     tagline: 'Система остаётся у вас — не зависит от одного человека',
     price: 'Индивидуально',
-    timing: 'Партнёрство',
+    timing: '3–6 месяцев',
     style: 'dark',
   },
 ];
@@ -87,7 +88,7 @@ const theme = {
     itemDot:  'bg-[#3F6EE8]',
     tagline:  'text-[#999]',
     price:    'text-[#0A0A0A]',
-    btn:      'bg-[#3F6EE8] text-white hover:bg-blue-700',
+    btn: 'primary',
   },
   blue: {
     card:     'bg-[#3F6EE8]',
@@ -102,7 +103,7 @@ const theme = {
     itemDot:  'bg-white',
     tagline:  'text-blue-100',
     price:    'text-white',
-    btn:      'bg-white text-[#3F6EE8] hover:bg-blue-50',
+    btn: 'white',
   },
   dark: {
     card:     'bg-[#181818]',
@@ -117,7 +118,7 @@ const theme = {
     itemDot:  'bg-[#3F6EE8]',
     tagline:  'text-[#555]',
     price:    'text-white',
-    btn:      'bg-[#3F6EE8] text-white hover:bg-blue-700',
+    btn: 'primary',
   },
 };
 
@@ -198,13 +199,15 @@ export default function Products() {
                 <div className={`text-3xl font-bold pb-4 ${t.price}`}>{p.price}</div>
 
                 {/* CTA */}
-                <button
+                <Btn
+                  variant={t.btn}
+                  track={`product_cta_${p.id}`}
+                  trackBlock="products"
                   onClick={() => setModal(true)}
-                  className={`block w-full text-center text-sm font-medium py-3.5 px-4 transition-colors ${t.btn}`}
-                  style={{ clipPath: clipBtn }}
+                  className="block w-full text-center"
                 >
                   Начать диагностику
-                </button>
+                </Btn>
               </div>
             );
           })}

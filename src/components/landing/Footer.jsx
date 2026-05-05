@@ -1,42 +1,60 @@
+import { useState } from 'react';
+import ContactModal from './ContactModal';
+import { BRAND } from '@/config/brand';
+import { Btn } from '@/components/ui';
+
 export default function Footer() {
+  const [modal, setModal] = useState(false);
+
   return (
-    <footer style={{ background: '#fff', borderTop: '1px solid #E8E8E8', padding: '40px 24px' }}>
-      <div
-        className="footer-inner"
-        style={{
-          maxWidth: 1152,
-          margin: '0 auto',
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'space-between',
-          gap: 24,
-          flexWrap: 'wrap',
-        }}
-      >
-        <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
-          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" width="28" height="28">
-            <path d="M 0 0 L 256 0 L 256 208 L 208 256 L 0 256 Z" fill="#0A0A0A"/>
-            <path d="M 72 64 L 192 64 L 192 148 L 156 184 L 72 184 Z" fill="#3F6EE8"/>
-          </svg>
-          <span style={{ fontWeight: 700, color: '#0A0A0A', fontSize: 13, textTransform: 'uppercase', letterSpacing: '0.12em' }}>
-            AIVISION
-          </span>
+    <>
+      <footer className="bg-[#0A0A0A]">
+        {/* CTA layer */}
+        <div className="max-w-6xl mx-auto px-10 py-8 border-b border-[#1A1A1A] flex items-center justify-between flex-wrap gap-4">
+          <div>
+            <div className="text-white text-base font-bold mb-1">
+              Готовы разобраться с бизнесом?
+            </div>
+            <div className="text-[#555] text-sm">
+              Первый разбор бесплатно
+            </div>
+          </div>
+          <Btn
+            track="footer_cta"
+            trackBlock="footer"
+            onClick={() => setModal(true)}
+          >
+            Начать диагностику
+          </Btn>
         </div>
 
-        <p style={{ color: '#888', fontSize: 12, margin: 0 }}>
-          Мы внедряем систему, в которой бизнес начинает показывать правду в цифрах
-        </p>
-
-        <div style={{ display: 'flex', gap: 16, alignItems: 'center' }}>
-          <a href="/privacy-policy" style={{ fontSize: 11, color: '#AAA', textDecoration: 'none' }}>Политика ПДн</a>
-          <span style={{ color: '#DDD' }}>·</span>
-          <a href="/consent" style={{ fontSize: 11, color: '#AAA', textDecoration: 'none' }}>Согласие на обработку ПДн</a>
+        {/* Bottom bar */}
+        <div className="max-w-6xl mx-auto px-10 py-[18px] flex items-center justify-between flex-wrap gap-3">
+          <div className="flex items-center gap-3">
+            <span className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#444]">
+              {BRAND.name}
+            </span>
+            <span className="text-[#333]">·</span>
+            <a
+              data-track="footer_email"
+              data-track-block="footer"
+              href={`mailto:${BRAND.email}`}
+              className="text-[11px] text-[#3F6EE8] no-underline hover:text-blue-400 transition-colors"
+            >
+              {BRAND.email}
+            </a>
+          </div>
+          <div className="flex items-center gap-3">
+            <a href="/privacy-policy" className="text-[11px] text-[#333] no-underline hover:text-[#555] transition-colors">Политика ПДн</a>
+            <span className="text-[#333]">·</span>
+            <a href="/consent" className="text-[11px] text-[#333] no-underline hover:text-[#555] transition-colors">Согласие на обработку ПДн</a>
+            <span className="text-[#333]">·</span>
+            <span className="text-[11px] text-[#333]">© 2026 {BRAND.name}</span>
+          </div>
         </div>
+      </footer>
 
-        <p style={{ color: '#BBB', fontSize: 12, margin: 0 }}>
-          © 2026 AIVISION · <a href="mailto:support@aivisionpro.ru" style={{ color: '#BBB' }}>support@aivisionpro.ru</a>
-        </p>
-      </div>
-    </footer>
+      <ContactModal open={modal} onClose={() => setModal(false)} source="footer_cta" />
+    </>
   );
 }

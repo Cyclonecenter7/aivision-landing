@@ -1,9 +1,7 @@
 import { useState } from 'react';
-import { trackClick } from '@/lib/tracker';
 import ContactModal from './ContactModal';
 import HeroDashboard from './HeroDashboard';
-
-const clipBtn = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
+import { Btn } from '@/components/ui';
 
 export default function Hero() {
   const [modal, setModal] = useState(false);
@@ -39,18 +37,19 @@ export default function Hero() {
             </h1>
 
             <p className="text-base md:text-lg leading-relaxed mb-10 max-w-md" style={{ color: 'rgba(255,255,255,0.72)' }}>
-              За 30 дней вы видите, где бизнес зарабатывает, где теряет и как управлять ростом через цифры
+              За 30 дней вы увидите, где бизнес зарабатывает, где теряет и как управлять ростом через цифры
             </p>
 
-            <button
-              onClick={() => { trackClick('Получить бесплатный разбор', 'hero_cta'); setModal(true); }}
-              className="hero-cta text-sm font-semibold px-8 py-4 transition-colors inline-block"
-              style={{ clipPath: clipBtn, background: '#fff', color: '#3F6EE8' }}
-              onMouseEnter={e => { e.currentTarget.style.background = '#EEF2FF'; }}
-              onMouseLeave={e => { e.currentTarget.style.background = '#fff'; }}
+            <Btn
+              variant="white"
+              size="lg"
+              track="hero_cta"
+              trackBlock="hero"
+              onClick={() => setModal(true)}
+              className="hero-cta inline-block"
             >
               Получить бесплатный разбор
-            </button>
+            </Btn>
 
             <p className="text-xs mt-3" style={{ color: 'rgba(255,255,255,0.5)' }}>
               Консультация с конкретными шагами к управляемой системе

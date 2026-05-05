@@ -1,0 +1,42 @@
+name: Deploy Landing
+
+on:
+  push:
+    branches: [dev, main]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - run: npm ci
+
+      - name: Set env and deploy path
+        run: |
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_PROD }}" >> $GITHUB_ENV
+            echo "BUILD_MODE=production" >> $GITHUB_ENV
+          else
+            echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
+            echo "BUILD_MODE=development" >> $GITHUB_ENV
+          fi
+
+      - run: npx vite build --mode $BUILD_MODE
+
+      - name: Deploy via rsync
+        run: |
+          mkdir -p ~/.ssh
+          echo "${{ secrets.SSH_KEY }}" | base64 -d > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+
+          rsync -avz --delete \
+            -e "ssh -i ~/.ssh/deploy_key" \
+            dist/ \
+            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$DEPLOY_PATH/dist/

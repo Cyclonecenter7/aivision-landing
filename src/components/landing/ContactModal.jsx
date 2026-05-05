@@ -2,12 +2,13 @@ import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
 import { X } from 'lucide-react';
 import ContactToggleInput from './ContactToggleInput';
+import { Btn } from '@/components/ui';
 
 const clipCard = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
 const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
 
 export default function ContactModal({ open, onClose, source = 'modal' }) {
-  const [form, setForm] = useState({ name: '', contact: '' });
+  const [form, setForm] = useState({ name: '', contact: '', website: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -18,9 +19,25 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
     e.preventDefault();
     setLoading(true);
     setError('');
+    // Honeypot
+    if (form.website) { setSent(true); setLoading(false); return; }
+    // Validation
+    const name = form.name.trim();
+    const contact = form.contact.trim();
+    if (name.length < 2 || name.length > 100) {
+      setError('Имя 2–100 символов'); setLoading(false); return;
+    }
+    if (contact.length < 3 || contact.length > 100) {
+      setError('Контакт 3–100 символов'); setLoading(false); return;
+    }
+    const isPhone = /^\+\d{10,15}$/.test(contact.replace(/\s|-/g, ''));
+    const isTg    = /^@?[a-zA-Z0-9_]{5,32}$/.test(contact);
+    if (!isPhone && !isTg) {
+      setError('Введи телефон (+7...) или telegram (@username)'); setLoading(false); return;
+    }
     try {
-      const contact_type = form.contact.startsWith('+') ? 'phone' : 'telegram';
-      await saveLead({ name: form.name, contact: form.contact, contact_type, source_block: source });
+      const contact_type = isPhone ? 'phone' : 'telegram';
+      await saveLead({ name, contact, contact_type, source_block: source, website: form.website });
       setSent(true);
     } catch (err) {
       setError(err.message || 'Что-то пошло не так. Попробуйте ещё раз.');
@@ -36,6 +53,8 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
 
   return (
     <div
+      data-track="modal_overlay_close"
+      data-track-block="contact_modal"
       className="fixed inset-0 z-50 flex items-center justify-center px-4"
       style={{ background: 'rgba(10,10,10,0.7)', backdropFilter: 'blur(4px)' }}
       onClick={handleClose}
@@ -46,6 +65,8 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
         onClick={e => e.stopPropagation()}
       >
         <button
+          data-track="modal_close"
+          data-track-block="contact_modal"
           onClick={handleClose}
           className="absolute top-5 right-5 text-[#555] hover:text-white transition-colors"
         >
@@ -66,17 +87,26 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
 
         {sent ? (
           <div className="py-6 text-center">
-            <div
-              className="w-12 h-12 bg-[#3F6EE8] mx-auto mb-4 flex items-center justify-center"
-              style={{ clipPath: clipBtn }}
-            >
-              <div className="w-3 h-3 bg-white" />
-            </div>
+            <svg width="48" height="48" viewBox="0 0 256 256" className="mx-auto mb-4">
+              <polygon points="0,0 256,0 256,208 208,256 0,256" fill="#0A0A0A" />
+              <polygon points="72,64 192,64 192,148 156,184 72,184" fill="#3F6EE8" />
+            </svg>
             <div className="text-white font-semibold mb-1">Заявка принята</div>
-            <p className="text-[#555] text-xs">Свяжемся в течение 5 минут</p>
+            <p className="text-[#555] text-xs">Свяжемся в течение часа</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+            {/* Honeypot — скрыто от людей, ловит ботов */}
+            <input
+              type="text"
+              name="website"
+              value={form.website}
+              onChange={e => setForm({ ...form, website: e.target.value })}
+              tabIndex={-1}
+              autoComplete="off"
+              style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
+              aria-hidden="true"
+            />
             <div>
               <label className="text-[#555] text-[10px] uppercase tracking-widest mb-2 block">Имя</label>
               <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-[#3F6EE8] transition-colors">
@@ -109,14 +139,15 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
             {error && (
               <p className="text-[#E5484D] text-xs">{error}</p>
             )}
-            <button
+            <Btn
+              track="modal_submit"
+              trackBlock="contact_modal"
               type="submit"
               disabled={loading}
-              className="mt-2 bg-[#3F6EE8] text-white text-sm font-medium py-4 px-6 hover:bg-blue-700 transition-colors disabled:opacity-50"
-              style={{ clipPath: clipBtn }}
+              className="mt-2 w-full disabled:opacity-50"
             >
               {loading ? 'Отправляем...' : 'Записаться на разбор'}
-            </button>
+            </Btn>
           </form>
         )}
       </div>

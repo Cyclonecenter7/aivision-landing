@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
+import { Btn } from '@/components/ui';
 
 const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%)';
 const clipTag  = 'polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)';
@@ -8,42 +9,47 @@ const TAGS = [
   {
     id: 'excel',
     label: 'Excel / Google Sheets',
-    text: 'Данные уже есть — мы превращаем таблицы в живую систему с автообновлением и наглядными дашбордами',
+    text: 'Подключаемся к вашим таблицам — вы получаете живую систему с автообновлением вместо ручного счёта',
   },
   {
     id: '1c',
     label: '1С',
-    text: 'Подключаемся через REST API и вытягиваем все операции в реальном времени — PnL и ДДС без ручного труда',
+    text: 'Подключаемся к 1С — вы видите PnL, ДДС и все операции в реальном времени без выгрузок',
   },
   {
     id: 'bitrix',
     label: 'Битрикс24',
-    text: 'Берём сделки, воронку и оплаты — строим управленческий дашборд, который показывает реальную картину по продажам',
+    text: 'Подключаемся к Битрикс24 — вы видите реальную картину по продажам, воронке и деньгам',
   },
   {
     id: 'yclients',
     label: 'YCLIENTS',
-    text: 'Записи, выручка по мастерам, загрузка слотов — разбиваем по направлениям и показываем, где деньги',
+    text: 'Подключаемся к YCLIENTS — вы видите выручку, загрузку и маржу по каждому направлению и мастеру',
   },
   {
     id: 'moysklad',
     label: 'МойСклад',
-    text: 'Товарооборот, остатки и маржа по каждому SKU через API — видите прибыльность в разрезе ассортимента',
+    text: 'Подключаемся к МойСклад — вы видите прибыльность по каждому товару и направлению',
   },
   {
     id: 'amocrm',
     label: 'amoCRM',
-    text: 'Воронка, конверсия, LTV — связываем с финансами и показываем, сколько стоит каждый закрытый клиент',
+    text: 'Подключаемся к amoCRM — вы видите сколько стоит каждый клиент и где воронка теряет деньги',
   },
   {
     id: 'planfact',
     label: 'ПланФакт',
-    text: 'Берём ДДС и PnL, добавляем визуальный управленческий слой — собственник видит цифры, а не строки',
+    text: 'Подключаемся к ПланФакт — добавляем визуальный слой и управленческую аналитику поверх',
+  },
+  {
+    id: 'adesk',
+    label: 'Adesk',
+    text: 'Подключаемся к Adesk — строим дашборд собственника и управленческий разрез по направлениям',
   },
   {
     id: 'other',
     label: 'Другое →',
-    text: 'Есть API или выгрузка — подключимся. Нет — придумаем способ забрать данные и автоматизировать учёт',
+    text: 'Если есть API или выгрузка — подключимся. Расскажите что используете — оценим',
   },
 ];
 
@@ -98,7 +104,7 @@ export default function Integrations() {
           Какие системы используете?
         </h2>
         <p className="text-[#555] text-base mb-10 max-w-xl">
-          Выберите — покажем как забираем данные и что строим поверх вашего стека.
+          Выберите систему, в которой вы работаете — мы покажем, как строим систему и интеграцию
         </p>
 
         {/* Tag buttons */}
@@ -108,6 +114,8 @@ export default function Integrations() {
             return (
               <button
                 key={tag.id}
+                data-track={`integration_${tag.id}`}
+                data-track-block="integrations"
                 onClick={() => toggleTag(tag.id)}
                 className="text-sm font-medium px-4 py-2.5 border transition-colors"
                 style={{
@@ -178,14 +186,15 @@ export default function Integrations() {
                         className="w-full bg-transparent text-white text-sm px-4 py-3 focus:outline-none placeholder:text-[#444]"
                       />
                     </div>
-                    <button
+                    <Btn
+                      track="integration_submit"
+                      trackBlock="integrations"
                       type="submit"
                       disabled={loading}
-                      className="bg-[#3F6EE8] text-white text-sm font-medium px-6 py-3 hover:bg-blue-700 transition-colors disabled:opacity-50 whitespace-nowrap"
-                      style={{ clipPath: clipBtn }}
+                      className="disabled:opacity-50 whitespace-nowrap"
                     >
                       {loading ? '...' : 'Связаться →'}
-                    </button>
+                    </Btn>
                   </div>
                   {error && <p className="text-[#E5484D] text-xs">{error}</p>}
                   <p className="text-[#444] text-xs">

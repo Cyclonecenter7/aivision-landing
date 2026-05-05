@@ -2,7 +2,6 @@ import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
 
 const DS_COLORS = { green: '#16A34A', red: '#E5484D', blue: '#3F6EE8' };
-const ch = (px) => ({ clipPath: `polygon(0 0,100% 0,100% calc(100% - ${px}px),calc(100% - ${px}px) 100%,0 100%)` });
 
 // metricColor: 'green' | 'red' | 'blue' (only 3 DS data colors)
 const cases = [
@@ -64,6 +63,8 @@ export default function Cases() {
           {cases.map((c, idx) => (
             <button
               key={c.id}
+              data-track={`case_card_${c.id}`}
+              data-track-block="cases"
               onClick={() => c.available && navigate(`/case/${c.id}`)}
               className={`text-left bg-white border border-[#E8E8E8] flex flex-col transition-all overflow-hidden ${
                 c.available ? 'hover:border-[#3F6EE8] hover:shadow-sm cursor-pointer' : 'opacity-40 cursor-default'

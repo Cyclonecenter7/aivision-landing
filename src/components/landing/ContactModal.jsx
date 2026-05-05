@@ -30,7 +30,7 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
     if (contact.length < 3 || contact.length > 100) {
       setError('Контакт 3–100 символов'); setLoading(false); return;
     }
-    const isPhone = /^\+\d{10,15}$/.test(contact.replace(/\s|-/g, ''));
+    const isPhone = /^\+\d{10,15}$/.test(contact.replace(/[\s\-()]/g, ''));
     const isTg    = /^@?[a-zA-Z0-9_]{5,32}$/.test(contact);
     if (!isPhone && !isTg) {
       setError('Введи телефон (+7...) или telegram (@username)'); setLoading(false); return;

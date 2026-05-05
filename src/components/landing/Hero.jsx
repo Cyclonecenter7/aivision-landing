@@ -42,11 +42,11 @@ export default function Hero() {
 
             <Btn
               variant="white"
-              size="lg"
+              size="none"
               track="hero_cta"
               trackBlock="hero"
               onClick={() => setModal(true)}
-              className="hero-cta inline-block"
+              className="hero-cta inline-block px-8 py-4 text-sm font-semibold"
             >
               Получить бесплатный разбор
             </Btn>

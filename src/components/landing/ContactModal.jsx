@@ -30,10 +30,16 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
     if (contact.length < 3 || contact.length > 100) {
       setError('Контакт 3–100 символов'); setLoading(false); return;
     }
-    const isPhone = /^\+\d{10,15}$/.test(contact.replace(/\s|-/g, ''));
+    const isPhone = /^\+\d{10,15}$/.test(contact.replace(/[\s\-()]/g, ''));
     const isTg    = /^@?[a-zA-Z0-9_]{5,32}$/.test(contact);
     if (!isPhone && !isTg) {
-      setError('Введи телефон (+7...) или telegram (@username)'); setLoading(false); return;
+      if (contact.startsWith('@')) {
+        const handle = contact.slice(1);
+        setError(handle.length < 5 ? 'Ник Telegram: минимум 5 символов' : 'Ник Telegram: только буквы, цифры и _');
+      } else {
+        setError('Введи телефон (+7...) или telegram (@username)');
+      }
+      setLoading(false); return;
     }
     try {
       const contact_type = isPhone ? 'phone' : 'telegram';

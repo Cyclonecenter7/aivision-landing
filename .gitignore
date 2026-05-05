@@ -5,3 +5,8 @@ dist/
 .env.*.local
 .DS_Store
 *.log
+
+# Claude Code worktrees — local copies, не коммитим
+.claude/worktrees/
+
+# Скилы и агенты НЕ игнорим — это часть проектной настройки.

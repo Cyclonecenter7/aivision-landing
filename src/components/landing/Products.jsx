@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import { Target, BarChart2, FileText, Monitor, TrendingUp, Users, Shield, Maximize2 } from 'lucide-react';
 import ContactModal from './ContactModal';
-import { Btn } from '@/components/ui';
+import { Btn, Section, Eyebrow } from '@/components/ui';
 
 const CUT = 28;
 const clipCard = `polygon(0 0, 100% 0, 100% calc(100% - ${CUT}px), calc(100% - ${CUT}px) 100%, 0 100%)`;
@@ -77,22 +77,22 @@ const products = [
 const theme = {
   light: {
     card:     'bg-white border border-[#E8E8E8]',
-    idBg:     'bg-[#3F6EE8]', idText: 'text-white',
+    idBg:     'bg-blue', idText: 'text-white',
     timing:   'text-[#888]',
-    title:    'text-[#0A0A0A]',
+    title:    'text-background',
     subtitle: 'text-[#AAA]',
     desc:     'text-[#666]',
     chipBg:   'bg-[#EEF1FA]',
-    chipText: 'text-[#3F6EE8]',
+    chipText: 'text-blue',
     item:     'text-[#555]',
-    itemDot:  'bg-[#3F6EE8]',
+    itemDot:  'bg-blue',
     tagline:  'text-[#999]',
-    price:    'text-[#0A0A0A]',
+    price:    'text-background',
     btn: 'primary',
   },
   blue: {
-    card:     'bg-[#3F6EE8]',
-    idBg:     'bg-white',  idText: 'text-[#3F6EE8]',
+    card:     'bg-blue',
+    idBg:     'bg-white',  idText: 'text-blue',
     timing:   'text-blue-100',
     title:    'text-white',
     subtitle: 'text-blue-200',
@@ -107,7 +107,7 @@ const theme = {
   },
   dark: {
     card:     'bg-[#181818]',
-    idBg:     'bg-[#3F6EE8]', idText: 'text-white',
+    idBg:     'bg-blue', idText: 'text-white',
     timing:   'text-[#666]',
     title:    'text-white',
     subtitle: 'text-[#666]',
@@ -115,7 +115,7 @@ const theme = {
     chipBg:   'bg-[#252525]',
     chipText: 'text-[#888]',
     item:     'text-[#aaa]',
-    itemDot:  'bg-[#3F6EE8]',
+    itemDot:  'bg-blue',
     tagline:  'text-[#555]',
     price:    'text-white',
     btn: 'primary',
@@ -126,13 +126,9 @@ export default function Products() {
   const [modal, setModal] = useState(false);
   return (
     <>
-    <section id="products" className="bg-[#F0F2F5] py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6">
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-6 h-px bg-[#3F6EE8]" />
-          <span className="text-[#3F6EE8] text-xs font-medium uppercase tracking-widest">Продукты</span>
-        </div>
-        <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] leading-tight mb-10">
+    <Section id="products" className="bg-[#F0F2F5] py-16 md:py-24">
+        <Eyebrow>Продукты</Eyebrow>
+        <h2 className="text-4xl md:text-5xl font-semibold text-background leading-tight mb-10">
           Три продукта — под разный запрос
         </h2>
 
@@ -212,8 +208,7 @@ export default function Products() {
             );
           })}
         </div>
-      </div>
-    </section>
+    </Section>
     {/* ContactModal — вне <section> для надёжности на всех браузерах */}
     <ContactModal open={modal} onClose={() => setModal(false)} source="products_cta" />
     </>

@@ -8,7 +8,7 @@ export default function Footer() {
 
   return (
     <>
-      <footer className="bg-[#0A0A0A]">
+      <footer className="bg-background">
         {/* CTA layer */}
         <div className="max-w-6xl mx-auto px-10 py-8 border-b border-[#1A1A1A] flex items-center justify-between flex-wrap gap-4">
           <div>
@@ -39,7 +39,7 @@ export default function Footer() {
               data-track="footer_email"
               data-track-block="footer"
               href={`mailto:${BRAND.email}`}
-              className="text-[11px] text-[#3F6EE8] no-underline hover:text-blue-400 transition-colors"
+              className="text-[11px] text-blue no-underline hover:text-blue-400 transition-colors"
             >
               {BRAND.email}
             </a>

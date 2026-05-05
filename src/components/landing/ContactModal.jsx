@@ -80,8 +80,8 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
         </button>
 
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-6 h-px bg-[#3F6EE8]" />
-          <span className="text-[#3F6EE8] text-xs font-medium uppercase tracking-widest">Записаться на разбор</span>
+          <div className="w-6 h-px bg-blue" />
+          <span className="text-blue text-xs font-medium uppercase tracking-widest">Записаться на разбор</span>
         </div>
 
         <h3 className="text-white text-2xl font-bold leading-snug mb-2">
@@ -115,7 +115,7 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
             />
             <div>
               <label className="text-[#555] text-[10px] uppercase tracking-widest mb-2 block">Имя</label>
-              <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-[#3F6EE8] transition-colors">
+              <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-blue transition-colors">
                 <input
                   required
                   value={form.name}
@@ -143,7 +143,7 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
               </span>
             </label>
             {error && (
-              <p className="text-[#E5484D] text-xs">{error}</p>
+              <p className="text-red text-xs">{error}</p>
             )}
             <Btn
               track="modal_submit"

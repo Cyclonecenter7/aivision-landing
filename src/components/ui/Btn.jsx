@@ -1,9 +1,9 @@
 const VARIANTS = {
-  primary:   'bg-[#3F6EE8] text-white hover:bg-[#5180F0]',
-  secondary: 'bg-[#252525] text-white border border-[#3A3A3A] hover:bg-[#2F2F2F]',
+  primary:   'bg-blue text-white hover:bg-blue/90',
+  secondary: 'bg-dark2 text-white border border-[#3A3A3A] hover:bg-[#2F2F2F]',
   ghost:     'bg-transparent text-[#888] hover:text-white',
-  dark:      'bg-[#0A0A0A] text-white hover:bg-[#3F6EE8]',
-  white:     'bg-white text-[#3F6EE8] hover:bg-[#EEF2FF]',
+  dark:      'bg-background text-white hover:bg-blue',
+  white:     'bg-white text-blue hover:bg-[#EEF2FF]',
 };
 const SIZES = {
   sm:   'px-4 py-2 text-xs',

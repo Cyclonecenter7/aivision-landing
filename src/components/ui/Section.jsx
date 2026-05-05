@@ -1,7 +1,9 @@
-export default function Section({ id, className = '', children }) {
+export default function Section({ id, className = '', innerClassName = '', children }) {
   return (
-    <section id={id} className={`py-20 px-6 max-w-6xl mx-auto ${className}`}>
-      {children}
+    <section id={id} className={className}>
+      <div className={`max-w-6xl mx-auto px-6 ${innerClassName}`}>
+        {children}
+      </div>
     </section>
   );
 }

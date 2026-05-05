@@ -1,3 +1,5 @@
+import { Section, Eyebrow } from '@/components/ui';
+
 const problems = [
   'Прибыль есть, но непонятно где она теряется',
   'Отчёты существуют, но не управляют решениями',
@@ -14,15 +16,11 @@ const chaosBlocks = [
 
 export default function Problem() {
   return (
-    <section className="bg-[#F4F4F5] py-16 md:py-24 overflow-hidden">
-      <div className="max-w-6xl mx-auto px-6">
+    <Section className="bg-[#F4F4F5] py-16 md:py-24 overflow-hidden">
 
         {/* Header */}
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-6 h-px bg-[#E5484D]" />
-          <span className="text-[#E5484D] text-xs font-medium uppercase tracking-widest">Проблема</span>
-        </div>
-        <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] leading-tight mb-12">
+        <Eyebrow color="red">Проблема</Eyebrow>
+        <h2 className="text-4xl md:text-5xl font-semibold text-background leading-tight mb-12">
           Если бизнес растёт,<br />но управляемости нет
         </h2>
 
@@ -37,10 +35,10 @@ export default function Problem() {
               return (
                 <div
                   key={i}
-                  className="bg-[#0A0A0A] p-3 flex items-start gap-3"
+                  className="bg-background p-3 flex items-start gap-3"
                   style={{ width: b.width, marginLeft: b.ml, transform: `rotate(${b.rotate})` }}
                 >
-                  <div className="w-1 self-stretch bg-[#E5484D] flex-shrink-0 rounded-full" />
+                  <div className="w-1 self-stretch bg-red flex-shrink-0 rounded-full" />
                   <span className="text-white text-xs leading-relaxed">{text}</span>
                 </div>
               );
@@ -54,11 +52,11 @@ export default function Problem() {
             </svg>
           </div>
           <div className="hidden md:flex flex-col items-center justify-center gap-2 self-center">
-            <div className="w-px h-12 bg-[#3F6EE8] opacity-30" />
+            <div className="w-px h-12 bg-blue opacity-30" />
             <svg width="24" height="24" viewBox="0 0 24 24" fill="none">
               <path d="M5 12H19M19 12L13 6M19 12L13 18" stroke="#3F6EE8" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"/>
             </svg>
-            <div className="w-px h-12 bg-[#3F6EE8] opacity-30" />
+            <div className="w-px h-12 bg-blue opacity-30" />
           </div>
 
           {/* RIGHT — Mini-dashboard */}
@@ -120,7 +118,6 @@ export default function Problem() {
           </div>
         </div>
 
-      </div>
-    </section>
+    </Section>
   );
 }

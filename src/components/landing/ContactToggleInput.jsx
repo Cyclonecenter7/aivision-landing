@@ -46,13 +46,13 @@ export default function ContactToggleInput({ value, onChange, dark = false }) {
   const displayValue = value;
 
   const bg      = dark ? 'bg-[#252525]' : 'bg-[#F4F6FA]';
-  const border  = dark ? 'border-[#2A2A2A] focus-within:border-[#3F6EE8]' : 'border-[#E8E8E8] focus-within:border-[#3F6EE8]';
-  const text    = dark ? 'text-white' : 'text-[#0A0A0A]';
+  const border  = dark ? 'border-[#2A2A2A] focus-within:border-blue' : 'border-[#E8E8E8] focus-within:border-blue';
+  const text    = dark ? 'text-white' : 'text-background';
   const ph      = dark ? 'placeholder:text-[#444]' : 'placeholder:text-[#BBB]';
-  const prefix  = dark ? 'text-[#3F6EE8]' : 'text-[#3F6EE8]';
+  const prefix  = dark ? 'text-blue' : 'text-blue';
   const tabBase = 'text-[10px] font-semibold uppercase tracking-widest px-3 py-1.5 transition-colors cursor-pointer';
   const tabOff  = dark ? 'text-[#555] hover:text-[#888]' : 'text-[#AAA] hover:text-[#666]';
-  const tabOn   = dark ? 'text-white bg-[#3F6EE8]' : 'text-white bg-[#3F6EE8]';
+  const tabOn   = dark ? 'text-white bg-blue' : 'text-white bg-blue';
 
   return (
     <div>

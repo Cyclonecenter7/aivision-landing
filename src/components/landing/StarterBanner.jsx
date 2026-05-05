@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import { X } from 'lucide-react';
 import { saveLead } from '@/lib/tracker';
 import { BRAND } from '@/config/brand';
-import { Btn } from '@/components/ui';
+import { Btn, Eyebrow } from '@/components/ui';
 
 const clipCard  = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
 const clipModal = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
@@ -37,7 +37,7 @@ export default function StarterBanner() {
         <div
           data-track="banner_open"
           data-track-block="starter_banner"
-          className="fixed bottom-6 right-6 z-40 cursor-pointer w-72 select-none bg-[#0A0A0A] border border-[#333] px-5 pt-4 pb-[18px]"
+          className="fixed bottom-6 right-6 z-40 cursor-pointer w-72 select-none bg-background border border-[#333] px-5 pt-4 pb-[18px]"
           style={{ clipPath: clipCard }}
           onClick={handleBannerClick}
         >
@@ -82,12 +82,7 @@ export default function StarterBanner() {
             </button>
 
             {/* Header */}
-            <div className="flex items-center gap-3 mb-2">
-              <div className="w-6 h-px bg-[#3F6EE8]" />
-              <span className="text-[#3F6EE8] text-xs font-semibold uppercase tracking-widest">
-                Стартовый стек
-              </span>
-            </div>
+            <Eyebrow className="mb-2">Стартовый стек</Eyebrow>
             <h2 className="text-white text-2xl font-bold leading-snug mb-6">
               Всё для старта — за 7 дней под ключ
             </h2>
@@ -95,7 +90,7 @@ export default function StarterBanner() {
             {/* Two-column product grid */}
             <div className="grid md:grid-cols-2 gap-4 mb-6">
               <div className="bg-[#252525] p-5">
-                <div className="text-[#3F6EE8] text-[10px] font-semibold uppercase tracking-widest mb-2">
+                <div className="text-blue text-[10px] font-semibold uppercase tracking-widest mb-2">
                   01 — Сайт
                 </div>
                 <p className="text-[#AAA] text-sm leading-relaxed">
@@ -104,13 +99,13 @@ export default function StarterBanner() {
                 </p>
               </div>
               <div className="bg-[#252525] p-5">
-                <div className="text-[#3F6EE8] text-[10px] font-semibold uppercase tracking-widest mb-3">
+                <div className="text-blue text-[10px] font-semibold uppercase tracking-widest mb-3">
                   02 — Система управления
                 </div>
                 <div className="flex flex-col gap-1.5">
                   {['Дашборд — общая статистика', 'Базовый финучёт', 'База клиентов', 'Задачи и трекер дедлайнов'].map((item, i) => (
                     <div key={i} className="flex items-start gap-2">
-                      <div className="w-1 h-1 mt-1.5 bg-[#3F6EE8] rounded-full flex-shrink-0" />
+                      <div className="w-1 h-1 mt-1.5 bg-blue rounded-full flex-shrink-0" />
                       <span className="text-[#AAA] text-sm">{item}</span>
                     </div>
                   ))}
@@ -119,7 +114,7 @@ export default function StarterBanner() {
             </div>
 
             {/* Pricing */}
-            <div className="flex items-center justify-between flex-wrap gap-3 px-5 py-4 mb-6 bg-[#0A0A0A] border border-[#2A2A2A]">
+            <div className="flex items-center justify-between flex-wrap gap-3 px-5 py-4 mb-6 bg-background border border-[#2A2A2A]">
               <span className="text-white text-sm font-semibold">Стоимость под ключ</span>
               <div className="flex items-center gap-4">
                 <span className="text-white text-xl font-bold">{BRAND.promoAmount}</span>
@@ -206,7 +201,7 @@ function StarterForm() {
       <div className="grid md:grid-cols-2 gap-4">
         <div>
           <label className="text-[#555] text-[10px] uppercase tracking-widest mb-2 block">Имя</label>
-          <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-[#3F6EE8] transition-colors">
+          <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-blue transition-colors">
             <input
               required
               value={form.name}
@@ -218,7 +213,7 @@ function StarterForm() {
         </div>
         <div>
           <label className="text-[#555] text-[10px] uppercase tracking-widest mb-2 block">Telegram / Телефон</label>
-          <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-[#3F6EE8] transition-colors">
+          <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-blue transition-colors">
             <input
               required
               value={form.contact}
@@ -241,7 +236,7 @@ function StarterForm() {
           </a>
         </span>
       </label>
-      {error && <p className="text-[#E5484D] text-xs">{error}</p>}
+      {error && <p className="text-red text-xs">{error}</p>}
       <Btn
         track="banner_submit"
         trackBlock="starter_banner"

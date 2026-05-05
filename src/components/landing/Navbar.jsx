@@ -219,7 +219,7 @@ export default function Navbar() {
                 track={`mobile_nav_${link.href.replace('#', '')}`}
                 trackBlock="navbar"
                 onClick={() => handleNavClick(link.href)}
-                className="text-left p-0 text-[#666] hover:text-[#0A0A0A]"
+                className="text-left p-0 text-[#666] hover:text-background"
                 style={{ clipPath: 'none' }}
               >
                 {link.label}

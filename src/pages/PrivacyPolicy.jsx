@@ -20,8 +20,8 @@ export default function PrivacyPolicy() {
       <Navbar />
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '96px 24px 64px', fontFamily: 'Inter, sans-serif' }}>
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-6 h-px bg-[#3F6EE8]" />
-          <span className="text-[#3F6EE8] text-xs font-medium uppercase tracking-widest">Правовая информация</span>
+          <div className="w-6 h-px bg-blue" />
+          <span className="text-blue text-xs font-medium uppercase tracking-widest">Правовая информация</span>
         </div>
 
         <h1 style={{ fontSize: 28, fontWeight: 700, color: '#0A0A0A', marginBottom: 8 }}>

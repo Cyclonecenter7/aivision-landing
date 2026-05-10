@@ -344,7 +344,7 @@ export default function Products() {
 
   return (
     <>
-      <Section id="products" className="bg-[#F0F2F5] py-16 md:py-24">
+      <Section id="products" className="bg-[#E2E6EF] py-16 md:py-24">
         <Eyebrow>Продукты</Eyebrow>
         <h2
           style={{ fontSize: 'clamp(28px, 4vw, 40px)', fontWeight: 700, color: '#0A0A0A', lineHeight: 1.2, marginBottom: 32, marginTop: 12 }}

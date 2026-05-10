@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { saveLead } from '@/lib/tracker';
 import { X } from 'lucide-react';
 import ContactToggleInput from './ContactToggleInput';
@@ -7,11 +7,19 @@ import { Btn } from '@/components/ui';
 const clipCard = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
 const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
 
-export default function ContactModal({ open, onClose, source = 'modal' }) {
+export default function ContactModal({ open, onClose, source = 'modal', demoGate = false }) {
   const [form, setForm] = useState({ name: '', contact: '', website: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+
+  // Auto-redirect to /demo/ in same tab after demo-gate submit success
+  useEffect(() => {
+    if (sent && demoGate) {
+      const id = setTimeout(() => { window.location.href = '/demo/'; }, 1500);
+      return () => clearTimeout(id);
+    }
+  }, [sent, demoGate]);
 
   if (!open) return null;
 
@@ -80,15 +88,19 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
         </button>
 
         <div className="flex items-center gap-3 mb-5">
-          <div className="w-6 h-px bg-[#3F6EE8]" />
-          <span className="text-[#3F6EE8] text-xs font-medium uppercase tracking-widest">Записаться на разбор</span>
+          <div className="w-6 h-px bg-blue" />
+          <span className="text-blue text-xs font-medium uppercase tracking-widest">
+            {demoGate ? 'Доступ к демо' : 'Записаться на разбор'}
+          </span>
         </div>
 
         <h3 className="text-white text-2xl font-bold leading-snug mb-2">
-          Оставьте контакт
+          {demoGate ? 'Откройте демо платформы' : 'Оставьте контакт'}
         </h3>
         <p className="text-[#555] text-sm mb-8">
-          Свяжемся в течение 5 минут. Разбор бесплатный.
+          {demoGate
+            ? 'Оставьте контакт — откроем доступ к интерактивному демо.'
+            : 'Свяжемся в течение 5 минут. Разбор бесплатный.'}
         </p>
 
         {sent ? (
@@ -97,8 +109,40 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
               <polygon points="0,0 256,0 256,208 208,256 0,256" fill="#0A0A0A" />
               <polygon points="72,64 192,64 192,148 156,184 72,184" fill="#3F6EE8" />
             </svg>
-            <div className="text-white font-semibold mb-1">Заявка принята</div>
-            <p className="text-[#555] text-xs">Свяжемся в течение часа</p>
+            {demoGate ? (
+              <>
+                <div className="text-white font-semibold mb-1">Спасибо за контакт</div>
+                <p className="text-[#555] text-xs mb-5">Открываем демо…</p>
+                <Btn
+                  track="modal_demo_gate_open"
+                  trackBlock="contact_modal"
+                  onClick={() => { window.location.href = '/demo/'; }}
+                  className="w-full"
+                >
+                  Перейти в демо
+                </Btn>
+              </>
+            ) : (
+              <>
+                <div className="text-white font-semibold mb-1">Заявка принята</div>
+                <p className="text-[#555] text-xs mb-6">Свяжемся в течение часа</p>
+
+                <div className="border-t border-[#2A2A2A] pt-5 mt-2">
+                  <p className="text-[#888] text-xs mb-3 leading-relaxed">
+                    Пока мы связываемся —<br />посмотрите будущую систему
+                  </p>
+                  <a
+                    href="/demo/"
+                    data-track="modal_success_demo"
+                    data-track-block="contact_modal"
+                    className="inline-flex items-center gap-2 text-blue text-sm font-semibold no-underline hover:opacity-80 transition-opacity"
+                  >
+                    Открыть демо платформы
+                    <span aria-hidden>→</span>
+                  </a>
+                </div>
+              </>
+            )}
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="flex flex-col gap-4">
@@ -115,7 +159,7 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
             />
             <div>
               <label className="text-[#555] text-[10px] uppercase tracking-widest mb-2 block">Имя</label>
-              <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-[#3F6EE8] transition-colors">
+              <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-blue transition-colors">
                 <input
                   required
                   value={form.name}
@@ -143,7 +187,7 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
               </span>
             </label>
             {error && (
-              <p className="text-[#E5484D] text-xs">{error}</p>
+              <p className="text-red text-xs">{error}</p>
             )}
             <Btn
               track="modal_submit"
@@ -152,7 +196,9 @@ export default function ContactModal({ open, onClose, source = 'modal' }) {
               disabled={loading}
               className="mt-2 w-full disabled:opacity-50"
             >
-              {loading ? 'Отправляем...' : 'Записаться на разбор'}
+              {loading
+                ? 'Отправляем...'
+                : demoGate ? 'Открыть демо' : 'Записаться на разбор'}
             </Btn>
           </form>
         )}

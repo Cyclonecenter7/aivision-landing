@@ -1,6 +1,8 @@
 import { useState, useLayoutEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link, useNavigate, useParams, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { SEO } from '@/lib/seo';
 import DashboardSlider from '@/components/landing/DashboardSlider';
 import ContactModal from '@/components/landing/ContactModal';
 import { CASES } from '@/data/cases';
@@ -19,6 +21,9 @@ export default function CasePage() {
 
   useLayoutEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [id]);
 
+  const seoKey = 'case' + id;
+  const seo = SEO[seoKey] || SEO.home;
+
   const handleBack = () => {
     navigate('/');
     setTimeout(() => {
@@ -29,13 +34,22 @@ export default function CasePage() {
 
   return (
     <div className="min-h-screen bg-[#F4F4F5] font-inter">
+      <Helmet>
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <link rel="canonical" href={seo.url} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
+        <meta property="og:url" content={seo.url} />
+      </Helmet>
       {/* Nav */}
       <div className="max-w-6xl mx-auto px-6 pt-6 flex items-center justify-between">
-        <Btn variant="ghost" size="sm" className="inline-flex items-center gap-2 text-[#666] hover:text-[#0A0A0A] p-0" style={{ clipPath: 'none' }} onClick={handleBack}>
+        <Btn variant="ghost" size="sm" className="inline-flex items-center gap-2 text-[#666] hover:text-background p-0" style={{ clipPath: 'none' }} onClick={handleBack}>
           <ArrowLeft size={16} />
           Назад
         </Btn>
-        <Link to={`/case/${c.nextId}`} className="inline-flex items-center gap-2 text-[#3F6EE8] hover:text-blue-700 transition-colors text-sm font-medium">
+        <Link to={`/case/${c.nextId}`} className="inline-flex items-center gap-2 text-blue hover:text-blue-700 transition-colors text-sm font-medium">
           {c.nextLabel} <ArrowRight size={16} />
         </Link>
       </div>
@@ -52,7 +66,7 @@ export default function CasePage() {
             </div>
             <span className="text-[#AAA] text-xs">{c.tagSub}</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold text-[#0A0A0A] leading-tight mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-background leading-tight mb-4">
             {c.titleLine1}<br className="hidden md:block" /> {c.titleLine2}
           </h1>
           <p className="text-[#888] text-sm max-w-xl leading-relaxed">{c.description}</p>
@@ -66,13 +80,13 @@ export default function CasePage() {
             {/* Problem */}
             <div className="bg-white border border-[#E8E8E8] p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-6 h-px bg-[#E5484D]" />
-                <span className="text-[#E5484D] text-[10px] font-semibold uppercase tracking-widest">Точка А — Проблема</span>
+                <div className="w-6 h-px bg-red" />
+                <span className="text-red text-[10px] font-semibold uppercase tracking-widest">Точка А — Проблема</span>
               </div>
               <p className="text-[#555] text-sm leading-relaxed mb-4">{c.problemsIntro}</p>
               {c.problems.map((p, i) => (
                 <div key={i} className="flex items-start gap-2.5 mb-2">
-                  <div className="w-1.5 h-1.5 mt-1.5 bg-[#E5484D] rounded-full flex-shrink-0" />
+                  <div className="w-1.5 h-1.5 mt-1.5 bg-red rounded-full flex-shrink-0" />
                   <span className="text-[#666] text-sm leading-relaxed">{p}</span>
                 </div>
               ))}
@@ -81,19 +95,19 @@ export default function CasePage() {
             {/* Actions */}
             <div className="bg-white border border-[#E8E8E8] p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-6 h-px bg-[#3F6EE8]" />
-                <span className="text-[#3F6EE8] text-[10px] font-semibold uppercase tracking-widest">Что сделали</span>
+                <div className="w-6 h-px bg-blue" />
+                <span className="text-blue text-[10px] font-semibold uppercase tracking-widest">Что сделали</span>
               </div>
               {c.actions.map(a => (
                 <div key={a.n} className="flex items-start gap-3 mb-3 bg-[#F8F9FC] border border-[#E8EEF8] p-4">
                   <div
-                    className="w-7 h-7 bg-[#3F6EE8] flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0"
+                    className="w-7 h-7 bg-blue flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0"
                     style={{ clipPath: clipNum }}
                   >
                     {a.n}
                   </div>
                   <div>
-                    <div className="text-[#0A0A0A] text-sm font-semibold mb-0.5">{a.t}</div>
+                    <div className="text-background text-sm font-semibold mb-0.5">{a.t}</div>
                     <div className="text-[#888] text-xs">{a.d}</div>
                   </div>
                 </div>
@@ -103,8 +117,8 @@ export default function CasePage() {
             {/* Results */}
             <div className="bg-white border border-[#E8E8E8] p-6">
               <div className="flex items-center gap-3 mb-4">
-                <div className="w-6 h-px bg-[#0A0A0A]" />
-                <span className="text-[#0A0A0A] text-[10px] font-semibold uppercase tracking-widest">Результат</span>
+                <div className="w-6 h-px bg-background" />
+                <span className="text-background text-[10px] font-semibold uppercase tracking-widest">Результат</span>
               </div>
               <div className="grid grid-cols-3 gap-3">
                 {c.results.map((r, i) => (
@@ -115,7 +129,7 @@ export default function CasePage() {
                 ))}
               </div>
               <p className="text-[#555] text-sm leading-relaxed mt-4 pt-4 border-t border-[#F0F0F0]">
-                <span className="text-[#0A0A0A] font-semibold">Главное: </span>
+                <span className="text-background font-semibold">Главное: </span>
                 {c.resultsSummary}
               </p>
             </div>
@@ -129,7 +143,7 @@ export default function CasePage() {
 
         {/* CTA */}
         <div
-          className="mt-12 bg-[#0A0A0A] p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+          className="mt-12 bg-background p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
           style={{ clipPath: 'polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%)' }}
         >
           <div>

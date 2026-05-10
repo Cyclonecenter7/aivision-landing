@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
-import { Btn } from '@/components/ui';
+import { Btn, Section, Eyebrow } from '@/components/ui';
 
 const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 14px), calc(100% - 14px) 100%, 0 100%)';
 const clipTag  = 'polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%)';
@@ -92,14 +92,10 @@ export default function Integrations() {
   const activeTags = TAGS.filter(t => selected.has(t.id));
 
   return (
-    <section className="bg-[#0A0A0A] py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6">
+    <Section className="bg-background py-16 md:py-24">
 
         {/* Header */}
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-6 h-px bg-[#3F6EE8]" />
-          <span className="text-[#3F6EE8] text-xs font-medium uppercase tracking-widest">Интеграции</span>
-        </div>
+        <Eyebrow>Интеграции</Eyebrow>
         <h2 className="text-4xl md:text-5xl font-semibold text-white leading-tight mb-4">
           Какие системы используете?
         </h2>
@@ -149,9 +145,9 @@ export default function Integrations() {
             <div className="flex flex-col gap-4">
               {activeTags.map(tag => (
                 <div key={tag.id} className="flex items-start gap-3">
-                  <div className="w-0.5 self-stretch bg-[#3F6EE8] flex-shrink-0 mt-0.5" />
+                  <div className="w-0.5 self-stretch bg-blue flex-shrink-0 mt-0.5" />
                   <div>
-                    <div className="text-[#3F6EE8] text-[10px] font-semibold uppercase tracking-widest mb-1">
+                    <div className="text-blue text-[10px] font-semibold uppercase tracking-widest mb-1">
                       {tag.label}
                     </div>
                     <p className="text-[#AAA] text-sm leading-relaxed">{tag.text}</p>
@@ -172,12 +168,12 @@ export default function Integrations() {
               </div>
             ) : (
               <>
-                <div className="text-[#3F6EE8] text-[10px] font-semibold uppercase tracking-widest mb-4">
+                <div className="text-blue text-[10px] font-semibold uppercase tracking-widest mb-4">
                   Шаг 2 — оставьте Telegram
                 </div>
                 <form onSubmit={handleSubmit} className="flex flex-col gap-3">
                   <div className="flex flex-col sm:flex-row gap-3">
-                    <div className="flex-1 bg-[#252525] border border-[#333] focus-within:border-[#3F6EE8] transition-colors">
+                    <div className="flex-1 bg-[#252525] border border-[#333] focus-within:border-blue transition-colors">
                       <input
                         required
                         value={contact}
@@ -196,7 +192,7 @@ export default function Integrations() {
                       {loading ? '...' : 'Связаться →'}
                     </Btn>
                   </div>
-                  {error && <p className="text-[#E5484D] text-xs">{error}</p>}
+                  {error && <p className="text-red text-xs">{error}</p>}
                   <p className="text-[#444] text-xs">
                     Ответим в течение 5 минут. Первый разбор — бесплатно.
                   </p>
@@ -206,7 +202,6 @@ export default function Integrations() {
           </div>
         )}
 
-      </div>
-    </section>
+    </Section>
   );
 }

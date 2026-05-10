@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { BrowserRouter as Router, Route, Routes } from 'react-router-dom';
+import ErrorBoundary from './lib/ErrorBoundary';
 import PageNotFound from './lib/PageNotFound';
 import { trackClick } from '@/lib/tracker';
 
@@ -23,15 +24,17 @@ function App() {
   }, []);
 
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Landing />} />
-        <Route path="/case/:id" element={<CasePage />} />
-        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
-        <Route path="/consent" element={<Consent />} />
-        <Route path="*" element={<PageNotFound />} />
-      </Routes>
-    </Router>
+    <ErrorBoundary>
+      <Router>
+        <Routes>
+          <Route path="/" element={<Landing />} />
+          <Route path="/case/:id" element={<CasePage />} />
+          <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+          <Route path="/consent" element={<Consent />} />
+          <Route path="*" element={<PageNotFound />} />
+        </Routes>
+      </Router>
+    </ErrorBoundary>
   );
 }
 

@@ -1,5 +1,6 @@
 import { useNavigate } from 'react-router-dom';
 import { ArrowRight } from 'lucide-react';
+import { Section, Eyebrow } from '@/components/ui';
 
 const DS_COLORS = { green: '#16A34A', red: '#E5484D', blue: '#3F6EE8' };
 
@@ -47,14 +48,10 @@ export default function Cases() {
   const navigate = useNavigate();
 
   return (
-    <section id="cases" className="bg-[#F4F4F5] py-16 md:py-24">
-      <div className="max-w-6xl mx-auto px-6">
+    <Section id="cases" className="bg-[#F4F4F5] py-16 md:py-24">
 
-        <div className="flex items-center gap-3 mb-5">
-          <div className="w-6 h-px bg-[#3F6EE8]" />
-          <span className="text-[#3F6EE8] text-xs font-medium uppercase tracking-widest">Кейсы</span>
-        </div>
-        <h2 className="text-4xl md:text-5xl font-semibold text-[#0A0A0A] leading-tight mb-10">
+        <Eyebrow>Кейсы</Eyebrow>
+        <h2 className="text-4xl md:text-5xl font-semibold text-background leading-tight mb-10">
           Результаты в цифрах
         </h2>
 
@@ -67,11 +64,11 @@ export default function Cases() {
               data-track-block="cases"
               onClick={() => c.available && navigate(`/case/${c.id}`)}
               className={`text-left bg-white border border-[#E8E8E8] flex flex-col transition-all overflow-hidden ${
-                c.available ? 'hover:border-[#3F6EE8] hover:shadow-sm cursor-pointer' : 'opacity-40 cursor-default'
+                c.available ? 'hover:border-blue hover:shadow-sm cursor-pointer' : 'opacity-40 cursor-default'
               }`}
             >
               {/* Hero preview block */}
-              <div className="w-full flex-shrink-0 bg-[#3F6EE8] px-6 py-5 flex items-end justify-between">
+              <div className="w-full flex-shrink-0 bg-blue px-6 py-5 flex items-end justify-between">
                 <div className="text-white text-5xl font-black leading-none tracking-tight opacity-90">{c.hero.value}</div>
                 <div className="text-white/40 text-[10px] uppercase tracking-widest font-medium text-right leading-relaxed">{c.hero.label}<br/>{c.hero.sub}</div>
               </div>
@@ -79,7 +76,7 @@ export default function Cases() {
               <div className="p-6 flex flex-col flex-1">
                 {/* Tag */}
                 <div className="flex items-center justify-between mb-5">
-                  <div className="bg-[#EEF3FD] px-2.5 py-1 text-[#3F6EE8] text-[10px] font-semibold uppercase tracking-widest">
+                  <div className="bg-[#EEF3FD] px-2.5 py-1 text-blue text-[10px] font-semibold uppercase tracking-widest">
                     {c.tag}
                   </div>
                   {!c.available && (
@@ -88,7 +85,7 @@ export default function Cases() {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-[#0A0A0A] text-base font-semibold leading-snug mb-2">{c.title}</h3>
+                <h3 className="text-background text-base font-semibold leading-snug mb-2">{c.title}</h3>
                 {c.context && (
                   <p style={{ fontSize: 12, color: '#999', fontStyle: 'italic', marginBottom: 8 }}>{c.context}</p>
                 )}
@@ -105,7 +102,7 @@ export default function Cases() {
                 </div>
 
                 {c.available && (
-                  <div className="flex items-center gap-2 text-[#3F6EE8] text-xs font-medium">
+                  <div className="flex items-center gap-2 text-blue text-xs font-medium">
                     Читать кейс <ArrowRight size={12} />
                   </div>
                 )}
@@ -113,9 +110,8 @@ export default function Cases() {
             </button>
           ))}
         </div>
-      </div>
 
 
-    </section>
+    </Section>
   );
 }

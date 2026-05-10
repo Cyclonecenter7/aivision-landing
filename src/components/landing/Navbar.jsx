@@ -9,6 +9,7 @@ const navLinks = [
   { label: 'Продукты', href: '#products' },
   { label: 'Кейсы', href: '#cases' },
   { label: 'Отличие', href: '#comparison' },
+  { label: 'Демо', demoGate: true },
 ];
 
 const clipBtn = 'polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%)';
@@ -88,6 +89,7 @@ export default function Navbar() {
   const [menuOpen, setMenuOpen]   = useState(false);
   const [themeName, setThemeName] = useState('hero');
   const [modal, setModal]         = useState(false);
+  const [demoModal, setDemoModal] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
 
@@ -161,7 +163,22 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center" style={{ gap: 32 }}>
-            {navLinks.map(link => (
+            {navLinks.map(link => link.demoGate ? (
+              <Btn
+                key={link.label}
+                variant="ghost"
+                size="sm"
+                track="nav_demo_gate"
+                trackBlock="navbar"
+                onClick={() => setDemoModal(true)}
+                className="p-0"
+                style={{ fontSize: 13, fontWeight: 500, color: t.link, transition: 'color 0.2s', clipPath: 'none' }}
+                onMouseEnter={e => { e.currentTarget.style.color = t.linkHover; }}
+                onMouseLeave={e => { e.currentTarget.style.color = t.link; }}
+              >
+                {link.label}
+              </Btn>
+            ) : (
               <Btn
                 key={link.label}
                 variant="ghost"
@@ -211,7 +228,20 @@ export default function Navbar() {
         {/* Mobile dropdown — всегда светлый */}
         {menuOpen && (
           <div className="md:hidden bg-white border-b border-[#E8E8E8] px-6 py-4 flex flex-col gap-4">
-            {navLinks.map(link => (
+            {navLinks.map(link => link.demoGate ? (
+              <Btn
+                key={link.label}
+                variant="ghost"
+                size="sm"
+                track="mobile_nav_demo_gate"
+                trackBlock="navbar"
+                onClick={() => { setMenuOpen(false); setDemoModal(true); }}
+                className="text-left p-0 text-[#666] hover:text-background"
+                style={{ clipPath: 'none' }}
+              >
+                {link.label}
+              </Btn>
+            ) : (
               <Btn
                 key={link.label}
                 variant="ghost"
@@ -219,7 +249,7 @@ export default function Navbar() {
                 track={`mobile_nav_${link.href.replace('#', '')}`}
                 trackBlock="navbar"
                 onClick={() => handleNavClick(link.href)}
-                className="text-left p-0 text-[#666] hover:text-[#0A0A0A]"
+                className="text-left p-0 text-[#666] hover:text-background"
                 style={{ clipPath: 'none' }}
               >
                 {link.label}
@@ -241,6 +271,12 @@ export default function Navbar() {
       {/* ContactModal рендерится ВНЕ <nav> — иначе backdropFilter на nav
           создаёт новый stacking context и ломает position:fixed у модалки */}
       <ContactModal open={modal} onClose={() => setModal(false)} source="navbar_cta" />
+      <ContactModal
+        open={demoModal}
+        onClose={() => setDemoModal(false)}
+        source="navbar_demo_gate"
+        demoGate
+      />
     </>
   );
 }

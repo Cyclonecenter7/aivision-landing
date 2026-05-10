@@ -45,6 +45,17 @@ export default function Footer() {
             </a>
           </div>
           <div className="flex items-center gap-3">
+            <a
+              href="/demo/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="footer_demo"
+              data-track-block="footer"
+              className="text-[11px] text-[#333] no-underline hover:text-[#555] transition-colors"
+            >
+              Демо платформы
+            </a>
+            <span className="text-[#333]">·</span>
             <a href="/privacy-policy" className="text-[11px] text-[#333] no-underline hover:text-[#555] transition-colors">Политика ПДн</a>
             <span className="text-[#333]">·</span>
             <a href="/consent" className="text-[11px] text-[#333] no-underline hover:text-[#555] transition-colors">Согласие на обработку ПДн</a>

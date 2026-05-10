@@ -1,0 +1,6 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512" width="512" height="512">
+  <!-- Full square background — required for maskable PWA icons -->
+  <rect width="512" height="512" fill="#0A0A0A"/>
+  <!-- AIVISION logo: rectangle with chamfered bottom-right corner, inset for safe zone -->
+  <path d="M 144 128 L 384 128 L 384 296 L 312 368 L 144 368 Z" fill="#3F6EE8"/>
+</svg>

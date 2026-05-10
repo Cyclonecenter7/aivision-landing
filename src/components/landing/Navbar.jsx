@@ -9,6 +9,7 @@ const navLinks = [
   { label: 'Продукты', href: '#products' },
   { label: 'Кейсы', href: '#cases' },
   { label: 'Отличие', href: '#comparison' },
+  { label: 'Демо', href: '/demo/', external: true },
 ];
 
 const clipBtn = 'polygon(0 0, 100% 0, 100% calc(100% - 12px), calc(100% - 12px) 100%, 0 100%)';
@@ -161,7 +162,21 @@ export default function Navbar() {
 
           {/* Desktop links */}
           <div className="hidden md:flex items-center" style={{ gap: 32 }}>
-            {navLinks.map(link => (
+            {navLinks.map(link => link.external ? (
+              <a
+                key={link.label}
+                href={link.href}
+                target="_blank"
+                rel="noopener noreferrer"
+                data-track="nav_demo"
+                data-track-block="navbar"
+                style={{ fontSize: 13, fontWeight: 500, color: t.link, transition: 'color 0.2s', textDecoration: 'none' }}
+                onMouseEnter={e => { e.currentTarget.style.color = t.linkHover; }}
+                onMouseLeave={e => { e.currentTarget.style.color = t.link; }}
+              >
+                {link.label}
+              </a>
+            ) : (
               <Btn
                 key={link.label}
                 variant="ghost"
@@ -211,7 +226,7 @@ export default function Navbar() {
         {/* Mobile dropdown — всегда светлый */}
         {menuOpen && (
           <div className="md:hidden bg-white border-b border-[#E8E8E8] px-6 py-4 flex flex-col gap-4">
-            {navLinks.map(link => (
+            {navLinks.filter(link => !link.external).map(link => (
               <Btn
                 key={link.label}
                 variant="ghost"
@@ -225,6 +240,17 @@ export default function Navbar() {
                 {link.label}
               </Btn>
             ))}
+            <a
+              href="/demo/"
+              target="_blank"
+              rel="noopener noreferrer"
+              data-track="mobile_nav_demo"
+              data-track-block="navbar"
+              className="text-[13px] font-medium text-[#666] no-underline hover:text-[#0A0A0A] transition-colors"
+              onClick={() => setMenuOpen(false)}
+            >
+              Демо
+            </a>
             <Btn
               variant="dark"
               track="mobile_nav_cta"

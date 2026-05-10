@@ -6,7 +6,6 @@ import Navbar from '@/components/landing/Navbar';
 import Hero from '@/components/landing/Hero';
 import Problem from '@/components/landing/Problem';
 import Products from '@/components/landing/Products';
-import DemoStrip from '@/components/landing/DemoStrip';
 import Cases from '@/components/landing/Cases';
 import ComparisonWithForm from '@/components/landing/ComparisonWithForm';
 import Diagnosis from '@/components/landing/Diagnosis';
@@ -41,7 +40,6 @@ export default function Landing() {
       <Hero />
       <Problem />
       <Products />
-      <DemoStrip />
       <Cases />
       <ComparisonWithForm />
       <Diagnosis />

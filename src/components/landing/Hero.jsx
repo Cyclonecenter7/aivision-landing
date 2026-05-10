@@ -37,7 +37,7 @@ export default function Hero() {
             </h1>
 
             <p className="text-base md:text-lg leading-relaxed mb-10 max-w-md" style={{ color: 'rgba(255,255,255,0.72)' }}>
-              За 30 дней вы увидите, где бизнес зарабатывает, где теряет и как управлять ростом через цифры
+              Строим систему управления — от готовой платформы учёта за 1 неделю до партнёрства на результат. Каждое решение — на цифрах, не на ощущениях.
             </p>
 
             <Btn
@@ -48,7 +48,7 @@ export default function Hero() {
               onClick={() => setModal(true)}
               className="hero-cta inline-block px-8 py-4 text-sm font-semibold"
             >
-              Получить бесплатный разбор
+              Начать диагностику
             </Btn>
 
             <p className="text-xs mt-3" style={{ color: 'rgba(255,255,255,0.5)' }}>

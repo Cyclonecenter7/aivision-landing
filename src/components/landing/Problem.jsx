@@ -2,16 +2,16 @@ import { Section, Eyebrow } from '@/components/ui';
 
 const problems = [
   'Прибыль есть, но непонятно где она теряется',
-  'Отчёты существуют, но не управляют решениями',
-  'KPI формальные, но не влияют на результат',
-  'Масштабирование пугает: нет прозрачности',
+  'Сайт, CRM и учёт — три разные системы. Каждая требует своего админа и отдельной настройки.',
+  'Внедрение интегратора занимает 1–2 месяца и требует дополнительных затрат на настройку.',
+  'Масштабирование пугает: нет прозрачности.',
 ];
 
 const chaosBlocks = [
   { width: '78%',  ml: '10%', rotate: '-2deg'  },
   { width: '100%', ml: '0%',  rotate: '1.5deg' },
-  { width: '88%',  ml: '4%',  rotate: '-3deg'  },
-  { width: '70%',  ml: '15%', rotate: '2.5deg' },
+  { width: '100%', ml: '0%',  rotate: '-3deg'  },
+  { width: '80%',  ml: '8%',  rotate: '2.5deg' },
 ];
 
 export default function Problem() {
@@ -39,7 +39,7 @@ export default function Problem() {
                   style={{ width: b.width, marginLeft: b.ml, transform: `rotate(${b.rotate})` }}
                 >
                   <div className="w-1 self-stretch bg-red flex-shrink-0 rounded-full" />
-                  <span className="text-white text-xs leading-relaxed">{text}</span>
+                  <span className="text-white text-[11px] leading-relaxed">{text}</span>
                 </div>
               );
             })}

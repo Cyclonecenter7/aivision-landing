@@ -1,6 +1,8 @@
 import { useState, useLayoutEffect } from 'react';
 import { ArrowLeft, ArrowRight } from 'lucide-react';
 import { Link, useNavigate, useParams, Navigate } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
+import { SEO } from '@/lib/seo';
 import DashboardSlider from '@/components/landing/DashboardSlider';
 import ContactModal from '@/components/landing/ContactModal';
 import { CASES } from '@/data/cases';
@@ -19,6 +21,9 @@ export default function CasePage() {
 
   useLayoutEffect(() => { window.scrollTo({ top: 0, behavior: 'instant' }); }, [id]);
 
+  const seoKey = 'case' + id;
+  const seo = SEO[seoKey] || SEO.home;
+
   const handleBack = () => {
     navigate('/');
     setTimeout(() => {
@@ -29,6 +34,15 @@ export default function CasePage() {
 
   return (
     <div className="min-h-screen bg-[#F4F4F5] font-inter">
+      <Helmet>
+        <title>{seo.title}</title>
+        <meta name="description" content={seo.description} />
+        <link rel="canonical" href={seo.url} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={seo.title} />
+        <meta property="og:description" content={seo.description} />
+        <meta property="og:url" content={seo.url} />
+      </Helmet>
       {/* Nav */}
       <div className="max-w-6xl mx-auto px-6 pt-6 flex items-center justify-between">
         <Btn variant="ghost" size="sm" className="inline-flex items-center gap-2 text-[#666] hover:text-background p-0" style={{ clipPath: 'none' }} onClick={handleBack}>

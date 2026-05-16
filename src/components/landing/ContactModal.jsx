@@ -7,13 +7,22 @@ import { Btn } from '@/components/ui';
 const clipCard = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
 const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
 
-export default function ContactModal({ open, onClose, source = 'modal', demoGate = false }) {
+export default function ContactModal({ open, onClose, source = 'modal', demoGate = false, initial = null }) {
   const [form, setForm] = useState({ name: '', contact: '', website: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Auto-redirect to /demo/ in same tab after demo-gate submit success
+  useEffect(() => {
+    if (open) {
+      setForm({
+        name: initial?.name || '',
+        contact: initial?.contact || '',
+        website: '',
+      });
+    }
+  }, [open, initial?.name, initial?.contact]);
+
   useEffect(() => {
     if (sent && demoGate) {
       const id = setTimeout(() => { window.location.href = '/demo/'; }, 1500);

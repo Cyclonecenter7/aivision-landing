@@ -12,14 +12,9 @@ export default function Hero({ onOpenContact }) {
 
       <div className="hero-grid">
         <div>
-          <div className="eyebrow">
-            <div className="eyebrow-line"></div>
-            <span className="eyebrow-text">Агентство управленческих решений</span>
-          </div>
-
           <h1 className="hero-h1">
-            Бизнес растёт —<br />
-            <em>управляемости</em> нет
+            Агентство<br />
+            управленческих решений
           </h1>
 
           <p className="hero-sub">

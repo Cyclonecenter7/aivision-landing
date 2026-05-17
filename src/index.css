@@ -74,6 +74,9 @@
   html {
     scroll-behavior: smooth;
   }
+
+  /* No italic anywhere — brand uses color accent, not italic */
+  em, i, cite, address { font-style: normal; }
 }
 
 @layer components {
@@ -329,7 +332,7 @@
     color: rgba(255,255,255,0.92);
   }
   .hero-h1 em {
-    font-style: italic;
+    font-style: normal;
     font-weight: 700;
     color: rgba(255,255,255,0.85);
   }

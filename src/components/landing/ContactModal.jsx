@@ -134,7 +134,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
             ) : (
               <>
                 <div className="text-white font-semibold mb-1">Заявка принята</div>
-                <p className="text-[#555] text-xs mb-6">Свяжемся в течение часа</p>
+                <p className="text-[#555] text-xs mb-6">Свяжемся в течение 5 минут</p>
 
                 <div className="border-t border-[#2A2A2A] pt-5 mt-2">
                   <p className="text-[#888] text-xs mb-3 leading-relaxed">

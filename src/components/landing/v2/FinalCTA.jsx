@@ -41,8 +41,8 @@ export default function FinalCTA({ onOpenContact }) {
               <div className="cta-stat-lab">первая консультация</div>
             </div>
             <div className="cta-stat">
-              <div className="cta-stat-val">1 день</div>
-              <div className="cta-stat-lab">до конкретных шагов</div>
+              <div className="cta-stat-val">5 минут</div>
+              <div className="cta-stat-lab">реакция на заявку</div>
             </div>
           </div>
         </div>

@@ -15,7 +15,7 @@ export default function Navbar({ onOpenContact }) {
       </div>
       <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
         <a
-          href="https://t.me/aivision_manager"
+          href="https://t.me/aivision_pro"
           target="_blank"
           rel="noopener"
           className="nav-tg"

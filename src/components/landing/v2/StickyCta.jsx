@@ -34,7 +34,7 @@ export default function StickyCta({ onOpenContact }) {
         </svg>
       </button>
       <a
-        href="https://t.me/aivision_manager"
+        href="https://t.me/aivision_pro"
         target="_blank"
         rel="noopener"
         className="sticky-cta-tg"

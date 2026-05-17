@@ -5,7 +5,7 @@ export default function Cases() {
   const cases = Object.values(CASES);
 
   return (
-    <section id="cases" className="bg-light section">
+    <section id="cases" className="bg-brand section">
       <div className="container">
         <div className="eyebrow">
           <div className="eyebrow-line"></div>

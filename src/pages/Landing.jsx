@@ -63,7 +63,7 @@ export default function Landing() {
       <HowWeWork />
       <Difference />
       <Cases />
-      <FinalCTA onOpenContact={(initial) => openContact(initial, 'final_cta')} />
+      <FinalCTA />
       <Footer />
 
       <StickyCta onOpenContact={() => openContact(null, 'sticky')} />

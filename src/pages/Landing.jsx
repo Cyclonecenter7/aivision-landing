@@ -12,6 +12,7 @@ import Customization from '@/components/landing/v2/Customization';
 import Integrations from '@/components/landing/v2/Integrations';
 import HowWeWork from '@/components/landing/v2/HowWeWork';
 import Difference from '@/components/landing/v2/Difference';
+import Cases from '@/components/landing/v2/Cases';
 import FinalCTA from '@/components/landing/v2/FinalCTA';
 import StickyCta from '@/components/landing/v2/StickyCta';
 import Footer from '@/components/landing/v2/Footer';
@@ -61,6 +62,7 @@ export default function Landing() {
       <Integrations />
       <HowWeWork />
       <Difference />
+      <Cases />
       <FinalCTA onOpenContact={(initial) => openContact(initial, 'final_cta')} />
       <Footer />
 

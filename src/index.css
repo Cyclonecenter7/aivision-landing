@@ -269,6 +269,7 @@
     text-decoration: none;
     font-family: 'Inter', sans-serif;
     clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);
+    box-shadow: inset 0 0 0 2px var(--brand);
     transition: background 0.15s;
   }
   .sticky-cta-demo:hover { background: var(--d-border-strong); }
@@ -1504,6 +1505,126 @@
     line-height: 1.6;
   }
 
+  /* CASES SECTION */
+  .cases-head {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    align-items: end;
+    gap: 48px;
+    margin-bottom: 56px;
+    max-width: 1200px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+  .cases-h2 {
+    font-size: 44px;
+    font-weight: 700;
+    letter-spacing: -0.03em;
+    line-height: 1.08;
+    color: var(--l-text);
+  }
+  .cases-h2 em {
+    font-style: normal;
+    color: var(--brand);
+  }
+  .cases-sub {
+    font-size: 15px;
+    color: var(--l-text-sec);
+    line-height: 1.6;
+    max-width: 360px;
+    text-align: right;
+  }
+  .cases-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 16px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  .case-card {
+    background: var(--l-surface);
+    padding: 28px 28px 24px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    text-decoration: none;
+    color: inherit;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);
+  }
+  .case-card:last-child {
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%);
+  }
+  .case-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 12px 32px -12px rgba(0,0,0,0.15);
+  }
+  .case-tag {
+    display: inline-flex;
+    flex-direction: column;
+    gap: 4px;
+    align-self: flex-start;
+    padding: 8px 12px;
+    color: #fff;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.05em;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);
+  }
+  .case-tag-sub {
+    font-size: 10px;
+    font-weight: 500;
+    letter-spacing: 0.04em;
+    opacity: 0.75;
+    text-transform: none;
+  }
+  .case-title {
+    font-size: 19px;
+    font-weight: 700;
+    letter-spacing: -0.015em;
+    line-height: 1.25;
+    color: var(--l-text);
+  }
+  .case-desc {
+    font-size: 13px;
+    color: var(--l-text-sec);
+    line-height: 1.55;
+    flex: 1;
+  }
+  .case-kpis {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 8px;
+    padding-top: 14px;
+    border-top: 1px solid var(--l-border);
+  }
+  .case-kpi {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+  }
+  .case-kpi-val {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    font-variant-numeric: tabular-nums;
+    color: var(--brand);
+    line-height: 1;
+  }
+  .case-kpi-lab {
+    font-size: 10px;
+    color: var(--l-text-mut);
+    line-height: 1.3;
+  }
+  .case-link {
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-top: 4px;
+  }
+
   .how-head {
     text-align: center;
     margin-bottom: 64px;
@@ -1520,7 +1641,7 @@
     margin-bottom: 16px;
   }
   .how-h2 em {
-    font-style: italic;
+    font-style: normal;
     color: var(--brand);
   }
 
@@ -1614,7 +1735,7 @@
     color: var(--d-text-sec);
   }
   .how-closing-text em {
-    font-style: italic;
+    font-style: normal;
     font-weight: 600;
     color: var(--brand);
   }
@@ -1634,7 +1755,7 @@
     color: var(--l-text);
   }
   .diff-h2 em {
-    font-style: italic;
+    font-style: normal;
     color: var(--brand);
   }
   .diff-sub {
@@ -1738,7 +1859,7 @@
     margin-bottom: 20px;
   }
   .cta-h2 em {
-    font-style: italic;
+    font-style: normal;
     color: var(--brand);
   }
   .cta-sub {
@@ -2020,6 +2141,12 @@
   .how-step-title { font-size: 18px; }
   .how-closing-text { font-size: 16px; }
 
+  .cases-head { grid-template-columns: 1fr; gap: 16px; margin-bottom: 32px; }
+  .cases-h2 { font-size: 28px; }
+  .cases-sub { text-align: left; max-width: 100%; font-size: 14px; }
+  .cases-grid { grid-template-columns: 1fr; gap: 12px; }
+  .case-card { padding: 24px; }
+
   .diff-h2 { font-size: 28px; }
   .diff-sub { font-size: 14px; }
   .diff-grid { grid-template-columns: 1fr; gap: 12px; }
@@ -2095,7 +2222,7 @@
 @media (max-width: 380px) {
   .hero-h1 { font-size: 32px; }
   .problem-h2, .solution-h2, .adv-h2, .plt-h2,
-  .cst-h2, .int-h2, .how-h2, .diff-h2 { font-size: 26px; }
+  .cst-h2, .int-h2, .how-h2, .diff-h2, .cases-h2 { font-size: 26px; }
   .cta-h2 { font-size: 30px; }
   .triad-stage { max-width: 260px; }
 }

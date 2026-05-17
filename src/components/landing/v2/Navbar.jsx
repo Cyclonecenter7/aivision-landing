@@ -10,6 +10,7 @@ export default function Navbar({ onOpenContact }) {
       <div className="nav-links">
         <a href="#platform">Платформа</a>
         <a href="#how">Как работаем</a>
+        <a href="#cases">Кейсы</a>
         <a href="#diff">Отличие</a>
         <a href="#cta">Контакты</a>
       </div>

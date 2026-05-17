@@ -1257,61 +1257,137 @@
   }
   .cst-example strong { color: var(--l-text-sec); font-weight: 600; }
 
-  /* Stack visual: layers of sheets stacked behind each other */
-  .cst-stack {
+  /* Visual container — light grey bg, holds sheet stack */
+  .cst-viz {
+    background: var(--l-surface-alt);
+    padding: 28px;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
     position: relative;
-    width: 100%;
-    aspect-ratio: 1 / 1.1;
-    max-width: 440px;
-    margin: 0 auto;
+    min-height: 360px;
   }
-  .cst-sheet {
-    position: absolute;
-    background: var(--l-surface);
-    border: 1px solid var(--l-border);
-    padding: 20px 22px;
-    clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);
-    box-shadow: 0 6px 18px -8px rgba(0,0,0,0.12);
-    display: flex;
-    flex-direction: column;
-    gap: 14px;
-    transition: transform 0.25s ease;
-  }
-  .cst-sheet-1 { left: 0;  top: 0;   width: 78%; height: 84%; z-index: 4; }
-  .cst-sheet-2 { left: 8%; top: 6%;  width: 78%; height: 84%; z-index: 3; opacity: 0.92; }
-  .cst-sheet-3 { left: 16%; top: 12%; width: 78%; height: 84%; z-index: 2; opacity: 0.78; }
-  .cst-sheet-4 { left: 22%; top: 16%; width: 78%; height: 84%; z-index: 1; opacity: 0.55; }
-  .cst-sheet-eb {
-    font-size: 9px;
+  .cst-viz-eb {
+    font-size: 11px;
     font-weight: 700;
-    letter-spacing: 0.18em;
+    letter-spacing: 0.15em;
     text-transform: uppercase;
     color: var(--brand);
+    margin-bottom: 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  .cst-sheet-title {
-    font-size: 16px;
+  .cst-viz-eb-line {
+    width: 16px;
+    height: 1px;
+    background: var(--brand);
+  }
+  .cst-viz-title {
+    font-size: 20px;
     font-weight: 700;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
+    margin-bottom: 20px;
     color: var(--l-text);
   }
-  .cst-sheet-rows {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    margin-top: auto;
+
+  /* Sheets stack — front sheet with fields + 2 back sheets peeking */
+  .cst-sheets { position: relative; }
+  .cst-sheet-front {
+    background: var(--l-surface);
+    padding: 22px 24px;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+    position: relative;
+    z-index: 3;
   }
-  .cst-sheet-row {
+  .cst-sheet-front-eb {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 6px;
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 11px;
-    color: var(--l-text-sec);
   }
-  .cst-sheet-row::before {
+  .cst-sheet-front-eb::before {
     content: '';
-    width: 8px; height: 8px;
+    width: 12px;
+    height: 2px;
+    background: var(--brand);
+  }
+  .cst-sheet-front-title {
+    font-size: 18px;
+    font-weight: 700;
+    letter-spacing: -0.01em;
+    margin-bottom: 16px;
+    color: var(--l-text);
+  }
+  .cst-sheet-fields {
+    display: flex;
+    flex-direction: column;
+  }
+  .cst-sheet-field {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    color: var(--l-text-sec);
+    padding: 9px 0;
+    border-bottom: 1px solid var(--l-border);
+  }
+  .cst-sheet-field:last-child { border-bottom: none; }
+  .cst-sheet-field-dot {
+    width: 6px;
+    height: 6px;
     background: var(--brand);
     flex-shrink: 0;
+  }
+  .cst-sheet-field-type {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--l-text-mut);
+  }
+
+  .cst-sheet-back {
+    height: 44px;
+    background: var(--l-surface);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);
+    margin-top: -10px;
+    position: relative;
+    display: flex;
+    align-items: center;
+    padding: 0 18px 0 24px;
+  }
+  .cst-sheet-back-2 {
+    margin-left: 16px;
+    margin-right: -16px;
+    background: #F0F0F0;
+    z-index: 2;
+  }
+  .cst-sheet-back-3 {
+    margin-left: 32px;
+    margin-right: -32px;
+    background: #E8E8E8;
+    z-index: 1;
+  }
+  .cst-sheet-back-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .cst-sheet-back-3 .cst-sheet-back-label { color: var(--l-text-mut); }
+  .cst-sheet-back-type {
+    margin-left: auto;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: var(--l-text-mut);
   }
 
   .cst-vs {
@@ -2162,9 +2238,15 @@
   .cst-sub { font-size: 14px; }
   .cst-layout { grid-template-columns: 1fr; gap: 32px; }
   .cst-card { padding: 24px; gap: 16px; }
-  .cst-stack { max-width: 360px; aspect-ratio: 1 / 1.05; }
-  .cst-sheet-title { font-size: 14px; }
-  .cst-sheet-row { font-size: 10px; }
+  .cst-viz { padding: 22px; min-height: auto; }
+  .cst-viz-title { font-size: 18px; }
+  .cst-sheet-front { padding: 18px 20px; }
+  .cst-sheet-front-title { font-size: 16px; }
+  .cst-sheet-field { font-size: 12px; padding: 8px 0; }
+  .cst-sheet-back { height: 38px; }
+  .cst-sheet-back-2 { margin-left: 12px; margin-right: -12px; }
+  .cst-sheet-back-3 { margin-left: 24px; margin-right: -24px; }
+  .cst-sheet-back-label { font-size: 10px; }
   .cst-vs {
     grid-template-columns: 1fr;
     gap: 24px;

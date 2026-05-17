@@ -77,41 +77,49 @@ export default function Customization() {
           {CARDS.map(c => <CstCard key={c.num} {...c} />)}
         </div>
 
-        <div className="cst-stack" aria-hidden="true">
-          <div className="cst-sheet cst-sheet-4">
-            <div className="cst-sheet-eb">+ Лист</div>
-            <div className="cst-sheet-title">Согласование договора</div>
-            <div className="cst-sheet-rows">
-              <div className="cst-sheet-row">статус</div>
-              <div className="cst-sheet-row">ответственный</div>
-            </div>
+        <div className="cst-viz" aria-hidden="true">
+          <div className="cst-viz-eb">
+            <span className="cst-viz-eb-line"></span>
+            Строительная компания · добавили
           </div>
-          <div className="cst-sheet cst-sheet-3">
-            <div className="cst-sheet-eb">+ Лист</div>
-            <div className="cst-sheet-title">Маржа по бренду</div>
-            <div className="cst-sheet-rows">
-              <div className="cst-sheet-row">бренд / SKU</div>
-              <div className="cst-sheet-row">выкуп · ДРР</div>
-              <div className="cst-sheet-row">формула маржи</div>
+          <div className="cst-viz-title">Новые разделы под бизнес</div>
+
+          <div className="cst-sheets">
+            <div className="cst-sheet-front">
+              <div className="cst-sheet-front-eb">+ Раздел</div>
+              <div className="cst-sheet-front-title">Объекты</div>
+              <div className="cst-sheet-fields">
+                <div className="cst-sheet-field">
+                  <span className="cst-sheet-field-dot"></span>
+                  Адрес и площадь
+                  <span className="cst-sheet-field-type">Текст</span>
+                </div>
+                <div className="cst-sheet-field">
+                  <span className="cst-sheet-field-dot"></span>
+                  Сроки сдачи
+                  <span className="cst-sheet-field-type">Дата</span>
+                </div>
+                <div className="cst-sheet-field">
+                  <span className="cst-sheet-field-dot"></span>
+                  Подрядчики
+                  <span className="cst-sheet-field-type">Связь</span>
+                </div>
+                <div className="cst-sheet-field">
+                  <span className="cst-sheet-field-dot"></span>
+                  Бюджет / факт
+                  <span className="cst-sheet-field-type">Сумма</span>
+                </div>
+              </div>
             </div>
-          </div>
-          <div className="cst-sheet cst-sheet-2">
-            <div className="cst-sheet-eb">+ Лист</div>
-            <div className="cst-sheet-title">Подрядчики</div>
-            <div className="cst-sheet-rows">
-              <div className="cst-sheet-row">договоры</div>
-              <div className="cst-sheet-row">акты выполненных работ</div>
-              <div className="cst-sheet-row">оплаты</div>
+
+            <div className="cst-sheet-back cst-sheet-back-2">
+              <span className="cst-sheet-back-label">Подрядчики</span>
+              <span className="cst-sheet-back-type">12 полей</span>
             </div>
-          </div>
-          <div className="cst-sheet cst-sheet-1">
-            <div className="cst-sheet-eb">+ Лист</div>
-            <div className="cst-sheet-title">Объекты</div>
-            <div className="cst-sheet-rows">
-              <div className="cst-sheet-row">адрес · площадь</div>
-              <div className="cst-sheet-row">сроки сдачи</div>
-              <div className="cst-sheet-row">подрядчики</div>
-              <div className="cst-sheet-row">бюджет / факт</div>
+
+            <div className="cst-sheet-back cst-sheet-back-3">
+              <span className="cst-sheet-back-label">Акты выполненных работ</span>
+              <span className="cst-sheet-back-type">8 полей</span>
             </div>
           </div>
         </div>

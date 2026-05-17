@@ -8,7 +8,10 @@ export default function Difference() {
         </div>
 
         <div className="diff-head">
-          <h2 className="diff-h2">Мы — не консалтинг,<br />не CRM, не <em>AI-агентство</em></h2>
+          <h2 className="diff-h2">
+            Мы — <em>не</em> консалтинг,<br />
+            <em>не</em> CRM, <em>не</em> AI-агентство
+          </h2>
           <p className="diff-sub">
             Управленческое решение — это не отчёт, не софт и не магия ИИ.
             Это работающая система, которой пользуется команда каждый день.
@@ -38,7 +41,7 @@ export default function Difference() {
           </div>
           <div className="diff-title">Внутри — управленческая логика</div>
           <div className="diff-cols-head">
-            <span className="diff-col-h">Битрикс, amoCRM</span>
+            <span className="diff-col-h">CRM-платформа</span>
             <span className="diff-col-h us">AIVISION</span>
           </div>
           <div className="diff-compare">

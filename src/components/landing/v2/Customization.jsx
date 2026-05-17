@@ -80,9 +80,9 @@ export default function Customization() {
         <div className="cst-viz" aria-hidden="true">
           <div className="cst-viz-eb">
             <span className="cst-viz-eb-line"></span>
-            Строительная компания · добавили
+            Дополнительные листы под ваш бизнес
           </div>
-          <div className="cst-viz-title">Новые разделы под бизнес</div>
+          <div className="cst-viz-title">Свои разделы и листы</div>
 
           <div className="cst-sheets">
             <div className="cst-sheet-front">
@@ -113,12 +113,12 @@ export default function Customization() {
             </div>
 
             <div className="cst-sheet-back cst-sheet-back-2">
-              <span className="cst-sheet-back-label">Подрядчики</span>
+              <span className="cst-sheet-back-label">+ Лист · KPI команды</span>
               <span className="cst-sheet-back-type">12 полей</span>
             </div>
 
             <div className="cst-sheet-back cst-sheet-back-3">
-              <span className="cst-sheet-back-label">Акты выполненных работ</span>
+              <span className="cst-sheet-back-label">+ Лист · Финплан</span>
               <span className="cst-sheet-back-type">8 полей</span>
             </div>
           </div>

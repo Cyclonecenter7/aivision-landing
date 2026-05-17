@@ -47,7 +47,7 @@ export default function Integrations() {
     try {
       const labels = activeTags.map(t => t.label).join(', ') || '—';
       await saveLead({
-        name: '',
+        name: 'С сайта · интеграции',
         contact: c,
         contact_type: isPhone ? 'phone' : 'telegram',
         source_block: `integrations: ${labels}`,

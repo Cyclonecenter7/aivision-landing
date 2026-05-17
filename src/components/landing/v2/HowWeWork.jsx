@@ -54,7 +54,7 @@ export default function HowWeWork() {
           </div>
           <div className="how-step-foot">
             <span className="how-step-price-lab">Стоимость</span>
-            <span className="how-step-price-val" style={{ color: 'var(--emerald)' }}>0 ₽</span>
+            <span className="how-step-price-val">0 ₽</span>
           </div>
         </div>
 

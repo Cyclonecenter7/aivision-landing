@@ -1397,7 +1397,7 @@
     grid-template-columns: 1fr 1fr;
     gap: 40px;
     max-width: 1200px;
-    margin: 0 auto;
+    margin: 56px auto 24px;
   }
   .cst-vs-eb {
     font-size: 10px;
@@ -1544,9 +1544,16 @@
     transition: border-color 0.15s;
     clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);
   }
-  .int-form-input:focus {
+  .int-form-input:focus,
+  .int-form-input:focus-visible {
     outline: none;
     border-color: var(--brand);
+  }
+  .int-chip:focus,
+  .int-chip:focus-visible,
+  .int-form-submit:focus,
+  .int-form-submit:focus-visible {
+    outline: none;
   }
   .int-form-submit {
     background: var(--brand);
@@ -1728,13 +1735,12 @@
   }
 
   .how-head {
-    text-align: center;
-    margin-bottom: 64px;
-    max-width: 720px;
+    text-align: left;
+    margin-bottom: 56px;
+    max-width: 1200px;
     margin-left: auto;
     margin-right: auto;
   }
-  .how-head .eyebrow { justify-content: center; }
   .how-h2 {
     font-size: 48px;
     font-weight: 700;
@@ -1786,6 +1792,8 @@
     color: var(--d-text-mut);
     padding: 4px 10px;
     background: var(--d-surface-alt);
+    white-space: nowrap;
+    flex-shrink: 0;
     clip-path: polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);
   }
   .how-step-title {
@@ -1890,10 +1898,10 @@
     font-weight: 700;
     letter-spacing: 0.15em;
     text-transform: uppercase;
-    color: var(--l-text-mut);
+    color: var(--brand);
     margin-bottom: 16px;
   }
-  .diff-eb-line { width: 16px; height: 1px; background: var(--l-border-strong); }
+  .diff-eb-line { width: 16px; height: 1px; background: var(--brand); }
 
   .diff-title {
     font-size: 22px;

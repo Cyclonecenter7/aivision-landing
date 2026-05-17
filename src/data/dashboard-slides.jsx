@@ -607,7 +607,7 @@ export const SLIDER_VARIANTS = {
   finance: {
     tabs: ['Дашборд', 'Операции', 'Визиты', 'Аналитика', 'Категории'],
     slideComponents: [FinanceSlide1, FinanceSlide2, FinanceSlide3, FinanceSlide4, FinanceSlide5],
-    fixedTheme: null,  // uses light prop
+    fixedTheme: null,
     hasLive: false,
   },
   crm: {
@@ -619,6 +619,12 @@ export const SLIDER_VARIANTS = {
   ecommerce: {
     tabs: ['Обзор', 'Бренды', 'Воронка', 'Товары'],
     slideComponents: [EcomSlideOverview, EcomSlideBrands, EcomSlideFunnel, EcomSlideProducts],
+    fixedTheme: 'light',
+    hasLive: true,
+  },
+  platform: {
+    tabs: ['Дашборд', 'Заявки', 'Клиенты', 'Задачи'],
+    slideComponents: [CrmSlideFinance, CrmSlideDeals, CrmSlideAnalytics, CrmSlidePnL],
     fixedTheme: 'light',
     hasLive: true,
   },

@@ -1,3 +1,58 @@
+import { useState } from 'react';
+
+const CARDS = [
+  {
+    num: '01',
+    name: 'Технологическая платформа',
+    body: 'Не голые отчёты, не таблицы Excel. Система сама подсвечивает где проблема, формулирует выводы из данных, подсказывает что делать. ИИ работает внутри — там, где он реально полезен.',
+    result: '→ Современное решение, а не вчерашний день',
+  },
+  {
+    num: '02',
+    name: 'Простота для собственника',
+    body: 'Не нужно становиться IT-директором, чтобы управлять бизнесом. Не нужно три месяца разбираться в настройках. Мы конфигурируем платформу под бизнес — собственник работает с готовой картиной.',
+    result: '→ Платформа простая снаружи, умная внутри',
+  },
+  {
+    num: '03',
+    name: 'Готовая управленческая логика',
+    body: 'Собственники не всегда знают что считать и какие KPI ставить — особенно если впервые выходят на этот уровень управления. Мы знаем — потому что работали с десятком бизнесов в этом сегменте.',
+    result: '→ Не нужно изобретать систему с нуля',
+  },
+];
+
+function AdvCard({ num, name, body, result }) {
+  const [open, setOpen] = useState(false);
+  return (
+    <div className="adv-card">
+      <h3 className="adv-card-h">
+        <span className="adv-card-h-num">{num}</span>
+        <span className="adv-card-h-name">{name}</span>
+      </h3>
+
+      <button
+        type="button"
+        className="adv-card-toggle"
+        aria-expanded={open}
+        onClick={() => setOpen(v => !v)}
+        data-track={`adv_toggle_${num}`}
+        data-track-block="advantages"
+      >
+        <span>{open ? 'Свернуть' : 'Подробнее'}</span>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="6 9 12 15 18 9" />
+        </svg>
+      </button>
+
+      <div className={`adv-card-body${open ? ' expanded' : ''}`}>
+        {body}
+      </div>
+
+      <div className="adv-card-result">{result}</div>
+    </div>
+  );
+}
+
 export default function Advantages() {
   return (
     <section className="bg-light section">
@@ -19,59 +74,7 @@ export default function Advantages() {
       </div>
 
       <div className="adv-grid">
-        <div className="adv-card">
-          <div className="adv-card-num">01 · Технология</div>
-          <div className="adv-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <rect x="3" y="3" width="7" height="7" />
-              <rect x="14" y="3" width="7" height="7" />
-              <rect x="14" y="14" width="7" height="7" />
-              <rect x="3" y="14" width="7" height="7" />
-            </svg>
-          </div>
-          <div className="adv-card-title">Технологическая<br />платформа</div>
-          <div className="adv-card-body">
-            Не голые отчёты, не таблицы Excel. Система сама подсвечивает где проблема,
-            формулирует выводы из данных, подсказывает что делать. ИИ работает внутри — там,
-            где он реально полезен.
-          </div>
-          <div className="adv-card-result">→ Современное решение, а не вчерашний день</div>
-        </div>
-
-        <div className="adv-card">
-          <div className="adv-card-num">02 · Простота</div>
-          <div className="adv-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <circle cx="12" cy="12" r="10" />
-              <path d="M8 14s1.5 2 4 2 4-2 4-2" />
-              <line x1="9" y1="9" x2="9.01" y2="9" />
-              <line x1="15" y1="9" x2="15.01" y2="9" />
-            </svg>
-          </div>
-          <div className="adv-card-title">Простота для<br />собственника</div>
-          <div className="adv-card-body">
-            Не нужно становиться IT-директором, чтобы управлять бизнесом. Не нужно три месяца
-            разбираться в настройках. Мы конфигурируем платформу под бизнес — собственник
-            работает с готовой картиной.
-          </div>
-          <div className="adv-card-result">→ Платформа простая снаружи, умная внутри</div>
-        </div>
-
-        <div className="adv-card">
-          <div className="adv-card-num">03 · Экспертиза</div>
-          <div className="adv-card-icon">
-            <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-              <path d="M22 12h-4l-3 9L9 3l-3 9H2" />
-            </svg>
-          </div>
-          <div className="adv-card-title">Готовая управленческая<br />логика</div>
-          <div className="adv-card-body">
-            Собственники не всегда знают что считать и какие KPI ставить — особенно если
-            впервые выходят на этот уровень управления. Мы знаем — потому что работали с
-            десятком бизнесов в этом сегменте.
-          </div>
-          <div className="adv-card-result">→ Не нужно изобретать систему с нуля</div>
-        </div>
+        {CARDS.map(c => <AdvCard key={c.num} {...c} />)}
       </div>
     </section>
   );

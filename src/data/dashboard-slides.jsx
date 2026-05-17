@@ -600,6 +600,254 @@ function EcomSlideProducts() {
 }
 
 // ─────────────────────────────────────────────────────────────
+// VARIANT: "platform" — реальные экраны AIVISION CRM (dark)
+// Дашборд / Заявки / Клиенты / Задачи
+// ─────────────────────────────────────────────────────────────
+
+const SUN = '#FCD34D'; const INDIGO = '#6366F1'; const SLATE = '#94A3B8';
+
+function PltSectionHead({ t, color, title, sub }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'baseline', gap: 10, marginBottom: 4 }}>
+      <span style={{ width: 6, height: 6, background: color, flexShrink: 0 }} />
+      <span style={{ fontSize: 11, fontWeight: 700, color: t.titleC, letterSpacing: '-0.01em' }}>{title}</span>
+      {sub && <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '0.16em', color: t.mutedC, textTransform: 'uppercase' }}>{sub}</span>}
+    </div>
+  );
+}
+
+function PltKpi({ t, label, value, delta, deltaColor, valColor }) {
+  return (
+    <Card t={t} style={{ padding: '8px 10px' }}>
+      <div style={{ fontSize: 7, fontWeight: 600, letterSpacing: '0.14em', color: t.mutedC, textTransform: 'uppercase' }}>{label}</div>
+      <div style={{ fontSize: 13, fontWeight: 800, color: valColor || t.titleC, fontVariantNumeric: 'tabular-nums', marginTop: 3, letterSpacing: '-0.02em' }}>{value}</div>
+      {delta && <div style={{ fontSize: 8, fontWeight: 600, color: deltaColor || t.mutedC, marginTop: 2, fontVariantNumeric: 'tabular-nums' }}>{delta}</div>}
+    </Card>
+  );
+}
+
+function PlatformDashboard({ t }) {
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
+      <PltSectionHead t={t} color={SUN} title="Финансы" sub="Май · 16 из 31 дн." />
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6 }}>
+        <PltKpi t={t} label="Маржа"  value="1.84 М ₽" valColor={B} delta="+27%" deltaColor={G} />
+        <PltKpi t={t} label="Доход"  value="4.2 М ₽"  delta="+14%" deltaColor={G} />
+        <PltKpi t={t} label="Расход" value="2.36 М ₽" delta="+6%"  deltaColor={R} />
+        <PltKpi t={t} label="Сделки" value="15"      delta="в работе" />
+      </div>
+
+      <Card t={t} style={{ padding: '10px 12px 6px' }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 6 }}>
+          <span style={{ fontSize: 7, fontWeight: 600, letterSpacing: '0.14em', color: t.mutedC, textTransform: 'uppercase' }}>Доходы · Расходы · Маржа</span>
+          <div style={{ display: 'flex', gap: 10, fontSize: 7, color: t.subC }}>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><span style={{ width: 6, height: 2, background: G }} />Доход</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><span style={{ width: 6, height: 2, background: R }} />Расход</span>
+            <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><span style={{ width: 6, height: 2, background: B }} />Маржа</span>
+          </div>
+        </div>
+        <svg width="100%" height="170" viewBox="0 0 600 170" preserveAspectRatio="none">
+          <defs>
+            <linearGradient id="gPltBrand" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor={B} stopOpacity="0.22" />
+              <stop offset="100%" stopColor={B} stopOpacity="0" />
+            </linearGradient>
+            <linearGradient id="gPltEm" x1="0" x2="0" y1="0" y2="1">
+              <stop offset="0%" stopColor={G} stopOpacity="0.18" />
+              <stop offset="100%" stopColor={G} stopOpacity="0" />
+            </linearGradient>
+          </defs>
+          <line x1="0" y1="40"  x2="600" y2="40"  stroke={t.cardBorder} strokeWidth="1" strokeDasharray="2 4" />
+          <line x1="0" y1="85"  x2="600" y2="85"  stroke={t.cardBorder} strokeWidth="1" strokeDasharray="2 4" />
+          <line x1="0" y1="130" x2="600" y2="130" stroke={t.cardBorder} strokeWidth="1" />
+
+          <path d="M 20,120 C 80,118 140,123 200,115 C 260,108 320,115 380,108 C 440,100 500,105 580,102" fill="none" stroke={R} strokeWidth="2" />
+          <path d="M 20,88 C 80,82 140,76 200,68 C 260,60 320,65 380,52 C 440,40 500,46 580,40 L 580,130 L 20,130 Z" fill="url(#gPltEm)" />
+          <path d="M 20,88 C 80,82 140,76 200,68 C 260,60 320,65 380,52 C 440,40 500,46 580,40" fill="none" stroke={G} strokeWidth="2" />
+          <path d="M 20,108 C 80,104 140,98 200,90 C 260,82 320,75 380,65 C 440,55 500,62 580,56 L 580,130 L 20,130 Z" fill="url(#gPltBrand)" />
+          <path d="M 20,108 C 80,104 140,98 200,90 C 260,82 320,75 380,65 C 440,55 500,62 580,56" fill="none" stroke={B} strokeWidth="2.25" />
+
+          <circle cx="580" cy="56" r="3.5" fill={t.cardBg} stroke={B} strokeWidth="2" />
+          <circle cx="580" cy="40" r="3"   fill={t.cardBg} stroke={G} strokeWidth="2" />
+          <circle cx="580" cy="102" r="3"  fill={t.cardBg} stroke={R} strokeWidth="2" />
+        </svg>
+      </Card>
+    </div>
+  );
+}
+
+function PlatformLeads({ t }) {
+  const statuses = [
+    { l: 'Новые',      c: B,        n: 18, pct: 38 },
+    { l: 'Связались',  c: G,        n: 12, pct: 25 },
+    { l: 'Целевые',    c: SUN,      n: 9,  pct: 19 },
+    { l: 'Отказ',      c: SLATE,    n: 8,  pct: 18 },
+  ];
+  const sources = [
+    { l: 'Сайт',     hot: 6, warm: 4, cold: 2 },
+    { l: 'Telegram', hot: 3, warm: 5, cold: 3 },
+    { l: 'Реклама',  hot: 2, warm: 3, cold: 4 },
+    { l: 'Реф.',     hot: 4, warm: 2, cold: 1 },
+  ];
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
+      <PltSectionHead t={t} color={B} title="Заявки" sub="Май · 47 шт." />
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 5 }}>
+        <PltKpi t={t} label="Всего"     value="47" delta="+18%" deltaColor={G} />
+        <PltKpi t={t} label="Новые"     value="18" delta="+22%" deltaColor={G} />
+        <PltKpi t={t} label="Связались" value="12" delta="+8%"  deltaColor={G} />
+        <PltKpi t={t} label="Целевые"   value="9"  delta="+12%" deltaColor={G} />
+        <PltKpi t={t} label="Горячие"   value="13" valColor={R} />
+        <PltKpi t={t} label="Тёплые"    value="14" valColor={SUN} />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+        <Card t={t} style={{ padding: '10px 12px' }}>
+          <div style={{ fontSize: 7, fontWeight: 600, letterSpacing: '0.14em', color: t.mutedC, textTransform: 'uppercase', marginBottom: 8 }}>По статусам</div>
+          <div style={{ display: 'flex', height: 6, gap: 1, marginBottom: 8 }}>
+            {statuses.map(s => <div key={s.l} style={{ flex: s.n, background: s.c }} />)}
+          </div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+            {statuses.map(s => (
+              <div key={s.l} style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 8 }}>
+                <span style={{ width: 6, height: 6, background: s.c, flexShrink: 0 }} />
+                <span style={{ color: t.bodyC, flex: 1 }}>{s.l}</span>
+                <span style={{ color: t.mutedC, fontVariantNumeric: 'tabular-nums' }}>{s.pct}%</span>
+                <span style={{ color: t.titleC, fontWeight: 700, fontVariantNumeric: 'tabular-nums', minWidth: 14, textAlign: 'right' }}>{s.n}</span>
+              </div>
+            ))}
+          </div>
+        </Card>
+
+        <Card t={t} style={{ padding: '10px 12px' }}>
+          <div style={{ fontSize: 7, fontWeight: 600, letterSpacing: '0.14em', color: t.mutedC, textTransform: 'uppercase', marginBottom: 8 }}>По источникам</div>
+          <div style={{ display: 'flex', flexDirection: 'column', gap: 7 }}>
+            {sources.map(s => {
+              const tot = s.hot + s.warm + s.cold;
+              return (
+                <div key={s.l} style={{ display: 'grid', gridTemplateColumns: '50px 1fr 18px', gap: 6, alignItems: 'center' }}>
+                  <span style={{ fontSize: 8, color: t.bodyC, fontWeight: 500 }}>{s.l}</span>
+                  <div style={{ display: 'flex', height: 6, gap: 1 }}>
+                    <div style={{ flex: s.hot,  background: R }} />
+                    <div style={{ flex: s.warm, background: SUN }} />
+                    <div style={{ flex: s.cold, background: SLATE }} />
+                  </div>
+                  <span style={{ fontSize: 8, color: t.titleC, fontWeight: 700, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{tot}</span>
+                </div>
+              );
+            })}
+            <div style={{ display: 'flex', gap: 10, paddingTop: 4, borderTop: `1px solid ${t.divBorder}`, marginTop: 2 }}>
+              <span style={{ fontSize: 7, color: t.subC, display: 'inline-flex', gap: 4, alignItems: 'center' }}><span style={{ width: 6, height: 6, background: R }} />Гор.</span>
+              <span style={{ fontSize: 7, color: t.subC, display: 'inline-flex', gap: 4, alignItems: 'center' }}><span style={{ width: 6, height: 6, background: SUN }} />Тёпл.</span>
+              <span style={{ fontSize: 7, color: t.subC, display: 'inline-flex', gap: 4, alignItems: 'center' }}><span style={{ width: 6, height: 6, background: SLATE }} />Хол.</span>
+            </div>
+          </div>
+        </Card>
+      </div>
+    </div>
+  );
+}
+
+function PlatformClients({ t }) {
+  const recent = [
+    { name: 'ООО «Альфа»',         tag: 'B2B услуги',    classif: 'hot',  rev: '1.2 М ₽' },
+    { name: 'ИП Соколов А.',        tag: 'E-com',         classif: 'warm', rev: '420 К ₽' },
+    { name: 'ООО «Стройпроект»',    tag: 'Строительство', classif: 'hot',  rev: '2.8 М ₽' },
+    { name: 'Школа «Логика»',       tag: 'Образование',   classif: 'cold', rev: '180 К ₽' },
+  ];
+  const dot = (kind) => kind === 'hot' ? R : kind === 'warm' ? SUN : SLATE;
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
+      <PltSectionHead t={t} color={G} title="Клиенты" sub="База · 124 актив." />
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 5 }}>
+        <PltKpi t={t} label="Всего"     value="156" />
+        <PltKpi t={t} label="Активные"  value="124" valColor={G} />
+        <PltKpi t={t} label="Новые"     value="14"  delta="+8%" deltaColor={G} />
+        <PltKpi t={t} label="Горячие"   value="32"  valColor={R} />
+        <PltKpi t={t} label="Тёплые"    value="47"  valColor={SUN} />
+      </div>
+
+      <Card t={t} style={{ padding: '10px 12px' }}>
+        <div style={{ fontSize: 7, fontWeight: 600, letterSpacing: '0.14em', color: t.mutedC, textTransform: 'uppercase', marginBottom: 8 }}>Последние активные</div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
+          {recent.map((c, i) => (
+            <div key={i} style={{ display: 'grid', gridTemplateColumns: '12px 1.4fr 1fr 0.7fr', gap: 8, alignItems: 'center', padding: '5px 0', borderBottom: i < recent.length - 1 ? `1px solid ${t.divBorder}` : 'none' }}>
+              <span style={{ width: 7, height: 7, background: dot(c.classif), borderRadius: '50%' }} />
+              <span style={{ fontSize: 9, color: t.titleC, fontWeight: 600, filter: 'blur(2px)', userSelect: 'none' }}>{c.name}</span>
+              <span style={{ fontSize: 8, color: t.subC }}>{c.tag}</span>
+              <span style={{ fontSize: 9, color: B, fontWeight: 700, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{c.rev}</span>
+            </div>
+          ))}
+        </div>
+      </Card>
+    </div>
+  );
+}
+
+function PlatformTasks({ t }) {
+  const cols = [
+    {
+      title: 'Открытые', color: B, count: 8,
+      items: [
+        { t: 'Подготовить КП для клиента', who: 'А. Соколов', due: 'сегодня' },
+        { t: 'Созвон по проекту X',         who: 'И. Петров',  due: '12.05' },
+      ],
+    },
+    {
+      title: 'В работе', color: SUN, count: 5,
+      items: [
+        { t: 'Внедрение CRM для школы', who: 'М. Иванова', due: '15.05' },
+        { t: 'Настроить интеграцию 1С',  who: 'А. Соколов', due: '16.05' },
+      ],
+    },
+    {
+      title: 'Просрочены', color: R, count: 2,
+      items: [
+        { t: 'Согласовать договор',     who: 'Д. Кузнецов', due: '−2 дн' },
+      ],
+    },
+  ];
+  return (
+    <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
+      <PltSectionHead t={t} color={INDIGO} title="Задачи" sub="Май · 15 шт." />
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+        <PltKpi t={t} label="Всего"     value="15" />
+        <PltKpi t={t} label="Открытые"  value="8"  valColor={B} />
+        <PltKpi t={t} label="Просрочены" value="2" valColor={R} />
+        <PltKpi t={t} label="Создано"   value="12" delta="+4" deltaColor={G} />
+      </div>
+
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 5, flex: 1 }}>
+        {cols.map(col => (
+          <Card key={col.title} t={t} style={{ padding: '8px 9px', display: 'flex', flexDirection: 'column', gap: 6 }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+              <span style={{ display: 'inline-flex', alignItems: 'center', gap: 5 }}>
+                <span style={{ width: 6, height: 6, background: col.color }} />
+                <span style={{ fontSize: 8, fontWeight: 700, color: t.titleC, letterSpacing: '0.04em' }}>{col.title}</span>
+              </span>
+              <span style={{ fontSize: 8, fontWeight: 700, color: t.mutedC, fontVariantNumeric: 'tabular-nums' }}>{col.count}</span>
+            </div>
+            {col.items.map((it, i) => (
+              <div key={i} style={{ background: t.bg, padding: '6px 7px', borderLeft: `2px solid ${col.color}` }}>
+                <div style={{ fontSize: 8, color: t.titleC, fontWeight: 500, lineHeight: 1.3 }}>{it.t}</div>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 3 }}>
+                  <span style={{ fontSize: 7, color: t.subC }}>{it.who}</span>
+                  <span style={{ fontSize: 7, color: col.color, fontWeight: 600 }}>{it.due}</span>
+                </div>
+              </div>
+            ))}
+          </Card>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+// ─────────────────────────────────────────────────────────────
 // Variant registry
 // ─────────────────────────────────────────────────────────────
 
@@ -624,8 +872,8 @@ export const SLIDER_VARIANTS = {
   },
   platform: {
     tabs: ['Дашборд', 'Заявки', 'Клиенты', 'Задачи'],
-    slideComponents: [CrmSlideFinance, CrmSlideDeals, CrmSlideAnalytics, CrmSlidePnL],
-    fixedTheme: 'light',
+    slideComponents: [PlatformDashboard, PlatformLeads, PlatformClients, PlatformTasks],
+    fixedTheme: null,
     hasLive: true,
   },
 };

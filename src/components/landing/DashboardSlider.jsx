@@ -77,8 +77,8 @@ export default function DashboardSlider({ variant = 'finance', light = false }) 
       </div>
 
       {/* Slide area */}
-      <div style={{
-        padding: '0 14px', height: 320, overflow: 'hidden',
+      <div className="av-slider-stage" style={{
+        padding: '0 14px',
         background: t.bg,
         borderTop: `1px solid ${t.cardBorder}`,
         borderBottom: `1px solid ${t.cardBorder}`,

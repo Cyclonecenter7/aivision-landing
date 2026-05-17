@@ -1391,20 +1391,17 @@
     padding: 12px 18px;
     background: var(--l-surface);
     color: var(--l-text-sec);
-    border: 1px solid var(--l-border);
     cursor: pointer;
-    transition: background 0.15s, color 0.15s, border-color 0.15s;
+    transition: background 0.15s, color 0.15s;
     clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);
   }
   .int-chip:hover {
     background: var(--brand);
     color: #fff;
-    border-color: var(--brand);
   }
   .int-chip.active {
     background: var(--brand);
     color: #fff;
-    border-color: var(--brand);
   }
 
   .int-result {
@@ -1507,6 +1504,33 @@
     font-size: 16px;
     color: var(--l-text-sec);
     line-height: 1.6;
+  }
+
+  /* DashboardSlider stage — responsive height */
+  .av-slider-stage {
+    height: 320px;
+    overflow: hidden;
+  }
+  @media (max-width: 768px) {
+    .av-slider-stage {
+      height: auto;
+      min-height: 380px;
+      overflow: visible;
+    }
+  }
+
+  /* Platform slide grids — responsive */
+  .plt-kpis-4 { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; }
+  .plt-kpis-5 { display: grid; grid-template-columns: repeat(5, 1fr); gap: 5px; }
+  .plt-kpis-6 { display: grid; grid-template-columns: repeat(6, 1fr); gap: 5px; }
+  .plt-cols-2 { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; }
+  .plt-cols-3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 5px; }
+  @media (max-width: 768px) {
+    .plt-kpis-4 { grid-template-columns: repeat(2, 1fr); }
+    .plt-kpis-5 { grid-template-columns: repeat(2, 1fr); }
+    .plt-kpis-6 { grid-template-columns: repeat(3, 1fr); }
+    .plt-cols-2 { grid-template-columns: 1fr; }
+    .plt-cols-3 { grid-template-columns: 1fr; }
   }
 
   /* CASES SECTION */
@@ -2054,16 +2078,31 @@
     width: 100%;
     max-width: 320px;
     height: auto;
-    aspect-ratio: 1 / 1;
+    aspect-ratio: auto;
     margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 16px;
   }
-  .triad-svg { height: auto; aspect-ratio: 1/1; }
+  .triad-svg {
+    width: 100%;
+    height: auto;
+    aspect-ratio: 1/1;
+    max-width: 280px;
+    align-self: center;
+  }
 
   .t-label {
     position: static;
     transform: none;
-    display: none;
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    gap: 10px;
   }
+  .t-label-num { margin-bottom: 0; }
+  .t-label-name { white-space: nowrap; font-size: 15px; }
 
   .problem-head {
     grid-template-columns: 1fr;

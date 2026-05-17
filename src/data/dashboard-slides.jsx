@@ -631,7 +631,7 @@ function PlatformDashboard({ t }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
       <PltSectionHead t={t} color={SUN} title="Финансы" sub="Май · 16 из 31 дн." />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6 }}>
+      <div className="plt-kpis-4">
         <PltKpi t={t} label="Маржа"  value="1.84 М ₽" valColor={B} delta="+27%" deltaColor={G} />
         <PltKpi t={t} label="Доход"  value="4.2 М ₽"  delta="+14%" deltaColor={G} />
         <PltKpi t={t} label="Расход" value="2.36 М ₽" delta="+6%"  deltaColor={R} />
@@ -647,7 +647,7 @@ function PlatformDashboard({ t }) {
             <span style={{ display: 'inline-flex', alignItems: 'center', gap: 4 }}><span style={{ width: 6, height: 2, background: B }} />Маржа</span>
           </div>
         </div>
-        <svg width="100%" height="170" viewBox="0 0 600 170" preserveAspectRatio="none">
+        <svg width="100%" height="170" viewBox="0 0 600 170" preserveAspectRatio="xMidYMid meet">
           <defs>
             <linearGradient id="gPltBrand" x1="0" x2="0" y1="0" y2="1">
               <stop offset="0%" stopColor={B} stopOpacity="0.22" />
@@ -694,7 +694,7 @@ function PlatformLeads({ t }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
       <PltSectionHead t={t} color={B} title="Заявки" sub="Май · 47 шт." />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(6,1fr)', gap: 5 }}>
+      <div className="plt-kpis-6">
         <PltKpi t={t} label="Всего"     value="47" delta="+18%" deltaColor={G} />
         <PltKpi t={t} label="Новые"     value="18" delta="+22%" deltaColor={G} />
         <PltKpi t={t} label="Связались" value="12" delta="+8%"  deltaColor={G} />
@@ -703,7 +703,7 @@ function PlatformLeads({ t }) {
         <PltKpi t={t} label="Тёплые"    value="14" valColor={SUN} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
+      <div className="plt-cols-2">
         <Card t={t} style={{ padding: '10px 12px' }}>
           <div style={{ fontSize: 7, fontWeight: 600, letterSpacing: '0.14em', color: t.mutedC, textTransform: 'uppercase', marginBottom: 8 }}>По статусам</div>
           <div style={{ display: 'flex', height: 6, gap: 1, marginBottom: 8 }}>
@@ -762,7 +762,7 @@ function PlatformClients({ t }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
       <PltSectionHead t={t} color={G} title="Клиенты" sub="База · 124 актив." />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(5,1fr)', gap: 5 }}>
+      <div className="plt-kpis-5">
         <PltKpi t={t} label="Всего"     value="156" />
         <PltKpi t={t} label="Активные"  value="124" valColor={G} />
         <PltKpi t={t} label="Новые"     value="14"  delta="+8%" deltaColor={G} />
@@ -814,14 +814,14 @@ function PlatformTasks({ t }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8, height: '100%' }}>
       <PltSectionHead t={t} color={INDIGO} title="Задачи" sub="Май · 15 шт." />
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+      <div className="plt-kpis-4">
         <PltKpi t={t} label="Всего"     value="15" />
         <PltKpi t={t} label="Открытые"  value="8"  valColor={B} />
         <PltKpi t={t} label="Просрочены" value="2" valColor={R} />
         <PltKpi t={t} label="Создано"   value="12" delta="+4" deltaColor={G} />
       </div>
 
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 5, flex: 1 }}>
+      <div className="plt-cols-3" style={{ flex: 1 }}>
         {cols.map(col => (
           <Card key={col.title} t={t} style={{ padding: '8px 9px', display: 'flex', flexDirection: 'column', gap: 6 }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

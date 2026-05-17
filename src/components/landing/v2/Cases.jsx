@@ -5,7 +5,7 @@ export default function Cases() {
   const cases = Object.values(CASES);
 
   return (
-    <section id="cases" className="bg-brand section">
+    <section id="cases" className="bg-light section">
       <div className="container">
         <div className="eyebrow">
           <div className="eyebrow-line"></div>
@@ -32,7 +32,7 @@ export default function Cases() {
             data-track={`case_card_${c.id}`}
             data-track-block="cases"
           >
-            <div className="case-tag" style={{ background: c.tagBg }}>
+            <div className="case-tag">
               <span>{c.tag}</span>
               <span className="case-tag-sub">{c.tagSub}</span>
             </div>

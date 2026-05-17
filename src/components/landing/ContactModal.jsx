@@ -7,13 +7,22 @@ import { Btn } from '@/components/ui';
 const clipCard = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
 const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
 
-export default function ContactModal({ open, onClose, source = 'modal', demoGate = false }) {
+export default function ContactModal({ open, onClose, source = 'modal', demoGate = false, initial = null }) {
   const [form, setForm] = useState({ name: '', contact: '', website: '' });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
 
-  // Auto-redirect to /demo/ in same tab after demo-gate submit success
+  useEffect(() => {
+    if (open) {
+      setForm({
+        name: initial?.name || '',
+        contact: initial?.contact || '',
+        website: '',
+      });
+    }
+  }, [open, initial?.name, initial?.contact]);
+
   useEffect(() => {
     if (sent && demoGate) {
       const id = setTimeout(() => { window.location.href = '/demo/'; }, 1500);
@@ -125,7 +134,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
             ) : (
               <>
                 <div className="text-white font-semibold mb-1">Заявка принята</div>
-                <p className="text-[#555] text-xs mb-6">Свяжемся в течение часа</p>
+                <p className="text-[#555] text-xs mb-6">Свяжемся в течение 5 минут</p>
 
                 <div className="border-t border-[#2A2A2A] pt-5 mt-2">
                   <p className="text-[#888] text-xs mb-3 leading-relaxed">

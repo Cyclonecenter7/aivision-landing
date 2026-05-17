@@ -1,22 +1,39 @@
-import { useEffect } from 'react';
-import { initTracker } from '@/lib/tracker';
+import { useEffect, useState } from 'react';
 import { Helmet } from 'react-helmet-async';
+import { initTracker } from '@/lib/tracker';
 import { SEO } from '@/lib/seo';
-import Navbar from '@/components/landing/Navbar';
-import Hero from '@/components/landing/Hero';
-import Problem from '@/components/landing/Problem';
-import Products from '@/components/landing/Products';
-import DemoStrip from '@/components/landing/DemoStrip';
-import Cases from '@/components/landing/Cases';
-import ComparisonWithForm from '@/components/landing/ComparisonWithForm';
-import Diagnosis from '@/components/landing/Diagnosis';
-import Footer from '@/components/landing/Footer';
+
+import Hero from '@/components/landing/v2/Hero';
+import Problem from '@/components/landing/v2/Problem';
+import Solution from '@/components/landing/v2/Solution';
+import Advantages from '@/components/landing/v2/Advantages';
+import Platform from '@/components/landing/v2/Platform';
+import Customization from '@/components/landing/v2/Customization';
+import Integrations from '@/components/landing/v2/Integrations';
+import HowWeWork from '@/components/landing/v2/HowWeWork';
+import Difference from '@/components/landing/v2/Difference';
+import Cases from '@/components/landing/v2/Cases';
+import FinalCTA from '@/components/landing/v2/FinalCTA';
+import StickyCta from '@/components/landing/v2/StickyCta';
+import Footer from '@/components/landing/v2/Footer';
+
+import ContactModal from '@/components/landing/ContactModal';
 
 export default function Landing() {
+  const [modal, setModal] = useState({ open: false, initial: null, source: 'modal' });
+
   useEffect(() => {
     initTracker();
     window.scrollTo({ top: 0, behavior: 'instant' });
   }, []);
+
+  const openContact = (initial = null, source = 'modal') => {
+    setModal({ open: true, initial, source });
+  };
+
+  const closeContact = () => {
+    setModal((m) => ({ ...m, open: false }));
+  };
 
   return (
     <div className="font-inter overflow-x-hidden">
@@ -36,16 +53,27 @@ export default function Landing() {
         <meta name="twitter:description" content={SEO.home.description} />
       </Helmet>
 
-      <Navbar />
-
-      <Hero />
+      <Hero onOpenContact={() => openContact(null, 'hero')} />
       <Problem />
-      <Products />
-      <DemoStrip />
+      <Solution />
+      <Advantages />
+      <Platform />
+      <Customization />
+      <Integrations />
+      <HowWeWork />
+      <Difference />
       <Cases />
-      <ComparisonWithForm />
-      <Diagnosis />
+      <FinalCTA />
       <Footer />
+
+      <StickyCta onOpenContact={() => openContact(null, 'sticky')} />
+
+      <ContactModal
+        open={modal.open}
+        onClose={closeContact}
+        source={modal.source}
+        initial={modal.initial}
+      />
     </div>
   );
 }

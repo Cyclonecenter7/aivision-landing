@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
-import Navbar from '@/components/landing/Navbar';
-import Footer from '@/components/landing/Footer';
+import { Link } from 'react-router-dom';
+import Footer from '@/components/landing/v2/Footer';
 
 function Num({ n }) {
   return <span style={{ color: '#3F6EE8', fontWeight: 700, marginRight: 8 }}>{n}</span>;
@@ -17,7 +17,14 @@ export default function PrivacyPolicy() {
 
   return (
     <div style={{ background: '#fff', minHeight: '100vh' }}>
-      <Navbar />
+      <header style={{ padding: '24px 48px', borderBottom: '1px solid #E8E8E8' }}>
+        <Link to="/" style={{ display: 'inline-flex', alignItems: 'center', gap: 10, color: '#0A0A0A', textDecoration: 'none', fontSize: 14, fontWeight: 700, letterSpacing: '0.15em' }}>
+          <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+            <path d="M0 0 L32 0 L32 26 L26 32 L0 32 Z" fill="#0A0A0A" />
+          </svg>
+          AIVISION
+        </Link>
+      </header>
       <main style={{ maxWidth: 720, margin: '0 auto', padding: '96px 24px 64px', fontFamily: 'Inter, sans-serif' }}>
         <div className="flex items-center gap-3 mb-5">
           <div className="w-6 h-px bg-blue" />

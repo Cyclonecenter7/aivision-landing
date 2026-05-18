@@ -37,6 +37,48 @@ self.addEventListener('push', (event) => {
   event.waitUntil(self.registration.showNotification(title, options));
 });
 
+// Browser rotates FCM endpoints periodically. Without this handler,
+// our DB keeps the stale endpoint and push silently stops working.
+// Fired when subscription is invalidated (or about to be).
+self.addEventListener('pushsubscriptionchange', (event) => {
+  event.waitUntil(
+    (async () => {
+      const oldSub = event.oldSubscription;
+      // newSubscription is sometimes provided, sometimes we must subscribe again.
+      let newSub = event.newSubscription;
+      if (!newSub) {
+        const opts = oldSub
+          ? { userVisibleOnly: true, applicationServerKey: oldSub.options.applicationServerKey }
+          : null;
+        if (!opts) return;
+        try {
+          newSub = await self.registration.pushManager.subscribe(opts);
+        } catch (err) {
+          console.error('[SW] resubscribe failed:', err);
+          return;
+        }
+      }
+      // POST new endpoint to backend. No JWT in SW context — backend must
+      // accept endpoint+keys+oldEndpoint and resolve user_id by oldEndpoint.
+      const body = newSub.toJSON();
+      try {
+        await fetch('/api/push/resubscribe', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          credentials: 'include',
+          body: JSON.stringify({
+            endpoint: body.endpoint,
+            keys: body.keys,
+            old_endpoint: oldSub?.endpoint || null,
+          }),
+        });
+      } catch (err) {
+        console.error('[SW] resubscribe POST failed:', err);
+      }
+    })()
+  );
+});
+
 self.addEventListener('notificationclick', (event) => {
   event.notification.close();
   const link = event.notification.data?.link || '/admin/dashboard';

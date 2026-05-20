@@ -612,9 +612,20 @@ const { Content } = await caseData.render();
 `public/demo/` остаётся. `scripts/sync-demo.sh` работает идентично. В Astro `public/`
 обрабатывается так же как в Vite — содержимое копируется в `dist/` как есть.
 
-### Параллельный домен для тестирования
-Деплой dev-ветки на `astro.aivisiontest.ru` (новый поддомен) — для тестирования
-до merge в main. После CF wildcard это сделается одной командой в nginx + certbot.
+### Где тестируем
+
+**Прямо на `aivisiontest.ru`** через стандартный dev → CI → rsync путь.
+Никакого параллельного поддомена не делаем. Логика:
+
+```
+feat/astro-migration → PR → dev (merge) → CI деплоит → aivisiontest.ru
+```
+
+На `aivisiontest.ru` Vite-версия **заменяется** Astro-версией — это и есть
+полноценный test-environment. После одобрения → merge `dev → main` → prod.
+
+Откатить если что: `git revert` merge-коммит в `dev`, CI вернёт Vite-версию
+за ~3 минуты. Подробности — см. § 9 Rollback Plan.
 
 ---
 
@@ -625,11 +636,8 @@ const { Content } = await caseData.render();
 - [ ] Создать ветку `feat/astro-migration` от `dev`
 - [ ] Контент от партнёра: тексты, OG-картинки, Organization data, verification meta
   (НЕ блокер — можно стартовать с плейсхолдерами, подменить точечно ~1 час)
-- [ ] (опционально) добавить в CF A-запись `astro.aivisiontest.ru → 85.239.51.8` если
-  хочешь параллельный домен для side-by-side сравнения. Без неё миграция деплоится
-  напрямую в `aivisiontest.ru` через `dev` ветку (заменяя текущий Vite-сайт)
-- [ ] (опционально, для будущего bootstrap-агента) CF wildcard `*.aivisiontest.ru` ИЛИ
-  CF API token. Для миграции AIVISION НЕ нужно
+- [ ] (для будущего bootstrap-агента, не для этой миграции) CF wildcard
+  `*.aivisiontest.ru` ИЛИ CF API token
 
 ### Phase 1 — каркас Astro
 
@@ -736,12 +744,16 @@ const { Content } = await caseData.render();
 - [ ] Старый `src/data/cases.js` — оставить если ещё нужен для миграции, иначе удалить
   после успешного переезда в `src/content/cases/*.md`
 
-### Phase 6 — workflow и инфра
+### Phase 6 — workflow
 
-- [ ] Обновить `.github/workflows/deploy.yml` (env переменная + build команда)
-- [ ] Создать nginx-конфиг для `astro.aivisiontest.ru` на 85.239.51.8
-- [ ] Запросить SSL через certbot (после CF wildcard)
-- [ ] rsync `dist/` на `/var/www/aivision-landing-astro-test/`
+- [ ] Обновить `.github/workflows/deploy.yml`:
+  - build команда: `npm run build` (внутри `astro build`)
+  - env: добавить `PUBLIC_SITE_URL` и `PUBLIC_ENV` по ветке (dev → aivisiontest.ru/development, main → aivisionpro.ru/production)
+  - target: тот же `/var/www/aivision-landing-dev/dist/` (dev) и
+    `/var/www/aivision-landing/dist/` (main) — пути не меняются
+- [ ] Nginx конфиг для `aivisiontest.ru` уже существует — менять **не нужно**
+  (`try_files /index.html` остаётся, не сломает Astro). Только добавить
+  security headers (см. Phase 7)
 
 ### Phase 7 — security headers (nginx)
 
@@ -770,9 +782,9 @@ add_header Content-Security-Policy "...; connect-src 'self' https://api.aivision
 **Зачем `X-Robots-Tag: noindex` на dev:** без него Google проиндексирует
 `aivisiontest.ru` как дубликат `aivisionpro.ru` → размытие веса, штраф за дубль-контент.
 
-**CORS на CRM-бэке:** если ставим параллельный `astro.aivisiontest.ru` для
-side-by-side тестирования — добавить его в `ALLOWED_ORIGINS` на CRM-бэке
-(`backend/.env` на dev-сервере), иначе формы заявок не сабмитятся (CORS блок).
+**CORS на CRM-бэке:** `aivisiontest.ru` и `aivisionpro.ru` уже должны быть в
+`ALLOWED_ORIGINS` на CRM-бэке (используются текущей версией). После миграции
+ничего менять не нужно — деплоим на те же домены.
 
 ### Phase 8 — verification и аналитика (от партнёра)
 
@@ -783,10 +795,10 @@ side-by-side тестирования — добавить его в `ALLOWED_OR
 - [ ] Submit sitemap в Я.Вебмастер
 - [ ] Submit sitemap в Search Console
 
-### Phase 9 — тестирование на `astro.aivisiontest.ru`
+### Phase 9 — тестирование на `aivisiontest.ru`
 
-- [ ] `curl https://astro.aivisiontest.ru/ | grep title` — title в HTML
-- [ ] `curl https://astro.aivisiontest.ru/ | grep og:image` — OG в HTML
+- [ ] `curl https://aivisiontest.ru/ | grep title` — title в HTML
+- [ ] `curl https://aivisiontest.ru/ | grep og:image` — OG в HTML
 - [ ] Lighthouse mobile — должен быть ≥ 90
 - [ ] Все 12 секций визуально 1-в-1 с prod (скриншот-сравнение)
 - [ ] Все 3 кейса открываются (`/case/1`, `/case/2`, `/case/3`)
@@ -802,8 +814,8 @@ side-by-side тестирования — добавить его в `ALLOWED_OR
 - [ ] UTM-метки сохраняются (URL `?utm_source=test` → видно в saveLead body)
 - [ ] visitor_id создаётся в localStorage
 - [ ] `/demo/` открывается, CRM-демо работает
-- [ ] Telegram-парсер: отправить `https://astro.aivisiontest.ru/` в любой чат → карточка с картинкой
-- [ ] OG-валидаторы: [opengraph.xyz](https://www.opengraph.xyz/url/https://astro.aivisiontest.ru/), [developers.facebook.com/tools/debug](https://developers.facebook.com/tools/debug/)
+- [ ] Telegram-парсер: отправить `https://aivisiontest.ru/` в любой чат → карточка с картинкой
+- [ ] OG-валидаторы: [opengraph.xyz](https://www.opengraph.xyz/url/https://aivisiontest.ru/), [developers.facebook.com/tools/debug](https://developers.facebook.com/tools/debug/)
 - [ ] Адаптив 375×667 (iPhone SE), 768, 1280, 1920
 - [ ] DevTools Console — ноль ошибок на главной и кейсах
 - [ ] DevTools Security — нет mixed content
@@ -822,7 +834,6 @@ side-by-side тестирования — добавить его в `ALLOWED_OR
 
 ### Phase 11 — после деплоя
 
-- [ ] Удалить временный поддомен `astro.aivisiontest.ru` (опционально, можно оставить)
 - [ ] Обновить CLAUDE.md в репе под новый стек
 - [ ] Обновить скилы и агенты (aivision-cto, aivision-frontend, aivision-testing,
   aivision-devops) под Astro
@@ -885,8 +896,8 @@ side-by-side тестирования — добавить его в `ALLOWED_OR
 - Контент от партнёра (тексты, OG-картинки, JSON-LD данные, verification meta, аналитика IDs)
   → при отсутствии используем плейсхолдеры (текущие тексты из seo.js, favicon как og-image),
   деплоим, потом точечно подменяем (~1 час правок)
-- (опц.) A-запись `astro.aivisiontest.ru` в CF — если хочется параллельный домен
-  для тестирования. Без неё — деплой в `aivisiontest.ru` напрямую через dev-ветку
+(никаких CF-телодвижений для миграции не требуется — деплой на тот же
+`aivisiontest.ru` через стандартный dev → CI)
 
 ### Не связаны с миграцией (отдельные задачи)
 - Bootstrap-скрипт для клонирования — стартует **после** успешной миграции AIVISION.

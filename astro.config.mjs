@@ -9,7 +9,7 @@ export default defineConfig({
   site: process.env.PUBLIC_SITE_URL || 'https://aivisionpro.ru',
   trailingSlash: 'never',
   build: {
-    format: 'file',
+    format: 'directory',
   },
   integrations: [
     react(),

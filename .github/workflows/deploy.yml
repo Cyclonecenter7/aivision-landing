@@ -2,7 +2,7 @@ name: Deploy Landing
 
 on:
   push:
-    branches: [dev, main]
+    branches: [dev, main, feat/astro-migration]
 
 jobs:
   deploy:
@@ -21,13 +21,18 @@ jobs:
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_PROD }}" >> $GITHUB_ENV
-            echo "BUILD_MODE=production" >> $GITHUB_ENV
+            echo "PUBLIC_ENV=production" >> $GITHUB_ENV
+            echo "PUBLIC_SITE_URL=https://aivisionpro.ru" >> $GITHUB_ENV
+            echo "PUBLIC_API_URL=https://api.aivisionpro.ru" >> $GITHUB_ENV
           else
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
-            echo "BUILD_MODE=development" >> $GITHUB_ENV
+            echo "PUBLIC_ENV=development" >> $GITHUB_ENV
+            echo "PUBLIC_SITE_URL=https://aivisiontest.ru" >> $GITHUB_ENV
+            echo "PUBLIC_API_URL=https://api.aivisiontest.ru" >> $GITHUB_ENV
           fi
 
-      - run: npx vite build --mode $BUILD_MODE
+      - name: Build (Astro)
+        run: npm run build
 
       - name: Deploy via rsync
         run: |

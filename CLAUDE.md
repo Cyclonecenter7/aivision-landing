@@ -1,34 +1,32 @@
 # AIVISION Landing — Контекст проекта
 
 Публичный лендинг (`aivisionpro.ru`) + вшитое demo CRM по адресу `/demo/`.
-Только фронтенд, статика, билдится Vite.
-
+Static site через **Astro 5** (SSG), React-острова для интерактива.
 API-вызовы (трекинг, заявки) идут на CRM-бэкенд (`api.aivisionpro.ru`)
-через `VITE_API_URL`.
+через `PUBLIC_API_URL`.
 
 ## Стек
 
 ```
-React 18 + Vite 6
-Tailwind 3                  — utility, в основном фоны (.bg-brand/.bg-dark/.bg-light)
-react-router-dom 6
-react-helmet-async 3        — SEO/<head>
-lucide-react                — иконки
+Astro 5 + @astrojs/react + @astrojs/tailwind + @astrojs/mdx + @astrojs/sitemap
+React 18                    — только в islands (ContactModal/DashboardSlider/InlineLeadForm/IntegrationsBuilder)
+Tailwind 3                  — utility (.bg-brand/.bg-dark/.bg-light), preflight отключён
+lucide-react                — иконки в React-islands
+Content Collections         — кейсы как .md в src/content/cases/
 ```
 
-Никаких UI-китов, state-management, TypeScript.
+Никаких UI-китов (кроме `Btn` для ContactModal), state-management, TypeScript.
 
-## Дизайн-стратегия v2 (актуальная)
+## Дизайн-стратегия v2
 
-Лендинг переписан под утверждённый HTML-референс. Все стили компонентов
-оригинального референса вшиты в `src/index.css` через `@layer components`
+Все стили компонентов вшиты в `src/styles/global.css` через `@layer components`
 (включая медиа-запросы для ≤768px и ≤380px). Tailwind остаётся для
-утилитных классов (`.font-inter`, `.overflow-x-hidden` и т.д.).
+утилитных классов (`.font-inter`, `.overflow-x-hidden`).
 
 **Геометрия:** chamfer-угол через `clip-path: polygon(...)` (10–28px),
 **никакого** `border-radius` и **никакого** `border` на элементах с `clip-path`
 (не дружат — даёт «крюк» по диагонали). Если нужна кайма — `box-shadow: inset 0 0 0 Npx`
-или двухслойная обёртка (см. `.sticky-cta-demo` и `.sticky-cta-demo-inner`).
+или двухслойная обёртка.
 
 **Italic — запрещён** глобально (`em, i, cite, address { font-style: normal }`).
 Акценты — только цветом `var(--brand) #3F6EE8`.
@@ -36,145 +34,207 @@ lucide-react                — иконки
 ## Структура
 
 ```
+astro.config.mjs              integrations + trailingSlash:'always' + build.format:'directory'
+tailwind.config.cjs           content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}'], applyBaseStyles:false
+tsconfig.json                 paths: { "@/*": ["./src/*"] }
+
 src/
-├── App.jsx                       роутер + глобальный click-tracker
-├── main.jsx                      entry
-├── index.css                     Tailwind base + полный CSS реф в @layer components
-├── pages/
-│   ├── Landing.jsx               главная — композиция 12 v2-секций + ContactModal state
-│   ├── CasePage.jsx              карточка кейса
-│   ├── PrivacyPolicy.jsx
-│   └── Consent.jsx
+├── layouts/
+│   └── BaseLayout.astro         <head>: title/description/canonical, OG, twitter,
+│                                yandex-verification (a580ae03a42eedfc),
+│                                JSON-LD (Organization+WebSite+...page-specific),
+│                                Я.Метрика (109325036) + GA4 (G-PRM6XBSJZS) только в prod,
+│                                глобальный click-tracker + .js-open-contact делегат
+│
+├── pages/                       file-based роуты SSG
+│   ├── index.astro              главная (композиция 12 секций + StickyCta + ContactModalIsland)
+│   ├── cases/[slug].astro       динамика через getCollection('cases')
+│   ├── privacy-policy.astro
+│   ├── consent.astro
+│   └── 404.astro                noindex, Astro подхватывает автоматом
+│
 ├── components/
-│   ├── landing/
-│   │   ├── ContactModal.jsx               модалка диагностики, шлёт saveLead
-│   │   ├── ContactToggleInput.jsx         input с переключателем Telegram/Телефон
-│   │   ├── DashboardSlider.jsx            универсальный слайдер (variant=...)
-│   │   └── v2/                            ★ актуальные секции лендинга
-│   │       ├── Navbar.jsx                 внутри Hero, абсолютный
-│   │       ├── Hero.jsx                   #01 brand-фон, триада SVG + 2 CTA
-│   │       ├── Problem.jsx                #02 light, 3 prob-card
-│   │       ├── Solution.jsx               #03 dark, 3 sol-card (Видимость/Контроль/Управляемость)
-│   │       ├── Advantages.jsx             #04 light, 3 adv-card (collapsible body)
-│   │       ├── Platform.jsx               #05 dark, slider variant="platform"
-│   │       ├── Customization.jsx          #06 light, 4 cst-card + cst-viz stack + cst-vs (brand)
-│   │       ├── Integrations.jsx           #07 light, конструктор: 9 чипов → описание → форма
-│   │       ├── HowWeWork.jsx              #08 dark, 4 шага + closing
-│   │       ├── Difference.jsx             #09 light, 4 diff-card
-│   │       ├── Cases.jsx                  #10 light, 3 brand-карточки из data/cases.js
-│   │       ├── FinalCTA.jsx               #11 dark, inline-форма (saveLead напрямую)
-│   │       ├── StickyCta.jsx              sticky-бар (Диагностика + TG + Демо)
-│   │       └── Footer.jsx
-│   └── ui/                       Btn (используется в ContactModal/CasePage), index.js
+│   ├── v2/                      ★ 14 .astro секций (markup-only, без React-runtime)
+│   │   ├── Navbar.astro         внутри Hero
+│   │   ├── Hero.astro           CTA через .js-open-contact + data-source
+│   │   ├── Problem · Solution · HowWeWork · Difference · Footer
+│   │   ├── Advantages.astro     collapsible через inline <script> (vanilla)
+│   │   ├── Customization.astro  то же
+│   │   ├── Platform.astro       включает <DashboardSlider client:visible />
+│   │   ├── Integrations.astro   обёртка над <IntegrationsBuilder client:load />
+│   │   ├── FinalCTA.astro       обёртка над <InlineLeadForm client:load />
+│   │   ├── Cases.astro          getCollection('cases'), сортировка по order
+│   │   └── StickyCta.astro      scroll-listener inline-script
+│   │
+│   ├── islands/                 React-острова (интерактив)
+│   │   ├── ContactModalIsland.jsx   слушает window 'aivision:open-contact'
+│   │   ├── ContactModal.jsx
+│   │   ├── ContactToggleInput.jsx
+│   │   ├── DashboardSlider.jsx
+│   │   ├── InlineLeadForm.jsx       форма для FinalCTA
+│   │   └── IntegrationsBuilder.jsx  chips + форма
+│   │
+│   └── ui/
+│       └── Btn.jsx                  только для ContactModal/CasePage
+│
+├── content/
+│   ├── config.ts                Astro content config (zod schema)
+│   └── cases/
+│       ├── education.md         id:"education", order:1, sliderVariant:"finance"
+│       ├── construction.md      id:"construction", order:2, sliderVariant:"crm"
+│       └── ecommerce.md         id:"ecommerce", order:3, sliderVariant:"ecommerce"
+│
 ├── lib/
-│   ├── tracker.js                визит/сессия/клик/saveLead → CRM-бэк
-│   ├── seo.js                    helmet-хелперы (SEO.home, SEO.case1/2/3)
-│   ├── ErrorBoundary.jsx
-│   └── PageNotFound.jsx
-├── config/
-│   └── brand.js                  бренд-константы (НЕ используется в v2, кандидат на удаление)
-└── data/
-    ├── cases.js                  3 кейса (Образование / 200+ млн / WB)
-    └── dashboard-slides.jsx      SLIDER_VARIANTS: finance / crm / ecommerce / platform
+│   ├── tracker.js               visitor/session/click/saveLead → PUBLIC_API_URL/api/*
+│   ├── seo.js                   home/caseEducation/caseConstruction/caseEcommerce/privacy/consent
+│   │                            поля: title, description, ogTitle, ogDescription,
+│   │                            path, ogImage, twitterImage, robots
+│   └── jsonld.js                organizationSchema, websiteSchema, caseSchema()
+│
+├── data/
+│   └── dashboard-slides.jsx     SLIDER_VARIANTS: finance/crm/ecommerce/platform
+│
+└── styles/
+    └── global.css               Tailwind base + полный CSS реф v2 в @layer components
+                                 + @import Inter из Google Fonts на первой строке
 
 public/
-├── demo/                         вшитая сборка CRM (см. scripts/sync-demo.sh)
-├── favicon.svg, robots.txt, sitemap.xml
+├── demo/                        вшитая сборка CRM (см. scripts/sync-demo.sh)
+├── og/                          OG-картинки 1200×630 PNG (Inter, brand)
+│   ├── og-main.png              ≈57KB
+│   ├── og-case-1.png            ≈40KB (для education)
+│   ├── og-case-2.png            ≈45KB (для construction)
+│   └── og-case-3.png            ≈40KB (для ecommerce)
+├── favicon.svg
+├── logo-512.png                 для JSON-LD Organization.logo, rich snippet Google
+├── robots.txt                   Disallow /demo/, Sitemap → sitemap-index.xml
+
+deploy/
+└── nginx/                       источник правды серверных конфигов
+    ├── aivision-security-dev.conf       snippet headers для aivisiontest (с X-Robots noindex)
+    ├── aivision-security-prod.conf      snippet headers для aivisionpro.ru
+    ├── aivisiontest.ru.landing-block.conf
+    ├── aivisionpro.ru.landing-block.conf
+    └── README.md
 
 scripts/
-└── sync-demo.sh                  пересборка demo CRM в public/demo/
+└── sync-demo.sh                 пересборка demo CRM в public/demo/
 ```
 
 ## Важные особенности
 
-- Все API-вызовы → CRM-бэкенд через `VITE_API_URL` (`api.aivisionpro.ru`).
-  Если пусто — fetch пойдёт по относительному пути и не сработает
-- Трекинг кликов — через атрибут `data-track` на DOM-элементе
-  (handler в `App.jsx`, шлёт в `trackClick` из `lib/tracker.js`).
-  Дополнительно: `data-track-block`, `data-track-text`
-- SEO через `react-helmet-async`. Все страницы должны быть обёрнуты в `<HelmetProvider>`
-  (включено в `main.jsx`)
-- Алиас `@/` → `src/` (см. `jsconfig.json` / `vite.config.js`)
-- Реакция на заявку везде единая копия — **«в течение 5 минут»**
-  (ContactModal success / FinalCTA stat / Integrations form hint)
+### Глобальное событие открытия модалки
+
+В Astro нет React-state пробрасывания. Любая кнопка-триггер модалки:
+
+```html
+<button class="btn js-open-contact" data-source="hero">Начать диагностику</button>
+```
+
+Глобальный делегат в `BaseLayout.astro` ловит клик на `.js-open-contact`,
+эмитит `window.dispatchEvent(new CustomEvent('aivision:open-contact', {detail:{source}}))`.
+
+`ContactModalIsland.jsx` (один экземпляр на странице через `client:load`)
+слушает это событие и открывает модалку.
+
+### Click-трекинг
+
+Атрибут `data-track="..."` + опц. `data-track-block` / `data-track-text`.
+Глобальный handler в `BaseLayout.astro` ловит клик по любому `[data-track]`
+и шлёт `trackClick(text, id, block)` из `lib/tracker.js`.
+
+### SEO
+
+`src/lib/seo.js` — словарь `SEO.{home,caseEducation,caseConstruction,caseEcommerce,privacy,consent}`.
+Каждая запись: `title, description, ogTitle, ogDescription, path, ogImage, twitterImage, robots`.
+
+`seoUrl(seoEntry)` возвращает полный URL с `PUBLIC_SITE_URL` (per-env).
+
+Дев-окружение всегда noindex (BaseLayout проверяет `PUBLIC_ENV !== 'production'`).
+
+JSON-LD: на каждой странице Organization + WebSite автоматически из `BaseLayout`.
+Кейсы дополнительно прокидывают `caseSchema()` через `jsonLd` prop.
+
+### Кейсы как Markdown
+
+`src/content/cases/{education,construction,ecommerce}.md` — frontmatter с
+структурированными полями (problems[], actions[], results[], sliderVariant,
+seoKey, order, datePublished, ogImage).
+
+Чтобы добавить новый кейс: создаёшь `<slug>.md`, добавляешь запись в `seo.js`,
+ставишь `seoKey` в frontmatter. Маршрут `/cases/<slug>/` появится автоматом.
 
 ### DashboardSlider variants
 
 `src/data/dashboard-slides.jsx` экспортирует `SLIDER_VARIANTS`:
 
-| variant | tabs | использование |
-|---|---|---|
-| `finance` | Дашборд / Операции / Визиты / Аналитика / Категории | CasePage кейс 1 (образование) |
-| `crm` | Сделки / Финансы / Аналитика / Платёж / PnL | CasePage кейс 2 (200+ млн) |
-| `ecommerce` | Обзор / Бренды / Воронка / Товары | CasePage кейс 3 (WB) |
-| `platform` | Дашборд / Заявки / Клиенты / Задачи | **v2-лендинг Platform секция (dark)** |
+| variant | использование |
+|---|---|
+| `finance` | кейс education (`sliderLight: true`) |
+| `crm` | кейс construction |
+| `ecommerce` | кейс ecommerce |
+| `platform` | v2-лендинг Platform секция (dark) |
 
 Слайды автопереключаются каждые 8с. На мобилке `.av-slider-stage`
-зафиксирован высотой 540px (overflow hidden) чтобы avoid reflow при
-автопереключении (слайды разной высоты иначе двигают viewport).
+зафиксирован высотой 540px (overflow hidden).
 
-### Inline-формы саб­миттят saveLead напрямую
+### Inline-формы
 
-`FinalCTA` и `Integrations` форма НЕ открывают ContactModal — шлют лиды
-сами через `saveLead({ name, contact, contact_type, source_block })`.
-ContactModal остаётся для кнопок «Начать диагностику» в навбаре, hero, sticky.
+`InlineLeadForm.jsx` (FinalCTA) и `IntegrationsBuilder.jsx` (Integrations)
+шлют лиды напрямую через `saveLead()`, не открывают ContactModal.
 
 ### Demo CRM в `public/demo/`
 
-- Содержит вшитую статическую сборку CRM-фронтенда. Это интерактивное демо
-  на лендинге, доступно по `/demo/`
-- Обновляется **вручную** через `scripts/sync-demo.sh`:
-  ```bash
-  ./scripts/sync-demo.sh           # CRM_PATH=../AIVISION\ CRM по умолчанию
-  ```
-  Скрипт делает `VITE_DEMO=1 npm run build` в CRM, копирует `dist/` в `public/demo/`
-- CRM-сборка с `VITE_DEMO=1` использует моки вместо реального бэка
-  и base path `/demo/` для ассетов
-- После каждой синхронизации — отдельный коммит `chore(demo): rebuild — <причина>`
-  с SHA исходного коммита CRM в описании
-- **Процесс синхронизации — техдолг.** Автоматизация через GitHub Action
-  отложена. Сам артефакт `public/demo/` — фича прода, не удалять
+- Вшитая статическая сборка CRM-фронтенда. Обновляется вручную через
+  `scripts/sync-demo.sh`
+- CRM-сборка с `VITE_DEMO=1` использует моки + base path `/demo/`
+- **Не править руками** — артефакт билда CRM, перезатрётся следующим sync
 
-### Demo gate / post-submit upsell
+### URL-редизайн (история)
 
-- После отправки формы заявки в `ContactModal` показывается success-блок
-  с предложением открыть демо. Аналогично в FinalCTA после саб­мита
-- Демо открывается в новой вкладке на `/demo/`
+Старые URL `/case/1`, `/case/2`, `/case/3` редиректят 301 на
+`/cases/education/`, `/cases/construction/`, `/cases/ecommerce/`
+(nginx config в `deploy/nginx/aivisionpro.ru.landing-block.conf`).
 
 ## Окружение
 
 ```bash
-cp .env.example .env       # VITE_API_URL=https://api.aivisionpro.ru
+cp .env.example .env       # PUBLIC_SITE_URL=http://localhost:4321
+                           # PUBLIC_API_URL=https://api.aivisionpro.ru
+                           # PUBLIC_ENV=development
 npm install
-npm run dev                # http://localhost:5173
-npm run build              # → dist/ для прода
+npm run dev                # http://localhost:4321
+npm run build              # → dist/
+npm run check              # astro check (типизация — техдолг, может валиться на Astro.props)
 ```
 
 ## Деплой
 
-- **Прод:** `aivisionpro.ru` (push в `main` → `.github/workflows/deploy.yml`
-  → vite build mode=production → rsync на VPS Timeweb)
-- **Dev:** `aivisiontest.ru` (push в `dev` → mode=development → rsync)
-- nginx раздаёт `dist/` статикой с `try_files /index.html` для SPA-роутинга
+- **Prod:** `aivisionpro.ru` (push в `main` → `.github/workflows/deploy.yml`
+  → `astro build` с PUBLIC_ENV=production → rsync `dist/` на VPS Timeweb)
+- **Dev:** `aivisiontest.ru` (push в `dev` → PUBLIC_ENV=development → rsync)
+- Nginx раздаёт `dist/` статикой с `try_files $uri $uri/ =404`
+  и `error_page 404 /404.html`
+- Security headers через `/etc/nginx/snippets/aivision-security-{dev,prod}.conf`
+  (include в каждом location — иначе add_header inheritance ломается)
+- На dev: X-Robots-Tag noindex. На prod: без него (индексируется)
 
-## Техдолг (не блокер, фоном)
+## Аналитика и SEO
 
-- `src/config/brand.js` — не используется компонентами, кандидат на удаление
-- `src/components/ui/Eyebrow.jsx`, `ClipCard.jsx`, `Section.jsx` — экспортируются
-  из `ui/index.js`, но не импортируются. Btn остаётся (используется ContactModal + CasePage)
-- CSS legacy vars в `src/index.css:13–17` (`--color-bg`, `--color-bg-light`,
-  `--color-dark2`, `--color-red`) — не используются. `--font-inter` нужен
-- `SLIDER_VARIANTS.finance/crm/ecommerce` со слайдами `FinanceSlideN/CrmSlideN/EcomSlideN`
-  (~500 строк) живут только для CasePage. Если кейсы будут переделаны — кандидат на чистку
+- **Я.Метрика 109325036** — только в prod, через PUBLIC_ENV check
+- **GA4 G-PRM6XBSJZS** — только в prod
+- **Я.Вебмастер verification:** `a580ae03a42eedfc` (meta-тег в BaseLayout)
+- **Google Search Console:** DNS-verification (meta-тег не нужен)
+- **Sitemap:** `https://aivisionpro.ru/sitemap-index.xml` (авто через @astrojs/sitemap)
 
 ## Что НЕ делаем
 
-- Не добавляем backend в этот репо — бэк живёт в `AIVISION CRM/backend/`
-- Не добавляем state-management (redux/zustand) — лендинг не нуждается
-- Не добавляем TypeScript — проект на чистом JS
-- Не правим файлы в `public/demo/` руками — артефакт билда CRM, перезатрётся
-  следующим `sync-demo.sh`. Менять надо CRM-репо и пересобирать
-- Не делаем fetch на относительные пути — всегда через `VITE_API_URL`
-- Не используем `border` + `clip-path` вместе — даёт «крюк» по диагонали.
-  Альтернатива: `box-shadow: inset` или двухслойная обёртка
-- Не используем italic — глобально отключён в `@layer base`
+- Не добавляем backend — бэк живёт в `AIVISION CRM/backend/`
+- Не добавляем state-management — нет повода
+- Не добавляем TypeScript на pages (только тонкие interface Props в .astro)
+- Не правим файлы в `public/demo/` руками
+- Не делаем fetch на относительные пути — всегда через `PUBLIC_API_URL`
+- Не используем `border` + `clip-path` вместе
+- Не используем italic
+- Не используем `border-radius` на chamfer-элементах
+- Не возвращаемся на `react-router-dom`/`react-helmet-async` — миграция на Astro закрыла SEO-блокер

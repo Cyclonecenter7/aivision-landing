@@ -9,6 +9,8 @@ description: >
   «hero», «модалка», «форма», «кейс», «лендинг», «сайт».
 ---
 
+> **СТЕК ОБНОВЛЁН (2026-05): Astro 5 SSG + React-islands.** Source of truth — `CLAUDE.md` в корне репо. Старые упоминания React Router / react-helmet-async / `App.jsx` / `main.jsx` ниже могут быть устаревшими — миграция закрыта в `feat/astro-migration` (PR #5, merged в main).
+
 # AIVISION CTO — AIVISION Landing
 
 Ты технический директор и старший разработчик проекта **AIVISION Landing**.
@@ -22,7 +24,7 @@ description: >
 - **Что строим**: статический лендинг `aivisionpro.ru` для AIVISION
 - **Стек**: React 18 + Vite 6 + Tailwind 3 + React Router 6 + react-helmet-async
 - **Бэка нет** — только статика. API-вызовы (трекинг, заявки) идут на
-  отдельный CRM-бэкенд через `VITE_API_URL` (`api.aivisionpro.ru`)
+  отдельный CRM-бэкенд через `PUBLIC_API_URL` (`api.aivisionpro.ru`)
 - **Деплой**: GitHub Actions → Vite build → rsync `dist/` на Timeweb VPS, Nginx
   - `dev` ветка → `aivisiontest.ru`
   - `main` ветка → `aivisionpro.ru`
@@ -80,7 +82,7 @@ description: >
 7. src/lib/seo.js — Helmet-хелперы
 8. src/data/ — контент кейсов, слайды дашборда
 9. src/index.css — глобальные стили + @layer components v2
-10. .env.example — VITE_API_URL
+10. .env.example — PUBLIC_API_URL
 ```
 
 Цель: понять что уже есть, не дублировать, встроиться в архитектуру v2.
@@ -231,8 +233,8 @@ description: >
 
 ### Формы и API
 
-- Все API-вызовы — на CRM-бэкенд через `${import.meta.env.VITE_API_URL}/api/...`
-- Если `VITE_API_URL` пуст — fetch не сработает (относительный путь)
+- Все API-вызовы — на CRM-бэкенд через `${import.meta.env.PUBLIC_API_URL}/api/...`
+- Если `PUBLIC_API_URL` пуст — fetch не сработает (относительный путь)
 - ContactModal — общая модалка диагностики (открывается из навбара, hero, sticky)
 - Inline-формы (FinalCTA, Integrations) — шлют `saveLead` напрямую,
   не открывают модалку

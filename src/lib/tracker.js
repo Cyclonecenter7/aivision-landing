@@ -1,4 +1,4 @@
-const API_BASE = import.meta.env.VITE_API_URL || '';
+const API_BASE = import.meta.env.PUBLIC_API_URL || '';
 
 function generateUUID() {
   if (typeof crypto !== 'undefined' && crypto.randomUUID) {

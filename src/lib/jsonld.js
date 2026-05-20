@@ -9,7 +9,7 @@ export const organizationSchema = {
   name: 'AIVISION',
   alternateName: 'Будаева Юлия Юрьевна',
   url: SITE,
-  logo: `${SITE}/favicon.svg`,
+  logo: `${SITE}/logo-512.png`,
   email: 'support@aivisionpro.ru',
   telephone: '+7-985-664-80-01',
   taxID: '333412284650',

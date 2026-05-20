@@ -1,0 +1,21 @@
+#!/usr/bin/env bash
+# post-merge hook: после git pull / git merge на dev или main
+# автоматически чистит мерженные claude/* worktrees и ветки.
+#
+# Установка: ./scripts/install-hooks.sh (один раз).
+
+CURRENT_BRANCH="$(git rev-parse --abbrev-ref HEAD 2>/dev/null || echo "")"
+
+# Запускаем только если мы на dev или main
+case "$CURRENT_BRANCH" in
+  dev|main) ;;
+  *) exit 0 ;;
+esac
+
+REPO_ROOT="$(git rev-parse --show-toplevel)"
+SCRIPT="$REPO_ROOT/scripts/cleanup-worktrees.sh"
+
+if [[ -x "$SCRIPT" ]]; then
+  printf "\n[post-merge] Проверяю состояние worktrees...\n"
+  "$SCRIPT" --safe || true
+fi

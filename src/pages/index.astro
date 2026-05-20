@@ -1,0 +1,47 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SEO, seoUrl } from '@/lib/seo';
+
+import Hero from '@/components/v2/Hero.astro';
+import Problem from '@/components/v2/Problem.astro';
+import Solution from '@/components/v2/Solution.astro';
+import Advantages from '@/components/v2/Advantages.astro';
+import Platform from '@/components/v2/Platform.astro';
+import Customization from '@/components/v2/Customization.astro';
+import Integrations from '@/components/v2/Integrations.astro';
+import HowWeWork from '@/components/v2/HowWeWork.astro';
+import Difference from '@/components/v2/Difference.astro';
+import Cases from '@/components/v2/Cases.astro';
+import FinalCTA from '@/components/v2/FinalCTA.astro';
+import StickyCta from '@/components/v2/StickyCta.astro';
+import Footer from '@/components/v2/Footer.astro';
+import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
+
+const seo = SEO.home;
+---
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  canonical={seoUrl(seo)}
+  ogTitle={seo.ogTitle}
+  ogDescription={seo.ogDescription}
+  ogImage={seo.ogImage}
+  twitterImage={seo.twitterImage}
+  robots={seo.robots}
+>
+  <Hero />
+  <Problem />
+  <Solution />
+  <Advantages />
+  <Platform />
+  <Customization />
+  <Integrations />
+  <HowWeWork />
+  <Difference />
+  <Cases />
+  <FinalCTA />
+  <Footer />
+
+  <StickyCta />
+  <ContactModalIsland client:load />
+</BaseLayout>

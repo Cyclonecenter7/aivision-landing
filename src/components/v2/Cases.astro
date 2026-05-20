@@ -1,0 +1,59 @@
+---
+import { getCollection } from 'astro:content';
+
+const entries = await getCollection('cases');
+const cases = entries
+  .map((e) => e.data)
+  .sort((a, b) => (a.order ?? 99) - (b.order ?? 99));
+---
+<section id="cases" class="bg-light section">
+  <div class="container">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Кейсы</span>
+    </div>
+  </div>
+
+  <div class="cases-head">
+    <h2 class="cases-h2">
+      Что мы уже <em>сделали</em>
+    </h2>
+    <p class="cases-sub">
+      Три бизнеса разного масштаба. Один подход — управление на цифрах,
+      а не на ощущениях.
+    </p>
+  </div>
+
+  <div class="cases-grid">
+    {cases.map((c) => (
+      <a
+        href={`/cases/${c.id}/`}
+        class="case-card"
+        data-track={`case_card_${c.id}`}
+        data-track-block="cases"
+      >
+        <div class="case-tag">
+          <span>{c.tag}</span>
+          <span class="case-tag-sub">{c.tagSub}</span>
+        </div>
+
+        <div class="case-title">
+          {c.titleLine1}<br />{c.titleLine2}
+        </div>
+
+        <p class="case-desc">{c.description}</p>
+
+        <div class="case-kpis">
+          {c.results.slice(0, 3).map((r) => (
+            <div class="case-kpi">
+              <span class="case-kpi-val">{r.v}</span>
+              <span class="case-kpi-lab">{r.l}</span>
+            </div>
+          ))}
+        </div>
+
+        <span class="case-link">Открыть кейс →</span>
+      </a>
+    ))}
+  </div>
+</section>

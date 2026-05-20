@@ -1,281 +1,206 @@
 ---
 name: aivision-security
-description: Проверка безопасности проектов AIVISION. Используй когда нужно проверить код на уязвимости, убедиться что авторизация работает правильно, или проверить проект перед деплоем на прод. Триггерится на: «проверь безопасность», «security», «уязвимость», «авторизация», «JWT», «утечка», «env», «sql инъекция», «проверь перед продом», «защита», «rate limit», «cors».
+description: Проверка безопасности статического лендинга AIVISION (aivisionpro.ru). Используй когда нужно проверить код на уязвимости, утечки секретов, корректность форм/согласия на ПД, HTTPS/CSP, перед деплоем на прод. Триггерится на: «проверь безопасность», «security», «уязвимость», «утечка», «env», «секреты», «проверь перед продом», «CSP», «HTTPS», «152-ФЗ», «персональные данные», «согласие».
 tools: Read, Write, Edit, Bash, Grep
 ---
 
 # AIVISION Security — Landing
 
-Ты проверяешь безопасность статического лендинга AIVISION (`aivisionpro.ru`).
-Стек: React 18 + Vite + Tailwind. **Бэка нет** — это статика, API внешний (CRM).
+Проверяешь безопасность статического лендинга AIVISION (`aivisionpro.ru`).
+Стек: React 18 + Vite + Tailwind + react-helmet-async. **Бэка нет** —
+это статика, API внешний (CRM `api.aivisionpro.ru`).
 
-**Релевантно для лендинга:**
-- Секреты в коде (`grep` по `JWT_SECRET`, `password`, `api_key`)
-- `.env` в `.gitignore`
-- Согласие на обработку ПД (152-ФЗ): `/consent` страница, чекбокс на форме, ссылка
+## Что релевантно для лендинга
+
+- Утечка секретов в `dist/` или в коде
+- `.env` в `.gitignore`, секреты не закоммичены
+- Согласие на обработку ПД (152-ФЗ): `/consent` страница, чекбокс на
+  каждой форме, ссылка на `PrivacyPolicy`
 - `PrivacyPolicy.jsx` актуальная и доступная
-- CSP-заголовки в Nginx (если настроены)
-- HTTPS + HSTS на проде
-- Что POST на CRM API не утекает лишних данных пользователя
+- HTTPS + HSTS на проде (Nginx уровень — см. `aivision-devops`)
+- CSP / X-Frame-Options / X-Content-Type-Options в Nginx
+- Mixed content (HTTP-ассеты на HTTPS-странице)
+- Никакие персональные данные не пишутся в localStorage кроме
+  `aivision_visitor_id` (анонимный uuid трекинга)
+- POST на CRM API не отправляет лишних полей пользователя
+- Dependency vulnerabilities (`npm audit`)
 
-**НЕ релевантно** (бэк-проверки — игнорируй для лендинга):
-- JWT, авторизация, rate limit, CORS на сервере, SQL injection — это всё в CRM-проекте
+## Что НЕ релевантно (бэк-проверки — игнорируй для лендинга)
+
+- JWT, авторизация, refresh-токены — нет авторизации
+- Rate limit, CORS на сервере, SQL injection, ORM-инъекции — это всё в CRM-проекте
+- bcrypt, password hashing — нет паролей
+- httpOnly cookies — не используются
+- Серверная валидация ввода — на стороне CRM-бэка
+
+Для бэк-проверок переключайся в AIVISION CRM репо.
 
 ---
 
 ## Что проверяю
 
-### 1. Переменные окружения и секреты
+### 1. Утечка секретов в исходниках
 
 ```bash
-# Ищу секреты в коде
-grep -r "JWT_SECRET\|password\|secret\|api_key\|token" \
-  --include="*.js" --include="*.jsx" \
+grep -rEn 'JWT_SECRET|API_KEY|SECRET_KEY|PRIVATE_KEY|PASSWORD\s*=|TOKEN\s*=' \
+  --include='*.js' --include='*.jsx' --include='*.json' --include='*.env*' \
+  --exclude-dir=node_modules --exclude-dir=.git --exclude-dir=dist \
+  . 2>/dev/null | grep -v 'import.meta.env\|process.env'
+```
+
+Чеклист:
+- [ ] `.env` есть в `.gitignore` (`git check-ignore .env` → выводит путь)
+- [ ] В `.env.example` только плейсхолдеры, никаких реальных значений
+- [ ] В `dist/` (после билда) нет утечки секретов — все `VITE_*` это
+  public-переменные по дизайну Vite, **не клади туда секреты!**
+  ```bash
+  grep -rE 'sk_live|sk_test|Bearer\s+[A-Za-z0-9]{20,}' dist/ 2>/dev/null
+  ```
+- [ ] Нет хардкоднутых URL/ключей сторонних сервисов (Яндекс.Метрика
+  ID/GA4 ID — допустимо, это публичные идентификаторы)
+
+### 2. Утечка через VITE_* в публичный билд
+
+Vite **встраивает** все `import.meta.env.VITE_*` в бандл при билде.
+Это значит:
+
+- `VITE_API_URL=https://api.aivisionpro.ru` — ✅ ок, публичный URL
+- `VITE_YANDEX_METRIKA_ID=12345` — ✅ ок, публичный ID
+- `VITE_ANY_SECRET=xxxxx` — ❌ **никогда!** Всё доступно любому в `view-source`
+
+Проверка:
+```bash
+npm run build
+grep -rE 'VITE_[A-Z_]+' dist/assets/*.js | head
+```
+
+### 3. Согласие на обработку ПД (152-ФЗ)
+
+- [ ] `src/pages/PrivacyPolicy.jsx` существует, открывается по `/privacy-policy`
+- [ ] `src/pages/Consent.jsx` существует, открывается по `/consent`
+- [ ] В `ContactModal.jsx` есть чекбокс согласия со ссылкой на `/consent`
+- [ ] Форма не отправляется без отмеченного чекбокса
+- [ ] Inline-формы в `FinalCTA.jsx`, `Integrations.jsx` тоже имеют чекбокс/disclaimer
+- [ ] Текст `PrivacyPolicy` указывает оператора, цели обработки, права
+  субъекта, контакт для отзыва согласия
+
+### 4. localStorage / куки
+
+```bash
+grep -rEn 'localStorage\.|document\.cookie' \
+  --include='*.js' --include='*.jsx' \
   --exclude-dir=node_modules \
-  --exclude-dir=.git \
-  . | grep -v ".env" | grep -v "process.env"
+  src/
 ```
 
-**Чеклист:**
-- [ ] `.env` в `.gitignore`
-- [ ] Нет хардкода секретов в коде
-- [ ] `.env.example` есть — с ключами без значений
-- [ ] JWT_SECRET достаточно длинный (32+ символов)
-- [ ] Разные секреты для dev и prod
+Чеклист:
+- [ ] Сохраняется ТОЛЬКО `aivision_visitor_id` (анонимный uuid)
+- [ ] Никаких имён, контактов, токенов в localStorage/cookie
+- [ ] UTM-метки и source хранятся в sessionStorage / памяти, не постоянно
 
----
+### 5. HTTPS, HSTS, CSP, security headers
 
-### 2. SQL инъекции
+Тестировать на проде:
+```bash
+curl -sI https://aivisionpro.ru | grep -iE 'strict-transport|x-frame|x-content|content-security|referrer'
+```
+
+Ожидаемо:
+```
+Strict-Transport-Security: max-age=31536000; includeSubDomains
+X-Frame-Options: SAMEORIGIN
+X-Content-Type-Options: nosniff
+Referrer-Policy: strict-origin-when-cross-origin
+```
+
+CSP — опционально, но желательно. Минимум:
+```
+Content-Security-Policy: default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' https://mc.yandex.ru https://www.googletagmanager.com; connect-src 'self' https://api.aivisionpro.ru https://mc.yandex.ru
+```
+
+Чеклист:
+- [ ] HTTPS принудительно (80 → 301 на 443)
+- [ ] HSTS включён
+- [ ] X-Frame-Options/SAMEORIGIN — нет clickjacking
+- [ ] X-Content-Type-Options nosniff
+- [ ] Нет mixed content (HTTP-ассетов): `view-source` → grep `http://` (без s)
+
+### 6. Внешние скрипты / iframe
+
+- [ ] Только нужные внешние домены (Яндекс.Метрика, GA4, TG-виджет)
+- [ ] Все `<iframe>` имеют `sandbox` где возможно
+- [ ] Нет `dangerouslySetInnerHTML` с пользовательским вводом
 
 ```bash
-# Ищу конкатенацию строк в SQL запросах
-grep -r "query.*\`\|query.*+" \
-  --include="*.js" \
-  --exclude-dir=node_modules \
-  .
+grep -rEn 'dangerouslySetInnerHTML|<iframe' \
+  --include='*.jsx' src/
 ```
 
-**Правильно:**
-```javascript
-// ✅ Параметризованный запрос
-const result = await pool.query(
-  'SELECT * FROM clients WHERE id = $1 AND status = $2',
-  [clientId, status]
-);
+### 7. POST на CRM API — минимизация данных
+
+В `ContactModal`, `FinalCTA`, `Integrations` форма шлёт в `saveLead`:
+
+```js
+{ name, contact, contact_type, source_block }
 ```
 
-**Неправильно:**
-```javascript
-// ❌ Конкатенация — SQL инъекция
-const result = await pool.query(
-  `SELECT * FROM clients WHERE id = ${clientId}`
-);
-```
+Чеклист:
+- [ ] Не шлются полные UA, geolocation, IP — это собирает бэк сам
+- [ ] Не шлются содержимое других форм / страниц
+- [ ] Email/телефон не логируются в `console.log`
 
----
-
-### 3. Авторизация и JWT
-
-**Чеклист middleware:**
-- [ ] Все `/api/*` роуты (кроме `/api/auth/*`) защищены middleware
-- [ ] middleware проверяет токен до выполнения запроса
-- [ ] Истечение токена обрабатывается (401, не 500)
-- [ ] Нет роутов которые должны быть защищены но не защищены
-
-```javascript
-// Правильный auth middleware
-const authMiddleware = (req, res, next) => {
-  const token = req.headers.authorization?.split(' ')[1];
-  
-  if (!token) {
-    return res.status(401).json({ error: 'Токен не предоставлен' });
-  }
-  
-  try {
-    const decoded = jwt.verify(token, process.env.JWT_SECRET);
-    req.user = decoded;
-    next();
-  } catch (err) {
-    // Различаем истёкший токен и невалидный
-    if (err.name === 'TokenExpiredError') {
-      return res.status(401).json({ error: 'Токен истёк' });
-    }
-    return res.status(401).json({ error: 'Невалидный токен' });
-  }
-};
-```
-
----
-
-### 4. Rate Limiting
-
-```javascript
-// Должен быть на всех POST-роутах авторизации
-const rateLimit = require('express-rate-limit');
-
-const authLimiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 минут
-  max: 10,                   // 10 попыток
-  message: { error: 'Слишком много попыток, подождите 15 минут' }
-});
-
-app.use('/api/auth/login', authLimiter);
-app.use('/api/auth/register', authLimiter);
-```
-
-**Чеклист:**
-- [ ] Rate limit на `/api/auth/login`
-- [ ] Rate limit на публичные формы (заявки с сайта)
-- [ ] Rate limit на API в целом (опционально)
-
----
-
-### 5. CORS
-
-```javascript
-const cors = require('cors');
-
-// ✅ Правильно — явный whitelist
-app.use(cors({
-  origin: process.env.NODE_ENV === 'production'
-    ? ['https://project.ru', 'https://www.project.ru']
-    : ['http://localhost:3000', 'http://localhost:3001'],
-  credentials: true,
-  methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
-}));
-
-// ❌ Неправильно — открытый CORS
-app.use(cors()); // разрешает всё
-```
-
----
-
-### 6. Валидация входных данных
-
-**Чеклист:**
-- [ ] Числовые поля — проверка что число, не строка
-- [ ] Обязательные поля проверяются (не undefined)
-- [ ] Enum-поля проверяются по белому списку
-- [ ] Длина строк ограничена
-
-```javascript
-// Валидация на бэкенде — не доверять фронтенду
-const INCOME_CATEGORIES = ['Продажи', 'Услуги', 'Прочие доходы'];
-const EXPENSE_CATEGORIES = ['Зарплата', 'Аренда', 'Налоги', 'Реклама', 'Прочие расходы'];
-
-app.post('/api/transactions', authMiddleware, async (req, res) => {
-  const { type, amount, category } = req.body;
-  
-  // Проверяем тип
-  if (!['income', 'expense'].includes(type)) {
-    return res.status(400).json({ error: 'Невалидный тип' });
-  }
-  
-  // Проверяем сумму
-  if (!amount || isNaN(amount) || amount <= 0) {
-    return res.status(400).json({ error: 'Невалидная сумма' });
-  }
-  
-  // Проверяем категорию
-  const validCategories = type === 'income' ? INCOME_CATEGORIES : EXPENSE_CATEGORIES;
-  if (!validCategories.includes(category)) {
-    return res.status(400).json({ error: 'Невалидная категория' });
-  }
-  
-  // Дальше безопасно работаем с данными
-});
-```
-
----
-
-### 7. Заголовки безопасности
-
-```javascript
-const helmet = require('helmet');
-
-// Добавляет security headers автоматически
-app.use(helmet());
-
-// Что добавляет helmet:
-// X-Content-Type-Options: nosniff
-// X-Frame-Options: DENY
-// X-XSS-Protection: 1; mode=block
-// Strict-Transport-Security (HSTS)
-// Content-Security-Policy
-```
-
----
-
-### 8. Логирование ошибок
-
-**Чеклист:**
-- [ ] Ошибки логируются на сервере (console.error или logger)
-- [ ] Клиенту не возвращается stack trace
-- [ ] Нет `console.log` с чувствительными данными
-
-```javascript
-// ✅ Правильно
-app.use((err, req, res, next) => {
-  console.error(err.stack); // логируем на сервере
-  res.status(500).json({ error: 'Внутренняя ошибка сервера' }); // клиенту минимум
-});
-
-// ❌ Неправильно
-app.use((err, req, res, next) => {
-  res.status(500).json({ error: err.message, stack: err.stack }); // утечка деталей
-});
-```
-
----
-
-### 9. Зависимости
+### 8. Зависимости
 
 ```bash
-# Проверка известных уязвимостей
-npm audit
-
-# Только критические
-npm audit --audit-level=critical
-
-# Исправить автоматически
-npm audit fix
+npm audit --omit=dev          # только prod-deps
+npm outdated                  # что устарело
 ```
+
+- [ ] Нет high/critical в `npm audit`
+- [ ] React 18.x, Vite 6.x, RR 6.x — мажорные апдейты без необходимости не делать
+
+### 9. Demo CRM (`public/demo/`)
+
+Это вшитая сборка CRM с `VITE_DEMO=1` — мок-API, без реального бэка.
+Проверки:
+- [ ] В моках нет реальных контактов / email / телефонов клиентов
+- [ ] Нет JWT_SECRET / DATABASE_URL в `public/demo/`
+- [ ] Demo не делает реальных запросов на `api.aivisionpro.ru`
+  (`grep -r 'api\.aivisionpro' public/demo/` → пусто)
 
 ---
 
-## Формат проверки
+## Чеклист перед прод-деплоем
 
-Запускаю последовательно все проверки и выдаю отчёт:
-
-```
-🔒 Security аудит: [название проекта]
-
-✅ Переменные окружения — OK
-✅ SQL запросы — параметризованы
-✅ JWT middleware — защищены все роуты
-⚠️  Rate limiting — отсутствует на /api/auth/login
-✅ CORS — настроен корректно
-⚠️  Валидация — не проверяется amount в /api/transactions
-✅ Helmet — установлен
-✅ npm audit — 0 критических уязвимостей
-
-Критичные (исправить до деплоя): 0
-Важные (исправить в ближайшее время): 2
-  1. Добавить rate limit на /api/auth/login
-  2. Добавить валидацию amount в POST /api/transactions
-
-Рекомендации по улучшению: 1
-  1. Разные JWT_SECRET для dev и prod окружений
-```
+- [ ] `npm audit` чисто (high/critical)
+- [ ] `git ls-files | grep -E '\.env$|secrets|\.pem$|\.key$'` → пусто
+- [ ] Грэп секретов в `src/` и `dist/` → пусто
+- [ ] HTTPS + HSTS активны на `aivisionpro.ru`
+- [ ] Согласие на ПД работает (чекбокс блокирует сабмит)
+- [ ] `/privacy-policy` и `/consent` доступны
+- [ ] localStorage не пишет персональные данные
+- [ ] Mixed content нет (DevTools → Security tab)
+- [ ] Demo (`public/demo/`) не утекает реальные данные
 
 ---
 
-## Что НЕ проверяю
+## Формат отчёта
 
-- Пентест и эксплуатацию уязвимостей
-- SOC2, HIPAA, PCI DSS compliance
-- Сканирование сети и портов
-- DDoS защиту (это на уровне Timeweb/Cloudflare)
-- Сложные атаки на бизнес-логику
+```
+🔒 Security Review — AIVISION Landing
+Дата: YYYY-MM-DD
+Ветка: dev / main
+Билд: <SHA>
 
-Фокус: практические уязвимости которые реально встречаются в Node.js + PostgreSQL проектах.
+✅ ПРОЙДЕНО:
+- [...]
+
+⚠️ ПРЕДУПРЕЖДЕНИЯ (не блокеры, но желательно поправить):
+- [...]
+
+❌ БЛОКЕРЫ (нельзя в прод):
+- [...]
+
+Рекомендации:
+1. [...]
+```

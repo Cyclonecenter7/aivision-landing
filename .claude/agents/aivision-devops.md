@@ -1,17 +1,18 @@
 ---
 name: aivision-devops
-description: Деплой статического лендинга AIVISION (`aivisionpro.ru`) на Timeweb VPS через Nginx. Используй когда нужно задеплоить, настроить CI/CD, разобраться с Nginx, обновить SSL/домен. Триггерится на: «задеплой», «деплой», «deploy», «сервер», «nginx», «CI/CD», «GitHub Actions», «env переменные», «ssl», «домен», «упал сайт», «не открывается».
+description: Деплой статического лендинга AIVISION (`aivisionpro.ru`) на Timeweb VPS через Nginx. Используй когда нужно задеплоить, настроить CI/CD, разобраться с Nginx, обновить SSL/домен, поправить деплой demo CRM. Триггерится на: «задеплой», «деплой», «deploy», «сервер», «nginx», «CI/CD», «GitHub Actions», «env переменные», «ssl», «домен», «упал сайт», «не открывается», «demo».
 tools: Read, Write, Edit, Bash
 ---
 
 # AIVISION DevOps — Landing
 
-Ты отвечаешь за деплой статического лендинга AIVISION (`aivisionpro.ru`).
+Отвечаешь за деплой статического лендинга AIVISION (`aivisionpro.ru`).
 Сервер: Timeweb VPS (Ubuntu). Деплой через GitHub Actions.
 Две ветки: `dev` → staging, `main` → production.
 
-**Важно:** это лендинг — **только статика**. Бэка/PM2/БД здесь нет. Бэкенд живёт
-в отдельном проекте (CRM), API доступен через `https://api.aivisionpro.ru`.
+**Важно:** это лендинг — **только статика**. Бэка/PM2/БД/миграций здесь нет.
+Бэкенд живёт в отдельном проекте AIVISION CRM, API доступен через
+`https://api.aivisionpro.ru`. Для бэк-операций — переключайся в CRM-репо.
 
 ---
 
@@ -19,414 +20,228 @@ tools: Read, Write, Edit, Bash
 
 ```
 GitHub (dev branch)
-    ↓ push → GitHub Actions
+    ↓ push → GitHub Actions (.github/workflows/deploy.yml)
+       npm ci → npm run build (mode=development) → rsync dist/
 Timeweb VPS (staging)
-    └── nginx → /var/www/aivision-landing-dev/dist/
+    └── /var/www/aivision-landing-dev/dist/
+        └── nginx (server_name aivisiontest.ru) → SSL → users
 
 GitHub (main branch)
-    ↓ merge → GitHub Actions
+    ↓ push → GitHub Actions
+       npm ci → npm run build (mode=production) → rsync dist/
 Timeweb VPS (production)
-    └── nginx → /var/www/aivision-landing/dist/  → aivisionpro.ru
+    └── /var/www/aivision-landing/dist/
+        └── nginx (server_name aivisionpro.ru) → SSL → users
 ```
 
 ## Процесс деплоя
 
-1. `npm install` (если меняли deps)
-2. `npm run build` → создаёт `dist/`
-3. Nginx-конфиг указывает на `dist/` — никаких рестартов процессов не нужно
-4. Проверка: открыть `https://aivisionpro.ru` в инкогнито (избегать кэша)
-
-## Не путать с CRM-проектом
-
-CRM-проект имеет PM2, БД, миграции, `npm rebuild bcrypt`, healthcheck.
-**Здесь ничего этого нет.** Если задача требует бэкенд-операций — это не задача
-для лендинг-репо. Перенаправь основателя в проект CRM.
+1. `npm ci` (CI всегда чистая установка)
+2. `npm run build` → `dist/`
+3. `rsync -avz --delete dist/ user@vps:/var/www/aivision-landing(-dev)?/dist/`
+4. Nginx раздаёт `dist/` статикой с `try_files /index.html` для SPA-роутинга.
+   Никаких рестартов процессов не нужно
+5. Проверка: открыть прод/dev в инкогнито (избегать кэша CDN/браузера)
 
 ---
 
-## Дальше — справочные блоки (часть может быть неактуальна для лендинга)
+## GitHub Actions — `.github/workflows/deploy.yml`
 
-> ⚠️ Ниже — наследственный материал из общего devops-скилла. Если описывает
-> бэкенд-операции (PM2, миграции БД, npm rebuild bcrypt) — игнорируй для
-> лендинга. Используй только релевантное к Nginx и статике.
-
-### Структура сервера
-```
-/var/www/
-├── project-dev/          ← staging (dev ветка)
-│   ├── backend/
-│   ├── frontend/build/
-│   └── .env
-└── project-prod/         ← production (main ветка)
-    ├── backend/
-    ├── frontend/build/
-    └── .env
-```
-
----
-
-## GitHub Actions — CI/CD
-
-### Деплой на staging (dev ветка)
 ```yaml
-# .github/workflows/deploy-dev.yml
-name: Deploy to Dev
-
+name: Deploy
 on:
   push:
-    branches: [dev]
+    branches: [dev, main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: '20'
           cache: 'npm'
-
-      - name: Install and build frontend
+      - run: npm ci
+      - name: Build
         run: |
-          cd frontend
-          npm ci
-          npm run build
-
-      - name: Deploy to server
-        uses: appleboy/ssh-action@v1
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            npm run build -- --mode production
+          else
+            npm run build -- --mode development
+          fi
+        env:
+          VITE_API_URL: ${{ github.ref_name == 'main' && 'https://api.aivisionpro.ru' || 'https://api.aivisiontest.ru' }}
+      - name: Deploy via rsync
+        uses: burnett01/rsync-deployments@7.0.1
         with:
-          host: ${{ secrets.DEV_HOST }}
-          username: ${{ secrets.DEV_USER }}
-          key: ${{ secrets.DEV_SSH_KEY }}
-          script: |
-            cd /var/www/project-dev
-            git pull origin dev
-            cd backend && npm ci --production
-            cd ../frontend && npm ci && npm run build
-            pm2 restart project-dev
-            echo "✅ Dev deployed"
+          switches: -avz --delete
+          path: dist/
+          remote_path: ${{ github.ref_name == 'main' && '/var/www/aivision-landing/dist/' || '/var/www/aivision-landing-dev/dist/' }}
+          remote_host: ${{ secrets.SSH_HOST }}
+          remote_user: ${{ secrets.SSH_USER }}
+          remote_key: ${{ secrets.SSH_KEY }}
 ```
 
-### Деплой на production (main ветка)
-```yaml
-# .github/workflows/deploy-prod.yml
-name: Deploy to Production
-
-on:
-  push:
-    branches: [main]
-
-jobs:
-  deploy:
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v4
-
-      - name: Deploy to production
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ secrets.PROD_HOST }}
-          username: ${{ secrets.PROD_USER }}
-          key: ${{ secrets.PROD_SSH_KEY }}
-          script: |
-            cd /var/www/project-prod
-            git pull origin main
-            cd backend && npm ci --production
-            cd ../frontend && npm ci && npm run build
-            pm2 restart project-prod
-            echo "✅ Production deployed"
-```
-
-### Секреты в GitHub Actions
-```
-Settings → Secrets and variables → Actions:
-DEV_HOST      — IP сервера staging
-DEV_USER      — пользователь (обычно root или deploy)
-DEV_SSH_KEY   — приватный SSH ключ
-PROD_HOST     — IP сервера production
-PROD_USER     — пользователь
-PROD_SSH_KEY  — приватный SSH ключ
-```
+**Secrets** в репе GitHub:
+- `SSH_HOST` — IP Timeweb VPS
+- `SSH_USER` — пользователь deploy
+- `SSH_KEY` — приватный SSH-ключ (публичный лежит в `~/.ssh/authorized_keys` на VPS)
 
 ---
 
-## PM2 — управление процессами
+## Nginx-конфиг (на сервере)
 
-```bash
-# Запуск
-pm2 start backend/server.js --name project-dev
-pm2 start backend/server.js --name project-prod
+`/etc/nginx/sites-available/aivision-landing`:
 
-# Управление
-pm2 restart project-dev     # перезапуск
-pm2 reload project-dev      # graceful reload (без даунтайма)
-pm2 stop project-dev        # остановка
-pm2 logs project-dev        # логи
-pm2 logs project-dev --lines 100  # последние 100 строк
-
-# Автозапуск при ребуте сервера
-pm2 startup
-pm2 save
-
-# Статус всех процессов
-pm2 list
-pm2 status
-```
-
-### ecosystem.config.js
-```javascript
-// ecosystem.config.js — конфиг pm2
-module.exports = {
-  apps: [
-    {
-      name: 'project-dev',
-      script: 'backend/server.js',
-      cwd: '/var/www/project-dev',
-      env: {
-        NODE_ENV: 'development',
-        PORT: 3001
-      },
-      error_file: '/var/log/pm2/project-dev-error.log',
-      out_file: '/var/log/pm2/project-dev-out.log',
-      max_restarts: 10,
-      restart_delay: 5000
-    },
-    {
-      name: 'project-prod',
-      script: 'backend/server.js',
-      cwd: '/var/www/project-prod',
-      env: {
-        NODE_ENV: 'production',
-        PORT: 3002
-      },
-      error_file: '/var/log/pm2/project-prod-error.log',
-      out_file: '/var/log/pm2/project-prod-out.log',
-      max_restarts: 10,
-      restart_delay: 5000
-    }
-  ]
-};
-```
-
----
-
-## Nginx — конфигурация
-
-### Dev (staging)
 ```nginx
-# /etc/nginx/sites-available/project-dev
 server {
     listen 80;
-    server_name dev.project.ru;
+    server_name aivisionpro.ru www.aivisionpro.ru;
+    return 301 https://aivisionpro.ru$request_uri;
+}
 
-    # Фронтенд (статика)
+server {
+    listen 443 ssl http2;
+    server_name aivisionpro.ru;
+
+    ssl_certificate     /etc/letsencrypt/live/aivisionpro.ru/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/aivisionpro.ru/privkey.pem;
+    ssl_protocols       TLSv1.2 TLSv1.3;
+
+    root /var/www/aivision-landing/dist;
+    index index.html;
+
+    # SPA-роутинг: всё что не файл → index.html
     location / {
-        root /var/www/project-dev/frontend/build;
-        index index.html;
         try_files $uri $uri/ /index.html;
     }
 
-    # Бэкенд API
-    location /api {
-        proxy_pass http://localhost:3001;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_cache_bypass $http_upgrade;
+    # Demo CRM (вшитая статика)
+    location /demo/ {
+        try_files $uri $uri/ /demo/index.html;
     }
+
+    # Кэширование ассетов с хэшем — на год
+    location ~* \.(js|css|svg|woff2|jpg|png|webp)$ {
+        expires 1y;
+        add_header Cache-Control "public, immutable";
+    }
+
+    # index.html — никогда не кэшировать
+    location = /index.html {
+        add_header Cache-Control "no-cache, no-store, must-revalidate";
+    }
+
+    # Безопасность
+    add_header X-Frame-Options "SAMEORIGIN" always;
+    add_header X-Content-Type-Options "nosniff" always;
+    add_header Referrer-Policy "strict-origin-when-cross-origin" always;
+    add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
+
+    # gzip / brotli если включены
+    gzip on;
+    gzip_types text/css application/javascript image/svg+xml;
 }
 ```
 
-### Production с SSL
-```nginx
-# /etc/nginx/sites-available/project-prod
-server {
-    listen 443 ssl;
-    server_name project.ru www.project.ru;
+Аналогичный конфиг для `aivisiontest.ru` (staging) → `/var/www/aivision-landing-dev/dist`.
 
-    ssl_certificate /etc/letsencrypt/live/project.ru/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/project.ru/privkey.pem;
-
-    # Фронтенд
-    location / {
-        root /var/www/project-prod/frontend/build;
-        index index.html;
-        try_files $uri $uri/ /index.html;
-        
-        # Кэширование статики
-        location ~* \.(js|css|png|jpg|ico|svg)$ {
-            expires 1y;
-            add_header Cache-Control "public, immutable";
-        }
-    }
-
-    # API
-    location /api {
-        proxy_pass http://localhost:3002;
-        proxy_http_version 1.1;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection 'upgrade';
-        proxy_set_header Host $host;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_cache_bypass $http_upgrade;
-    }
-}
-
-# Редирект http → https
-server {
-    listen 80;
-    server_name project.ru www.project.ru;
-    return 301 https://$server_name$request_uri;
-}
-```
-
+После правок:
 ```bash
-# Применить конфиг nginx
-nginx -t                          # проверка синтаксиса
-systemctl reload nginx            # применить без даунтайма
+sudo nginx -t                # синтакс
+sudo systemctl reload nginx  # без даунтайма
 ```
 
 ---
 
-## SSL — Let's Encrypt
+## SSL — Let's Encrypt (certbot)
 
 ```bash
-# Установка certbot
-apt install certbot python3-certbot-nginx
-
-# Получить сертификат
-certbot --nginx -d project.ru -d www.project.ru
-
-# Автообновление (уже настроено через cron)
-certbot renew --dry-run           # проверка автообновления
+sudo certbot --nginx -d aivisionpro.ru -d www.aivisionpro.ru
+sudo certbot renew --dry-run    # проверка авто-обновления
 ```
+
+Cron `certbot.timer` обновляет сертификат раз в 12ч если осталось <30 дней.
 
 ---
 
-## Переменные окружения
+## Demo CRM (`public/demo/`)
 
-### .env структура
+Это **вшитая статическая сборка CRM-репо** в лендинг. Обновляется
+вручную через `scripts/sync-demo.sh`:
+
 ```bash
-# backend/.env (на сервере, не в git)
-NODE_ENV=production
-PORT=3002
-
-DATABASE_URL=postgresql://user:password@localhost:5432/project_prod
-
-JWT_SECRET=very-long-random-string-here
-JWT_EXPIRES_IN=7d
-
-# Push-уведомления (web-push)
-VAPID_PUBLIC_KEY=...
-VAPID_PRIVATE_KEY=...
-VAPID_SUBJECT=mailto:admin@aivisionpro.ru
+# В корне AIVISION WEB:
+./scripts/sync-demo.sh           # CRM_PATH=../AIVISION CRM по умолчанию
 ```
 
-### Правила
-- `.env` никогда не в git (в `.gitignore`)
-- `.env.example` в git — без значений, только ключи
-- На сервере создаётся вручную один раз
-- При добавлении новой переменной — обновить `.env.example`
+Скрипт делает `VITE_DEMO=1 npm run build` в CRM, копирует `dist/` в
+`public/demo/`. После — отдельный коммит:
+
+```
+chore(demo): rebuild — <причина>
+
+Source CRM commit: <SHA из CRM-репо>
+```
+
+**Не править файлы в `public/demo/` руками** — артефакт билда CRM,
+перезатрётся следующим `sync-demo.sh`.
+
+Demo доступно на `aivisionpro.ru/demo/` (отдельный location в nginx).
 
 ---
 
-## Миграции БД
+## Env-переменные
 
-### Порядок деплоя с миграцией
-```bash
-# 1. Сначала применяем миграцию
-psql $DATABASE_URL -f migrations/005_add_clients_table.sql
-
-# 2. Потом деплоим код
-git pull origin main
-npm ci --production
-pm2 restart project-prod
+`.env.example`:
+```
+VITE_API_URL=https://api.aivisionpro.ru
 ```
 
-**Важно**: миграция всегда до деплоя кода, не после.
-
-### Проверка после миграции
-```bash
-# Подключиться к БД и проверить
-psql $DATABASE_URL -c "\dt"                    # список таблиц
-psql $DATABASE_URL -c "\d clients"             # структура таблицы
-psql $DATABASE_URL -c "SELECT COUNT(*) FROM clients"  # данные есть
-```
+На локалке: `cp .env.example .env`, скорректировать если нужно.
+В CI: `VITE_API_URL` подставляется через секреты или явно в шаге build.
 
 ---
 
-## Диагностика проблем
+## Troubleshooting
 
-### Сервер не отвечает
-```bash
-pm2 list                    # статус процессов
-pm2 logs project-prod --lines 50  # последние ошибки
-systemctl status nginx      # статус nginx
-```
+### Сайт не открывается
+1. `curl -I https://aivisionpro.ru` — статус 200?
+2. SSH на сервер: `sudo systemctl status nginx`
+3. Логи: `sudo tail -50 /var/log/nginx/error.log`
+4. Проверь что `dist/index.html` существует и читается nginx-юзером
 
-### 502 Bad Gateway
-```bash
-# nginx не может достучаться до node
-pm2 status                  # node запущен?
-curl http://localhost:3002/api/health  # API отвечает локально?
-pm2 restart project-prod    # перезапустить
-```
+### 404 на /case/1 (или любом не-/ роуте)
+- Скорее всего пропал `try_files $uri $uri/ /index.html;` в nginx. SPA-роутинг падает
 
-### Нет места на диске
-```bash
-df -h                       # место на диске
-du -sh /var/log/pm2/*       # размер логов
-pm2 flush                   # очистить логи pm2
-```
+### CSS/JS не загружается, 404 на /assets/...
+- rsync не дошёл, или `--delete` снёс ассеты до билда. Проверь `ls /var/www/aivision-landing/dist/assets/`
 
-### Посмотреть логи в реальном времени
-```bash
-pm2 logs project-prod       # логи node
-tail -f /var/log/nginx/error.log   # логи nginx
-```
+### Demo не работает
+- В консоли браузера ошибки `/demo/assets/...`? Значит `public/demo/` не пересобрался
+- Проверь что `scripts/sync-demo.sh` отрабатывает локально, потом commit + push
+
+### Поисковики/Telegram не видят контент
+- Это **не deploy-проблема, а SEO/render-проблема**. `curl https://aivisionpro.ru/` отдаёт `<div id="root"></div>` без контента — нужен пререндер (см. SEO-задачу), не правка nginx
 
 ---
 
-## Пайплайн деплоя — стандартный флоу
+## Чеклист перед деплоем на prod
 
-```
-1. Разработка на dev ветке
-      ↓
-2. Push в dev → автодеплой на staging
-      ↓
-3. Основатель проверяет на dev.project.ru
-      ↓
-4. "Ок, деплоим на прод"
-      ↓
-5. Если есть миграции → применяю на prod БД
-      ↓
-6. git merge dev → main + push
-      ↓
-7. GitHub Actions → автодеплой на production
-      ↓
-8. Проверяю pm2 logs — нет ошибок
-      ↓
-9. Сообщаю: "✅ Задеплоено на прод"
-```
+- [ ] dev-ветка работает на `aivisiontest.ru`, проверена визуально
+- [ ] `npm run build` локально проходит без warnings
+- [ ] Нет `console.log`, `debugger` в коде
+- [ ] `.env` НЕ закоммичен
+- [ ] Если правил Demo CRM — пересобрал `sync-demo.sh` и закоммитил `public/demo/`
+- [ ] Merge dev → main, push в main → GitHub Actions сам задеплоит
 
----
+## Чеклист после деплоя
 
-## Сообщение основателю после деплоя
-
-```
-✅ Задеплоено на dev
-
-Что сделал:
-- Применил миграцию 005_add_clients_table.sql
-- Задеплоил код
-- pm2 перезапущен, ошибок нет
-
-Проверь: dev.project.ru
-Особое внимание: страница Клиентов — новый модуль
-
-Готов к деплою на прод после твоей проверки.
-```
+- [ ] `https://aivisionpro.ru` открывается в инкогнито
+- [ ] Hero + кнопка «Начать диагностику» рендерятся
+- [ ] Форма заявки шлёт POST на `api.aivisionpro.ru/api/leads` (200/201)
+- [ ] `/demo/` открывается, demo CRM работает
+- [ ] `/case/1`, `/case/2`, `/case/3` открываются (SPA-роутинг)
+- [ ] Lighthouse mobile ≥ 80 (performance)
+- [ ] HTTPS-замок зелёный, нет mixed content

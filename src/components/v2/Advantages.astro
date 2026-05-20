@@ -1,0 +1,82 @@
+---
+const CARDS = [
+  {
+    num: '01',
+    name: 'Технологическая платформа',
+    body: 'Не голые отчёты, не таблицы Excel. Система сама подсвечивает где проблема, формулирует выводы из данных, подсказывает что делать. ИИ работает внутри — там, где он реально полезен.',
+    result: '→ Современное решение, а не вчерашний день',
+  },
+  {
+    num: '02',
+    name: 'Простота для собственника',
+    body: 'Не нужно становиться IT-директором, чтобы управлять бизнесом. Не нужно три месяца разбираться в настройках. Мы конфигурируем платформу под бизнес — собственник работает с готовой картиной.',
+    result: '→ Платформа простая снаружи, умная внутри',
+  },
+  {
+    num: '03',
+    name: 'Готовая управленческая логика',
+    body: 'Собственники не всегда знают что считать и какие KPI ставить — особенно если впервые выходят на этот уровень управления. Мы знаем — потому что работали с десятком бизнесов в этом сегменте.',
+    result: '→ Не нужно изобретать систему с нуля',
+  },
+];
+---
+<section class="bg-light section">
+  <div class="container">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Преимущества</span>
+    </div>
+  </div>
+
+  <div class="adv-head">
+    <h2 class="adv-h2">
+      Три причины выбрать<br /><em>управленческое</em> решение
+    </h2>
+    <p class="adv-sub">
+      Простая современная технология для собственника и готовая управленческая
+      экспертиза — в одной платформе
+    </p>
+  </div>
+
+  <div class="adv-grid">
+    {CARDS.map((c) => (
+      <div class="adv-card">
+        <h3 class="adv-card-h">
+          <span class="adv-card-h-num">{c.num}</span>
+          <span class="adv-card-h-name">{c.name}</span>
+        </h3>
+
+        <button
+          type="button"
+          class="adv-card-toggle js-adv-toggle"
+          aria-expanded="false"
+          data-track={`adv_toggle_${c.num}`}
+          data-track-block="advantages"
+        >
+          <span class="adv-toggle-label">Подробнее</span>
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="6 9 12 15 18 9" />
+          </svg>
+        </button>
+
+        <div class="adv-card-body">{c.body}</div>
+
+        <div class="adv-card-result">{c.result}</div>
+      </div>
+    ))}
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.js-adv-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.adv-card');
+      const body = card?.querySelector<HTMLElement>('.adv-card-body');
+      const label = btn.querySelector<HTMLElement>('.adv-toggle-label');
+      if (!body || !label) return;
+      const open = body.classList.toggle('expanded');
+      btn.setAttribute('aria-expanded', String(open));
+      label.textContent = open ? 'Свернуть' : 'Подробнее';
+    });
+  });
+</script>

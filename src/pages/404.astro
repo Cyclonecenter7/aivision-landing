@@ -1,0 +1,40 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SEO, seoUrl } from '@/lib/seo';
+
+const seo = {
+  title: 'Страница не найдена — AIVISION',
+  description: 'Запрошенная страница не существует. Вернитесь на главную AIVISION.',
+  path: '/404',
+  ogImage: '/og/og-main.png',
+};
+---
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  canonical={seoUrl(SEO.home)}
+  ogImage={seo.ogImage}
+  noindex={true}
+>
+  <main style="min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;background:#F4F4F5;font-family:Inter,sans-serif">
+    <div style="max-width:480px;width:100%;text-align:center">
+      <div style="font-size:96px;font-weight:300;color:#CBD5E0;line-height:1;margin-bottom:8px">404</div>
+      <div style="width:64px;height:2px;background:#E2E8F0;margin:0 auto 24px"></div>
+      <h1 style="font-size:24px;font-weight:600;color:#0A0A0A;margin-bottom:12px">Страница не найдена</h1>
+      <p style="font-size:14px;color:#666;line-height:1.6;margin-bottom:32px">
+        Запрошенной страницы не существует или она была перемещена.
+      </p>
+      <a
+        href="/"
+        class="btn btn-on-brand"
+        data-track="404_home"
+        data-track-block="404"
+      >
+        На главную
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </main>
+</BaseLayout>

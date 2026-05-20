@@ -1,0 +1,37 @@
+---
+import InlineLeadForm from '@/components/islands/InlineLeadForm.jsx';
+---
+<section id="cta" class="bg-dark cta-section">
+  <div class="cta-wrap">
+    <div class="cta-left">
+      <div class="eyebrow">
+        <div class="eyebrow-line"></div>
+        <span class="eyebrow-text">Диагностика</span>
+      </div>
+
+      <h2 class="cta-h2">Разберём ваш бизнес<br />за <em>30 минут</em></h2>
+
+      <p class="cta-sub">
+        Покажем где у вас проблема — в видимости, контроле или управляемости.
+        Покажем платформу на demo-данных, ответим на вопросы.
+      </p>
+
+      <div class="cta-stats">
+        <div class="cta-stat">
+          <div class="cta-stat-val">30 мин</div>
+          <div class="cta-stat-lab">разбор бизнеса</div>
+        </div>
+        <div class="cta-stat">
+          <div class="cta-stat-val">0 ₽</div>
+          <div class="cta-stat-lab">первая консультация</div>
+        </div>
+        <div class="cta-stat">
+          <div class="cta-stat-val">5 минут</div>
+          <div class="cta-stat-lab">реакция на заявку</div>
+        </div>
+      </div>
+    </div>
+
+    <InlineLeadForm sourceBlock="final_cta" client:load />
+  </div>
+</section>

@@ -14,14 +14,21 @@ tools: Read, Write, Edit, Bash
 
 ## Окружение
 
-- **Dev**: `http://localhost:5173` (Vite dev server по умолчанию)
-- **Prod-проверка**: `https://aivisionpro.ru`
-- **Запуск**: `npx playwright test`
+- **Dev (локалка)**: `http://localhost:5173` (Vite dev server)
+- **Staging**: `https://aivisiontest.ru`
+- **Prod**: `https://aivisionpro.ru`
+- **Запуск**: `npx playwright test` (если Playwright уже стоит) или
+  `npx playwright install` перед первым запуском
 - **Конфиг**: `playwright.config.js` в корне проекта
 - **Отчёт**: `npx playwright show-report`
 - **Браузер**: Chromium headless по умолчанию
 
-Если `playwright.config.js` нет — создаю его первым делом.
+Если `playwright.config.js` нет — создаю его первым делом с `baseURL`
+по умолчанию `http://localhost:5173`.
+
+**API мок**: лендинг шлёт заявки на `${VITE_API_URL}/api/leads`. В тестах
+лучше мокать через `page.route('**/api/leads', ...)` чтобы не загрязнять
+реальный CRM-бэк лишними лидами.
 
 ---
 
@@ -86,18 +93,17 @@ tools: Read, Write, Edit, Bash
 
 ---
 
-## Шаблон теста
+## Шаблон теста (реальные селекторы лендинга)
 
 ```javascript
 // tests/smoke.spec.js
 const { test, expect } = require('@playwright/test');
 
-const BASE_URL = process.env.TEST_URL || 'http://localhost:3000';
+const BASE_URL = process.env.TEST_URL || 'http://localhost:5173';
 
-test.describe('Smoke тесты', () => {
+test.describe('AIVISION Landing — smoke', () => {
 
   test.beforeEach(async ({ page }) => {
-    // Собираем console.error
     page.on('console', msg => {
       if (msg.type() === 'error') {
         console.log(`❌ Console error: ${msg.text()}`);
@@ -105,16 +111,62 @@ test.describe('Smoke тесты', () => {
     });
   });
 
-  test('Главная страница открывается', async ({ page }) => {
+  test('Главная открывается, hero виден', async ({ page }) => {
     await page.goto(BASE_URL);
-    await page.waitForLoadState('networkidle');
-    await expect(page).not.toHaveTitle('Error');
-    // Проверяем что основной контент есть
-    await expect(page.locator('body')).not.toBeEmpty();
+    await expect(page).toHaveTitle(/AIVISION/);
+    await expect(page.locator('h1').first()).toBeVisible();
   });
 
+  test('CTA в hero открывает модалку диагностики', async ({ page }) => {
+    await page.goto(BASE_URL);
+    await page.locator('[data-track="hero-cta-primary"]').first().click();
+    // ContactModal появилась
+    await expect(page.locator('text=Диагностика')).toBeVisible();
+  });
+
+  test('Форма заявки сабмитит (мок API)', async ({ page }) => {
+    // Мок ответа CRM-бэка
+    await page.route('**/api/leads', (route) =>
+      route.fulfill({ status: 200, body: JSON.stringify({ ok: true }) })
+    );
+
+    await page.goto(BASE_URL);
+    await page.locator('[data-track="hero-cta-primary"]').first().click();
+    await page.fill('input[name="name"]', 'Test');
+    await page.fill('input[name="contact"]', '+79991112233');
+    await page.check('input[type="checkbox"]'); // согласие на ПД
+    await page.click('button[type="submit"]');
+    await expect(page.locator('text=5 минут')).toBeVisible();
+  });
+
+  test('Адаптив на mobile (375px)', async ({ page }) => {
+    await page.setViewportSize({ width: 375, height: 667 });
+    await page.goto(BASE_URL);
+    // Нет горизонтального скролла
+    const scrollWidth = await page.evaluate(() => document.documentElement.scrollWidth);
+    expect(scrollWidth).toBeLessThanOrEqual(375);
+  });
+
+  test('Кейс /case/1 открывается', async ({ page }) => {
+    await page.goto(`${BASE_URL}/case/1`);
+    await expect(page).toHaveTitle(/кейс AIVISION/);
+    await expect(page.locator('h1').first()).toBeVisible();
+  });
+
+  test('Demo /demo/ открывается', async ({ page }) => {
+    await page.goto(`${BASE_URL}/demo/`);
+    // CRM-логин или дашборд
+    await expect(page.locator('body')).not.toBeEmpty();
+  });
 });
 ```
+
+**Селекторы лендинга** (приоритет):
+- `[data-track="<id>"]` — для CTA-кнопок (всегда уникальны, всегда есть)
+- `[name="name"]`, `[name="contact"]` — поля форм
+- `text=...` — заголовки секций / success-копия
+- `h1`, `h2` — структурные заголовки
+- `data-testid="..."` — добавляй сам если нужно стабильное место
 
 ---
 
@@ -138,8 +190,13 @@ module.exports = defineConfig({
   testDir: './tests',
   timeout: 30000,
   retries: 1,
+  webServer: {
+    command: 'npm run dev',
+    url: 'http://localhost:5173',
+    reuseExistingServer: !process.env.CI,
+  },
   use: {
-    baseURL: process.env.TEST_URL || 'http://localhost:3000',
+    baseURL: process.env.TEST_URL || 'http://localhost:5173',
     headless: true,
     screenshot: 'only-on-failure',
     video: 'retain-on-failure',

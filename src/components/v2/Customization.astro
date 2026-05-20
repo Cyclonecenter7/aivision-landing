@@ -1,0 +1,155 @@
+---
+const CARDS = [
+  {
+    num: '01',
+    title: 'Состав разделов',
+    desc: 'Оставляете только то, что нужно вашему бизнесу. Не нужны заявки с сайта — убираем. Не нужны сделки — убираем. Платформа не перегружена функциями.',
+    exampleHtml: '<strong>Пример:</strong> производство без онлайн-витрины — убираем лидогенерацию, оставляем CRM + учёт + задачи',
+  },
+  {
+    num: '02',
+    title: 'Свои разделы и листы',
+    desc: 'Товары, склады, контрагенты, договоры, проекты — добавляем то, что есть в вашем бизнесе. Не подгоняем бизнес под платформу.',
+    exampleHtml: '<strong>Пример:</strong> строительная компания — добавляем «Объекты», «Подрядчики», «Акты выполненных работ»',
+  },
+  {
+    num: '03',
+    title: 'Свои показатели и KPI',
+    desc: 'Если у вас своя метрика — встраиваем её в дашборд. Маржа по бренду, оборот по точке, конверсия по менеджеру — считаются по вашей формуле.',
+    exampleHtml: '<strong>Пример:</strong> ecom на WB — добавляем «Маржа по бренду», «Выкуп», «ДРР»',
+  },
+  {
+    num: '04',
+    title: 'Свои регламенты и процессы',
+    desc: 'Этапы сделки, статусы заявок, контроли — настраиваем под то, как реально работает ваш бизнес.',
+    exampleHtml: '<strong>Пример:</strong> услуги B2B — добавляем стадию «Согласование договора» между «КП отправлено» и «Подписание»',
+  },
+];
+---
+<section class="bg-light section">
+  <div class="container">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Кастомность</span>
+    </div>
+
+    <div class="cst-head">
+      <h2 class="cst-h2">Не коробка — <em>конфигурация</em> под ваш бизнес</h2>
+      <p class="cst-sub">
+        Платформа гибкая. Вы можете убирать лишнее и добавлять своё — то, что нужно
+        именно вашему бизнесу. Не «настройте сами», а конфигурация на этапе внедрения.
+      </p>
+    </div>
+  </div>
+
+  <div class="cst-layout">
+    <div class="cst-list">
+      {CARDS.map((c) => (
+        <div class="cst-card">
+          <div class="cst-num">{c.num}</div>
+          <div>
+            <div class="cst-title">{c.title}</div>
+            <button
+              type="button"
+              class="cst-toggle js-cst-toggle"
+              aria-expanded="false"
+              data-track={`cst_toggle_${c.num}`}
+              data-track-block="customization"
+            >
+              <span class="cst-toggle-label">Подробнее</span>
+              <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round">
+                <polyline points="6 9 12 15 18 9" />
+              </svg>
+            </button>
+            <div class="cst-desc">{c.desc}</div>
+            <div class="cst-example" set:html={c.exampleHtml}></div>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div class="cst-viz" aria-hidden="true">
+      <div class="cst-viz-eb">
+        <span class="cst-viz-eb-line"></span>
+        Дополнительные листы под ваш бизнес
+      </div>
+      <div class="cst-viz-title">Свои разделы и листы</div>
+
+      <div class="cst-sheets">
+        <div class="cst-sheet-front">
+          <div class="cst-sheet-front-eb">+ Раздел</div>
+          <div class="cst-sheet-front-title">Объекты</div>
+          <div class="cst-sheet-fields">
+            <div class="cst-sheet-field">
+              <span class="cst-sheet-field-dot"></span>
+              Адрес и площадь
+              <span class="cst-sheet-field-type">Текст</span>
+            </div>
+            <div class="cst-sheet-field">
+              <span class="cst-sheet-field-dot"></span>
+              Сроки сдачи
+              <span class="cst-sheet-field-type">Дата</span>
+            </div>
+            <div class="cst-sheet-field">
+              <span class="cst-sheet-field-dot"></span>
+              Подрядчики
+              <span class="cst-sheet-field-type">Связь</span>
+            </div>
+            <div class="cst-sheet-field">
+              <span class="cst-sheet-field-dot"></span>
+              Бюджет / факт
+              <span class="cst-sheet-field-type">Сумма</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="cst-sheet-back cst-sheet-back-2">
+          <span class="cst-sheet-back-label">+ Лист · KPI команды</span>
+          <span class="cst-sheet-back-type">12 полей</span>
+        </div>
+
+        <div class="cst-sheet-back cst-sheet-back-3">
+          <span class="cst-sheet-back-label">+ Лист · Финплан</span>
+          <span class="cst-sheet-back-type">8 полей</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="cst-vs">
+    <div>
+      <div class="cst-vs-eb">
+        <span class="cst-vs-eb-line"></span> Другие интеграторы
+      </div>
+      <div class="cst-vs-title them">Конструктор «настройте сами»</div>
+      <div class="cst-vs-text them">
+        Тратите 3 месяца на настройку или платите интегратору.
+        Платформа выходит «настроенной», но не готовой к управлению.
+      </div>
+    </div>
+    <div>
+      <div class="cst-vs-eb us">
+        <span class="cst-vs-eb-line"></span> AIVISION
+      </div>
+      <div class="cst-vs-title us">Конфигурация на этапе внедрения</div>
+      <div class="cst-vs-text">
+        По итогам диагностики платформа выходит готовой под ваш бизнес,
+        а не «надо ещё докрутить».
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.js-cst-toggle').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const card = btn.closest('.cst-card');
+      const desc = card?.querySelector<HTMLElement>('.cst-desc');
+      const label = btn.querySelector<HTMLElement>('.cst-toggle-label');
+      if (!desc || !label) return;
+      const open = desc.classList.toggle('expanded');
+      btn.setAttribute('aria-expanded', String(open));
+      label.textContent = open ? 'Свернуть' : 'Подробнее';
+    });
+  });
+</script>

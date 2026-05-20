@@ -16,25 +16,30 @@ tools: Read, Write, Edit, Bash, Grep, Glob
 ```
 React 18 + Vite 6
 react-router-dom v6
-Tailwind CSS 3
-Lucide React (иконки)
-fetch (HTTP, для трекинга и форм)
+Tailwind CSS 3 + @layer components (вшитый HTML-референс v2)
+react-helmet-async v3 (SEO/<head>)
+Lucide React (иконки, stroke, size 20)
+fetch (HTTP, для трекинга и форм через lib/tracker.js)
 ```
 
-**Не использовать:** TypeScript, TanStack Query, zod, axios, Redux/Zustand, Next.js,
-бэкенд/БД (статика, API внешний на CRM).
+**Не использовать:** TypeScript, TanStack Query, zod, axios, Redux/Zustand,
+Next.js, UI-киты (shadcn/MUI), CSS modules, бэкенд/БД (статика, API внешний на CRM).
 
 **Env переменные:** `import.meta.env.VITE_*` (не `process.env.REACT_APP_*`).
+`VITE_API_URL=https://api.aivisionpro.ru`.
 
 ---
 
 ## Перед началом работы
 
-1. Прочти `CLAUDE.md` в корне — актуальная структура
-2. Прочти `src/lib/tracker.js` — как работает трекинг
-3. Прочти `src/components/ui/` — примитивы (Btn, Section, Eyebrow, ClipCard)
-4. Найди похожую существующую секцию — копируй паттерн, не выдумывай
-5. Если задача про дизайн/бренд — обращайся к скилу `aivision-design-system`
+1. Прочти `CLAUDE.md` в корне — актуальная структура и техдолг
+2. Прочти `src/components/landing/v2/` — **актуальная** архитектура секций (v2)
+3. Прочти `src/lib/tracker.js` — visitor/session/click/saveLead
+4. Прочти `src/lib/seo.js` — SEO.<route> объекты для Helmet
+5. Прочти `src/index.css` (@layer components) — вшитый HTML-референс v2
+   с медиа ≤768px и ≤380px, italic disabled
+6. Найди похожую существующую секцию в `v2/` — копируй паттерн, не выдумывай
+7. Если задача про дизайн/бренд — обращайся к скилу `aivision-design-system`
 
 ---
 
@@ -42,79 +47,146 @@ fetch (HTTP, для трекинга и форм)
 
 ```
 src/
-├── App.jsx                  роутер + click-tracker
-├── pages/                   Landing, CasePage, PrivacyPolicy, Consent
+├── App.jsx                              роутер + click-tracker
+├── main.jsx                             entry, <HelmetProvider>
+├── index.css                            Tailwind + @layer components v2
+├── pages/
+│   ├── Landing.jsx                      главная — композиция 12 v2-секций
+│   ├── CasePage.jsx                     кейс по :id
+│   ├── PrivacyPolicy.jsx
+│   └── Consent.jsx
 ├── components/
-│   ├── landing/             все секции лендинга (Hero, Problem, Cases, ...)
-│   └── ui/                  Btn, Section, Eyebrow, ClipCard
+│   ├── landing/
+│   │   ├── ContactModal.jsx             общая модалка диагностики
+│   │   ├── ContactToggleInput.jsx       TG/Телефон переключатель
+│   │   ├── DashboardSlider.jsx          variant=finance/crm/ecommerce/platform
+│   │   └── v2/                          ★ актуальные секции
+│   │       ├── Navbar, Hero, Problem, Solution, Advantages
+│   │       ├── Platform, Customization, Integrations
+│   │       ├── HowWeWork, Difference, Cases
+│   │       ├── FinalCTA, StickyCta, Footer
+│   └── ui/
+│       └── Btn (используется в ContactModal + CasePage)
 ├── lib/
-│   ├── tracker.js           visitor/session/click трекинг
+│   ├── tracker.js                       visitor/session/click/saveLead → CRM
+│   ├── seo.js                           SEO.<route> объекты
+│   ├── ErrorBoundary.jsx                обёртка App
 │   └── PageNotFound.jsx
-├── data/                    cases.js, dashboard-slides.jsx
-└── config/brand.js          брендовые константы
+├── data/
+│   ├── cases.js                         3 кейса
+│   └── dashboard-slides.jsx             SLIDER_VARIANTS
+└── config/brand.js                      (legacy, не используется в v2)
 ```
 
 ---
 
 ## Паттерны
 
-### Секция лендинга
-```jsx
-import Section from '@/components/ui/Section';
-import Eyebrow from '@/components/ui/Eyebrow';
+### Новая секция v2
 
-export default function MyBlock() {
+Стили — кастомные классы из `@layer components` в `index.css` копируют
+утверждённый HTML-референс. Tailwind для утилит.
+
+```jsx
+// src/components/landing/v2/MyBlock.jsx
+import { ArrowRight } from 'lucide-react';
+
+export default function MyBlock({ onOpenContact }) {
   return (
-    <Section id="my-block" className="py-24">
-      <Eyebrow>Подзаголовок</Eyebrow>
-      <h2 className="text-4xl font-bold mt-4">Заголовок</h2>
-      <p className="mt-6 text-lg text-gray-700 max-w-2xl">Описание.</p>
-      <button
-        data-track="my-block-cta"
-        data-track-block="my-block"
-        data-track-text="CTA"
-        className="..."
-      >
-        Кнопка
-      </button>
-    </Section>
+    <section className="my-block">
+      <div className="container">
+        <div className="eyebrow">Подзаголовок</div>
+        <h2 className="section-title">Заголовок секции</h2>
+        <p className="section-lead">Лид-текст.</p>
+        <button
+          className="btn-brand"
+          data-track="myblock-cta"
+          data-track-block="myblock"
+          data-track-text="Начать диагностику"
+          onClick={onOpenContact}
+        >
+          Начать диагностику <ArrowRight size={20} />
+        </button>
+      </div>
+    </section>
   );
 }
 ```
 
-### Подключение секции на лендинг
+Подключение в `pages/Landing.jsx`:
 ```jsx
-// pages/Landing.jsx
-import MyBlock from '@/components/landing/MyBlock';
-
-<MyBlock />
+import MyBlock from '@/components/landing/v2/MyBlock';
+// ... в композиции:
+<MyBlock onOpenContact={() => openContact(null, 'myblock')} />
 ```
 
-### Форма (без zod, ручная валидация)
+### Трекинг
+
+Глобальный handler в `App.jsx` ловит `[data-track]`. На всех CTA добавляй:
 ```jsx
-const [name, setName] = useState('');
-const [contact, setContact] = useState('');
-const [error, setError] = useState('');
+data-track="<unique-id>"
+data-track-block="<section-name>"
+data-track-text="<button-label>"
+```
+
+### Inline-форма (саб­мит напрямую)
+
+```jsx
+import { saveLead } from '@/lib/tracker';
 
 async function submit(e) {
   e.preventDefault();
-  if (!name.trim()) return setError('Имя обязательно');
-  // POST на ${import.meta.env.VITE_API_URL}/api/leads
+  if (!name.trim() || !contact.trim()) return setError('Заполни поля');
+  setLoading(true);
+  try {
+    await saveLead({ name, contact, contact_type, source_block: 'final-cta' });
+    setSent(true); // успех: «Свяжемся в течение 5 минут»
+  } catch {
+    setError('Не удалось отправить');
+  } finally {
+    setLoading(false);
+  }
 }
 ```
 
+### SEO через react-helmet-async
+
+```jsx
+import { Helmet } from 'react-helmet-async';
+import { SEO } from '@/lib/seo';
+
+<Helmet>
+  <title>{SEO.home.title}</title>
+  <meta name="description" content={SEO.home.description} />
+  <link rel="canonical" href={SEO.home.url} />
+  <meta property="og:title" content={SEO.home.title} />
+  <meta property="og:description" content={SEO.home.description} />
+  <meta property="og:url" content={SEO.home.url} />
+  <meta property="og:type" content="website" />
+</Helmet>
+```
+
+**Важно:** Helmet рендерит теги в браузере. Для нормальной индексации
+и шеринга в Telegram нужен пререндер на билде или статичные fallback-мета
+в `index.html`. См. SEO-задачу.
+
 ---
 
-## Стили — AIVISION
+## Стили — AIVISION v2
 
-Tailwind utility-first. Главные правила:
-- chamfer-углы (срезанные)
+Tailwind utility + кастомные классы в `@layer components` (index.css).
+Главные правила:
+
+- **Chamfer** через `clip-path: polygon(...)` (10–28px) — НЕ `border-radius`
+- **Не использовать `border` + `clip-path` вместе** (даёт «крюк»).
+  Альтернатива: `box-shadow: inset 0 0 0 Npx <color>` или двухслойная обёртка
+- **Italic запрещён глобально** (`em, i, cite, address { font-style: normal }`)
 - Inter — единственный шрифт
-- акцент `#3F6EE8` — единственный CTA-цвет
-- monotone-цвета, без радуг
-- адаптив mobile-first
+- Акцент `#3F6EE8` — единственный цвет действия
+- Адаптив mobile-first; кастомные media `@media (max-width: 768px)` и `380px`
 
-Если сомневаешься в дизайне — спроси main Claude.
+Если сомневаешься — копируй существующую секцию `v2/`. Дизайн → скилл
+`aivision-design-system`.
 
 ---
 

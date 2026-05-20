@@ -14,7 +14,7 @@
 - React 18 + Vite 6 SPA на `aivisionpro.ru`
 - Деплой: GitHub Actions → vite build → rsync `dist/` на Timeweb VPS 85.239.51.8
 - Две ветки: `dev` → `aivisiontest.ru`, `main` → `aivisionpro.ru`
-- 12 v2-секций лендинга + 4 страницы (главная + 3 кейса + privacy + consent)
+- 14 v2-секций лендинга + 4 страницы (главная + 3 кейса + privacy + consent)
 - ContactModal с формой заявки, шлёт `saveLead` на CRM-бэк `api.aivisionpro.ru`
 - Tracker (visitor/session/click + UTM) → CRM-бэк
 - Demo CRM в `public/demo/` (вшитая сборка CRM, синхронизируется `scripts/sync-demo.sh`)
@@ -53,7 +53,7 @@
 Это критический список — миграция не должна затронуть ни одну из этих вещей.
 
 ### Визуальное
-- Все 12 v2-секций (Hero, Problem, Solution, Advantages, Platform, Customization,
+- Все 14 v2-секций (Hero, Problem, Solution, Advantages, Platform, Customization,
   Integrations, HowWeWork, Difference, Cases, FinalCTA, StickyCta, Footer, Navbar)
 - Дизайн-система v2: chamfer через `clip-path`, Inter, brand `#3F6EE8`, italic запрещён
 - Все CSS-правила из `src/index.css` (`@layer components`, медиа ≤768px и ≤380px)
@@ -257,19 +257,29 @@ const allSchemas = [organizationSchema, websiteSchema, ...jsonLd];
 
     <!-- Icons -->
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <!-- <link rel="apple-touch-icon" href="/apple-touch-icon.png" /> — TODO: положить файл от партнёра -->
 
     <!-- JSON-LD schemas -->
     {allSchemas.map((schema) => (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
 
-    <!-- Preload critical font -->
-    <link rel="preload" href="/fonts/Inter-Variable.woff2" as="font" type="font/woff2" crossorigin />
+    <!-- Inter грузится через Google Fonts (@import в global.css). Ускоряем коннект: -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 
-    <!-- Analytics (от партнёра) -->
-    <!-- <YandexMetrika id="XXXXXXXX" /> -->
-    <!-- <GA4 id="G-XXXXXXXXXX" /> -->
+    <!-- Dev-окружение — запрет индексации (заменяет логику X-Robots-Tag на уровне nginx если nginx не настроен) -->
+    {import.meta.env.PUBLIC_ENV !== 'production' && (
+      <meta name="robots" content="noindex, nofollow" />
+    )}
+
+    <!-- Analytics (от партнёра, только в prod) -->
+    {import.meta.env.PUBLIC_ENV === 'production' && (
+      <>
+        <!-- <YandexMetrika id="XXXXXXXX" /> -->
+        <!-- <GA4 id="G-XXXXXXXXXX" /> -->
+      </>
+    )}
   </head>
 
   <body class="font-inter overflow-x-hidden">
@@ -294,19 +304,25 @@ const allSchemas = [organizationSchema, websiteSchema, ...jsonLd];
 
 ### src/lib/seo.js — расширенный
 
+**Важно:** базовый URL вынесен в `PUBLIC_SITE_URL` env переменную. На dev =
+`https://aivisiontest.ru`, на prod = `https://aivisionpro.ru`. Иначе canonical
+и og:url на dev будут указывать на prod (Google посчитает дубликатом).
+
 ```js
+const SITE = import.meta.env.PUBLIC_SITE_URL || 'https://aivisionpro.ru';
+
 // Каждая страница имеет полный набор полей
 export const SEO = {
   home: {
     title: '...',          // от партнёра
     description: '...',    // от партнёра
-    url: 'https://aivisionpro.ru',
+    path: '/',
     ogImage: '/og/og-main.png',
   },
   case1: {
     title: '...',
     description: '...',
-    url: 'https://aivisionpro.ru/case/1',
+    path: '/case/1',
     ogImage: '/og/og-case-1.png',
   },
   case2: { /* ... */ },
@@ -314,19 +330,23 @@ export const SEO = {
   privacy: {
     title: 'Политика конфиденциальности — AIVISION',
     description: 'Политика обработки персональных данных в соответствии с 152-ФЗ.',
-    url: 'https://aivisionpro.ru/privacy-policy',
+    path: '/privacy-policy',
     ogImage: '/og/og-main.png',
-    noindex: true,
+    // index: true — юр-страницы Google любит видеть, не noindex
   },
   consent: {
     title: 'Согласие на обработку персональных данных — AIVISION',
     description: 'Согласие на обработку ПД при использовании сайта aivisionpro.ru.',
-    url: 'https://aivisionpro.ru/consent',
+    path: '/consent',
     ogImage: '/og/og-main.png',
-    noindex: true,
   },
 };
+
+// Хелпер — собирает полный URL для canonical и og:url
+export const seoUrl = (seoEntry) => `${SITE}${seoEntry.path}`;
 ```
+
+В Layout: `canonical={seoUrl(SEO.home)}`.
 
 ### src/lib/jsonld.js — новый файл
 
@@ -382,14 +402,40 @@ export function caseSchema(caseData) {
 
 `astro.config.mjs`:
 ```js
+import { defineConfig } from 'astro/config';
+import react from '@astrojs/react';
+import tailwind from '@astrojs/tailwind';
+import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
+
 export default defineConfig({
-  site: 'https://aivisionpro.ru',
-  integrations: [sitemap({
-    filter: (page) => !page.includes('/privacy-policy') && !page.includes('/consent'),
-  })],
+  site: process.env.PUBLIC_SITE_URL || 'https://aivisionpro.ru',
+
+  // Без trailing slash в URL: /case/1 а НЕ /case/1/
+  // Должно совпадать с текущими URL в seo.js
+  trailingSlash: 'never',
+
+  // file: генерирует case/1.html вместо case/1/index.html
+  // Лучше для совместимости с canonical
+  build: {
+    format: 'file',
+  },
+
+  integrations: [
+    react(),
+    tailwind({ applyBaseStyles: false }), // base стили в global.css
+    mdx(),
+    sitemap({
+      // юр-страницы оставляем в sitemap (стандарт для Google)
+      // /demo/ — приватное демо, исключаем
+      filter: (page) => !page.includes('/demo/'),
+    }),
+  ],
 });
 ```
+
+**Важно:** `tailwind({ applyBaseStyles: false })` чтобы Tailwind preflight
+не конфликтовал с твоим `@layer components` v2.
 
 ### robots.txt — обновить
 
@@ -591,12 +637,37 @@ const { Content } = await caseData.render();
 - [ ] Создать `package.json` Astro в текущей репе (бэкап старого как `package.json.vite.bak`)
 - [ ] Установить: `astro`, `@astrojs/react`, `@astrojs/tailwind`, `@astrojs/mdx`, `@astrojs/sitemap`
 - [ ] Удалить: `react-router-dom`, `react-helmet-async`, `vite`, `@vitejs/plugin-react`
-- [ ] Создать `astro.config.mjs` с интеграциями + `site: 'https://aivisionpro.ru'`
-- [ ] Перенести `tailwind.config.js` (работает в Astro без правок)
-- [ ] Создать `src/styles/global.css` из `src/index.css`
-- [ ] Создать `src/layouts/BaseLayout.astro` (см. § 4)
+- [ ] Удалить файлы: `vite.config.js` (конфиг переезжает в `astro.config.mjs`)
+- [ ] Обновить package.json scripts:
+  ```json
+  "scripts": {
+    "dev": "astro dev",
+    "build": "astro check && astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  }
+  ```
+- [ ] Создать `astro.config.mjs` с интеграциями (см. § 4 — `trailingSlash: 'never'`,
+  `build.format: 'file'`)
+- [ ] Обновить `tailwind.config.js`: добавить `.astro`, `.md`, `.mdx` в content:
+  ```js
+  content: ['./src/**/*.{astro,html,js,jsx,ts,tsx,md,mdx}'],
+  ```
+- [ ] Создать `src/styles/global.css` из `src/index.css` (с `@import` Inter
+  из Google Fonts на первой строке)
+- [ ] Создать `src/layouts/BaseLayout.astro` (см. § 4) — **обязательно** импорт стилей:
+  ```astro
+  ---
+  import '@/styles/global.css';
+  ---
+  ```
 - [ ] Создать `src/lib/jsonld.js` (см. § 4)
-- [ ] Обновить `src/lib/seo.js` под новую схему (см. § 4)
+- [ ] Обновить `src/lib/seo.js` под новую схему с `PUBLIC_SITE_URL` (см. § 4)
+- [ ] Создать `tsconfig.json` для Astro (наследует от `astro/tsconfigs/base`), сохранить
+  `paths: { "@/*": ["./src/*"] }` (или оставить `jsconfig.json` если Astro его подхватит)
+- [ ] Установить env переменные:
+  - В `.env`: `PUBLIC_SITE_URL=http://localhost:4321`, `PUBLIC_API_URL=https://api.aivisiontest.ru`, `PUBLIC_ENV=development`
+  - В GitHub Actions: `PUBLIC_SITE_URL` и `PUBLIC_ENV` подставляются по ветке
 
 ### Phase 2 — компоненты
 
@@ -628,8 +699,10 @@ const { Content } = await caseData.render();
 
 - [ ] `src/pages/index.astro` — главная (композиция секций + BaseLayout)
 - [ ] `src/pages/case/[id].astro` — динамический роут (см. § 6)
-- [ ] `src/pages/privacy-policy.astro` — статика + noindex
-- [ ] `src/pages/consent.astro` — статика + noindex
+- [ ] `src/pages/privacy-policy.astro` — статика, **index, follow** (юр-страница, Google любит)
+- [ ] `src/pages/consent.astro` — статика, **index, follow**
+- [ ] `src/pages/404.astro` — кастомная 404-страница с CTA на главную
+  (Astro авто-использует этот файл для 404, дополнительно nginx должен отдавать `404.html`)
 
 ### Phase 4 — контент
 
@@ -638,14 +711,30 @@ const { Content } = await caseData.render();
 - [ ] `src/content/cases/case-2.md`
 - [ ] `src/content/cases/case-3.md`
 
-### Phase 5 — public assets
+### Phase 5 — public assets и cleanup
 
 - [ ] `public/favicon.svg` — без изменений
 - [ ] `public/demo/` — без изменений
-- [ ] `public/og/og-main.png` — положить от партнёра
+- [ ] `public/og/og-main.png` — положить от партнёра (или favicon-заглушка)
 - [ ] `public/og/og-case-1.png` ... `og-case-3.png` — от партнёра
-- [ ] `public/logo-512.png` — от партнёра
+- [ ] `public/logo-512.png` — от партнёра (нужен для JSON-LD `logo` поля)
+- [ ] (опц.) `public/apple-touch-icon.png` 180×180 — от партнёра
 - [ ] `public/robots.txt` — обновить (см. § 4)
+- [ ] **Удалить** из `index.html` ссылку на несуществующий `/manifest.json`
+  (либо создать минимальный manifest.json — но для лендинга PWA не нужен)
+- [ ] **Удалить** старый `src/index.html` (Astro генерит свой)
+- [ ] **Удалить** старый `src/App.jsx` (логика в BaseLayout)
+- [ ] **Удалить** старый `src/main.jsx` (Astro имеет свой entry)
+- [ ] **Удалить** старый `src/index.css` (переехал в `src/styles/global.css`)
+- [ ] **Удалить** старый `src/pages/Landing.jsx`, `CasePage.jsx`, `PrivacyPolicy.jsx`,
+  `Consent.jsx` (заменены `.astro`-страницами)
+- [ ] **Удалить** `src/components/landing/v2/*.jsx` (заменены `.astro`-компонентами в `v2/`)
+- [ ] **Удалить** `src/lib/PageNotFound.jsx` (заменён `pages/404.astro`)
+- [ ] **Удалить** `src/lib/ErrorBoundary.jsx` (Astro статика, server-side EB не нужен;
+  React-islands могут иметь свой если потребуется)
+- [ ] **Удалить** `src/config/brand.js` (legacy, не используется в v2)
+- [ ] Старый `src/data/cases.js` — оставить если ещё нужен для миграции, иначе удалить
+  после успешного переезда в `src/content/cases/*.md`
 
 ### Phase 6 — workflow и инфра
 
@@ -656,15 +745,34 @@ const { Content } = await caseData.render();
 
 ### Phase 7 — security headers (nginx)
 
-Добавить в nginx-конфиг **обоих** доменов (dev и prod):
-
+**Prod (`aivisionpro.ru`):**
 ```nginx
 add_header Strict-Transport-Security "max-age=31536000; includeSubDomains" always;
 add_header X-Frame-Options "SAMEORIGIN" always;
 add_header X-Content-Type-Options "nosniff" always;
 add_header Referrer-Policy "strict-origin-when-cross-origin" always;
-add_header Content-Security-Policy "default-src 'self'; img-src 'self' data: https:; style-src 'self' 'unsafe-inline'; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com; connect-src 'self' https://api.aivisionpro.ru https://api.aivisiontest.ru https://mc.yandex.ru" always;
+
+# CSP: 'unsafe-inline' для script нужен Astro для гидратации React-islands
+# (он генерит inline scripts). Это компромисс безопасности.
+# Альтернатива (nonce) сложна для статики — пока оставляем unsafe-inline.
+add_header Content-Security-Policy "default-src 'self'; img-src 'self' data: https:; font-src 'self' https://fonts.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; script-src 'self' 'unsafe-inline' https://mc.yandex.ru https://www.googletagmanager.com; connect-src 'self' https://api.aivisionpro.ru https://mc.yandex.ru https://www.google-analytics.com" always;
 ```
+
+**Dev (`aivisiontest.ru`):**
+```nginx
+# Те же headers что и prod, ПЛЮС критичное:
+add_header X-Robots-Tag "noindex, nofollow" always;
+
+# CSP для dev — добавить api.aivisiontest.ru в connect-src
+add_header Content-Security-Policy "...; connect-src 'self' https://api.aivisiontest.ru ..." always;
+```
+
+**Зачем `X-Robots-Tag: noindex` на dev:** без него Google проиндексирует
+`aivisiontest.ru` как дубликат `aivisionpro.ru` → размытие веса, штраф за дубль-контент.
+
+**CORS на CRM-бэке:** если ставим параллельный `astro.aivisiontest.ru` для
+side-by-side тестирования — добавить его в `ALLOWED_ORIGINS` на CRM-бэке
+(`backend/.env` на dev-сервере), иначе формы заявок не сабмитятся (CORS блок).
 
 ### Phase 8 — verification и аналитика (от партнёра)
 

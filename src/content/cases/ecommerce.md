@@ -1,5 +1,7 @@
 ---
-id: "3"
+id: "ecommerce"
+seoKey: "caseEcommerce"
+order: 3
 tagBg: "#3F6EE8"
 tag: "E-commerce · WB"
 tagSub: "5+ млн ₽ / мес · 3 бренда"
@@ -29,7 +31,7 @@ results:
 resultsSummary: "Продажи стали управляемым процессом. Менеджер занимается ростом, а не сбором цифр."
 sliderVariant: "ecommerce"
 sliderLight: false
-nextId: "1"
+nextId: "education"
 nextLabel: "Первый кейс"
 datePublished: "2026-04-05"
 ogImage: "/og/og-case-3.png"

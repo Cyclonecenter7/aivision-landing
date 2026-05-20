@@ -10,14 +10,13 @@ import StickyCta from '@/components/v2/StickyCta.astro';
 export async function getStaticPaths() {
   const cases = await getCollection('cases');
   return cases.map((entry) => ({
-    params: { id: entry.data.id },
+    params: { slug: entry.data.id },
     props: { c: entry.data },
   }));
 }
 
 const { c } = Astro.props;
-const seoKey = 'case' + c.id;
-const seo = SEO[seoKey] || SEO.home;
+const seo = SEO[c.seoKey] || SEO.home;
 
 const clipSm  = 'polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)';
 const clipNum = 'polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%)';
@@ -55,7 +54,7 @@ const ldCase = caseSchema({
         Назад
       </a>
       <a
-        href={`/case/${c.nextId}`}
+        href={`/cases/${c.nextId}/`}
         class="inline-flex items-center gap-2 text-blue hover:opacity-80 transition-opacity text-sm font-medium"
         data-track={`case_next_${c.nextId}`}
         data-track-block="case_page"

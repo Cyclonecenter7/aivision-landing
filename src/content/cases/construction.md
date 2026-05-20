@@ -1,5 +1,7 @@
 ---
-id: "2"
+id: "construction"
+seoKey: "caseConstruction"
+order: 2
 tagBg: "#0A0A0A"
 tag: "Оборот 200+ млн ₽"
 tagSub: "4 проекта · Строительство/услуги"
@@ -29,7 +31,7 @@ results:
 resultsSummary: "Сократили расходы на убыточный проект, составили финансовый план по выплатам долгов, усилили вложения в маржинальный проект и 2 стратегических."
 sliderVariant: "crm"
 sliderLight: false
-nextId: "3"
+nextId: "ecommerce"
 nextLabel: "Следующий кейс"
 datePublished: "2026-03-20"
 ogImage: "/og/og-case-2.png"

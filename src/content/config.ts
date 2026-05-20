@@ -4,6 +4,8 @@ const cases = defineCollection({
   type: 'content',
   schema: z.object({
     id: z.string(),
+    seoKey: z.string(),
+    order: z.number().default(99),
     tagBg: z.string(),
     tag: z.string(),
     tagSub: z.string(),

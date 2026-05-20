@@ -1,5 +1,7 @@
 ---
-id: "1"
+id: "education"
+seoKey: "caseEducation"
+order: 1
 tagBg: "#3F6EE8"
 tag: "Образовательный бизнес"
 tagSub: "Офлайн + онлайн · 5+ лет"
@@ -26,7 +28,7 @@ results:
 resultsSummary: "Все решения принимаются на основе цифр, а не ощущений."
 sliderVariant: "finance"
 sliderLight: true
-nextId: "2"
+nextId: "construction"
 nextLabel: "Следующий кейс"
 datePublished: "2026-03-15"
 ogImage: "/og/og-case-1.png"

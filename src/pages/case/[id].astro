@@ -1,16 +1,17 @@
 ---
+import { getCollection } from 'astro:content';
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SEO, seoUrl } from '@/lib/seo';
 import { caseSchema } from '@/lib/jsonld';
-import { CASES } from '@/data/cases';
 import DashboardSlider from '@/components/islands/DashboardSlider.jsx';
 import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 import StickyCta from '@/components/v2/StickyCta.astro';
 
-export function getStaticPaths() {
-  return Object.values(CASES).map((c) => ({
-    params: { id: c.id },
-    props: { c },
+export async function getStaticPaths() {
+  const cases = await getCollection('cases');
+  return cases.map((entry) => ({
+    params: { id: entry.data.id },
+    props: { c: entry.data },
   }));
 }
 
@@ -24,15 +25,15 @@ const clipCta = 'polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100
 
 const ldCase = caseSchema({
   title: seo.title,
-  ogImage: seo.ogImage,
-  datePublished: '2026-03-15',
+  ogImage: c.ogImage || seo.ogImage,
+  datePublished: c.datePublished,
 });
 ---
 <BaseLayout
   title={seo.title}
   description={seo.description}
   canonical={seoUrl(seo)}
-  ogImage={seo.ogImage}
+  ogImage={c.ogImage || seo.ogImage}
   ogType="article"
   jsonLd={[ldCase]}
 >

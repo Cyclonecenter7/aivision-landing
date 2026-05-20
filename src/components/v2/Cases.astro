@@ -1,7 +1,10 @@
 ---
-import { CASES } from '@/data/cases';
+import { getCollection } from 'astro:content';
 
-const cases = Object.values(CASES);
+const entries = await getCollection('cases');
+const cases = entries
+  .map((e) => e.data)
+  .sort((a, b) => Number(a.id) - Number(b.id));
 ---
 <section id="cases" class="bg-light section">
   <div class="container">

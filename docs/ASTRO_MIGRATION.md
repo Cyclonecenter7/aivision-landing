@@ -576,10 +576,14 @@ const { Content } = await caseData.render();
 
 ### Phase 0 — подготовка (без миграции, до старта)
 
-- [ ] Wildcard в CF: `*.aivisiontest.ru → 85.239.51.8`, proxy OFF
-- [ ] CF API token для wildcard SSL (Edit Zone DNS на `aivisiontest.ru`)
-- [ ] Контент от партнёра: тексты, OG-картинки, Organization data, verification meta
 - [ ] Создать ветку `feat/astro-migration` от `dev`
+- [ ] Контент от партнёра: тексты, OG-картинки, Organization data, verification meta
+  (НЕ блокер — можно стартовать с плейсхолдерами, подменить точечно ~1 час)
+- [ ] (опционально) добавить в CF A-запись `astro.aivisiontest.ru → 85.239.51.8` если
+  хочешь параллельный домен для side-by-side сравнения. Без неё миграция деплоится
+  напрямую в `aivisiontest.ru` через `dev` ветку (заменяя текущий Vite-сайт)
+- [ ] (опционально, для будущего bootstrap-агента) CF wildcard `*.aivisiontest.ru` ИЛИ
+  CF API token. Для миграции AIVISION НЕ нужно
 
 ### Phase 1 — каркас Astro
 
@@ -766,18 +770,21 @@ add_header Content-Security-Policy "default-src 'self'; img-src 'self' data: htt
 
 ## 11. Зависимости от других задач
 
-### Блокирующие миграцию (без них нельзя стартовать Phase 1)
-- CF wildcard `*.aivisiontest.ru → 85.239.51.8` proxy OFF
-- CF API token Edit Zone DNS для `aivisiontest.ru`
+### Блокирующие миграцию
+**Никаких внешних блокеров нет.** Можно стартовать прямо сейчас.
 
-### Не блокируют, но нужны для финального деплоя в прод
+### Не блокируют, но улучшают финальный результат
 - Контент от партнёра (тексты, OG-картинки, JSON-LD данные, verification meta, аналитика IDs)
-- При отсутствии → используем плейсхолдеры (текущие тексты из seo.js, favicon как og-image),
+  → при отсутствии используем плейсхолдеры (текущие тексты из seo.js, favicon как og-image),
   деплоим, потом точечно подменяем (~1 час правок)
+- (опц.) A-запись `astro.aivisiontest.ru` в CF — если хочется параллельный домен
+  для тестирования. Без неё — деплой в `aivisiontest.ru` напрямую через dev-ветку
 
 ### Не связаны с миграцией (отдельные задачи)
-- Bootstrap-скрипт для клонирования — стартует **после** успешной миграции AIVISION
-- Pred-сервер выделение для клиентов — после первой продажи
+- Bootstrap-скрипт для клонирования — стартует **после** успешной миграции AIVISION.
+  Для него нужен CF wildcard ИЛИ CF API token (одно из двух)
+- Prod-сервер выделение для клиентов — после первой продажи
+- Реорганизация Desktop (`AIVISION main/` + `Клиенты <X>/`) — независимая задача
 
 ---
 

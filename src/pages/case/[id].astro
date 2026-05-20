@@ -1,0 +1,170 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import { SEO, seoUrl } from '@/lib/seo';
+import { caseSchema } from '@/lib/jsonld';
+import { CASES } from '@/data/cases';
+import DashboardSlider from '@/components/islands/DashboardSlider.jsx';
+import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
+import StickyCta from '@/components/v2/StickyCta.astro';
+
+export function getStaticPaths() {
+  return Object.values(CASES).map((c) => ({
+    params: { id: c.id },
+    props: { c },
+  }));
+}
+
+const { c } = Astro.props;
+const seoKey = 'case' + c.id;
+const seo = SEO[seoKey] || SEO.home;
+
+const clipSm  = 'polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)';
+const clipNum = 'polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%)';
+const clipCta = 'polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%)';
+
+const ldCase = caseSchema({
+  title: seo.title,
+  ogImage: seo.ogImage,
+  datePublished: '2026-03-15',
+});
+---
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  canonical={seoUrl(seo)}
+  ogImage={seo.ogImage}
+  ogType="article"
+  jsonLd={[ldCase]}
+>
+  <div class="min-h-screen bg-[#F4F4F5] font-inter">
+    <div class="max-w-6xl mx-auto px-6 pt-6 flex items-center justify-between">
+      <a
+        href="/#cases"
+        class="inline-flex items-center gap-2 text-[#666] hover:text-black text-sm"
+        data-track="case_back"
+        data-track-block="case_page"
+      >
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M19 12H5M12 19l-7-7 7-7" />
+        </svg>
+        Назад
+      </a>
+      <a
+        href={`/case/${c.nextId}`}
+        class="inline-flex items-center gap-2 text-blue hover:opacity-80 transition-opacity text-sm font-medium"
+        data-track={`case_next_${c.nextId}`}
+        data-track-block="case_page"
+      >
+        {c.nextLabel}
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+
+    <div class="max-w-6xl mx-auto px-6 py-12">
+      <div class="mb-10">
+        <div class="flex items-center gap-3 mb-4">
+          <div
+            class="px-3 py-1 text-white text-[10px] font-bold uppercase tracking-widest"
+            style={`background:${c.tagBg};clip-path:${clipSm}`}
+          >
+            {c.tag}
+          </div>
+          <span class="text-[#AAA] text-xs">{c.tagSub}</span>
+        </div>
+        <h1 class="text-3xl md:text-4xl font-bold text-black leading-tight mb-4">
+          {c.titleLine1}<br class="hidden md:block" /> {c.titleLine2}
+        </h1>
+        <p class="text-[#888] text-sm max-w-xl leading-relaxed">{c.description}</p>
+      </div>
+
+      <div class="grid lg:grid-cols-2 gap-8">
+        <div class="flex flex-col gap-6">
+          <div class="bg-white border border-[#E8E8E8] p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-6 h-px bg-red"></div>
+              <span class="text-red text-[10px] font-semibold uppercase tracking-widest">Точка А — Проблема</span>
+            </div>
+            <p class="text-[#555] text-sm leading-relaxed mb-4">{c.problemsIntro}</p>
+            {c.problems.map((p) => (
+              <div class="flex items-start gap-2.5 mb-2">
+                <div class="w-1.5 h-1.5 mt-1.5 bg-red rounded-full flex-shrink-0"></div>
+                <span class="text-[#666] text-sm leading-relaxed">{p}</span>
+              </div>
+            ))}
+          </div>
+
+          <div class="bg-white border border-[#E8E8E8] p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-6 h-px bg-blue"></div>
+              <span class="text-blue text-[10px] font-semibold uppercase tracking-widest">Что сделали</span>
+            </div>
+            {c.actions.map((a) => (
+              <div class="flex items-start gap-3 mb-3 bg-[#F8F9FC] border border-[#E8EEF8] p-4">
+                <div
+                  class="w-7 h-7 bg-blue flex items-center justify-center text-white text-[9px] font-bold flex-shrink-0"
+                  style={`clip-path:${clipNum}`}
+                >
+                  {a.n}
+                </div>
+                <div>
+                  <div class="text-black text-sm font-semibold mb-0.5">{a.t}</div>
+                  <div class="text-[#888] text-xs">{a.d}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <div class="bg-white border border-[#E8E8E8] p-6">
+            <div class="flex items-center gap-3 mb-4">
+              <div class="w-6 h-px bg-black"></div>
+              <span class="text-black text-[10px] font-semibold uppercase tracking-widest">Результат</span>
+            </div>
+            <div class="grid grid-cols-3 gap-3">
+              {c.results.map((r) => (
+                <div class="bg-[#F4F4F5] border border-[#E8E8E8] p-3">
+                  <div class={`text-lg font-bold mb-0.5 ${r.c}`}>{r.v}</div>
+                  <div class="text-[#999] text-[10px] leading-relaxed">{r.l}</div>
+                </div>
+              ))}
+            </div>
+            <p class="text-[#555] text-sm leading-relaxed mt-4 pt-4 border-t border-[#F0F0F0]">
+              <span class="text-black font-semibold">Главное: </span>
+              {c.resultsSummary}
+            </p>
+          </div>
+        </div>
+
+        <div class="self-start md:sticky md:top-6 overflow-hidden">
+          <DashboardSlider variant={c.sliderVariant} light={c.sliderLight} client:visible />
+        </div>
+      </div>
+
+      <div
+        class="mt-12 bg-black p-8 flex flex-col md:flex-row items-start md:items-center justify-between gap-6"
+        style={`clip-path:${clipCta}`}
+      >
+        <div>
+          <div class="text-white text-lg font-bold mb-1">Хотите такой же результат?</div>
+          <p class="text-[#555] text-sm">Начнём с диагностики — покажем, где теряется прибыль именно в вашем бизнесе</p>
+        </div>
+        <button
+          type="button"
+          class="btn btn-on-brand js-open-contact flex-shrink-0"
+          data-source="case_page"
+          data-track="case_cta_diagnose"
+          data-track-block="case_page"
+        >
+          Начать диагностику
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <StickyCta />
+  <ContactModalIsland client:load />
+</BaseLayout>

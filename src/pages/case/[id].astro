@@ -33,8 +33,12 @@ const ldCase = caseSchema({
   title={seo.title}
   description={seo.description}
   canonical={seoUrl(seo)}
+  ogTitle={seo.ogTitle}
+  ogDescription={seo.ogDescription}
   ogImage={c.ogImage || seo.ogImage}
+  twitterImage={c.ogImage || seo.twitterImage}
   ogType="article"
+  robots={seo.robots}
   jsonLd={[ldCase]}
 >
   <div class="min-h-screen bg-[#F4F4F5] font-inter">

@@ -6,9 +6,13 @@ interface Props {
   title: string;
   description: string;
   canonical: string;
+  ogTitle?: string;
+  ogDescription?: string;
   ogImage?: string;
+  twitterImage?: string;
   ogType?: string;
   noindex?: boolean;
+  robots?: string;
   jsonLd?: object[];
 }
 
@@ -16,16 +20,38 @@ const {
   title,
   description,
   canonical,
+  ogTitle,
+  ogDescription,
   ogImage = '/og/og-main.png',
+  twitterImage,
   ogType = 'website',
   noindex = false,
+  robots,
   jsonLd = [],
 } = Astro.props;
 
 const SITE = import.meta.env.PUBLIC_SITE_URL || 'https://aivisionpro.ru';
 const ogImageFull = ogImage.startsWith('http') ? ogImage : `${SITE}${ogImage}`;
+const twitterImageRaw = twitterImage || ogImage;
+const twitterImageFull = twitterImageRaw.startsWith('http')
+  ? twitterImageRaw
+  : `${SITE}${twitterImageRaw}`;
 const allSchemas = [organizationSchema, websiteSchema, ...jsonLd];
 const isProd = import.meta.env.PUBLIC_ENV === 'production';
+
+// Robots: dev-окружение всегда noindex (чтобы не дублировать prod),
+// иначе noindex prop > robots prop > index follow default
+let robotsContent;
+if (!isProd) robotsContent = 'noindex, nofollow';
+else if (noindex) robotsContent = 'noindex, nofollow';
+else if (robots) robotsContent = robots;
+else robotsContent = 'index, follow';
+
+const ogTitleFinal = ogTitle || title;
+const ogDescriptionFinal = ogDescription || description;
+
+// Yandex Metrika ID — только в prod
+const YM_ID = 109325036;
 ---
 
 <!doctype html>
@@ -37,11 +63,11 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
     <title>{title}</title>
     <meta name="description" content={description} />
     <link rel="canonical" href={canonical} />
-    {(noindex || !isProd) && <meta name="robots" content="noindex, nofollow" />}
+    <meta name="robots" content={robotsContent} />
 
     <meta property="og:type" content={ogType} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
+    <meta property="og:title" content={ogTitleFinal} />
+    <meta property="og:description" content={ogDescriptionFinal} />
     <meta property="og:url" content={canonical} />
     <meta property="og:image" content={ogImageFull} />
     <meta property="og:image:width" content="1200" />
@@ -50,12 +76,11 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
     <meta property="og:site_name" content="AIVISION" />
 
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    <meta name="twitter:image" content={ogImageFull} />
+    <meta name="twitter:title" content={ogTitleFinal} />
+    <meta name="twitter:description" content={ogDescriptionFinal} />
+    <meta name="twitter:image" content={twitterImageFull} />
 
-    <meta name="yandex-verification" content="<TODO>" />
-    <meta name="google-site-verification" content="<TODO>" />
+    <meta name="yandex-verification" content="a580ae03a42eedfc" />
 
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
 
@@ -65,6 +90,18 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
 
     <link rel="preconnect" href="https://fonts.googleapis.com" />
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+
+    {isProd && (
+      <script is:inline define:vars={{ YM_ID }}>
+        (function(m,e,t,r,i,k,a){m[i]=m[i]||function(){(m[i].a=m[i].a||[]).push(arguments)};
+        m[i].l=1*new Date();
+        for (var j = 0; j < document.scripts.length; j++) {if (document.scripts[j].src === r) { return; }}
+        k=e.createElement(t),a=e.getElementsByTagName(t)[0],k.async=1,k.src=r,a.parentNode.insertBefore(k,a)})
+        (window, document,'script','https://mc.yandex.ru/metrika/tag.js?id='+YM_ID, 'ym');
+        ym(YM_ID, 'init', {ssr:true, webvisor:true, clickmap:true, ecommerce:"dataLayer", accurateTrackBounce:true, trackLinks:true});
+      </script>
+      <noscript><div><img src={`https://mc.yandex.ru/watch/${YM_ID}`} style="position:absolute; left:-9999px;" alt="" /></div></noscript>
+    )}
   </head>
 
   <body class="font-inter overflow-x-hidden">

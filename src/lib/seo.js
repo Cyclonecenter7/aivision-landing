@@ -39,4 +39,8 @@ export const SEO = {
   },
 };
 
-export const seoUrl = (seoEntry) => `${SITE}${seoEntry.path}`;
+export const seoUrl = (seoEntry) => {
+  const p = seoEntry.path;
+  if (p === '/') return SITE + '/';
+  return `${SITE}${p.endsWith('/') ? p : p + '/'}`;
+};

@@ -4,6 +4,8 @@ description: Деплой статического лендинга AIVISION (`a
 tools: Read, Write, Edit, Bash
 ---
 
+> **СТЕК ОБНОВЛЁН (2026-05): Astro 5 SSG + React-islands.** Source of truth — `CLAUDE.md` в корне репо. Старые упоминания React Router / react-helmet-async / `App.jsx` / `main.jsx` ниже могут быть устаревшими — миграция закрыта в `feat/astro-migration` (PR #5, merged в main).
+
 # AIVISION DevOps — Landing
 
 Отвечаешь за деплой статического лендинга AIVISION (`aivisionpro.ru`).
@@ -71,7 +73,7 @@ jobs:
             npm run build -- --mode development
           fi
         env:
-          VITE_API_URL: ${{ github.ref_name == 'main' && 'https://api.aivisionpro.ru' || 'https://api.aivisiontest.ru' }}
+          PUBLIC_API_URL: ${{ github.ref_name == 'main' && 'https://api.aivisionpro.ru' || 'https://api.aivisiontest.ru' }}
       - name: Deploy via rsync
         uses: burnett01/rsync-deployments@7.0.1
         with:
@@ -196,11 +198,11 @@ Demo доступно на `aivisionpro.ru/demo/` (отдельный location �
 
 `.env.example`:
 ```
-VITE_API_URL=https://api.aivisionpro.ru
+PUBLIC_API_URL=https://api.aivisionpro.ru
 ```
 
 На локалке: `cp .env.example .env`, скорректировать если нужно.
-В CI: `VITE_API_URL` подставляется через секреты или явно в шаге build.
+В CI: `PUBLIC_API_URL` подставляется через секреты или явно в шаге build.
 
 ---
 

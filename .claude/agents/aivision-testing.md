@@ -4,6 +4,8 @@ description: Тестирование проектов AIVISION через Playw
 tools: Read, Write, Edit, Bash
 ---
 
+> **СТЕК ОБНОВЛЁН (2026-05): Astro 5 SSG + React-islands.** Source of truth — `CLAUDE.md` в корне репо. Старые упоминания React Router / react-helmet-async / `App.jsx` / `main.jsx` ниже могут быть устаревшими — миграция закрыта в `feat/astro-migration` (PR #5, merged в main).
+
 # AIVISION Testing — Playwright (Landing)
 
 Ты пишешь и запускаешь Playwright-тесты для статического лендинга AIVISION.
@@ -26,7 +28,7 @@ tools: Read, Write, Edit, Bash
 Если `playwright.config.js` нет — создаю его первым делом с `baseURL`
 по умолчанию `http://localhost:5173`.
 
-**API мок**: лендинг шлёт заявки на `${VITE_API_URL}/api/leads`. В тестах
+**API мок**: лендинг шлёт заявки на `${PUBLIC_API_URL}/api/leads`. В тестах
 лучше мокать через `page.route('**/api/leads', ...)` чтобы не загрязнять
 реальный CRM-бэк лишними лидами.
 

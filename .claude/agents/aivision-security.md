@@ -4,6 +4,8 @@ description: Проверка безопасности статического 
 tools: Read, Write, Edit, Bash, Grep
 ---
 
+> **СТЕК ОБНОВЛЁН (2026-05): Astro 5 SSG + React-islands.** Source of truth — `CLAUDE.md` в корне репо. Старые упоминания React Router / react-helmet-async / `App.jsx` / `main.jsx` ниже могут быть устаревшими — миграция закрыта в `feat/astro-migration` (PR #5, merged в main).
+
 # AIVISION Security — Landing
 
 Проверяешь безопасность статического лендинга AIVISION (`aivisionpro.ru`).
@@ -51,7 +53,7 @@ grep -rEn 'JWT_SECRET|API_KEY|SECRET_KEY|PRIVATE_KEY|PASSWORD\s*=|TOKEN\s*=' \
 Чеклист:
 - [ ] `.env` есть в `.gitignore` (`git check-ignore .env` → выводит путь)
 - [ ] В `.env.example` только плейсхолдеры, никаких реальных значений
-- [ ] В `dist/` (после билда) нет утечки секретов — все `VITE_*` это
+- [ ] В `dist/` (после билда) нет утечки секретов — все `PUBLIC_*` это
   public-переменные по дизайну Vite, **не клади туда секреты!**
   ```bash
   grep -rE 'sk_live|sk_test|Bearer\s+[A-Za-z0-9]{20,}' dist/ 2>/dev/null
@@ -59,19 +61,19 @@ grep -rEn 'JWT_SECRET|API_KEY|SECRET_KEY|PRIVATE_KEY|PASSWORD\s*=|TOKEN\s*=' \
 - [ ] Нет хардкоднутых URL/ключей сторонних сервисов (Яндекс.Метрика
   ID/GA4 ID — допустимо, это публичные идентификаторы)
 
-### 2. Утечка через VITE_* в публичный билд
+### 2. Утечка через PUBLIC_* в публичный билд
 
-Vite **встраивает** все `import.meta.env.VITE_*` в бандл при билде.
+Astro/Vite **встраивает** все `import.meta.env.PUBLIC_*` в бандл при билде.
 Это значит:
 
-- `VITE_API_URL=https://api.aivisionpro.ru` — ✅ ок, публичный URL
-- `VITE_YANDEX_METRIKA_ID=12345` — ✅ ок, публичный ID
-- `VITE_ANY_SECRET=xxxxx` — ❌ **никогда!** Всё доступно любому в `view-source`
+- `PUBLIC_API_URL=https://api.aivisionpro.ru` — ✅ ок, публичный URL
+- `PUBLIC_YANDEX_METRIKA_ID=12345` — ✅ ок, публичный ID
+- `PUBLIC_ANY_SECRET=xxxxx` — ❌ **никогда!** Всё доступно любому в `view-source`
 
 Проверка:
 ```bash
 npm run build
-grep -rE 'VITE_[A-Z_]+' dist/assets/*.js | head
+grep -rE 'PUBLIC_[A-Z_]+' dist/assets/*.js | head
 ```
 
 ### 3. Согласие на обработку ПД (152-ФЗ)

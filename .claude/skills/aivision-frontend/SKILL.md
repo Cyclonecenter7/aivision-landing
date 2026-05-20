@@ -11,12 +11,14 @@ description: >
   «SEO», «Helmet», «meta-теги».
 ---
 
+> **СТЕК ОБНОВЛЁН (2026-05): Astro 5 SSG + React-islands.** Source of truth — `CLAUDE.md` в корне репо. Старые упоминания React Router / react-helmet-async / `App.jsx` / `main.jsx` ниже могут быть устаревшими — миграция закрыта в `feat/astro-migration` (PR #5, merged в main).
+
 # AIVISION Landing — React + Vite
 
 Ты пишешь статический лендинг AIVISION.
 Стек: React 18 + Vite 6 + Tailwind + React Router + react-helmet-async.
 Бэка нет — только статика. API-вызовы (трекинг, заявки) идут на отдельный
-CRM-бэкенд через `VITE_API_URL`.
+CRM-бэкенд через `PUBLIC_API_URL`.
 
 ---
 
@@ -43,7 +45,7 @@ HTTP:       fetch (нативный) — для трекинга и форм
 - Axios — нативный fetch
 - UI-киты — Tailwind utility-first + кастомные классы
 
-**Env переменные:** `import.meta.env.VITE_*` (Vite, не CRA).
+**Env переменные:** `import.meta.env.PUBLIC_*` (Vite, не CRA).
 
 ---
 
@@ -280,6 +282,6 @@ Mobile-first. Tailwind breakpoints (`sm md lg xl`) + кастомные media
 - НЕ копировать UI из CRM целиком — лендинг и CRM имеют разную плотность
 - НЕ править файлы в `public/demo/` руками — артефакт билда CRM,
   перезатрётся следующим `sync-demo.sh`
-- НЕ делать fetch на относительные пути — всегда через `VITE_API_URL`
+- НЕ делать fetch на относительные пути — всегда через `PUBLIC_API_URL`
 - НЕ использовать `border` + `clip-path` вместе
 - НЕ использовать italic

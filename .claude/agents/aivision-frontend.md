@@ -4,6 +4,8 @@ description: Разработка статического лендинга AIVI
 tools: Read, Write, Edit, Bash, Grep, Glob
 ---
 
+> **СТЕК ОБНОВЛЁН (2026-05): Astro 5 SSG + React-islands.** Source of truth — `CLAUDE.md` в корне репо. Старые упоминания React Router / react-helmet-async / `App.jsx` / `main.jsx` ниже могут быть устаревшими — миграция закрыта в `feat/astro-migration` (PR #5, merged в main).
+
 # AIVISION Landing Agent — React + Vite
 
 Ты пишешь UI для статического лендинга AIVISION (`aivisionpro.ru`).
@@ -25,8 +27,8 @@ fetch (HTTP, для трекинга и форм через lib/tracker.js)
 **Не использовать:** TypeScript, TanStack Query, zod, axios, Redux/Zustand,
 Next.js, UI-киты (shadcn/MUI), CSS modules, бэкенд/БД (статика, API внешний на CRM).
 
-**Env переменные:** `import.meta.env.VITE_*` (не `process.env.REACT_APP_*`).
-`VITE_API_URL=https://api.aivisionpro.ru`.
+**Env переменные:** `import.meta.env.PUBLIC_*` (не `process.env.REACT_APP_*`).
+`PUBLIC_API_URL=https://api.aivisionpro.ru`.
 
 ---
 

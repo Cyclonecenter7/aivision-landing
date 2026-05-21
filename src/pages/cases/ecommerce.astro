@@ -1,0 +1,272 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/v2/Footer.astro';
+import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
+import StickyCta from '@/components/v2/StickyCta.astro';
+import { SEO, seoUrl } from '@/lib/seo';
+import { caseSchema } from '@/lib/jsonld';
+
+const seo = SEO.caseEcommerce;
+const ldCase = caseSchema({
+  title: seo.title,
+  ogImage: seo.ogImage,
+  datePublished: '2026-04-05',
+});
+---
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  canonical={seoUrl(seo)}
+  ogTitle={seo.ogTitle}
+  ogDescription={seo.ogDescription}
+  ogImage={seo.ogImage}
+  twitterImage={seo.twitterImage}
+  ogType="article"
+  robots={seo.robots}
+  jsonLd={[ldCase]}
+>
+
+<nav class="csp-nav">
+  <a href="/" class="csp-nav-logo">
+    <div class="csp-nav-mark"></div>
+    <span class="csp-nav-name">AIVISION</span>
+  </a>
+  <a href="/#cases" class="csp-nav-back" data-track="ecom_back" data-track-block="case_page">← Все кейсы</a>
+</nav>
+
+<div class="csp-nda-bar">
+  <div class="csp-nda-pill">NDA</div>
+  <div class="csp-nda-txt"><strong>Показатели изменены.</strong> Структура, динамика и логика — реальные.</div>
+</div>
+
+<div class="csp-hero">
+  <div class="csp-hero-eyebrow"><div class="csp-ey-line"></div><span class="csp-ey-txt">Кейс · E-commerce</span></div>
+  <div class="csp-hero-tag-row">
+    <div class="csp-tag-pill" style="background:#10B981">WB · 3 бренда · 5+ млн ₽/мес</div>
+    <span class="csp-tag-sub">Действующий проект</span>
+  </div>
+  <h1 class="csp-hero-h1">Как продажи на маркетплейсе стали управляемым процессом</h1>
+  <p class="csp-hero-lead">2–3 часа в день на ручной сбор данных. Конверсия не отслеживалась. Закупки в таблицах, склады вслепую. Менеджер тонул в операционке вместо того чтобы расти.</p>
+  <div class="csp-hero-stats">
+    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#10B981">+35%</div><div class="csp-hstat-l">выручка за квартал</div></div>
+    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#3F6EE8">−35%</div><div class="csp-hstat-l">нагрузка менеджера</div></div>
+    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#6366F1">3 API</div><div class="csp-hstat-l">источника данных</div></div>
+    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#FCD34D">7 стадий</div><div class="csp-hstat-l">контроль закупок</div></div>
+  </div>
+</div>
+
+<div class="csp-layout csp-layout-wb">
+<div>
+
+  <div class="csp-block">
+    <div class="csp-bey"><div class="csp-bey-ln" style="background:#F43F5E"></div><span class="csp-bey-tx">Точка А — Проблема</span></div>
+    <ul class="csp-prob-list">
+      <li class="csp-prob-item"><div class="csp-prob-dot"></div>2–3 часа ежедневно на ручной сбор данных из ЛК WB — выгрузка, копипаст, сведение в таблицы</li>
+      <li class="csp-prob-item"><div class="csp-prob-dot"></div>Воронка не отслеживалась: показы → корзина → заказ → выкуп — все потери невидимы</li>
+      <li class="csp-prob-item"><div class="csp-prob-dot"></div>Закупки в Excel без статусов: непонятно где груз — в Китае, на Байкале, на ФФ или уже на ВБ</li>
+      <li class="csp-prob-item"><div class="csp-prob-dot"></div>Склады не оптимизированы: 97% остатков в Центральном регионе, Урал и Сибирь голые — индекс локализации красный</li>
+      <li class="csp-prob-item"><div class="csp-prob-dot"></div>ABC-анализ не проводился: убыточный артикул «Шорты Pro Fit» тянул маржу вниз незаметно</li>
+    </ul>
+  </div>
+
+  <div class="csp-block">
+    <div class="csp-bey"><div class="csp-bey-ln" style="background:#3F6EE8"></div><span class="csp-bey-tx">Что сделали</span></div>
+    <div class="csp-action"><div class="csp-action-num">01</div><div><div class="csp-action-ttl">API-интеграция с WB — данные сами</div><div class="csp-action-desc">Заказы, просмотры, остатки и реклама подтягиваются автоматически. Менеджер не заходит в ЛК за цифрами.</div></div></div>
+    <div class="csp-action"><div class="csp-action-num">02</div><div><div class="csp-action-ttl">Воронка показы → выкуп с конверсией на каждом этапе</div><div class="csp-action-desc">Видно где теряются покупатели. По каждому артикулу отдельно. Выявили слабое место — переход корзина → заказ.</div></div></div>
+    <div class="csp-action"><div class="csp-action-num">03</div><div><div class="csp-action-ttl">Канбан закупок: 7 стадий от плана до закрытия</div><div class="csp-action-desc">План → Оплачено → В пути Китай → На Байкале → На ФФ → На ВБ → Закрыто. Грузы, приёмка, поставки, себес и курс юаня — всё в одной карточке закупа.</div></div></div>
+    <div class="csp-action"><div class="csp-action-num">04</div><div><div class="csp-action-ttl">Индекс локализации и оптимизация складов</div><div class="csp-action-desc">Матрица регион × склад показывает где не хватает остатков. ИЛ 1.14 — умеренный. Приоритет: довезти в Урал и Сибирь.</div></div></div>
+    <div class="csp-action"><div class="csp-action-num">05</div><div><div class="csp-action-ttl">ABC-анализ + структура 30/40/30</div><div class="csp-action-desc">Артикулы автоматически делятся на A/B/C по выручке. Убыточный артикул выявлен и переведён в стоп. Структура нагрузка/прибыль/себес — цель 30/40/30.</div></div></div>
+  </div>
+
+  <div class="csp-block" style="margin-bottom:0">
+    <div class="csp-bey"><div class="csp-bey-ln" style="background:#333"></div><span class="csp-bey-tx">Результат</span></div>
+    <div class="csp-res-grid">
+      <div class="csp-res-card"><div class="csp-res-v" style="color:#10B981">+35%</div><div class="csp-res-l">Выручка за квартал</div></div>
+      <div class="csp-res-card"><div class="csp-res-v" style="color:#3F6EE8">−35%</div><div class="csp-res-l">Нагрузка менеджера</div></div>
+      <div class="csp-res-card"><div class="csp-res-v" style="color:#FCD34D">2 ч/день</div><div class="csp-res-l">Сэкономлено на сборе</div></div>
+      <div class="csp-res-card"><div class="csp-res-v" style="color:#6366F1">12.3%</div><div class="csp-res-l">Конверсия в заказ</div></div>
+      <div class="csp-res-card"><div class="csp-res-v" style="color:#FB923C">7 стадий</div><div class="csp-res-l">Полный контроль закупок</div></div>
+      <div class="csp-res-card"><div class="csp-res-v" style="color:#10B981">ИЛ 1.14</div><div class="csp-res-l">Индекс локализации</div></div>
+    </div>
+    <div class="csp-res-main"><strong>Главное:</strong> менеджер занимается ростом, а не сбором цифр. Система сама считает, предупреждает и показывает где проблема.</div>
+  </div>
+</div>
+
+<!-- ПРАВАЯ КОЛОНКА: статичный preview дашборда WB -->
+<div class="csp-col-right">
+  <div class="csp-dash-mock">
+    <div class="csp-dm-hd">
+      <span class="csp-dm-hd-title">WB Аналитика · 3 бренда</span>
+      <div class="csp-dm-tabs">
+        <button class="csp-dm-tab on" data-csp-tab="overview">Обзор</button>
+        <button class="csp-dm-tab" data-csp-tab="abc">ABC</button>
+        <button class="csp-dm-tab" data-csp-tab="kanban">Закупки</button>
+      </div>
+    </div>
+
+    <!-- ОБЗОР: KPI row + Структура 30/40/30 -->
+    <div class="csp-dm-panel on" data-csp-panel="overview">
+      <div class="wb-kpis">
+        <div class="wb-kpi"><div class="wb-kpi-lbl">Реализация</div><div class="wb-kpi-val" style="color:#3F6EE8">4,2М ₽</div><div class="wb-kpi-sub" style="color:#10B981">+35% vs пред.</div></div>
+        <div class="wb-kpi"><div class="wb-kpi-lbl">Маржа</div><div class="wb-kpi-val" style="color:#FCD34D">18.4%</div><div class="wb-kpi-sub">цель &gt;20%</div></div>
+        <div class="wb-kpi"><div class="wb-kpi-lbl">Нагрузка ВБ</div><div class="wb-kpi-val" style="color:#F43F5E">31.2%</div><div class="wb-kpi-sub">цель &lt;30%</div></div>
+        <div class="wb-kpi"><div class="wb-kpi-lbl">Остатки</div><div class="wb-kpi-val" style="color:#94A3B8">3 620 шт</div><div class="wb-kpi-sub">~14 дней</div></div>
+      </div>
+
+      <div class="wb-struct">
+        <div class="wb-struct-hd">
+          <span class="wb-struct-eyebrow">Куда ушёл рубль · цель 30/40/30</span>
+          <span class="wb-struct-marg">Маржа: <strong style="color:#FCD34D">18.4%</strong></span>
+        </div>
+        <div class="wb-struct-bar">
+          <div style="width:31.2%;background:rgba(244,63,94,.35);display:flex;align-items:center;justify-content:center"><span style="font-size:9px;font-weight:700;color:#F43F5E">31%</span></div>
+          <div style="width:35%;background:rgba(16,185,129,.35);display:flex;align-items:center;justify-content:center"><span style="font-size:9px;font-weight:700;color:#10B981">35%</span></div>
+          <div style="width:33.8%;background:rgba(148,163,184,.35);display:flex;align-items:center;justify-content:center"><span style="font-size:9px;font-weight:700;color:#94A3B8">34%</span></div>
+        </div>
+        <div class="wb-struct-leg">
+          <div><span class="wb-dot" style="background:#F43F5E"></span> Нагрузка ВБ · <strong>31.2%</strong> <span class="wb-leg-mut">цель 30%</span> <span style="color:#F43F5E">+1.2пп</span></div>
+          <div><span class="wb-dot" style="background:#10B981"></span> Прибыль · <strong>35.0%</strong> <span class="wb-leg-mut">цель 40%</span> <span style="color:#FCD34D">−5.0пп</span></div>
+          <div><span class="wb-dot" style="background:#94A3B8"></span> Себес · <strong>33.8%</strong> <span class="wb-leg-mut">цель 30%</span> <span style="color:#FCD34D">+3.8пп</span></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ABC -->
+    <div class="csp-dm-panel" data-csp-panel="abc">
+      <div class="wb-abc-grp" style="background:rgba(16,185,129,.08);border-bottom:1px solid rgba(16,185,129,.2)">
+        <span style="font-size:12px;font-weight:800;color:#10B981">A</span>
+        <span style="font-size:10px;color:#10B981">Топ 80% выручки</span>
+        <span style="margin-left:auto;font-size:10px;color:#555">4 арт.</span>
+      </div>
+      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#10B981;background:rgba(16,185,129,.15)">A</span><div class="wb-abc-info"><div class="wb-abc-name">Леггинсы Sport Pro</div><div class="wb-abc-brand">Be as fit</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#10B981;background:rgba(16,185,129,.12)">28.4%</span><span class="wb-abc-drr" style="color:#10B981;background:rgba(16,185,129,.1)">ДРР 6.1%</span></div><div class="wb-abc-stock"><span style="color:#10B981">21д</span><div style="font-size:9px;color:#555">87 шт</div></div></div>
+      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#10B981;background:rgba(16,185,129,.15)">A</span><div class="wb-abc-info"><div class="wb-abc-name">Кроссовки беговые</div><div class="wb-abc-brand">Easy buy</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#10B981;background:rgba(16,185,129,.12)">22.1%</span><span class="wb-abc-drr" style="color:#10B981;background:rgba(16,185,129,.1)">ДРР 7.8%</span></div><div class="wb-abc-stock"><span style="color:#10B981">16д</span><div style="font-size:9px;color:#555">52 шт</div></div></div>
+      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#10B981;background:rgba(16,185,129,.15)">A</span><div class="wb-abc-info"><div class="wb-abc-name">Палочка Малфой</div><div class="wb-abc-brand">Косалея</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#10B981;background:rgba(16,185,129,.12)">17.3%</span><span class="wb-abc-drr" style="color:#FCD34D;background:rgba(252,211,77,.1)">ДРР 11.4%</span></div><div class="wb-abc-stock"><span style="color:#F43F5E">2д</span><div style="font-size:9px;color:#555">6 шт</div></div></div>
+      <div class="wb-abc-grp" style="background:rgba(252,211,77,.08);border-bottom:1px solid rgba(252,211,77,.2)">
+        <span style="font-size:12px;font-weight:800;color:#FCD34D">B</span>
+        <span style="font-size:10px;color:#FCD34D">Следующие 15%</span>
+        <span style="margin-left:auto;font-size:10px;color:#555">2 арт.</span>
+      </div>
+      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#FCD34D;background:rgba(252,211,77,.15)">B</span><div class="wb-abc-info"><div class="wb-abc-name">Топ Fit Active</div><div class="wb-abc-brand">Be as fit</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#FCD34D;background:rgba(252,211,77,.12)">8.2%</span><span class="wb-abc-drr" style="color:#F43F5E;background:rgba(244,63,94,.1)">ДРР 14.3%</span></div><div class="wb-abc-stock"><span style="color:#F43F5E">5д</span><div style="font-size:9px;color:#555">12 шт</div></div></div>
+      <div class="wb-abc-grp" style="background:rgba(244,63,94,.08);border-bottom:1px solid rgba(244,63,94,.2)">
+        <span style="font-size:12px;font-weight:800;color:#F43F5E">C</span>
+        <span style="font-size:10px;color:#F43F5E">Аутсайдеры 5%</span>
+        <span style="margin-left:auto;font-size:10px;color:#555">1 арт.</span>
+      </div>
+      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#F43F5E;background:rgba(244,63,94,.15)">C</span><div class="wb-abc-info"><div class="wb-abc-name">Шорты Pro Fit · убыточный</div><div class="wb-abc-brand">Be as fit</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#F43F5E;background:rgba(244,63,94,.12)">−8.0%</span><span class="wb-abc-drr" style="color:#F43F5E;background:rgba(244,63,94,.1)">ДРР 22.1%</span></div><div class="wb-abc-stock"><span style="color:#F43F5E">СТОП</span><div style="font-size:9px;color:#555">33 шт</div></div></div>
+    </div>
+
+    <!-- Закупки -->
+    <div class="csp-dm-panel" data-csp-panel="kanban">
+      <div class="wb-kanban-stages">
+        <span class="wb-stage" style="background:rgba(148,163,184,.15);color:#94A3B8;border-bottom:2px solid #94A3B8">ПЛАН</span>
+        <span class="wb-stage" style="color:#555">ОПЛАЧЕНО</span>
+        <span class="wb-stage" style="background:rgba(252,211,77,.15);color:#FCD34D;border-bottom:2px solid #FCD34D">В ПУТИ КИТАЙ</span>
+        <span class="wb-stage" style="background:rgba(251,146,60,.15);color:#FB923C;border-bottom:2px solid #FB923C">НА БАЙКАЛЕ</span>
+        <span class="wb-stage" style="color:#555">НА ФФ</span>
+        <span class="wb-stage" style="background:rgba(16,185,129,.15);color:#10B981;border-bottom:2px solid #10B981">НА ВБ</span>
+      </div>
+      <div class="wb-kanban-cards">
+        <div class="wb-kc"><div class="wb-kc-hd"><span class="wb-kc-status" style="background:rgba(16,185,129,.12);color:#10B981">НА ВБ</span><span class="wb-kc-id">Закуп #3.1</span><span class="wb-kc-brand">Косалея</span><span class="wb-kc-month">апр 2026</span></div><div class="wb-kc-items"><span>Палочка Гарри NEW</span><span>Палочка Малфой</span><span class="wb-kc-qty">340 шт</span><span class="wb-kc-sum">186К ₽</span></div></div>
+        <div class="wb-kc"><div class="wb-kc-hd"><span class="wb-kc-status" style="background:rgba(251,146,60,.12);color:#FB923C">НА БАЙКАЛЕ</span><span class="wb-kc-id">Закуп #3.2</span><span class="wb-kc-brand">Easy buy</span><span class="wb-kc-month">апр 2026</span></div><div class="wb-kc-items"><span>Кроссовки беговые</span><span>Носки набор 5 пар</span><span class="wb-kc-qty">210 шт</span><span class="wb-kc-sum">142К ₽</span></div></div>
+        <div class="wb-kc"><div class="wb-kc-hd"><span class="wb-kc-status" style="background:rgba(252,211,77,.12);color:#FCD34D">В ПУТИ КИТАЙ</span><span class="wb-kc-id">Закуп #3.3</span><span class="wb-kc-brand">Be as fit</span><span class="wb-kc-month">май 2026</span></div><div class="wb-kc-items"><span>Леггинсы Sport Pro</span><span>Топ Fit Active</span><span class="wb-kc-qty">500 шт</span></div></div>
+        <div class="wb-kc"><div class="wb-kc-hd"><span class="wb-kc-status" style="background:rgba(148,163,184,.12);color:#94A3B8">ПЛАН</span><span class="wb-kc-id">Закуп #3.4</span><span class="wb-kc-brand">Be as fit</span><span class="wb-kc-month">июн 2026</span></div><div class="wb-kc-items"><span>Шорты Pro Fit</span></div></div>
+      </div>
+    </div>
+
+    <div style="background:#222;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #2A2A2A">
+      <span style="font-size:8px;color:#555">WB API · данные изменены · NDA</span>
+      <div style="display:flex;align-items:center;gap:5px">
+        <div style="width:5px;height:5px;border-radius:50%;background:#10B981"></div>
+        <span style="font-size:8px;color:#555">live</span>
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+
+<div class="csp-cta-wrap">
+  <div class="csp-cta-box">
+    <div>
+      <div class="csp-cta-ttl">Хотите такой же результат?</div>
+      <div class="csp-cta-sub">Начнём с диагностики — покажем где теряется маржа именно в вашем бизнесе</div>
+    </div>
+    <button type="button" class="csp-btn-primary js-open-contact" data-source="case_ecommerce" data-track="ecom_cta_diagnose" data-track-block="case_page">Начать диагностику →</button>
+  </div>
+</div>
+
+<Footer />
+<StickyCta />
+<ContactModalIsland client:load />
+
+</BaseLayout>
+
+<style is:global>
+  .csp-prob-list { list-style: none; padding: 0; margin: 0; display: flex; flex-direction: column; gap: 9px; }
+  .csp-prob-item { display: flex; align-items: flex-start; gap: 10px; font-size: 13px; line-height: 1.55; color: #A3A3A3; }
+  .csp-prob-dot { width: 6px; height: 6px; border-radius: 50%; background: #F43F5E; flex-shrink: 0; margin-top: 5px; }
+
+  /* WB-specific dashboard styles */
+  .csp-layout-wb { grid-template-columns: 1fr 560px; }
+
+  .wb-kpis { display: grid; grid-template-columns: repeat(2, 1fr); gap: 5px; margin-bottom: 8px; }
+  .wb-kpi { background: #181818; padding: 10px 11px; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); }
+  .wb-kpi-lbl { font-size: 8px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #A3A3A3; margin-bottom: 4px; }
+  .wb-kpi-val { font-size: 17px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; }
+  .wb-kpi-sub { font-size: 9px; color: #A3A3A3; margin-top: 4px; }
+
+  .wb-struct { background: #181818; padding: 10px 14px; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); }
+  .wb-struct-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 8px; }
+  .wb-struct-eyebrow { font-size: 9px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase; color: #555; }
+  .wb-struct-marg { font-size: 10px; color: #555; margin-left: auto; }
+  .wb-struct-bar { display: flex; height: 22px; gap: 1px; margin-bottom: 8px; clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%); overflow: hidden; }
+  .wb-struct-leg { display: flex; flex-direction: column; gap: 4px; font-size: 11px; color: #A3A3A3; }
+  .wb-struct-leg > div { display: flex; align-items: center; gap: 7px; }
+  .wb-dot { display: inline-block; width: 8px; height: 8px; clip-path: polygon(0 0,100% 0,100% calc(100% - 2px),calc(100% - 2px) 100%,0 100%); }
+  .wb-leg-mut { color: #555; font-size: 9px; }
+
+  .wb-abc-grp { display: flex; align-items: center; gap: 8px; padding: 6px 14px; }
+  .wb-abc-row { display: flex; align-items: center; gap: 8px; padding: 7px 14px; border-bottom: 1px solid #2A2A2A; }
+  .wb-abc-tag { display: inline-flex; align-items: center; justify-content: center; width: 20px; height: 20px; font-size: 10px; font-weight: 800; clip-path: polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%); }
+  .wb-abc-info { flex: 1; min-width: 0; }
+  .wb-abc-name { font-size: 11px; font-weight: 500; color: #FFF; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .wb-abc-brand { font-size: 9px; color: #555; }
+  .wb-abc-meta { display: flex; flex-direction: column; align-items: flex-end; gap: 2px; }
+  .wb-abc-pct { display: inline-flex; padding: 1px 6px; font-size: 10px; font-weight: 700; clip-path: polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%); }
+  .wb-abc-drr { display: inline-flex; padding: 1px 6px; font-size: 9px; font-weight: 600; clip-path: polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%); }
+  .wb-abc-stock { flex-shrink: 0; text-align: right; min-width: 38px; font-size: 11px; font-weight: 700; }
+
+  .wb-kanban-stages { display: flex; gap: 2px; overflow-x: auto; padding: 8px 14px; border-bottom: 1px solid #2A2A2A; }
+  .wb-stage { padding: 3px 8px; font-size: 8px; font-weight: 700; letter-spacing: .08em; white-space: nowrap; }
+  .wb-kanban-cards { padding: 10px 14px; display: flex; flex-direction: column; gap: 6px; }
+  .wb-kc { border: 1px solid #2A2A2A; background: #0A0A0A; padding: 10px 12px; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); }
+  .wb-kc-hd { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+  .wb-kc-status { font-size: 9px; font-weight: 800; letter-spacing: .1em; padding: 2px 7px; clip-path: polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%); }
+  .wb-kc-id { font-size: 11px; font-weight: 600; color: #FFF; }
+  .wb-kc-brand { font-size: 10px; color: #A3A3A3; }
+  .wb-kc-month { font-size: 10px; color: #555; margin-left: auto; }
+  .wb-kc-items { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; }
+  .wb-kc-items > span { font-size: 10px; color: #A3A3A3; background: rgba(255,255,255,.05); padding: 1px 6px; clip-path: polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%); }
+  .wb-kc-qty { color: #555 !important; background: transparent !important; }
+  .wb-kc-sum { color: #3F6EE8 !important; font-weight: 700 !important; background: transparent !important; margin-left: auto; }
+
+  @media (max-width: 980px) {
+    .csp-layout-wb { grid-template-columns: 1fr; }
+    .wb-kpis { grid-template-columns: 1fr 1fr; }
+  }
+</style>
+
+<script>
+  document.querySelectorAll<HTMLButtonElement>('.csp-dm-tab[data-csp-tab]').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const target = btn.dataset.cspTab;
+      if (!target) return;
+      const dashRoot = btn.closest('.csp-dash-mock');
+      if (!dashRoot) return;
+      dashRoot.querySelectorAll('.csp-dm-tab[data-csp-tab]').forEach((b) => b.classList.remove('on'));
+      dashRoot.querySelectorAll('.csp-dm-panel').forEach((p) => p.classList.remove('on'));
+      btn.classList.add('on');
+      const panel = dashRoot.querySelector(`.csp-dm-panel[data-csp-panel="${target}"]`);
+      if (panel) panel.classList.add('on');
+    });
+  });
+</script>

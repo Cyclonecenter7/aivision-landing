@@ -60,6 +60,19 @@ export const SEO = {
     robots: 'index, follow',
   },
 
+  caseEsim: {
+    title: 'Старт бизнеса за 7 дней — кейс eSIM AIVISION',
+    description:
+      'Две гипотезы — два сайта с разным позиционированием, один CRM под оба канала. От идеи до первого клиента — меньше семи дней.',
+    ogTitle: 'От идеи до первого клиента — меньше семи дней',
+    ogDescription:
+      'Бизнес с нуля без команды и офиса. Два сайта, два партнёра, один дашборд. Воронка от визита до eSIM-кода, наценки и курс — в одном интерфейсе.',
+    path: '/cases/esim',
+    ogImage: '/og/og-main.png',
+    twitterImage: '/og/og-main.png',
+    robots: 'index, follow',
+  },
+
   privacy: {
     title: 'Политика конфиденциальности — AIVISION',
     description:

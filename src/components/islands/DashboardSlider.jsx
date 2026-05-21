@@ -55,9 +55,9 @@ export default function DashboardSlider({ variant = 'finance', light = false }) 
           <span
             title="Реальные данные клиентов AIVISION под NDA. Здесь — иллюстрация."
             style={{
-              fontSize: 8, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
-              color: t.mutedC, padding: '3px 7px',
-              border: `1px solid ${t.cardBorder}`,
+              fontSize: 9, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
+              color: '#fff', background: B, padding: '4px 9px',
+              border: 'none',
               clipPath: 'polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%)',
             }}
           >

@@ -156,15 +156,22 @@ function FinanceSlide2({ t }) {
 }
 
 function FinanceSlide3({ t }) {
+  const visits = [
+    ['Клиент 1','Мастер 1','Услуга Б','✓', G],
+    ['Клиент 2','Мастер 2','Услуга А','✓', G],
+    ['Клиент 3','Мастер 1','Услуга Г','✓', G],
+    ['Клиент 4','Мастер 3','Услуга Б','✓', G],
+    ['Клиент 5','Мастер 2','Услуга А','—', R],
+  ];
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ fontSize: 10, fontWeight: 700, color: t.titleC, marginBottom: 2 }}>Визиты · Апрель, 12</div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6 }}>
         {[
-          { label:'Всего',     value:'2',       c: t.titleC },
-          { label:'Пришли',    value:'2',       c: G },
-          { label:'Конверсия', value:'100%',    c: B },
-          { label:'Ср. чек',   value:'14 500 ₽', c: B },
+          { label:'Всего',     value:'12',       c: t.titleC },
+          { label:'Пришли',    value:'11',       c: G },
+          { label:'Конверсия', value:'92%',      c: B },
+          { label:'Ср. чек',   value:'8 500 ₽',  c: B },
         ].map((m, i) => (
           <Card key={i} t={t} style={{ padding: '8px 6px', textAlign: 'center' }}>
             <div style={{ fontSize: 7, textTransform: 'uppercase', letterSpacing: '0.12em', color: t.mutedC, marginBottom: 4 }}>{m.label}</div>
@@ -176,24 +183,30 @@ function FinanceSlide3({ t }) {
         <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', padding: '6px 10px', borderBottom: `1px solid ${t.divBorder}`, gap: 4 }}>
           {['Клиент','Мастер','Услуга','Статус'].map(h => <TH key={h} t={t}>{h}</TH>)}
         </div>
-        {[['Клиент 1','Мастер 1','Услуга Б','✓'],['Клиент 2','Мастер 1','Услуга А','✓']].map((row, i) => (
-          <div key={i} style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', padding: '6px 10px', borderBottom: i===0 ? `1px solid ${t.divBorder}` : 'none', gap: 4 }}>
+        {visits.map((row, i) => (
+          <div key={i} style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', padding: '6px 10px', borderBottom: i < visits.length - 1 ? `1px solid ${t.divBorder}` : 'none', gap: 4 }}>
             <div style={{ fontSize: 8, color: t.subC, filter: 'blur(3px)', userSelect: 'none' }}>{row[0]}</div>
             <div style={{ fontSize: 8, color: t.bodyC, filter: 'blur(3px)', userSelect: 'none' }}>{row[1]}</div>
             <div style={{ fontSize: 8, color: t.bodyC }}>{row[2]}</div>
-            <div style={{ fontSize: 8, color: G }}>{row[3]}</div>
+            <div style={{ fontSize: 8, color: row[4] }}>{row[3]}</div>
           </div>
         ))}
       </Card>
       <Card t={t} style={{ padding: 10 }}>
         <div style={{ fontSize: 7, textTransform: 'uppercase', letterSpacing: '0.14em', color: t.mutedC, marginBottom: 6 }}>Статистика по мастерам</div>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
-          <span style={{ fontSize: 8, color: t.bodyC, filter: 'blur(3px)', userSelect: 'none' }}>Мастер 1</span>
-          <div style={{ display: 'flex', gap: 16 }}>
-            <span style={{ fontSize: 8, color: t.subC }}>Визиты: <span style={{ color: t.titleC, fontWeight: 700 }}>2</span></span>
-            <span style={{ fontSize: 8, color: t.subC }}>Конверсия: <span style={{ color: G, fontWeight: 700 }}>100%</span></span>
+        {[
+          { name: 'Мастер 1', visits: 5, conv: '100%' },
+          { name: 'Мастер 2', visits: 4, conv: '75%' },
+          { name: 'Мастер 3', visits: 3, conv: '100%' },
+        ].map((m, i) => (
+          <div key={i} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: i > 0 ? 6 : 0, borderTop: i > 0 ? `1px solid ${t.divBorder}` : 'none', marginTop: i > 0 ? 6 : 0 }}>
+            <span style={{ fontSize: 8, color: t.bodyC, filter: 'blur(3px)', userSelect: 'none' }}>{m.name}</span>
+            <div style={{ display: 'flex', gap: 16 }}>
+              <span style={{ fontSize: 8, color: t.subC }}>Визиты: <span style={{ color: t.titleC, fontWeight: 700 }}>{m.visits}</span></span>
+              <span style={{ fontSize: 8, color: t.subC }}>Конверсия: <span style={{ color: m.conv === '100%' ? G : B, fontWeight: 700 }}>{m.conv}</span></span>
+            </div>
           </div>
-        </div>
+        ))}
       </Card>
     </div>
   );
@@ -363,7 +376,7 @@ function CrmSlideAnalytics() {
           <div key={i} style={{ background: lt.cardBg, border: `1px solid ${lt.cardBorder}`, padding: '8px 8px' }}>
             <div style={{ fontSize: 7, textTransform: 'uppercase', letterSpacing: '0.12em', color: lt.mutedC, marginBottom: 3 }}>{m.label}</div>
             <div style={{ fontSize: 9, fontWeight: 800, color: m.c, fontVariantNumeric: 'tabular-nums' }}>{m.fact}</div>
-            <div style={{ fontSize: 7, color: lt.mutedC, marginTop: 4 }}>Потенциал</div>
+            <div style={{ fontSize: 7, color: lt.mutedC, marginTop: 4 }}>Идём на</div>
             <div style={{ fontSize: 8, color: lt.subC, fontVariantNumeric: 'tabular-nums' }}>{m.pot}</div>
           </div>
         ))}
@@ -442,7 +455,7 @@ function CrmSlidePnL() {
           </div>
         ))}
       </div>
-      <Callout tag="ДИАГНОСТИКА AIVISION">Проект В убыточен — маржа −900 000 ₽. Скрыт в общем PnL до внедрения системы.</Callout>
+      <Callout tag="ДИАГНОСТИКА AIVISION">Проект В убыточен — маржа −41%. Скрыт в общем PnL до внедрения системы.</Callout>
     </div>
   );
 }

@@ -41,29 +41,16 @@ export default function DashboardSlider({ variant = 'finance', light = false }) 
     <div style={{ background: t.wrapBg, border: t.wrapBorder, ...ch(20) }}>
 
       {/* Header bar */}
-      <div style={{ padding: '10px 14px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between', gap: 8 }}>
+      <div style={{ padding: '10px 14px 0', display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
         <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '0.18em', textTransform: 'uppercase', color: t.mutedC }}>
           Система в действии
         </div>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-          {hasLive && (
-            <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
-              <div style={{ width: 5, height: 5, borderRadius: '50%', background: G, boxShadow: `0 0 4px ${G}` }} />
-              <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', color: G }}>LIVE</span>
-            </div>
-          )}
-          <span
-            title="Реальные данные клиентов AIVISION под NDA. Здесь — иллюстрация."
-            style={{
-              fontSize: 9, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
-              color: '#fff', background: B, padding: '4px 9px',
-              border: 'none',
-              clipPath: 'polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%)',
-            }}
-          >
-            NDA · Иллюстрация
-          </span>
-        </div>
+        {hasLive && (
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: G, boxShadow: `0 0 4px ${G}` }} />
+            <span style={{ fontSize: 8, fontWeight: 700, letterSpacing: '0.18em', color: G }}>LIVE</span>
+          </div>
+        )}
       </div>
 
       {/* Tab bar */}
@@ -102,7 +89,7 @@ export default function DashboardSlider({ variant = 'finance', light = false }) 
       </div>
 
       {/* Dot indicators */}
-      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, padding: '10px 0 8px' }}>
+      <div style={{ display: 'flex', justifyContent: 'center', gap: 6, padding: '10px 0 12px' }}>
         {tabs.map((_, i) => (
           <button
             key={i}
@@ -114,14 +101,6 @@ export default function DashboardSlider({ variant = 'finance', light = false }) 
             }}
           />
         ))}
-      </div>
-
-      {/* NDA footnote */}
-      <div style={{
-        fontSize: 10, color: t.mutedC, padding: '0 14px 12px',
-        textAlign: 'center', lineHeight: 1.4, letterSpacing: '0.01em',
-      }}>
-        Уважаем NDA клиентов — цифры иллюстративные. Структура и логика — настоящие.
       </div>
     </div>
   );

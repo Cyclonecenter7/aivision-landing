@@ -3,9 +3,10 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/v2/Footer.astro';
 import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 import StickyCta from '@/components/v2/StickyCta.astro';
+import SalesDashboard from '@/components/islands/SalesDashboard.jsx';
 import { SEO, seoUrl } from '@/lib/seo';
 import { caseSchema } from '@/lib/jsonld';
-import '@/styles/case-page-v2.css';
+import '@/styles/case-page-v3.css';
 
 const seo = SEO.caseEcommerce;
 const ldCase = caseSchema({
@@ -27,172 +28,333 @@ const ldCase = caseSchema({
   jsonLd={[ldCase]}
 >
 
-<nav class="csp-nav">
-  <a href="/" class="csp-nav-logo">
-    <div class="csp-nav-mark"></div>
-    <span class="csp-nav-name">AIVISION</span>
-  </a>
-  <a href="/#cases" class="csp-nav-back" data-track="ecom_back" data-track-block="case_page">← Все кейсы</a>
-</nav>
+<div class="case-v3">
 
-<div class="csp-nda-bar">
-  <div class="csp-nda-pill">NDA</div>
-  <div class="csp-nda-txt"><strong>Показатели изменены.</strong> Структура, динамика и логика — реальные.</div>
-</div>
-
-<div class="csp-hero">
-  <div class="csp-hero-eyebrow"><div class="csp-ey-line"></div><span class="csp-ey-txt">Кейс · E-commerce</span></div>
-  <div class="csp-hero-tag-row">
-    <div class="csp-tag-pill" style="background:#10B981">WB · 3 бренда · 5+ млн ₽/мес</div>
-    <span class="csp-tag-sub">Действующий проект</span>
-  </div>
-  <h1 class="csp-hero-h1">Как продажи на маркетплейсе стали управляемым процессом</h1>
-  <p class="csp-hero-lead">2–3 часа в день на ручной сбор данных. Конверсия не отслеживалась. Закупки в таблицах, склады вслепую. Менеджер тонул в операционке вместо того чтобы расти.</p>
-  <div class="csp-hero-stats">
-    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#10B981">+35%</div><div class="csp-hstat-l">выручка за квартал</div></div>
-    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#3F6EE8">−35%</div><div class="csp-hstat-l">нагрузка менеджера</div></div>
-    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#6366F1">3 API</div><div class="csp-hstat-l">источника данных</div></div>
-    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#FCD34D">7 стадий</div><div class="csp-hstat-l">контроль закупок</div></div>
-  </div>
-</div>
-
-<div class="csp-layout csp-layout-wb">
-<div>
-
-  <div class="csp-block">
-    <div class="csp-bey"><div class="csp-bey-ln" style="background:#F43F5E"></div><span class="csp-bey-tx">Точка А — Проблема</span></div>
-    <ul class="csp-prob-list">
-      <li class="csp-prob-item"><div class="csp-prob-dot"></div>2–3 часа ежедневно на ручной сбор данных из ЛК WB — выгрузка, копипаст, сведение в таблицы</li>
-      <li class="csp-prob-item"><div class="csp-prob-dot"></div>Воронка не отслеживалась: показы → корзина → заказ → выкуп — все потери невидимы</li>
-      <li class="csp-prob-item"><div class="csp-prob-dot"></div>Закупки в Excel без статусов: непонятно где груз — в Китае, на Байкале, на ФФ или уже на ВБ</li>
-      <li class="csp-prob-item"><div class="csp-prob-dot"></div>Склады не оптимизированы: 97% остатков в Центральном регионе, Урал и Сибирь голые — индекс локализации красный</li>
-      <li class="csp-prob-item"><div class="csp-prob-dot"></div>ABC-анализ не проводился: убыточный артикул «Шорты Pro Fit» тянул маржу вниз незаметно</li>
-    </ul>
+  <!-- ════ DESKTOP ════ -->
+  <div class="d-view">
+  <nav class="nav">
+    <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
+    <a href="/#cases" class="nav-back" data-track="sales_back" data-track-block="case_page">← Все кейсы</a>
+  </nav>
+  <div class="nda">
+    <div class="nda-pill">NDA</div>
+    <div class="nda-txt"><strong>Показатели изменены.</strong> Структура, динамика и логика — реальные.</div>
   </div>
 
-  <div class="csp-block">
-    <div class="csp-bey"><div class="csp-bey-ln" style="background:#3F6EE8"></div><span class="csp-bey-tx">Что сделали</span></div>
-    <div class="csp-action"><div class="csp-action-num">01</div><div><div class="csp-action-ttl">API-интеграция с WB — данные сами</div><div class="csp-action-desc">Заказы, просмотры, остатки и реклама подтягиваются автоматически. Менеджер не заходит в ЛК за цифрами.</div></div></div>
-    <div class="csp-action"><div class="csp-action-num">02</div><div><div class="csp-action-ttl">Воронка показы → выкуп с конверсией на каждом этапе</div><div class="csp-action-desc">Видно где теряются покупатели. По каждому артикулу отдельно. Выявили слабое место — переход корзина → заказ.</div></div></div>
-    <div class="csp-action"><div class="csp-action-num">03</div><div><div class="csp-action-ttl">Канбан закупок: 7 стадий от плана до закрытия</div><div class="csp-action-desc">План → Оплачено → В пути Китай → На Байкале → На ФФ → На ВБ → Закрыто. Грузы, приёмка, поставки, себес и курс юаня — всё в одной карточке закупа.</div></div></div>
-    <div class="csp-action"><div class="csp-action-num">04</div><div><div class="csp-action-ttl">Индекс локализации и оптимизация складов</div><div class="csp-action-desc">Матрица регион × склад показывает где не хватает остатков. ИЛ 1.14 — умеренный. Приоритет: довезти в Урал и Сибирь.</div></div></div>
-    <div class="csp-action"><div class="csp-action-num">05</div><div><div class="csp-action-ttl">ABC-анализ + структура 30/40/30</div><div class="csp-action-desc">Артикулы автоматически делятся на A/B/C по выручке. Убыточный артикул выявлен и переведён в стоп. Структура нагрузка/прибыль/себес — цель 30/40/30.</div></div></div>
-  </div>
-
-  <div class="csp-block" style="margin-bottom:0">
-    <div class="csp-bey"><div class="csp-bey-ln" style="background:#333"></div><span class="csp-bey-tx">Результат</span></div>
-    <div class="csp-res-grid">
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#10B981">+35%</div><div class="csp-res-l">Выручка за квартал</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#3F6EE8">−35%</div><div class="csp-res-l">Нагрузка менеджера</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#FCD34D">2 ч/день</div><div class="csp-res-l">Сэкономлено на сборе</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#6366F1">12.3%</div><div class="csp-res-l">Конверсия в заказ</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#FB923C">7 стадий</div><div class="csp-res-l">Полный контроль закупок</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#10B981">ИЛ 1.14</div><div class="csp-res-l">Индекс локализации</div></div>
+  <div class="d-hero">
+    <div class="ey"><div class="ey-ln"></div><span class="ey-tx">Кейс 3 · Продажи / Услуги</span></div>
+    <div class="d-tag-row">
+      <div class="tag" style="background:#FB923C">5+ млн ₽/мес · Стабильный рост</div>
+      <span class="tag-sub">Действующий проект</span>
     </div>
-    <div class="csp-res-main"><strong>Главное:</strong> менеджер занимается ростом, а не сбором цифр. Система сама считает, предупреждает и показывает где проблема.</div>
-  </div>
-</div>
-
-<!-- ПРАВАЯ КОЛОНКА: статичный preview дашборда WB -->
-<div class="csp-col-right">
-  <div class="csp-dash-mock">
-    <div class="csp-dm-hd">
-      <span class="csp-dm-hd-title">WB Аналитика · 3 бренда</span>
-      <div class="csp-dm-tabs">
-        <button class="csp-dm-tab on" data-csp-tab="overview">Обзор</button>
-        <button class="csp-dm-tab" data-csp-tab="abc">ABC</button>
-        <button class="csp-dm-tab" data-csp-tab="kanban">Закупки</button>
-      </div>
-    </div>
-
-    <!-- ОБЗОР: KPI row + Структура 30/40/30 -->
-    <div class="csp-dm-panel on" data-csp-panel="overview">
-      <div class="wb-kpis">
-        <div class="wb-kpi"><div class="wb-kpi-lbl">Реализация</div><div class="wb-kpi-val" style="color:#3F6EE8">4,2М ₽</div><div class="wb-kpi-sub" style="color:#10B981">+35% vs пред.</div></div>
-        <div class="wb-kpi"><div class="wb-kpi-lbl">Маржа</div><div class="wb-kpi-val" style="color:#FCD34D">18.4%</div><div class="wb-kpi-sub">цель &gt;20%</div></div>
-        <div class="wb-kpi"><div class="wb-kpi-lbl">Нагрузка ВБ</div><div class="wb-kpi-val" style="color:#F43F5E">31.2%</div><div class="wb-kpi-sub">цель &lt;30%</div></div>
-        <div class="wb-kpi"><div class="wb-kpi-lbl">Остатки</div><div class="wb-kpi-val" style="color:#94A3B8">3 620 шт</div><div class="wb-kpi-sub">~14 дней</div></div>
-      </div>
-
-      <div class="wb-struct">
-        <div class="wb-struct-hd">
-          <span class="wb-struct-eyebrow">Куда ушёл рубль · цель 30/40/30</span>
-          <span class="wb-struct-marg">Маржа: <strong style="color:#FCD34D">18.4%</strong></span>
-        </div>
-        <div class="wb-struct-bar">
-          <div style="width:31.2%;background:rgba(244,63,94,.35);display:flex;align-items:center;justify-content:center"><span style="font-size:9px;font-weight:700;color:#F43F5E">31%</span></div>
-          <div style="width:35%;background:rgba(16,185,129,.35);display:flex;align-items:center;justify-content:center"><span style="font-size:9px;font-weight:700;color:#10B981">35%</span></div>
-          <div style="width:33.8%;background:rgba(148,163,184,.35);display:flex;align-items:center;justify-content:center"><span style="font-size:9px;font-weight:700;color:#94A3B8">34%</span></div>
-        </div>
-        <div class="wb-struct-leg">
-          <div><span class="wb-dot" style="background:#F43F5E"></span> Нагрузка ВБ · <strong>31.2%</strong> <span class="wb-leg-mut">цель 30%</span> <span style="color:#F43F5E">+1.2пп</span></div>
-          <div><span class="wb-dot" style="background:#10B981"></span> Прибыль · <strong>35.0%</strong> <span class="wb-leg-mut">цель 40%</span> <span style="color:#FCD34D">−5.0пп</span></div>
-          <div><span class="wb-dot" style="background:#94A3B8"></span> Себес · <strong>33.8%</strong> <span class="wb-leg-mut">цель 30%</span> <span style="color:#FCD34D">+3.8пп</span></div>
-        </div>
-      </div>
-    </div>
-
-    <!-- ABC -->
-    <div class="csp-dm-panel" data-csp-panel="abc">
-      <div class="wb-abc-grp" style="background:rgba(16,185,129,.08);border-bottom:1px solid rgba(16,185,129,.2)">
-        <span style="font-size:12px;font-weight:800;color:#10B981">A</span>
-        <span style="font-size:10px;color:#10B981">Топ 80% выручки</span>
-        <span style="margin-left:auto;font-size:10px;color:#555">4 арт.</span>
-      </div>
-      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#10B981;background:rgba(16,185,129,.15)">A</span><div class="wb-abc-info"><div class="wb-abc-name">Леггинсы Sport Pro</div><div class="wb-abc-brand">Be as fit</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#10B981;background:rgba(16,185,129,.12)">28.4%</span><span class="wb-abc-drr" style="color:#10B981;background:rgba(16,185,129,.1)">ДРР 6.1%</span></div><div class="wb-abc-stock"><span style="color:#10B981">21д</span><div style="font-size:9px;color:#555">87 шт</div></div></div>
-      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#10B981;background:rgba(16,185,129,.15)">A</span><div class="wb-abc-info"><div class="wb-abc-name">Кроссовки беговые</div><div class="wb-abc-brand">Easy buy</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#10B981;background:rgba(16,185,129,.12)">22.1%</span><span class="wb-abc-drr" style="color:#10B981;background:rgba(16,185,129,.1)">ДРР 7.8%</span></div><div class="wb-abc-stock"><span style="color:#10B981">16д</span><div style="font-size:9px;color:#555">52 шт</div></div></div>
-      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#10B981;background:rgba(16,185,129,.15)">A</span><div class="wb-abc-info"><div class="wb-abc-name">Палочка Малфой</div><div class="wb-abc-brand">Косалея</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#10B981;background:rgba(16,185,129,.12)">17.3%</span><span class="wb-abc-drr" style="color:#FCD34D;background:rgba(252,211,77,.1)">ДРР 11.4%</span></div><div class="wb-abc-stock"><span style="color:#F43F5E">2д</span><div style="font-size:9px;color:#555">6 шт</div></div></div>
-      <div class="wb-abc-grp" style="background:rgba(252,211,77,.08);border-bottom:1px solid rgba(252,211,77,.2)">
-        <span style="font-size:12px;font-weight:800;color:#FCD34D">B</span>
-        <span style="font-size:10px;color:#FCD34D">Следующие 15%</span>
-        <span style="margin-left:auto;font-size:10px;color:#555">2 арт.</span>
-      </div>
-      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#FCD34D;background:rgba(252,211,77,.15)">B</span><div class="wb-abc-info"><div class="wb-abc-name">Топ Fit Active</div><div class="wb-abc-brand">Be as fit</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#FCD34D;background:rgba(252,211,77,.12)">8.2%</span><span class="wb-abc-drr" style="color:#F43F5E;background:rgba(244,63,94,.1)">ДРР 14.3%</span></div><div class="wb-abc-stock"><span style="color:#F43F5E">5д</span><div style="font-size:9px;color:#555">12 шт</div></div></div>
-      <div class="wb-abc-grp" style="background:rgba(244,63,94,.08);border-bottom:1px solid rgba(244,63,94,.2)">
-        <span style="font-size:12px;font-weight:800;color:#F43F5E">C</span>
-        <span style="font-size:10px;color:#F43F5E">Аутсайдеры 5%</span>
-        <span style="margin-left:auto;font-size:10px;color:#555">1 арт.</span>
-      </div>
-      <div class="wb-abc-row"><span class="wb-abc-tag" style="color:#F43F5E;background:rgba(244,63,94,.15)">C</span><div class="wb-abc-info"><div class="wb-abc-name">Шорты Pro Fit · убыточный</div><div class="wb-abc-brand">Be as fit</div></div><div class="wb-abc-meta"><span class="wb-abc-pct" style="color:#F43F5E;background:rgba(244,63,94,.12)">−8.0%</span><span class="wb-abc-drr" style="color:#F43F5E;background:rgba(244,63,94,.1)">ДРР 22.1%</span></div><div class="wb-abc-stock"><span style="color:#F43F5E">СТОП</span><div style="font-size:9px;color:#555">33 шт</div></div></div>
-    </div>
-
-    <!-- Закупки -->
-    <div class="csp-dm-panel" data-csp-panel="kanban">
-      <div class="wb-kanban-stages">
-        <span class="wb-stage" style="background:rgba(148,163,184,.15);color:#94A3B8;border-bottom:2px solid #94A3B8">ПЛАН</span>
-        <span class="wb-stage" style="color:#555">ОПЛАЧЕНО</span>
-        <span class="wb-stage" style="background:rgba(252,211,77,.15);color:#FCD34D;border-bottom:2px solid #FCD34D">В ПУТИ КИТАЙ</span>
-        <span class="wb-stage" style="background:rgba(251,146,60,.15);color:#FB923C;border-bottom:2px solid #FB923C">НА БАЙКАЛЕ</span>
-        <span class="wb-stage" style="color:#555">НА ФФ</span>
-        <span class="wb-stage" style="background:rgba(16,185,129,.15);color:#10B981;border-bottom:2px solid #10B981">НА ВБ</span>
-      </div>
-      <div class="wb-kanban-cards">
-        <div class="wb-kc"><div class="wb-kc-hd"><span class="wb-kc-status" style="background:rgba(16,185,129,.12);color:#10B981">НА ВБ</span><span class="wb-kc-id">Закуп #3.1</span><span class="wb-kc-brand">Косалея</span><span class="wb-kc-month">апр 2026</span></div><div class="wb-kc-items"><span>Палочка Гарри NEW</span><span>Палочка Малфой</span><span class="wb-kc-qty">340 шт</span><span class="wb-kc-sum">186К ₽</span></div></div>
-        <div class="wb-kc"><div class="wb-kc-hd"><span class="wb-kc-status" style="background:rgba(251,146,60,.12);color:#FB923C">НА БАЙКАЛЕ</span><span class="wb-kc-id">Закуп #3.2</span><span class="wb-kc-brand">Easy buy</span><span class="wb-kc-month">апр 2026</span></div><div class="wb-kc-items"><span>Кроссовки беговые</span><span>Носки набор 5 пар</span><span class="wb-kc-qty">210 шт</span><span class="wb-kc-sum">142К ₽</span></div></div>
-        <div class="wb-kc"><div class="wb-kc-hd"><span class="wb-kc-status" style="background:rgba(252,211,77,.12);color:#FCD34D">В ПУТИ КИТАЙ</span><span class="wb-kc-id">Закуп #3.3</span><span class="wb-kc-brand">Be as fit</span><span class="wb-kc-month">май 2026</span></div><div class="wb-kc-items"><span>Леггинсы Sport Pro</span><span>Топ Fit Active</span><span class="wb-kc-qty">500 шт</span></div></div>
-        <div class="wb-kc"><div class="wb-kc-hd"><span class="wb-kc-status" style="background:rgba(148,163,184,.12);color:#94A3B8">ПЛАН</span><span class="wb-kc-id">Закуп #3.4</span><span class="wb-kc-brand">Be as fit</span><span class="wb-kc-month">июн 2026</span></div><div class="wb-kc-items"><span>Шорты Pro Fit</span></div></div>
-      </div>
-    </div>
-
-    <div style="background:#222;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #2A2A2A">
-      <span style="font-size:8px;color:#555">WB API · данные изменены · NDA</span>
-      <div style="display:flex;align-items:center;gap:5px">
-        <div style="width:5px;height:5px;border-radius:50%;background:#10B981"></div>
-        <span style="font-size:8px;color:#555">live</span>
-      </div>
+    <h1 class="d-h1">Продажи шли стабильно — рост есть. Ограничение было не в рынке, а в операционке</h1>
+    <p class="d-lead">Оборот 5+ млн ₽ в месяц, стабильный поток клиентов. Снаружи всё выглядело нормально. Внутри — перегруз и хаос. Бизнес упирался не в рынок, а в пропускную способность одного сотрудника, который одновременно вёл продажи, собирал отчёты и сводил цифры.</p>
+    <div class="d-stats">
+      <div class="d-stat"><div class="d-stat-v c-tn">−30–40%</div><div class="d-stat-l">операционная нагрузка менеджера</div></div>
+      <div class="d-stat"><div class="d-stat-v c-br">2 ч/день</div><div class="d-stat-l">возвращены из рутины в продажи</div></div>
+      <div class="d-stat"><div class="d-stat-v c-em">API</div><div class="d-stat-l">данные собираются автоматически</div></div>
+      <div class="d-stat"><div class="d-stat-v c-sn">100%</div><div class="d-stat-l">прозрачность воронки на каждом этапе</div></div>
     </div>
   </div>
-</div>
-</div>
 
-<div class="csp-cta-wrap">
-  <div class="csp-cta-box">
+  <div class="d-layout">
     <div>
-      <div class="csp-cta-ttl">Хотите такой же результат?</div>
-      <div class="csp-cta-sub">Начнём с диагностики — покажем где теряется маржа именно в вашем бизнесе</div>
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Точка А — что видел собственник</span></div>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#F43F5E">V</div><div class="plane-title">Видимости не было</div></div>
+          <div class="plane-body">Менеджеры вели отчёты вручную в Excel. Часть данных не фиксировалась — расхождения в цифрах между отчётами были нормой. Сбор данных занимал от 2 часов в день ключевого сотрудника. Невозможно было быстро получить реальную картину продаж.</div>
+        </div>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#FCD34D">C</div><div class="plane-title">Контроля не было</div></div>
+          <div class="plane-body">Большая часть операционных задач замыкалась на одном человеке. Он одновременно вёл продажи, собирал отчёты, контролировал менеджеров и сводил цифры. Решения принимались с задержкой — для них сначала нужно было собрать данные руками. Бизнес упирался в пропускную способность одного сотрудника.</div>
+        </div>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#94A3B8">U</div><div class="plane-title">Управляемости не было</div></div>
+          <div class="plane-body">Многоуровневой системы продаж не существовало. Не отслеживалась конверсия на каждом этапе воронки. Эффективность менеджеров определялась по ощущениям руководителя. Планирование строилось «по факту» — не хватало времени на анализ.</div>
+        </div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали через платформу</span></div>
+        <div class="action">
+          <div class="action-num">01</div>
+          <div>
+            <div class="action-ttl">Видимость — данные собираются автоматически через API</div>
+            <div class="action-desc">Подключили источники по API — продажи попадают в платформу без ручного переноса. Собственник видит показатели в реальном времени, а не актуализацию раз в день. Дашборд по ключевым метрикам: выручка, средний чек, конверсия, скорость прохождения сделки. Картина бизнеса перестала устаревать к моменту её просмотра.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">02</div>
+          <div>
+            <div class="action-ttl">Контроль — многоуровневая воронка внутри платформы</div>
+            <div class="action-desc">Построили прозрачную воронку с разделением по этапам. Каждая сделка движется по этапам — система фиксирует переходы. Видна конверсия на каждом шаге: лид → квалифицированный → встреча → оплата. Руководителю не нужно догадываться, где менеджер «застревает» — система показывает это сама.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">03</div>
+          <div>
+            <div class="action-ttl">Управляемость — решения на данных вместо тушения пожаров</div>
+            <div class="action-desc">Ключевой сотрудник освобождён от рутины сбора и сверки данных. Появилось планирование на основе конверсий, а не «по факту». Оповещения по проседанию метрик — реакция до проблемы, а не после.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Точка Б — что изменилось</span></div>
+        <div class="res-grid">
+          <div class="res-card"><div class="res-v c-tn">−30–40%</div><div class="res-l">операционная нагрузка менеджера</div></div>
+          <div class="res-card"><div class="res-v c-br">2 ч/день</div><div class="res-l">возвращены в продажи из сбора отчётов</div></div>
+          <div class="res-card"><div class="res-v c-em">100%</div><div class="res-l">прозрачность воронки по этапам</div></div>
+          <div class="res-card"><div class="res-v c-sn">реал-тайм</div><div class="res-l">данные без задержки и ручного ввода</div></div>
+          <div class="res-card"><div class="res-v c-br">по конверсиям</div><div class="res-l">планирование вместо «по факту»</div></div>
+          <div class="res-card"><div class="res-v c-tn">до проблемы</div><div class="res-l">алерты по проседанию метрик</div></div>
+        </div>
+        <div class="res-main"><strong>Главное:</strong> бизнес перестал зависеть от ручных таблиц и человеческого фактора. Продажи стали управляемым процессом, а не набором действий отдельных сотрудников.</div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Чем отличается от альтернатив</span></div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. коробочная CRM</div>
+          <div class="diff-txt">Не «настройте под себя за 3 месяца». <strong>Готовая система продаж с управленческой логикой внутри</strong> — работает сразу.</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. найм аналитика</div>
+          <div class="diff-txt">Не дополнительный человек, который собирает отчёты руками. <strong>Система, которая собирает их сама</strong> — без найма и задержек.</div>
+        </div>
+      </div>
     </div>
-    <button type="button" class="csp-btn-primary js-open-contact" data-source="case_ecommerce" data-track="ecom_cta_diagnose" data-track-block="case_page">Начать диагностику →</button>
+
+    <div class="d-right">
+      <SalesDashboard client:visible />
+    </div>
   </div>
+
+  <div class="d-cta">
+    <div class="cta-bar">
+      <div>
+        <div class="cta-t">Продажи есть — роста нет?</div>
+        <div class="cta-s">Начнём с диагностики — найдём где операционка тормозит бизнес</div>
+      </div>
+      <button type="button" class="btn js-open-contact" data-source="case_sales" data-track="sales_cta_diagnose" data-track-block="case_page">Начать диагностику →</button>
+    </div>
+  </div>
+  </div>
+
+  <!-- ════ MOBILE ════ -->
+  <div class="m-view">
+  <nav class="nav nav-m">
+    <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
+    <a href="/#cases" class="nav-back" data-track="sales_back_m" data-track-block="case_page">← Кейсы</a>
+  </nav>
+  <div class="nda nda-m">
+    <div class="nda-pill">NDA</div>
+    <div class="nda-txt" style="font-size:10px">Показатели изменены. Структура — реальная.</div>
+  </div>
+
+  <div class="m-hero">
+    <div class="ey" style="margin-bottom:10px"><div class="ey-ln"></div><span class="ey-tx" style="font-size:10px">Кейс 3 · Продажи</span></div>
+    <div class="tag" style="background:#FB923C;font-size:8px;margin-bottom:10px">5+ млн ₽/мес · Стабильный рост</div>
+    <h1 class="m-h1">Продажи шли — рост тормозила операционка</h1>
+    <p class="m-lead">Бизнес упирался не в рынок, а в одного сотрудника, который одновременно продавал и собирал отчёты.</p>
+    <div class="m-stats">
+      <div class="m-stat"><div class="m-stat-v c-tn">−30–40%</div><div class="m-stat-l">нагрузка менеджера</div></div>
+      <div class="m-stat"><div class="m-stat-v c-br">2 ч/день</div><div class="m-stat-l">обратно в продажи</div></div>
+      <div class="m-stat"><div class="m-stat-v c-em">реал-тайм</div><div class="m-stat-l">данные без задержки</div></div>
+      <div class="m-stat"><div class="m-stat-v c-sn">100%</div><div class="m-stat-l">прозрачность воронки</div></div>
+    </div>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Три плоскости проблемы</span></div>
+      <div class="m-problems">
+        <div class="m-prob-card" style="border-color:#F43F5E">
+          <div class="m-prob-card-t c-cr">Нет видимости</div>
+          <div class="m-prob-card-d">Excel-таблицы вручную. 2 ч/день на сбор — расхождения в цифрах норма.</div>
+        </div>
+        <div class="m-prob-card" style="border-color:#FCD34D">
+          <div class="m-prob-card-t c-sn">Нет контроля</div>
+          <div class="m-prob-card-d">Всё замыкалось на одном человеке. Бизнес — в пропускную способность одного сотрудника.</div>
+        </div>
+        <div class="m-prob-card" style="border-color:#94A3B8">
+          <div class="m-prob-card-t c-sl">Нет управляемости</div>
+          <div class="m-prob-card-d">Конверсия по этапам не отслеживалась. Планирование «по факту».</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="car-wrap">
+    <div class="bey" style="margin-bottom:0"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
+    <div class="car-hdr">
+      <div class="car-dots" id="sdots"></div>
+      <span class="car-ctr" id="sctr">1 / 3</span>
+    </div>
+    <div class="car">
+      <div class="car-track" id="strack">
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">01</div>
+              <div>
+                <div class="car-ttl">Данные собираются автоматически</div>
+                <div class="car-desc">API-подключение — продажи в платформе без ручного ввода. Реал-тайм вместо актуализации раз в день.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Дашборд продаж · сегодня</div>
+              <div style="display:flex;gap:5px;margin-bottom:8px">
+                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
+                  <div style="font-size:7px;color:#555;margin-bottom:2px">ВЫРУЧКА</div>
+                  <div class="c-tn" style="font-size:14px;font-weight:900">5.8М ₽</div>
+                  <div class="c-em" style="font-size:8px">↑ реал-тайм</div>
+                </div>
+                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
+                  <div style="font-size:7px;color:#555;margin-bottom:2px">СДЕЛОК</div>
+                  <div class="c-br" style="font-size:14px;font-weight:900">47</div>
+                  <div style="font-size:8px;color:#555">в работе</div>
+                </div>
+                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
+                  <div style="font-size:7px;color:#555;margin-bottom:2px">СР. ЧЕК</div>
+                  <div class="c-em" style="font-size:14px;font-weight:900">123К</div>
+                  <div class="c-em" style="font-size:8px">↑ +8%</div>
+                </div>
+              </div>
+              <div style="padding:7px 8px;background:rgba(251,146,60,.07);border-left:2px solid #FB923C;font-size:10px;color:#A3A3A3">
+                Ручной сбор данных: <s class="c-cr">2 ч/день</s> → <strong class="c-em">0</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">02</div>
+              <div>
+                <div class="car-ttl">Воронка — видно где застревают сделки</div>
+                <div class="car-desc">Каждый этап с конверсией. Руководитель видит где менеджер теряет клиентов — без пересказа.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Воронка продаж</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="flex:1"><div style="height:20px;width:100%;background:rgba(63,110,232,.08);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #555;display:flex;align-items:center;padding-left:7px"><span style="font-size:9px;font-weight:600;color:#555">Лид</span></div></div>
+                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">100</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="flex:1"><div style="height:20px;width:68%;background:rgba(63,110,232,.12);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #3F6EE8;display:flex;align-items:center;padding-left:7px"><span class="c-br" style="font-size:9px;font-weight:600">Квалифицирован</span></div></div>
+                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">68</span>
+                  <span class="c-br" style="font-size:9px;font-weight:700;background:rgba(0,0,0,.3);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">68%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="flex:1"><div style="height:20px;width:42%;background:rgba(251,146,60,.16);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #FB923C;display:flex;align-items:center;padding-left:7px"><span class="c-tn" style="font-size:9px;font-weight:600">Встреча</span></div></div>
+                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">42</span>
+                  <span class="c-sn" style="font-size:9px;font-weight:700;background:rgba(0,0,0,.3);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">62%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="flex:1"><div style="height:20px;width:31%;background:rgba(252,211,77,.16);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #FCD34D;display:flex;align-items:center;padding-left:7px"><span class="c-sn" style="font-size:9px;font-weight:600">КП</span></div></div>
+                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">31</span>
+                  <span class="c-em" style="font-size:9px;font-weight:700;background:rgba(0,0,0,.3);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">74%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:6px">
+                  <div style="flex:1"><div style="height:20px;width:19%;background:rgba(16,185,129,.16);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #10B981;display:flex;align-items:center;padding-left:7px"><span class="c-em" style="font-size:9px;font-weight:600">Оплата</span></div></div>
+                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">19</span>
+                  <span class="c-sn" style="font-size:9px;font-weight:700;background:rgba(0,0,0,.3);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">61%</span>
+                </div>
+              </div>
+              <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px">
+                <div style="background:rgba(63,110,232,.07);padding:7px 9px;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%)">
+                  <div style="font-size:8px;color:#555;margin-bottom:2px">Конверсия лид→оплата</div>
+                  <div class="c-br" style="font-size:16px;font-weight:900">19%</div>
+                </div>
+                <div style="background:rgba(16,185,129,.07);padding:7px 9px;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%)">
+                  <div style="font-size:8px;color:#555;margin-bottom:2px">Скорость сделки</div>
+                  <div class="c-em" style="font-size:16px;font-weight:900">12 дн.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">03</div>
+              <div>
+                <div class="car-ttl">Эффективность менеджеров и алерты</div>
+                <div class="car-desc">Кто справляется, кто нет — на цифрах, не на ощущениях. Алерты по проседанию метрик — до проблемы.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Менеджеры · конверсия лид→оплата</div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A3A3A3;flex-shrink:0">А</div>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:500;color:#FFF">Менеджер А</span></div>
+                  <div style="height:4px;background:#2A2A2A;border-radius:2px;overflow:hidden"><div style="height:100%;width:96%;background:#10B981;border-radius:2px"></div></div>
+                </div>
+                <div style="text-align:right;flex-shrink:0"><div class="c-em" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">24%</div><div style="font-size:9px;color:#555">12 сделок</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A3A3A3;flex-shrink:0">Б</div>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:500;color:#FFF">Менеджер Б</span></div>
+                  <div style="height:4px;background:#2A2A2A;border-radius:2px;overflow:hidden"><div style="height:100%;width:76%;background:#3F6EE8;border-radius:2px"></div></div>
+                </div>
+                <div style="text-align:right;flex-shrink:0"><div class="c-br" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">19%</div><div style="font-size:9px;color:#555">8 сделок</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A3A3A3;flex-shrink:0">В</div>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:500;color:#FFF">Менеджер В</span></div>
+                  <div style="height:4px;background:#2A2A2A;border-radius:2px;overflow:hidden"><div style="height:100%;width:56%;background:#FCD34D;border-radius:2px"></div></div>
+                </div>
+                <div style="text-align:right;flex-shrink:0"><div class="c-sn" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">14%</div><div style="font-size:9px;color:#555">6 сделок</div></div>
+              </div>
+              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
+                <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A3A3A3;flex-shrink:0">Г</div>
+                <div style="flex:1">
+                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:500;color:#FFF">Менеджер Г</span><span class="c-cr" style="font-size:8px;font-weight:700;background:rgba(244,63,94,.12);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">⚠ алерт</span></div>
+                  <div style="height:4px;background:#2A2A2A;border-radius:2px;overflow:hidden"><div style="height:100%;width:36%;background:#F43F5E;border-radius:2px"></div></div>
+                </div>
+                <div style="text-align:right;flex-shrink:0"><div class="c-cr" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">9%</div><div style="font-size:9px;color:#555">3 сделок</div></div>
+              </div>
+              <div style="margin-top:6px;padding:7px 8px;background:rgba(251,146,60,.07);border-left:2px solid #FB923C;font-size:10px;color:#A3A3A3">Менеджер Г — алерт отправлен руководителю автоматически</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="car-nav">
+      <button class="car-btn" id="sprev" disabled>← Назад</button>
+      <button class="car-btn" id="snext">Далее →</button>
+    </div>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Результат</span></div>
+      <div class="m-res-grid">
+        <div class="m-res-card"><div class="m-res-v c-tn">−30–40%</div><div class="m-res-l">нагрузка менеджера</div></div>
+        <div class="m-res-card"><div class="m-res-v c-br">2 ч/день</div><div class="m-res-l">обратно в продажи</div></div>
+        <div class="m-res-card"><div class="m-res-v c-em">100%</div><div class="m-res-l">прозрачность воронки</div></div>
+        <div class="m-res-card"><div class="m-res-v c-sn">до</div><div class="m-res-l">проблемы — алерты</div></div>
+      </div>
+      <div class="m-res-main"><strong>Главное:</strong> продажи стали управляемым процессом, а не набором действий отдельных сотрудников.</div>
+    </div>
+  </div>
+
+  <div class="m-cta">
+    <div class="m-cta-t">Продажи есть — роста нет?</div>
+    <div class="m-cta-s">Найдём где операционка тормозит бизнес</div>
+    <button type="button" class="btn btn-full js-open-contact" data-source="case_sales_m" data-track="sales_cta_diagnose_m" data-track-block="case_page">Начать диагностику →</button>
+  </div>
+  </div>
+
 </div>
 
 <Footer />
@@ -201,19 +363,37 @@ const ldCase = caseSchema({
 
 </BaseLayout>
 
-
 <script>
-  document.querySelectorAll<HTMLButtonElement>('.csp-dm-tab[data-csp-tab]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.cspTab;
-      if (!target) return;
-      const dashRoot = btn.closest('.csp-dash-mock');
-      if (!dashRoot) return;
-      dashRoot.querySelectorAll('.csp-dm-tab[data-csp-tab]').forEach((b) => b.classList.remove('on'));
-      dashRoot.querySelectorAll('.csp-dm-panel').forEach((p) => p.classList.remove('on'));
-      btn.classList.add('on');
-      const panel = dashRoot.querySelector(`.csp-dm-panel[data-csp-panel="${target}"]`);
-      if (panel) panel.classList.add('on');
-    });
-  });
+  (function () {
+    const track = document.getElementById('strack');
+    const dotsEl = document.getElementById('sdots');
+    const ctr = document.getElementById('sctr');
+    const prev = document.getElementById('sprev') as HTMLButtonElement | null;
+    const next = document.getElementById('snext') as HTMLButtonElement | null;
+    if (!track || !dotsEl || !ctr || !prev || !next) return;
+    const total = track.children.length;
+    let cur = 0;
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'car-dot' + (i === 0 ? ' on' : '');
+      d.addEventListener('click', () => go(i));
+      dotsEl.appendChild(d);
+    }
+    function go(n: number) {
+      cur = Math.max(0, Math.min(total - 1, n));
+      (track as HTMLElement).style.transform = `translateX(-${cur * 100}%)`;
+      dotsEl!.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
+      ctr!.textContent = `${cur + 1} / ${total}`;
+      prev!.disabled = cur === 0;
+      next!.disabled = cur === total - 1;
+    }
+    prev.addEventListener('click', () => go(cur - 1));
+    next.addEventListener('click', () => go(cur + 1));
+    let sx = 0;
+    track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  })();
 </script>

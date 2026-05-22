@@ -1,0 +1,381 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/v2/Footer.astro';
+import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
+import StickyCta from '@/components/v2/StickyCta.astro';
+import BuildDashboard from '@/components/islands/BuildDashboard.jsx';
+import { SEO, seoUrl } from '@/lib/seo';
+import { caseSchema } from '@/lib/jsonld';
+import '@/styles/case-page-v3.css';
+
+const seo = SEO.caseConstruction;
+const ldCase = caseSchema({
+  title: seo.title,
+  ogImage: seo.ogImage,
+  datePublished: '2026-03-20',
+});
+---
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  canonical={seoUrl(seo)}
+  ogTitle={seo.ogTitle}
+  ogDescription={seo.ogDescription}
+  ogImage={seo.ogImage}
+  twitterImage={seo.twitterImage}
+  ogType="article"
+  robots={seo.robots}
+  jsonLd={[ldCase]}
+>
+
+<div class="case-v3">
+
+  <!-- ════ DESKTOP ════ -->
+  <div class="d-view">
+  <nav class="nav">
+    <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
+    <a href="/#cases" class="nav-back" data-track="build_back" data-track-block="case_page">← Все кейсы</a>
+  </nav>
+  <div class="nda">
+    <div class="nda-pill">NDA</div>
+    <div class="nda-txt"><strong>Показатели изменены.</strong> Структура, динамика и логика — реальные.</div>
+  </div>
+
+  <div class="d-hero">
+    <div class="ey"><div class="ey-ln"></div><span class="ey-tx">Кейс 2 · Строительство / Услуги</span></div>
+    <div class="d-tag-row">
+      <div class="tag" style="background:#94A3B8;color:#0A0A0A">4 проекта · 20+ млн ₽/мес</div>
+      <span class="tag-sub">Действующий бизнес</span>
+    </div>
+    <h1 class="d-h1">Большой оборот, нулевая прозрачность: четыре проекта стали четырьмя управляемыми единицами</h1>
+    <p class="d-lead">Оборот более 20 млн ₽ в месяц, четыре проекта внутри. На уровне цифр — стабильность. На уровне управления — собственник не видел, какой проект зарабатывает, а какой съедает ресурс. При таком обороте это означало: неизвестно, куда уходят миллионы каждый месяц.</p>
+    <div class="d-stats">
+      <div class="d-stat"><div class="d-stat-v c-br">4 PnL</div><div class="d-stat-l">раздельных — по каждому проекту</div></div>
+      <div class="d-stat"><div class="d-stat-v c-cr">1 убыточный</div><div class="d-stat-l">проект выявлен и признан</div></div>
+      <div class="d-stat"><div class="d-stat-v c-em">+20%</div><div class="d-stat-l">рост двух стратегических проектов</div></div>
+      <div class="d-stat"><div class="d-stat-v c-sn">6–12 мес</div><div class="d-stat-l">прогноз движения денег</div></div>
+    </div>
+  </div>
+
+  <div class="d-layout">
+    <div>
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Точка А — что видел собственник</span></div>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#F43F5E">V</div><div class="plane-title">Видимости не было</div></div>
+          <div class="plane-body">Все доходы и расходы — в одном общем P&L. Не было понимания прибыльности каждого проекта в отдельности. Часть операций не фиксировалась. Собственник не видел, какой проект зарабатывает, а какой съедает ресурс. При обороте 20+ млн ₽/мес это означало: неизвестно, куда уходят миллионы каждый месяц.</div>
+        </div>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#FCD34D">C</div><div class="plane-title">Контроля не было</div></div>
+          <div class="plane-body">Бизнес-процессы не прописаны. Зоны ответственности не закреплены. Большинство решений замыкалось на собственнике. Команда действовала хаотично, потому что не было системы — бизнес держался на ручном управлении одного человека.</div>
+        </div>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#94A3B8">U</div><div class="plane-title">Управляемости не было</div></div>
+          <div class="plane-body">CRM отсутствовала. Платежи подрядчикам не синхронизировались с приходами — регулярные кассовые разрывы. Договоры не структурированы. Собственник не видел реальную маржинальность проектов, не видел финансовых рисков. Одно неверное решение о масштабировании могло обойтись в миллионы.</div>
+        </div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали через платформу</span></div>
+        <div class="action">
+          <div class="action-num">01</div>
+          <div>
+            <div class="action-ttl">Видимость — разделили бизнес на 4 финансовые единицы</div>
+            <div class="action-desc">Каждый проект — отдельный P&L с собственным учётом. 100% фиксация доходов и расходов. Маржинальность каждого проекта в реальном времени. Сравнение проектов между собой — в одном дашборде. Собственник видит четыре проекта как четыре отдельных бизнеса и одновременно как один общий.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">02</div>
+          <div>
+            <div class="action-ttl">Контроль — процессы и роли внутри системы</div>
+            <div class="action-desc">Прописали ключевые бизнес-процессы и зашили в платформу. Разделили зоны ответственности — каждый управленец видит свой контур. Настроили CRM и связали с финансовым учётом. Бизнес перестал замыкаться на собственнике.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">03</div>
+          <div>
+            <div class="action-ttl">Управляемость — решения на данных, которые раньше были невозможны</div>
+            <div class="action-desc">Признали один проект убыточным и приняли решение по его судьбе. Усилили два стратегических проекта с устойчивым ростом. Перенастроили контроль кассовых разрывов через алерты в системе. Прогноз движения денежных средств на 6–12 месяцев.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Точка Б — что изменилось</span></div>
+        <div class="res-grid">
+          <div class="res-card"><div class="res-v c-br">4 PnL</div><div class="res-l">раздельных — прозрачность по каждому</div></div>
+          <div class="res-card"><div class="res-v c-cr">1 убыточный</div><div class="res-l">проект выявлен — решение принято на цифрах</div></div>
+          <div class="res-card"><div class="res-v c-em">+20%</div><div class="res-l">рост двух стратегических проектов</div></div>
+          <div class="res-card"><div class="res-v c-br">100%</div><div class="res-l">операций отражается в системе</div></div>
+          <div class="res-card"><div class="res-v c-sn">6–12 мес</div><div class="res-l">прогноз движения денег</div></div>
+          <div class="res-card"><div class="res-v c-em">0</div><div class="res-l">кассовых разрывов после внедрения</div></div>
+        </div>
+        <div class="res-main"><strong>Главное:</strong> четыре проекта перестали быть «общим котлом». Каждый стал управляемой единицей с собственным P&L внутри одной системы.</div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Чем отличается от альтернатив</span></div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. финансовый консалтинг</div>
+          <div class="diff-txt">Не PDF-отчёт о том, как должны быть устроены четыре P&L. <strong>Живая система, в которой эти четыре P&L собираются автоматически.</strong></div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. внедрение 1С</div>
+          <div class="diff-txt">Не учётная система ради учёта. <strong>Управленческий слой над учётом, который отвечает на вопросы собственника,</strong> а не бухгалтера.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-right">
+      <BuildDashboard client:visible />
+    </div>
+  </div>
+
+  <div class="d-cta">
+    <div class="cta-bar">
+      <div>
+        <div class="cta-t">У вас несколько проектов или направлений?</div>
+        <div class="cta-s">Начнём с диагностики — разберём где теряются деньги между проектами</div>
+      </div>
+      <button type="button" class="btn js-open-contact" data-source="case_construction" data-track="build_cta_diagnose" data-track-block="case_page">Начать диагностику →</button>
+    </div>
+  </div>
+  </div>
+
+  <!-- ════ MOBILE ════ -->
+  <div class="m-view">
+  <nav class="nav nav-m">
+    <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
+    <a href="/#cases" class="nav-back" data-track="build_back_m" data-track-block="case_page">← Кейсы</a>
+  </nav>
+  <div class="nda nda-m">
+    <div class="nda-pill">NDA</div>
+    <div class="nda-txt" style="font-size:10px">Показатели изменены. Структура — реальная.</div>
+  </div>
+
+  <div class="m-hero">
+    <div class="ey" style="margin-bottom:10px"><div class="ey-ln"></div><span class="ey-tx" style="font-size:10px">Кейс 2 · Строительство</span></div>
+    <div class="tag" style="background:#94A3B8;color:#0A0A0A;font-size:8px;margin-bottom:10px">4 проекта · 20+ млн ₽/мес</div>
+    <h1 class="m-h1">Большой оборот, нулевая прозрачность — четыре проекта стали управляемыми</h1>
+    <p class="m-lead">Не было понимания, какой проект зарабатывает, а какой съедает ресурс. При 20+ млн ₽/мес это означало: неизвестно куда уходят миллионы.</p>
+    <div class="m-stats">
+      <div class="m-stat"><div class="m-stat-v c-br">4 PnL</div><div class="m-stat-l">раздельных проекта</div></div>
+      <div class="m-stat"><div class="m-stat-v c-cr">1 убыточный</div><div class="m-stat-l">выявлен и признан</div></div>
+      <div class="m-stat"><div class="m-stat-v c-em">+20%</div><div class="m-stat-l">рост 2 проектов</div></div>
+      <div class="m-stat"><div class="m-stat-v c-br">0</div><div class="m-stat-l">кассовых разрывов</div></div>
+    </div>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Три плоскости проблемы</span></div>
+      <div class="m-problems">
+        <div class="m-prob-card" style="border-color:#F43F5E">
+          <div class="m-prob-card-t c-cr">Нет видимости</div>
+          <div class="m-prob-card-d">Один общий P&L на 4 проекта. Неизвестно куда уходят миллионы.</div>
+        </div>
+        <div class="m-prob-card" style="border-color:#FCD34D">
+          <div class="m-prob-card-t c-sn">Нет контроля</div>
+          <div class="m-prob-card-d">Всё замыкалось на собственнике. Команда без системы ответственности.</div>
+        </div>
+        <div class="m-prob-card" style="border-color:#94A3B8">
+          <div class="m-prob-card-t c-sl">Нет управляемости</div>
+          <div class="m-prob-card-d">Кассовые разрывы. Нет CRM. Договоры не структурированы.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="car-wrap">
+    <div class="bey" style="margin-bottom:0"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
+    <div class="car-hdr">
+      <div class="car-dots" id="bdots"></div>
+      <span class="car-ctr" id="bctr">1 / 3</span>
+    </div>
+    <div class="car">
+      <div class="car-track" id="btrack">
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">01</div>
+              <div>
+                <div class="car-ttl">Раздельный учёт — 4 независимых PnL</div>
+                <div class="car-desc">Каждый проект — отдельная финансовая единица. Маржинальность в реальном времени. Сравнение в одном дашборде.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">4 проекта · сравнение</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #10B981">
+                  <div style="flex:1"><div style="font-size:11px;font-weight:600;color:#FFF">Проект А</div><div style="font-size:9px;color:#555">8.2М ₽</div></div>
+                  <div class="c-em" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">+28%</div>
+                  <div class="c-em" style="font-size:9px;font-weight:600;background:rgba(0,0,0,.3);padding:2px 6px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">+20%</div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #3F6EE8">
+                  <div style="flex:1"><div style="font-size:11px;font-weight:600;color:#FFF">Проект Б</div><div style="font-size:9px;color:#555">6.1М ₽</div></div>
+                  <div class="c-br" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">+22%</div>
+                  <div class="c-br" style="font-size:9px;font-weight:600;background:rgba(0,0,0,.3);padding:2px 6px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">+20%</div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #FCD34D">
+                  <div style="flex:1"><div style="font-size:11px;font-weight:600;color:#FFF">Проект В</div><div style="font-size:9px;color:#555">4.4М ₽</div></div>
+                  <div class="c-sn" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">+11%</div>
+                  <div class="c-sn" style="font-size:9px;font-weight:600;background:rgba(0,0,0,.3);padding:2px 6px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">стаб.</div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px 10px;display:flex;align-items:center;gap:8px;border-left:3px solid #F43F5E">
+                  <div style="flex:1"><div style="font-size:11px;font-weight:600;color:#FFF">Проект Г</div><div style="font-size:9px;color:#555">1.8М ₽</div></div>
+                  <div class="c-cr" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">−6%</div>
+                  <div class="c-cr" style="font-size:9px;font-weight:600;background:rgba(0,0,0,.3);padding:2px 6px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">убыт.</div>
+                </div>
+              </div>
+              <div style="margin-top:8px;padding:6px 8px;background:rgba(244,63,94,.08);border-left:2px solid #F43F5E;font-size:10px;color:#A3A3A3">Проект Г признан убыточным → решение принято на цифрах</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">02</div>
+              <div>
+                <div class="car-ttl">Контроль — процессы и роли в системе</div>
+                <div class="car-desc">Зоны ответственности закреплены. Каждый управленец видит свой контур. CRM связана с финансовым учётом.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Структура управления</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:9px 11px;display:flex;align-items:center;gap:10px">
+                  <div style="width:20px;height:20px;border-radius:50%;background:rgba(63,110,232,.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#3F6EE8;flex-shrink:0">С</div>
+                  <div style="flex:1"><div style="font-size:11px;font-weight:600;color:#FFF">Собственник</div><div style="font-size:9px;color:#555">Общая картина + стратегия</div></div>
+                  <div style="width:8px;height:8px;border-radius:50%;background:#3F6EE8"></div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:9px 11px;display:flex;align-items:center;gap:10px">
+                  <div style="width:20px;height:20px;border-radius:50%;background:rgba(63,110,232,.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#3F6EE8;flex-shrink:0">У</div>
+                  <div style="flex:1"><div style="font-size:11px;font-weight:600;color:#FFF">Управленец А</div><div style="font-size:9px;color:#555">Проект А — своя зона</div></div>
+                  <div style="width:8px;height:8px;border-radius:50%;background:#10B981"></div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:9px 11px;display:flex;align-items:center;gap:10px">
+                  <div style="width:20px;height:20px;border-radius:50%;background:rgba(63,110,232,.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#3F6EE8;flex-shrink:0">У</div>
+                  <div style="flex:1"><div style="font-size:11px;font-weight:600;color:#FFF">Управленец Б</div><div style="font-size:9px;color:#555">Проект Б — своя зона</div></div>
+                  <div style="width:8px;height:8px;border-radius:50%;background:#10B981"></div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:9px 11px;display:flex;align-items:center;gap:10px">
+                  <div style="width:20px;height:20px;border-radius:50%;background:rgba(63,110,232,.2);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#3F6EE8;flex-shrink:0">У</div>
+                  <div style="flex:1"><div style="font-size:11px;font-weight:600;color:#FFF">Управленец В</div><div style="font-size:9px;color:#555">Проект В — своя зона</div></div>
+                  <div style="width:8px;height:8px;border-radius:50%;background:#10B981"></div>
+                </div>
+              </div>
+              <div style="margin-top:8px;padding:6px 8px;background:rgba(63,110,232,.07);border-left:2px solid #3F6EE8;font-size:10px;color:#A3A3A3">Бизнес перестал замыкаться на одном человеке</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">03</div>
+              <div>
+                <div class="car-ttl">Движение денег и прогноз на 6–12 месяцев</div>
+                <div class="car-desc">Кассовые разрывы устранены через алерты. Прогноз ДДС — в разрезе каждого проекта.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Прогноз ДДС · 6 месяцев</div>
+              <div style="display:flex;align-items:flex-end;gap:3px;height:52px;margin-bottom:6px">
+                <div style="flex:1;height:55%;background:rgba(63,110,232,.4);border-radius:1px"></div>
+                <div style="flex:1;height:62%;background:rgba(63,110,232,.4);border-radius:1px"></div>
+                <div style="flex:1;height:58%;background:rgba(16,185,129,.4);border-radius:1px"></div>
+                <div style="flex:1;height:70%;background:rgba(16,185,129,.4);border-radius:1px"></div>
+                <div style="flex:1;height:68%;background:rgba(16,185,129,.4);border-radius:1px"></div>
+                <div style="flex:1;height:78%;background:rgba(16,185,129,.4);border-radius:1px"></div>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:10px">
+                <span style="font-size:8px;color:#555">факт</span>
+                <span class="c-sn" style="font-size:8px">▲ сейчас</span>
+                <span style="font-size:8px;color:#555">прогноз</span>
+              </div>
+              <div style="display:grid;grid-template-columns:1fr 1fr;gap:5px">
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px 10px">
+                  <div style="font-size:8px;color:#555;margin-bottom:2px">Кассовые разрывы</div>
+                  <div class="c-em" style="font-size:16px;font-weight:900">0</div>
+                  <div style="font-size:9px;color:#555">после алертов</div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px 10px">
+                  <div style="font-size:8px;color:#555;margin-bottom:2px">Горизонт прогноза</div>
+                  <div class="c-sn" style="font-size:16px;font-weight:900">6–12</div>
+                  <div style="font-size:9px;color:#555">месяцев вперёд</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="car-nav">
+      <button class="car-btn" id="bprev" disabled>← Назад</button>
+      <button class="car-btn" id="bnext">Далее →</button>
+    </div>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Результат</span></div>
+      <div class="m-res-grid">
+        <div class="m-res-card"><div class="m-res-v c-br">4 PnL</div><div class="m-res-l">раздельных</div></div>
+        <div class="m-res-card"><div class="m-res-v c-cr">1 убыточный</div><div class="m-res-l">выявлен</div></div>
+        <div class="m-res-card"><div class="m-res-v c-em">+20%</div><div class="m-res-l">рост 2 проектов</div></div>
+        <div class="m-res-card"><div class="m-res-v c-br">0</div><div class="m-res-l">кассовых разрывов</div></div>
+      </div>
+      <div class="m-res-main"><strong>Главное:</strong> четыре проекта перестали быть «общим котлом». Каждый — управляемая единица.</div>
+    </div>
+  </div>
+
+  <div class="m-cta">
+    <div class="m-cta-t">У вас несколько проектов?</div>
+    <div class="m-cta-s">Разберём где теряются деньги между направлениями</div>
+    <button type="button" class="btn btn-full js-open-contact" data-source="case_construction_m" data-track="build_cta_diagnose_m" data-track-block="case_page">Начать диагностику →</button>
+  </div>
+  </div>
+
+</div>
+
+<Footer />
+<StickyCta />
+<ContactModalIsland client:load />
+
+</BaseLayout>
+
+<script>
+  (function () {
+    const track = document.getElementById('btrack');
+    const dotsEl = document.getElementById('bdots');
+    const ctr = document.getElementById('bctr');
+    const prev = document.getElementById('bprev') as HTMLButtonElement | null;
+    const next = document.getElementById('bnext') as HTMLButtonElement | null;
+    if (!track || !dotsEl || !ctr || !prev || !next) return;
+    const total = track.children.length;
+    let cur = 0;
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'car-dot' + (i === 0 ? ' on' : '');
+      d.addEventListener('click', () => go(i));
+      dotsEl.appendChild(d);
+    }
+    function go(n: number) {
+      cur = Math.max(0, Math.min(total - 1, n));
+      (track as HTMLElement).style.transform = `translateX(-${cur * 100}%)`;
+      dotsEl!.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
+      ctr!.textContent = `${cur + 1} / ${total}`;
+      prev!.disabled = cur === 0;
+      next!.disabled = cur === total - 1;
+    }
+    prev.addEventListener('click', () => go(cur - 1));
+    next.addEventListener('click', () => go(cur + 1));
+    let sx = 0;
+    track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  })();
+</script>

@@ -1,0 +1,405 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/v2/Footer.astro';
+import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
+import StickyCta from '@/components/v2/StickyCta.astro';
+import EduDashboard from '@/components/islands/EduDashboard.jsx';
+import { SEO, seoUrl } from '@/lib/seo';
+import { caseSchema } from '@/lib/jsonld';
+import '@/styles/case-page-v3.css';
+
+const seo = SEO.caseEducation;
+const ldCase = caseSchema({
+  title: seo.title,
+  ogImage: seo.ogImage,
+  datePublished: '2026-03-15',
+});
+---
+<BaseLayout
+  title={seo.title}
+  description={seo.description}
+  canonical={seoUrl(seo)}
+  ogTitle={seo.ogTitle}
+  ogDescription={seo.ogDescription}
+  ogImage={seo.ogImage}
+  twitterImage={seo.twitterImage}
+  ogType="article"
+  robots={seo.robots}
+  jsonLd={[ldCase]}
+>
+
+<div class="case-v3">
+
+  <!-- ════ DESKTOP ════ -->
+  <div class="d-view">
+  <nav class="nav">
+    <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
+    <a href="/#cases" class="nav-back" data-track="edu_back" data-track-block="case_page">← Все кейсы</a>
+  </nav>
+  <div class="nda">
+    <div class="nda-pill">NDA</div>
+    <div class="nda-txt"><strong>Показатели изменены.</strong> Структура, динамика и логика — реальные.</div>
+  </div>
+
+  <div class="d-hero">
+    <div class="ey"><div class="ey-ln"></div><span class="ey-tx">Кейс 1 · Образование</span></div>
+    <div class="d-tag-row">
+      <div class="tag" style="background:#3F6EE8">Образовательный бизнес · Офлайн + онлайн</div>
+      <span class="tag-sub">5+ лет · Действующий проект</span>
+    </div>
+    <h1 class="d-h1">Оборот образовательного проекта рос — прибыль падала. Платформа показала, где именно</h1>
+    <p class="d-lead">По цифрам в банке всё выглядело нормально. На уровне управления — картины не было. Доход рос на 3% в год, расходы — на 6% каждый месяц. В некоторые периоды проект фактически работал в минус.</p>
+    <div class="d-stats">
+      <div class="d-stat"><div class="d-stat-v c-em">+18–27%</div><div class="d-stat-l">маржинальность ключевых направлений</div></div>
+      <div class="d-stat"><div class="d-stat-v c-cr">−20%</div><div class="d-stat-l">избыточные расходы в первые месяцы</div></div>
+      <div class="d-stat"><div class="d-stat-v c-br">+20%</div><div class="d-stat-l">повторные продажи</div></div>
+      <div class="d-stat"><div class="d-stat-v c-sn">85%+</div><div class="d-stat-l">точность план/факт на 3–6 мес.</div></div>
+    </div>
+  </div>
+
+  <div class="d-layout">
+    <div>
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Точка А — что видел собственник</span></div>
+
+        <div class="plane">
+          <div class="plane-hd">
+            <div class="plane-icon" style="background:#F43F5E">V</div>
+            <div class="plane-title">Видимости не было</div>
+          </div>
+          <div class="plane-body">Собственник видел оборот в банке — не видел маржу. Доход рос на 3% в год, расходы — на 6% ежемесячно. В пиковые месяцы расходы превышали доход. Решения принимались на ощущениях, потому что больше не на чём.</div>
+        </div>
+
+        <div class="plane">
+          <div class="plane-hd">
+            <div class="plane-icon" style="background:#FCD34D">C</div>
+            <div class="plane-title">Контроля не было</div>
+          </div>
+          <div class="plane-body">60–70% всех расходов — ФОТ. Команда получала фиксированные выплаты, не привязанные к результату. Бизнес финансировал работу команды независимо от того, приносит она деньги или нет.</div>
+        </div>
+
+        <div class="plane">
+          <div class="plane-hd">
+            <div class="plane-icon" style="background:#94A3B8">U</div>
+            <div class="plane-title">Управляемости не было</div>
+          </div>
+          <div class="plane-body">Часть курсов давала максимальную маржу. Часть направлений съедала 30–50% дохода на затраты. Но продавали всё одинаково — убыточные направления не оптимизировались, потому что никто не видел, что они убыточные.</div>
+          <ul class="plane-list">
+            <li class="plane-item"><div class="plane-dot" style="background:#F43F5E"></div>Клиентская база не была оцифрована — повторные продажи не встроены в процесс</li>
+            <li class="plane-item"><div class="plane-dot" style="background:#F43F5E"></div>Деньги лежали в базе — с ними никто не работал, потому что её никто не видел</li>
+          </ul>
+        </div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали через платформу</span></div>
+        <div class="action">
+          <div class="action-num">01</div>
+          <div>
+            <div class="action-ttl">Видимость — собрали бизнес в одну картину</div>
+            <div class="action-desc">Свод доходов и расходов в реальном времени. P&L по каждому направлению и продукту. Маржинальность курсов — по формулам собственника, не по шаблону. Воронка от первого касания до сделки. Динамика в разрезе дня, месяца, года. Не «отчёт раз в месяц» — живая картина бизнеса.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">02</div>
+          <div>
+            <div class="action-ttl">Контроль — перестроили мотивацию через систему</div>
+            <div class="action-desc">Доход собственника привязан к марже, а не к обороту. Менеджеры — на прозрачной модели заработка от результата. Маркетинг и продажи — на процентной системе. Платформа считает выплаты автоматически по фактическим показателям — команда видит, как её действия влияют на собственный доход.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">03</div>
+          <div>
+            <div class="action-ttl">Управляемость — фокус на прибыльных направлениях</div>
+            <div class="action-desc">На данных платформы стало видно, какие курсы держат маржу, а какие тянут вниз. Появились алерты по отклонениям маржинальности. Усилили продажи маржинальных продуктов. Оптимизировали затраты в низкомаржинальных. Запустили работу с повторными продажами — реактивировали спящую клиентскую базу.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Точка Б — что изменилось</span></div>
+        <div class="res-grid">
+          <div class="res-card"><div class="res-v c-em">+18–27%</div><div class="res-l">маржинальность ключевых направлений</div></div>
+          <div class="res-card"><div class="res-v c-cr">−20%</div><div class="res-l">избыточные расходы в первые месяцы</div></div>
+          <div class="res-card"><div class="res-v c-br">+20%</div><div class="res-l">повторные продажи после работы с базой</div></div>
+          <div class="res-card"><div class="res-v c-sn">85%+</div><div class="res-l">точность финансового прогноза</div></div>
+          <div class="res-card"><div class="res-v c-br">−10–15%</div><div class="res-l">доля ФОТ в структуре расходов</div></div>
+          <div class="res-card"><div class="res-v c-em">100%</div><div class="res-l">доходов и расходов в системе</div></div>
+        </div>
+        <div class="res-main"><strong>Главное:</strong> собственник перестал управлять на ощущениях. Каждое управленческое решение опирается на цифры в платформе, а не на интуицию.</div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Чем отличается от альтернатив</span></div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. консалтинг</div>
+          <div class="diff-txt">Не отчёт о том, как надо считать маржу. <strong>Работающая система, в которой маржа считается сама</strong> — собственник заходит каждое утро.</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. настройка CRM</div>
+          <div class="diff-txt">Не «настроили amoCRM, дальше сами». <strong>Единая платформа, где CRM, учёт и дашборды — это одна управленческая логика</strong>, а не три разных софта.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="d-right">
+      <EduDashboard client:visible />
+    </div>
+  </div>
+
+  <div class="d-cta">
+    <div class="cta-bar">
+      <div>
+        <div class="cta-t">Узнаёте свою ситуацию?</div>
+        <div class="cta-s">Начнём с диагностики — покажем где именно теряется маржа в вашем бизнесе</div>
+      </div>
+      <button type="button" class="btn js-open-contact" data-source="case_education" data-track="edu_cta_diagnose" data-track-block="case_page">Начать диагностику →</button>
+    </div>
+  </div>
+  </div>
+
+  <!-- ════ MOBILE ════ -->
+  <div class="m-view">
+  <nav class="nav nav-m">
+    <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
+    <a href="/#cases" class="nav-back" data-track="edu_back_m" data-track-block="case_page">← Кейсы</a>
+  </nav>
+  <div class="nda nda-m">
+    <div class="nda-pill">NDA</div>
+    <div class="nda-txt" style="font-size:10px">Показатели изменены. Структура — реальная.</div>
+  </div>
+
+  <div class="m-hero">
+    <div class="ey" style="margin-bottom:10px"><div class="ey-ln"></div><span class="ey-tx" style="font-size:10px">Кейс 1 · Образование</span></div>
+    <div class="tag" style="background:#3F6EE8;font-size:8px;margin-bottom:10px">Образование · Офлайн + онлайн · 5+ лет</div>
+    <h1 class="m-h1">Оборот рос — прибыль падала. Платформа показала где именно</h1>
+    <p class="m-lead">Доход рос на 3% в год, расходы — на 6% каждый месяц. Собственник видел оборот в банке — не видел маржу.</p>
+    <div class="m-stats">
+      <div class="m-stat"><div class="m-stat-v c-em">+18–27%</div><div class="m-stat-l">маржинальность</div></div>
+      <div class="m-stat"><div class="m-stat-v c-cr">−20%</div><div class="m-stat-l">расходы</div></div>
+      <div class="m-stat"><div class="m-stat-v c-br">+20%</div><div class="m-stat-l">повторные продажи</div></div>
+      <div class="m-stat"><div class="m-stat-v c-sn">85%+</div><div class="m-stat-l">точность прогноза</div></div>
+    </div>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Три проблемы собственника</span></div>
+      <div class="m-problems">
+        <div class="m-prob-card" style="border-color:#F43F5E">
+          <div class="m-prob-card-t c-cr">Нет видимости</div>
+          <div class="m-prob-card-d">Видел оборот в банке — не видел маржу. Решения на ощущениях.</div>
+        </div>
+        <div class="m-prob-card" style="border-color:#FCD34D">
+          <div class="m-prob-card-t c-sn">Нет контроля</div>
+          <div class="m-prob-card-d">60–70% расходов — ФОТ без привязки к результату. Бизнес платил вне зависимости от прибыли.</div>
+        </div>
+        <div class="m-prob-card" style="border-color:#94A3B8">
+          <div class="m-prob-card-t c-sl">Нет управляемости</div>
+          <div class="m-prob-card-d">Убыточные курсы не оптимизировались — их никто не видел. Клиентская база не работала.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="car-wrap">
+    <div class="bey" style="margin-bottom:0"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
+    <div class="car-hdr">
+      <div class="car-dots" id="edots"></div>
+      <span class="car-ctr" id="ectr">1 / 3</span>
+    </div>
+    <div class="car">
+      <div class="car-track" id="etrack">
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">01</div>
+              <div>
+                <div class="car-ttl">Видимость — бизнес в одной картине</div>
+                <div class="car-desc">Свод доходов и расходов. P&L по каждому направлению. Маржинальность курсов по формулам собственника. Живая картина — не отчёт раз в месяц.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Дашборд продаж</div>
+              <div style="display:flex;gap:5px;margin-bottom:8px">
+                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
+                  <div style="font-size:7px;color:#555;margin-bottom:2px">МАРЖА</div>
+                  <div class="c-em" style="font-size:14px;font-weight:900">+27%</div>
+                  <div class="c-em" style="font-size:8px">↑ за мес.</div>
+                </div>
+                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
+                  <div style="font-size:7px;color:#555;margin-bottom:2px">ОБОРОТ</div>
+                  <div class="c-br" style="font-size:14px;font-weight:900">+9%</div>
+                  <div style="font-size:8px;color:#555">vs прошлый</div>
+                </div>
+                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
+                  <div style="font-size:7px;color:#555;margin-bottom:2px">РАСХОДЫ</div>
+                  <div class="c-cr" style="font-size:14px;font-weight:900">−32%</div>
+                  <div class="c-em" style="font-size:8px">оптимизация</div>
+                </div>
+              </div>
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:6px">Топ категорий по доходу</div>
+              <div style="margin-bottom:5px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:#A3A3A3">Оказание услуг</span><span style="font-size:10px;font-weight:700;color:#FFF;font-variant-numeric:tabular-nums">352 021 ₽</span></div>
+                <div style="height:3px;background:#2A2A2A"><div style="height:100%;width:78%;background:#3F6EE8"></div></div>
+              </div>
+              <div style="margin-bottom:5px">
+                <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:#A3A3A3">Мероприятия</span><span style="font-size:10px;font-weight:700;color:#FFF;font-variant-numeric:tabular-nums">288 000 ₽</span></div>
+                <div style="height:3px;background:#2A2A2A"><div style="height:100%;width:64%;background:#3F6EE8"></div></div>
+              </div>
+              <div>
+                <div style="display:flex;justify-content:space-between;margin-bottom:2px"><span style="font-size:10px;color:#A3A3A3">Сертификаты</span><span style="font-size:10px;font-weight:700;color:#FFF;font-variant-numeric:tabular-nums">5 330 ₽</span></div>
+                <div style="height:3px;background:#2A2A2A"><div style="height:100%;width:12%;background:#3F6EE8"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">02</div>
+              <div>
+                <div class="car-ttl">Контроль — мотивация через систему</div>
+                <div class="car-desc">Платформа считает выплаты автоматически по фактическим показателям. Команда видит как её действия влияют на доход.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Структура мотивации</div>
+              <div style="display:flex;flex-direction:column;gap:5px">
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:10px;display:flex;justify-content:space-between;align-items:center">
+                  <div>
+                    <div style="font-size:11px;font-weight:600;color:#FFF">Собственник</div>
+                    <div style="font-size:10px;color:#555">Привязан к марже</div>
+                  </div>
+                  <div class="c-em" style="font-size:10px;font-weight:700;background:rgba(16,185,129,.12);padding:3px 8px;clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%)">% от маржи</div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:10px;display:flex;justify-content:space-between;align-items:center">
+                  <div>
+                    <div style="font-size:11px;font-weight:600;color:#FFF">Менеджеры</div>
+                    <div style="font-size:10px;color:#555">От результата</div>
+                  </div>
+                  <div class="c-br" style="font-size:10px;font-weight:700;background:rgba(63,110,232,.12);padding:3px 8px;clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%)">% с продаж</div>
+                </div>
+                <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:10px;display:flex;justify-content:space-between;align-items:center">
+                  <div>
+                    <div style="font-size:11px;font-weight:600;color:#FFF">Маркетинг + продажи</div>
+                    <div style="font-size:10px;color:#555">Процентная система</div>
+                  </div>
+                  <div class="c-in" style="font-size:10px;font-weight:700;background:rgba(99,102,241,.12);padding:3px 8px;clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%)">KPI-модель</div>
+                </div>
+              </div>
+              <div style="margin-top:8px;padding:6px 8px;background:rgba(16,185,129,.07);border-left:2px solid #10B981;font-size:10px;color:#A3A3A3">ФОТ снизился на <strong class="c-em">10–15%</strong> — платим за результат, не за присутствие</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">03</div>
+              <div>
+                <div class="car-ttl">Управляемость — фокус на прибыльных курсах</div>
+                <div class="car-desc">Видно какие курсы держат маржу, а какие тянут вниз. Реактивировали спящую клиентскую базу — повторные продажи выросли на +20%.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Маржинальность по направлениям</div>
+              <div style="display:flex;flex-direction:column;gap:5px;margin-bottom:10px">
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:10px;color:#A3A3A3;flex:1">Онлайн-курсы</span>
+                  <div style="flex:2;height:6px;background:#222;border-radius:2px;overflow:hidden"><div style="height:100%;width:82%;background:#10B981"></div></div>
+                  <span class="c-em" style="font-size:10px;font-weight:700;min-width:32px;text-align:right">32%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:10px;color:#A3A3A3;flex:1">Воркшопы</span>
+                  <div style="flex:2;height:6px;background:#222;border-radius:2px;overflow:hidden"><div style="height:100%;width:54%;background:#3F6EE8"></div></div>
+                  <span class="c-br" style="font-size:10px;font-weight:700;min-width:32px;text-align:right">21%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:10px;color:#A3A3A3;flex:1">Офлайн-курсы</span>
+                  <div style="flex:2;height:6px;background:#222;border-radius:2px;overflow:hidden"><div style="height:100%;width:28%;background:#FCD34D"></div></div>
+                  <span class="c-sn" style="font-size:10px;font-weight:700;min-width:32px;text-align:right">11%</span>
+                </div>
+                <div style="display:flex;align-items:center;gap:8px">
+                  <span style="font-size:10px;color:#A3A3A3;flex:1">Разовые занятия</span>
+                  <div style="flex:2;height:6px;background:#222;border-radius:2px;overflow:hidden"><div style="height:100%;width:10%;background:#F43F5E"></div></div>
+                  <span class="c-cr" style="font-size:10px;font-weight:700;min-width:32px;text-align:right">−4%</span>
+                </div>
+              </div>
+              <div style="padding:6px 8px;background:rgba(244,63,94,.07);border-left:2px solid #F43F5E;font-size:10px;color:#A3A3A3;margin-bottom:6px">⚠ Разовые занятия убыточны — переведены на минимум или стоп</div>
+              <div style="padding:6px 8px;background:rgba(16,185,129,.07);border-left:2px solid #10B981;font-size:10px;color:#A3A3A3">✓ Повторные продажи через CRM внутри платформы <strong class="c-em">+20%</strong></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="car-nav">
+      <button class="car-btn" id="eprev" disabled>← Назад</button>
+      <button class="car-btn" id="enext">Далее →</button>
+    </div>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Точка Б — результат</span></div>
+      <div class="m-res-grid">
+        <div class="m-res-card"><div class="m-res-v c-em">+18–27%</div><div class="m-res-l">маржинальность</div></div>
+        <div class="m-res-card"><div class="m-res-v c-cr">−20%</div><div class="m-res-l">расходы</div></div>
+        <div class="m-res-card"><div class="m-res-v c-br">+20%</div><div class="m-res-l">повторные продажи</div></div>
+        <div class="m-res-card"><div class="m-res-v c-sn">85%+</div><div class="m-res-l">точность прогноза</div></div>
+      </div>
+      <div class="m-res-main"><strong>Главное:</strong> собственник перестал управлять на ощущениях. Каждое решение — на цифрах платформы.</div>
+    </div>
+  </div>
+
+  <div class="m-cta">
+    <div class="m-cta-t">Узнаёте свою ситуацию?</div>
+    <div class="m-cta-s">Начнём с диагностики — покажем где теряется маржа в вашем бизнесе</div>
+    <button type="button" class="btn btn-full js-open-contact" data-source="case_education_m" data-track="edu_cta_diagnose_m" data-track-block="case_page">Начать диагностику →</button>
+  </div>
+  </div>
+
+</div>
+
+<Footer />
+<StickyCta />
+<ContactModalIsland client:load />
+
+</BaseLayout>
+
+<script>
+  (function () {
+    const track = document.getElementById('etrack');
+    const dotsEl = document.getElementById('edots');
+    const ctr = document.getElementById('ectr');
+    const prev = document.getElementById('eprev') as HTMLButtonElement | null;
+    const next = document.getElementById('enext') as HTMLButtonElement | null;
+    if (!track || !dotsEl || !ctr || !prev || !next) return;
+    const total = track.children.length;
+    let cur = 0;
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'car-dot' + (i === 0 ? ' on' : '');
+      d.addEventListener('click', () => go(i));
+      dotsEl.appendChild(d);
+    }
+    function go(n: number) {
+      cur = Math.max(0, Math.min(total - 1, n));
+      (track as HTMLElement).style.transform = `translateX(-${cur * 100}%)`;
+      dotsEl!.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
+      ctr!.textContent = `${cur + 1} / ${total}`;
+      prev!.disabled = cur === 0;
+      next!.disabled = cur === total - 1;
+    }
+    prev.addEventListener('click', () => go(cur - 1));
+    next.addEventListener('click', () => go(cur + 1));
+    let sx = 0;
+    track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  })();
+</script>

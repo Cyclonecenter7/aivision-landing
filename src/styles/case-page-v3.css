@@ -25,8 +25,8 @@ body.case-v3-body { background: #0A0A0A; }
 .case-v3 .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
 .case-v3 .logo-mark { width: 20px; height: 20px; background: #3F6EE8; clip-path: polygon(0 0,100% 0,100% 72%,72% 100%,0 100%); }
 .case-v3 .logo-name { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #FFF; }
-.case-v3 .nav-back { font-size: 11px; color: #555; text-decoration: none; transition: color .15s; }
-.case-v3 .nav-back:hover { color: #A3A3A3; }
+.case-v3 .nav-back { font-size: 11px; color: #A3A3A3; text-decoration: none; transition: color .15s; display: inline-flex; align-items: center; gap: 5px; }
+.case-v3 .nav-back:hover { color: #3F6EE8; }
 
 .case-v3 .nda { background: #222; border-bottom: 1px solid #2A2A2A; padding: 8px 48px; display: flex; align-items: center; gap: 10px; }
 .case-v3 .nda-m { padding: 7px 18px; }

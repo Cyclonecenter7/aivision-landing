@@ -169,26 +169,43 @@ function DashDDS() {
         </div>
       </div>
 
-      <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
+      <div style={{ background: T.card, ...ch(8), overflow: 'hidden' }}>
+        <div style={{ padding: '8px 12px', borderBottom: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', gap: 6 }}>
           <span style={{ width: 14, height: 1, background: C.sun, display: 'block' }} />
-          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>Прогноз окупаемости</span>
+          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>Сравнение · доход / расход по проектам</span>
+        </div>
+        <div style={{ display: 'grid', gridTemplateColumns: '70px 1fr 1fr 1fr', padding: '6px 12px', borderBottom: `1px solid ${T.border}`, gap: 8 }}>
+          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: T.t3 }}>Проект</span>
+          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: T.t3, textAlign: 'right' }}>Доход</span>
+          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: T.t3, textAlign: 'right' }}>Расход</span>
+          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.1em', textTransform: 'uppercase', color: T.t3, textAlign: 'right' }}>Маржа</span>
         </div>
         {[
-          { name: 'Проект А', letter: 'А', months: 'Q3 2026', c: C.emerald, note: 'выходит на окупаемость' },
-          { name: 'Проект Б', letter: 'Б', months: 'Q4 2026', c: C.brand, note: 'выходит на окупаемость' },
-          { name: 'Проект В', letter: 'В', months: 'стабилен', c: C.sun, note: 'без масштабирования' },
-          { name: 'Проект Г', letter: 'Г', months: 'решение', c: C.crimson, note: 'убыточный — под вопросом' },
-        ].map((r, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '7px 0', borderBottom: i < 3 ? `1px solid ${T.border}` : 'none' }}>
-            <div style={{ width: 20, height: 20, background: ha(r.c, .15), ...ch(5), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, color: r.c, flexShrink: 0 }}>{r.letter}</div>
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 11, fontWeight: 500, color: T.t1 }}>{r.name}</div>
-              <div style={{ fontSize: 9, color: T.t3 }}>{r.note}</div>
+          { letter: 'А', name: 'Проект А', income: 8.2, expense: 5.9, c: C.emerald },
+          { letter: 'Б', name: 'Проект Б', income: 6.1, expense: 4.8, c: C.brand },
+          { letter: 'В', name: 'Проект В', income: 4.4, expense: 3.9, c: C.sun },
+          { letter: 'Г', name: 'Проект Г', income: 1.8, expense: 1.9, c: C.crimson, warn: true },
+        ].map((r, i) => {
+          const margin = +(r.income - r.expense).toFixed(1);
+          const marginC = margin > 0 ? C.emerald : C.crimson;
+          return (
+            <div key={i} style={{ display: 'grid', gridTemplateColumns: '70px 1fr 1fr 1fr', padding: '8px 12px', borderBottom: i < 3 ? `1px solid ${T.border}` : 'none', gap: 8, alignItems: 'center' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
+                <div style={{ width: 18, height: 18, background: ha(r.c, .15), ...ch(4), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 9, fontWeight: 800, color: r.c, flexShrink: 0 }}>{r.letter}</div>
+                <span style={{ fontSize: 10, color: T.t2 }}>{r.warn ? '⚠' : ''}</span>
+              </div>
+              <span style={{ fontSize: 11, fontWeight: 600, color: T.t1, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{r.income.toFixed(1)}М ₽</span>
+              <span style={{ fontSize: 11, fontWeight: 600, color: T.t2, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{r.expense.toFixed(1)}М ₽</span>
+              <span style={{ fontSize: 11, fontWeight: 800, color: marginC, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{margin > 0 ? '+' : ''}{margin.toFixed(1)}М</span>
             </div>
-            <span style={{ fontSize: 10, fontWeight: 700, color: r.c, background: ha(r.c, .12), padding: '2px 7px', ...ch(4) }}>{r.months}</span>
-          </div>
-        ))}
+          );
+        })}
+        <div style={{ padding: '8px 12px', background: T.card2, display: 'flex', alignItems: 'center', gap: 8 }}>
+          <span style={{ fontSize: 10, color: T.t2, flex: 1 }}>Сводно</span>
+          <span style={{ fontSize: 10, color: T.t3, fontVariantNumeric: 'tabular-nums' }}>20.5М</span>
+          <span style={{ fontSize: 10, color: T.t3, fontVariantNumeric: 'tabular-nums' }}>16.5М</span>
+          <span style={{ fontSize: 12, fontWeight: 900, color: C.emerald, fontVariantNumeric: 'tabular-nums' }}>+4.0М</span>
+        </div>
       </div>
     </div>
   );

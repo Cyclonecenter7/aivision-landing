@@ -3,15 +3,15 @@ import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/v2/Footer.astro';
 import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 import StickyCta from '@/components/v2/StickyCta.astro';
+import EsimDashboard from '@/components/islands/EsimDashboard.jsx';
 import { SEO, seoUrl } from '@/lib/seo';
 import { caseSchema } from '@/lib/jsonld';
-import '@/styles/case-page-v2.css';
 
 const seo = SEO.caseEsim;
 const ldCase = caseSchema({
   title: seo.title,
   ogImage: seo.ogImage,
-  datePublished: '2026-05-01',
+  datePublished: '2026-05-22',
 });
 ---
 <BaseLayout
@@ -27,311 +27,281 @@ const ldCase = caseSchema({
   jsonLd={[ldCase]}
 >
 
-<nav class="csp-nav">
-  <a href="/" class="csp-nav-logo">
-    <div class="csp-nav-mark"></div>
-    <span class="csp-nav-name">AIVISION</span>
-  </a>
-  <a href="/#cases" class="csp-nav-back" data-track="esim_back" data-track-block="case_page">← Все кейсы</a>
-</nav>
+<div class="case-esim">
 
-<div class="csp-nda-bar">
-  <div class="csp-nda-pill">NDA</div>
-  <div class="csp-nda-txt"><strong>Показатели изменены.</strong> Структура, динамика и соотношения — реальные. Конкретные цифры скорректированы по соглашению о конфиденциальности.</div>
-</div>
-
-<div class="csp-hero">
-  <div class="csp-hero-eyebrow"><div class="csp-ey-line"></div><span class="csp-ey-txt">Кейс · Старт бизнеса</span></div>
-  <div class="csp-hero-tag-row">
-    <div class="csp-tag-pill csp-tag-in">eSIM · E-commerce</div>
-    <span class="csp-tag-sub">2 сайта · 1 CRM · Действующий проект</span>
+  <!-- ════ DESKTOP ════ -->
+  <div class="d-view">
+  <nav class="nav">
+    <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
+    <a href="/#cases" class="nav-back" data-track="esim_back" data-track-block="case_page">← Все кейсы</a>
+  </nav>
+  <div class="nda">
+    <div class="nda-pill">NDA</div>
+    <div class="nda-txt"><strong>Показатели изменены.</strong> Структура, динамика и логика — реальные.</div>
   </div>
-  <h1 class="csp-hero-h1">От идеи до первого клиента — меньше семи дней</h1>
-  <p class="csp-hero-lead">Две гипотезы, два сайта с разным позиционированием, один CRM под оба. Никаких команд и офисов — только API, желание и система. Первый заказ пришёл до конца недели.</p>
-  <div class="csp-hero-stats">
-    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#10B981">&lt; 7</div><div class="csp-hstat-l">дней от идеи до клиента</div></div>
-    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#3F6EE8">2</div><div class="csp-hstat-l">продукта, 2 гипотезы</div></div>
-    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#6366F1">1</div><div class="csp-hstat-l">CRM для обоих</div></div>
-    <div class="csp-hstat"><div class="csp-hstat-v" style="color:#FCD34D">0</div><div class="csp-hstat-l">сотрудников в найме</div></div>
-  </div>
-</div>
 
-<div class="csp-layout">
-<div>
-
-  <div class="csp-block">
-    <div class="csp-bey"><div class="csp-bey-ln" style="background:#3F6EE8"></div><span class="csp-bey-tx">Две гипотезы — два продукта</span></div>
-    <div class="csp-hypo-grid">
-      <div class="csp-hypo">
-        <div class="csp-hypo-num"><div class="csp-hypo-num-dot" style="background:#3F6EE8"></div>Гипотеза 01</div>
-        <div class="csp-hypo-ttl">Симки для России</div>
-        <div class="csp-hypo-desc">Рунет-трафик, рублёвые платежи. Продукт для тех кто едет за рубеж и хочет связь без роуминга. Простой понятный оффер на русском.</div>
-        <div class="csp-hypo-tag" style="background:rgba(63,110,232,.15);color:#3F6EE8">СБП · Рублёвые</div>
-      </div>
-      <div class="csp-hypo">
-        <div class="csp-hypo-num"><div class="csp-hypo-num-dot" style="background:#6366F1"></div>Гипотеза 02</div>
-        <div class="csp-hypo-ttl">eSIM для путешественников</div>
-        <div class="csp-hypo-desc">Глобальный трафик, международные платежи. Продукт для цифровых кочевников и тревел-аудитории. Позиционирование — свобода передвижения.</div>
-        <div class="csp-hypo-tag" style="background:rgba(99,102,241,.15);color:#6366F1">Крипта · USD</div>
-      </div>
+  <div class="d-hero">
+    <div class="ey"><div class="ey-ln"></div><span class="ey-tx">Кейс 4 · E-commerce · Запуск</span></div>
+    <div class="d-tag-row">
+      <div class="tag">E-commerce · Цифровые продукты</div>
+      <span class="tag-sub">Две платёжные ветки · Запуск с нуля</span>
+    </div>
+    <h1 class="d-h1">Как новое направление запустилось с управленческой видимостью с первого дня</h1>
+    <p class="d-lead">Опытный собственник знал, как выглядит запуск без системы: первые полгода в таблицах, потом хаос, потом год на его расчистку. Задача — зашить управление в проект до старта, а не докручивать его потом по живому.</p>
+    <div class="d-stats">
+      <div class="d-stat"><div class="d-stat-v c-em">День 1</div><div class="d-stat-l">управленческая видимость с запуска</div></div>
+      <div class="d-stat"><div class="d-stat-v c-br">2 ветки</div><div class="d-stat-l">рубли + крипта в одной картине</div></div>
+      <div class="d-stat"><div class="d-stat-v c-in">×17</div><div class="d-stat-l">одна ветка сильнее по выручке</div></div>
+      <div class="d-stat"><div class="d-stat-v c-sn">0 ₽</div><div class="d-stat-l">на найм аналитика</div></div>
     </div>
   </div>
 
-  <div class="csp-block">
-    <div class="csp-bey"><div class="csp-bey-ln" style="background:#3F6EE8"></div><span class="csp-bey-tx">Как собирали</span></div>
-    <div class="csp-timeline">
-      <div class="csp-tl-item">
-        <div class="csp-tl-left">
-          <div class="csp-tl-dot" style="background:rgba(63,110,232,.2);color:#3F6EE8">1</div>
-          <div class="csp-tl-line"></div>
-        </div>
-        <div class="csp-tl-body">
-          <div class="csp-tl-day">День 1</div>
-          <div class="csp-tl-ttl">Идея + выбор API-партнёров</div>
-          <div class="csp-tl-desc">Нашли провайдеров eSIM с готовым API. Две разные платформы под два позиционирования. Договорились об условиях.</div>
-        </div>
-      </div>
-      <div class="csp-tl-item">
-        <div class="csp-tl-left">
-          <div class="csp-tl-dot" style="background:rgba(63,110,232,.2);color:#3F6EE8">2</div>
-          <div class="csp-tl-line"></div>
-        </div>
-        <div class="csp-tl-body">
-          <div class="csp-tl-day">Дни 2–3</div>
-          <div class="csp-tl-ttl">Два сайта — два вайба</div>
-          <div class="csp-tl-desc">Каждый сайт под свою аудиторию: разный язык, разный посыл, разный каталог. Интеграция с API-партнёрами — заказ → eSIM-код автоматически.</div>
-        </div>
-      </div>
-      <div class="csp-tl-item">
-        <div class="csp-tl-left">
-          <div class="csp-tl-dot" style="background:rgba(63,110,232,.2);color:#3F6EE8">3</div>
-          <div class="csp-tl-line"></div>
-        </div>
-        <div class="csp-tl-body">
-          <div class="csp-tl-day">Дни 4–5</div>
-          <div class="csp-tl-ttl">CRM под оба канала</div>
-          <div class="csp-tl-desc">Один дашборд для двух сайтов. Выручка, маржа, заказы и воронка по каждому каналу отдельно — и сравнение рядом. Наценки и курс управляются из одного интерфейса.</div>
-        </div>
-      </div>
-      <div class="csp-tl-item">
-        <div class="csp-tl-left">
-          <div class="csp-tl-dot" style="background:rgba(16,185,129,.25);color:#10B981">★</div>
-        </div>
-        <div class="csp-tl-body">
-          <div class="csp-tl-day">День 6</div>
-          <div class="csp-tl-ttl">Первый клиент</div>
-          <div class="csp-tl-desc">Первый реальный заказ. eSIM-код доставлен автоматически. Маржа зафиксирована в системе. Бизнес работает.</div>
-        </div>
-      </div>
-    </div>
-  </div>
-
-  <div class="csp-block">
-    <div class="csp-bey"><div class="csp-bey-ln" style="background:#3F6EE8"></div><span class="csp-bey-tx">Что умеет система</span></div>
-    <div class="csp-action"><div class="csp-action-num">01</div><div><div class="csp-action-ttl">Единый дашборд двух каналов</div><div class="csp-action-desc">Оба сайта в одном интерфейсе. Выручка по каждому, маржа, количество заказов и конверсия — с возможностью сравнения.</div></div></div>
-    <div class="csp-action"><div class="csp-action-num">02</div><div><div class="csp-action-ttl">Воронка от визита до eSIM-кода</div><div class="csp-action-desc">Уники → посещения → клики по каталогу → создан заказ → оплачен → выполнен. Видно где теряются клиенты в каждом канале.</div></div></div>
-    <div class="csp-action"><div class="csp-action-num">03</div><div><div class="csp-action-ttl">Управление наценками и курсом</div><div class="csp-action-desc">Разные наценки для каждого партнёра, курс конвертации для единого сравнения метрик в рублях. Меняется в один клик.</div></div></div>
-    <div class="csp-action"><div class="csp-action-num">04</div><div><div class="csp-action-ttl">Трекинг источников заказов</div><div class="csp-action-desc">По каждому заказу: страна, продукт, цена, маржа, UTM-источник, referrer, landing page. Понятно откуда пришёл клиент.</div></div></div>
-  </div>
-
-  <div class="csp-block" style="margin-bottom:0">
-    <div class="csp-bey"><div class="csp-bey-ln" style="background:#333"></div><span class="csp-bey-tx">Результат</span></div>
-    <div class="csp-res-grid">
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#10B981">&lt; 7 дн.</div><div class="csp-res-l">От идеи до первого клиента</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#3F6EE8">2 сайта</div><div class="csp-res-l">В одной системе управления</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#6366F1">100%</div><div class="csp-res-l">Операций учтено автоматически</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#FCD34D">0 ₽</div><div class="csp-res-l">Потрачено на найм команды</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#10B981">×17</div><div class="csp-res-l">Разрыв между каналами — видно сразу</div></div>
-      <div class="csp-res-card"><div class="csp-res-v" style="color:#3F6EE8">1 CRM</div><div class="csp-res-l">Вместо таблиц и мессенджеров</div></div>
-    </div>
-    <div class="csp-res-main"><strong>Главное:</strong> бизнес с нуля, без команды, без офиса — только API, система и ясная голова. Первый клиент пришёл раньше чем кончилась неделя.</div>
-  </div>
-
-</div>
-
-<!-- ПРАВАЯ КОЛОНКА: dashboard mock -->
-<div class="csp-col-right">
-  <div class="csp-dash-mock">
-    <div class="csp-dm-hd">
-      <span class="csp-dm-hd-title">Система в действии</span>
-      <div class="csp-dm-tabs">
-        <button class="csp-dm-tab on" data-csp-tab="dash">Дашборд</button>
-        <button class="csp-dm-tab" data-csp-tab="funnel">Воронка</button>
-        <button class="csp-dm-tab" data-csp-tab="top">Топ</button>
-      </div>
-    </div>
-
-    <div class="csp-dm-panel on" data-csp-panel="dash">
-      <div style="display:flex;gap:4px;margin-bottom:10px">
-        <button class="csp-dm-tab" style="font-size:8px;padding:3px 8px">Сегодня</button>
-        <button class="csp-dm-tab" style="font-size:8px;padding:3px 8px">7 дней</button>
-        <button class="csp-dm-tab on" style="font-size:8px;padding:3px 8px">30 дней</button>
-      </div>
-      <div class="csp-nda-overlay-txt">Точные цифры скрыты. Структура и динамика — реальные.</div>
-
-      <div class="csp-two-kpi">
-        <div>
-          <div class="csp-kpi-col-hd">Канал 1 · СБП</div>
-          <div class="csp-mk">
-            <div class="csp-mk-lbl">Выручка</div>
-            <div class="csp-mk-val" style="color:#3F6EE8">31 240 ₽</div>
-            <div class="csp-mk-sub" style="color:#10B981">За мес. 412 800 ₽ · +93%</div>
-            <div class="csp-mk-spark">
-              <svg width="100%" height="20" viewBox="0 0 180 20" preserveAspectRatio="none" style="display:block">
-                <defs><linearGradient id="csp-g1" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#3F6EE8" stop-opacity=".2"/><stop offset="100%" stop-color="#3F6EE8" stop-opacity="0"/></linearGradient></defs>
-                <path d="M0,18 C30,16 60,13 90,10 C120,7 150,4 180,2 L180,20 L0,20Z" fill="url(#csp-g1)"/>
-                <path d="M0,18 C30,16 60,13 90,10 C120,7 150,4 180,2" fill="none" stroke="#3F6EE8" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-          </div>
-          <div class="csp-mk">
-            <div class="csp-mk-lbl">Маржа</div>
-            <div class="csp-mk-val" style="color:#10B981">8 680 ₽</div>
-            <div class="csp-mk-sub">~27% от выручки</div>
-            <div class="csp-mk-spark">
-              <svg width="100%" height="16" viewBox="0 0 180 16" preserveAspectRatio="none" style="display:block">
-                <path d="M0,13 C40,11 80,9 120,7 C150,5 165,4 180,3" fill="none" stroke="#10B981" stroke-width="1.5" stroke-linecap="round"/>
-              </svg>
-            </div>
-          </div>
-          <div class="csp-mk">
-            <div class="csp-mk-lbl">Заказов</div>
-            <div class="csp-mk-val" style="color:#FFF">142</div>
-            <div class="csp-mk-sub">Выполнено 57</div>
-          </div>
-          <div class="csp-mk">
-            <div class="csp-mk-lbl">Конверсия</div>
-            <div class="csp-mk-val" style="color:#10B981">40%</div>
-            <div class="csp-mk-sub">Создан → Завершён</div>
-          </div>
-        </div>
-
-        <div>
-          <div class="csp-kpi-col-hd">Канал 2 · Крипта</div>
-          <div class="csp-mk">
-            <div class="csp-mk-lbl">Выручка</div>
-            <div class="csp-mk-val" style="color:#6366F1">26,40 USDT</div>
-            <div class="csp-mk-sub" style="color:#555">≈ 1 850 ₽ · ×17 меньше</div>
-          </div>
-          <div class="csp-mk">
-            <div class="csp-mk-lbl">Маржа</div>
-            <div class="csp-mk-val" style="color:#10B981">6,08 USDT</div>
-            <div class="csp-mk-sub">~23% от выручки</div>
-          </div>
-          <div class="csp-mk">
-            <div class="csp-mk-lbl">Заказов</div>
-            <div class="csp-mk-val" style="color:#FFF">16</div>
-            <div class="csp-mk-sub">Доставлено 1</div>
-          </div>
-          <div class="csp-mk">
-            <div class="csp-mk-lbl">Конверсия</div>
-            <div class="csp-mk-val" style="color:#FCD34D">8%</div>
-            <div class="csp-mk-sub">Создан → Завершён</div>
-          </div>
-        </div>
-      </div>
-
-      <div style="background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%);padding:10px">
-        <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:7px">Выручка по дням</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
-          <div>
-            <div style="font-size:7px;color:#555;margin-bottom:4px">Канал 1 (СБП)</div>
-            <div class="csp-bars">
-              <div class="csp-bar" style="height:22%;background:#3F6EE8;opacity:.45"></div>
-              <div class="csp-bar" style="height:28%;background:#3F6EE8;opacity:.5"></div>
-              <div class="csp-bar" style="height:18%;background:#3F6EE8;opacity:.45"></div>
-              <div class="csp-bar" style="height:42%;background:#3F6EE8;opacity:.55"></div>
-              <div class="csp-bar" style="height:52%;background:#3F6EE8;opacity:.6"></div>
-              <div class="csp-bar" style="height:68%;background:#3F6EE8;opacity:.68"></div>
-              <div class="csp-bar" style="height:58%;background:#3F6EE8;opacity:.62"></div>
-              <div class="csp-bar" style="height:78%;background:#3F6EE8;opacity:.75"></div>
-              <div class="csp-bar" style="height:64%;background:#3F6EE8;opacity:.68"></div>
-              <div class="csp-bar" style="height:95%;background:#3F6EE8"></div>
-            </div>
-            <div class="csp-bars-lbl"><span>13 мая</span><span>22 мая</span></div>
-          </div>
-          <div>
-            <div style="font-size:7px;color:#555;margin-bottom:4px">Канал 2 (Крипта)</div>
-            <div class="csp-bars">
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:100%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-              <div class="csp-bar" style="height:0%;background:#6366F1"></div>
-            </div>
-            <div class="csp-bars-lbl"><span>13 мая</span><span>22 мая</span></div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="csp-dm-panel" data-csp-panel="funnel">
-      <div class="csp-nda-overlay">
-        <div class="csp-nda-overlay-pill">NDA</div>
-        <div class="csp-nda-overlay-txt">Структура воронки реальная, цифры обезличены.</div>
-      </div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
-        <div>
-          <div class="csp-kpi-col-hd" style="margin-bottom:7px">Канал 1 · СБП</div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:100%;background:rgba(163,163,163,.1);border-left:2px solid #555"><span class="csp-fn-bar-lbl" style="color:#A3A3A3">Уники</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val">1 280</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:100%;background:rgba(163,163,163,.13);border-left:2px solid #A3A3A3"><span class="csp-fn-bar-lbl" style="color:#A3A3A3">Посещения</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val">1 280</div><div class="csp-fn-conv" style="color:#3F6EE8">129%</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:92%;background:rgba(99,102,241,.18);border-left:2px solid #6366F1"><span class="csp-fn-bar-lbl" style="color:#6366F1">Клики</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val" style="color:#6366F1">8 550</div><div class="csp-fn-conv" style="color:#6366F1">×54</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:55%;background:rgba(63,110,232,.22);border-left:2px solid #3F6EE8"><span class="csp-fn-bar-lbl" style="color:#3F6EE8">Заказы</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val">142</div><div class="csp-fn-conv" style="color:#3F6EE8">11%</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:38%;background:rgba(63,110,232,.32);border-left:2px solid #3F6EE8"><span class="csp-fn-bar-lbl" style="color:#3F6EE8">Оплачено</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val">57</div><div class="csp-fn-conv" style="color:#10B981">40%</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:38%;background:rgba(16,185,129,.28);border-left:2px solid #10B981"><span class="csp-fn-bar-lbl" style="color:#10B981">Выполнено</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val" style="color:#10B981">57</div><div class="csp-fn-conv" style="color:#10B981">40%</div></div></div>
-        </div>
-        <div>
-          <div class="csp-kpi-col-hd" style="margin-bottom:7px">Канал 2 · Крипта</div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:100%;background:rgba(99,102,241,.08);border-left:2px solid #555"><span class="csp-fn-bar-lbl" style="color:#555">Уники</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val" style="color:#A3A3A3">73</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:55%;background:rgba(99,102,241,.08);border-left:2px solid #555"><span class="csp-fn-bar-lbl" style="color:#555">Посещения</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val" style="color:#A3A3A3">122</div><div class="csp-fn-conv" style="color:#3F6EE8">167%</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:42%;background:rgba(99,102,241,.1);border-left:2px solid #6366F1"><span class="csp-fn-bar-lbl" style="color:#6366F1">Клики</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val" style="color:#A3A3A3">156</div><div class="csp-fn-conv" style="color:#6366F1">213%</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:12%;background:rgba(63,110,232,.12);border-left:2px solid #3F6EE8"><span class="csp-fn-bar-lbl" style="color:#3F6EE8">Заказы</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val" style="color:#A3A3A3">16</div><div class="csp-fn-conv" style="color:#3F6EE8">22%</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:4%;background:rgba(16,185,129,.1);border-left:2px solid #10B981"><span class="csp-fn-bar-lbl" style="color:#555">Оплачено</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val" style="color:#A3A3A3">1</div><div class="csp-fn-conv" style="color:#FCD34D">8%</div></div></div>
-          <div class="csp-fn-row"><div class="csp-fn-bar-w"><div class="csp-fn-bar" style="width:4%;background:rgba(16,185,129,.08);border-left:2px solid #10B981"><span class="csp-fn-bar-lbl" style="color:#555">Выполнено</span></div></div><div class="csp-fn-nums"><div class="csp-fn-val" style="color:#A3A3A3">1</div><div class="csp-fn-conv" style="color:#FCD34D">8%</div></div></div>
-        </div>
-      </div>
-    </div>
-
-    <div class="csp-dm-panel" data-csp-panel="top">
-      <div class="csp-nda-overlay">
-        <div class="csp-nda-overlay-pill">NDA</div>
-        <div class="csp-nda-overlay-txt">Названия продуктов и суммы скрыты.</div>
-      </div>
-      <div class="csp-kpi-col-hd" style="margin-bottom:7px">Топ продуктов · Канал 1</div>
-      <div class="csp-tp"><div class="csp-tp-n">1</div><div><div class="csp-tp-nm">Global eSIM · 20GB · 31 Day</div><div class="csp-tp-sub">Global · 4 заказа</div></div><div class="csp-tp-v" style="color:#10B981">10 640 ₽</div></div>
-      <div class="csp-tp"><div class="csp-tp-n">2</div><div><div class="csp-tp-nm">Kazakhstan eSIM · 5GB · 7 Day</div><div class="csp-tp-sub">KZ · 3 заказа</div></div><div class="csp-tp-v">2 320 ₽</div></div>
-      <div class="csp-tp"><div class="csp-tp-n">3</div><div><div class="csp-tp-nm">Belarus eSIM · 10GB · 7 Day</div><div class="csp-tp-sub">BY · 1 заказ</div></div><div class="csp-tp-v">2 005 ₽</div></div>
-      <div class="csp-tp"><div class="csp-tp-n">4</div><div><div class="csp-tp-nm">Georgia eSIM · 10GB · 7 Day</div><div class="csp-tp-sub">GE · 1 заказ</div></div><div class="csp-tp-v">1 550 ₽</div></div>
-      <div class="csp-tp"><div class="csp-tp-n">5</div><div><div class="csp-tp-nm">Turkiye eSIM · Unlimited · 1 Day</div><div class="csp-tp-sub">TR · 4 заказа</div></div><div class="csp-tp-v">950 ₽</div></div>
-      <div style="height:10px"></div>
-      <div class="csp-kpi-col-hd" style="margin-bottom:7px">Топ продуктов · Канал 2</div>
-      <div class="csp-tp"><div class="csp-tp-n" style="color:#6366F1">1</div><div><div class="csp-tp-nm">Russia 10GB · 30 Day</div><div class="csp-tp-sub">RU · 1 заказ</div></div><div class="csp-tp-v" style="color:#6366F1">26,40 USDT</div></div>
-    </div>
-
-    <div style="background:#222;padding:7px 14px;display:flex;align-items:center;justify-content:space-between;border-top:1px solid #2A2A2A">
-      <span style="font-size:8px;color:#555">Система в продакшне · live</span>
-      <div style="display:flex;align-items:center;gap:5px">
-        <div style="width:5px;height:5px;border-radius:50%;background:#10B981"></div>
-        <span style="font-size:8px;color:#555">NDA · данные обезличены</span>
-      </div>
-    </div>
-  </div>
-</div>
-</div>
-
-<div class="csp-cta-wrap">
-  <div class="csp-cta-box">
+  <div class="d-layout">
     <div>
-      <div class="csp-cta-ttl">Хотите так же — бизнес за 7 дней?</div>
-      <div class="csp-cta-sub">Разберём вашу идею — покажем как собрать систему с нуля быстро и без лишнего</div>
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Точка А — что обычно бывает при запуске</span></div>
+        <p class="prob-intro">Типовая траектория запуска нового направления без управленческой системы — её собственник уже видел и не хотел повторять:</p>
+        <div class="traj">
+          <div class="traj-lbl">Типовой сценарий без системы</div>
+          <div class="traj-row">
+            <div class="traj-period">Месяцы 1–3</div>
+            <div class="traj-txt">Запустили сайт, пошли продажи. Цифры собираются вручную в таблицах — терпимо.</div>
+          </div>
+          <div class="traj-row">
+            <div class="traj-period">Месяцы 6–12</div>
+            <div class="traj-txt">Оборот растёт, но картина бизнеса распадается на части. Данные в разных кабинетах.</div>
+          </div>
+          <div class="traj-row">
+            <div class="traj-period">12+ месяцев</div>
+            <div class="traj-txt">Собственник не видит где зарабатывает, где теряет. Отчёты руками. Решения на ощущениях.</div>
+          </div>
+        </div>
+        <p class="prob-intro" style="margin-bottom:10px">Дополнительная сложность — <strong>две платёжные ветки</strong>: рублёвая и криптовалютная. Без единой системы — это два набора отчётов, два кабинета, два учёта. Реальную экономику направления увидеть невозможно.</p>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
+        <div class="action">
+          <div class="action-num">01</div>
+          <div>
+            <div class="action-ttl">Сайт как точка входа в систему — не отдельный продукт</div>
+            <div class="action-desc">Каждое действие пользователя фиксируется и попадает в общую воронку. Сайт — часть управленческой системы с первого дня, а не отдельная единица с собственными счётчиками.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">02</div>
+          <div>
+            <div class="action-ttl">Единая admin-панель над двумя платёжными ветками</div>
+            <div class="action-desc">Рублёвая ветка и криптовалютная — в одной управленческой картине. Выручка, маржа, заказы, средний чек, конверсия — параллельно по обеим. Сразу видно, какая ветка во сколько раз сильнее по каждой метрике.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">03</div>
+          <div>
+            <div class="action-ttl">Сквозная воронка от уника до закрытого заказа</div>
+            <div class="action-desc">Уники → посещения → клики по продуктам → созданные заказы → оплаченные → закрытые. С конверсией на каждом шаге — отдельно по каждой ветке. Видно где теряются клиенты.</div>
+          </div>
+        </div>
+        <div class="action">
+          <div class="action-num">04</div>
+          <div>
+            <div class="action-ttl">Управленческая логика: решения на данных, не на ощущениях</div>
+            <div class="action-desc">Видно в какую ветку вкладывать рекламный бюджет. Видно какие продукты масштабировать. Видно реальную маржу по каждой ветке, а не общий оборот. Топ продуктов по выручке — не «вроде продаётся», а цифра.</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Точка Б — что получил собственник</span></div>
+        <div class="res-grid">
+          <div class="res-card"><div class="res-v c-em">День&nbsp;1</div><div class="res-l">управленческая видимость с момента запуска</div></div>
+          <div class="res-card"><div class="res-v c-br">2 ветки</div><div class="res-l">сведены в одну картину</div></div>
+          <div class="res-card"><div class="res-v c-in">×17</div><div class="res-l">одна ветка доминирует — видно сразу</div></div>
+          <div class="res-card"><div class="res-v c-sn">100%</div><div class="res-l">операций учтено автоматически</div></div>
+          <div class="res-card"><div class="res-v c-tn">40%</div><div class="res-l">конверсия рублёвой ветки</div></div>
+          <div class="res-card"><div class="res-v c-em">0 мес.</div><div class="res-l">задержки между запуском и видимостью</div></div>
+        </div>
+        <div class="res-main"><strong>Главное:</strong> собственник не будет догонять управленческую картину через год после старта. Она у него с первого дня — это и есть смысл запуска нового направления с управленческой системой.</div>
+      </div>
+
+      <div class="bl">
+        <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Чем отличается от альтернатив</span></div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. классический запуск</div>
+          <div class="diff-txt">Не сайт + сторонние счётчики + ручная сводка в Excel. <strong>Единая система с управленческой логикой внутри</strong> — с первого дня.</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. консалтинг</div>
+          <div class="diff-txt">Не PDF-отчёт «как должна быть устроена аналитика». <strong>Работающая система</strong>, в которой аналитика собирается сама.</div>
+        </div>
+        <div class="diff-row">
+          <div class="diff-vs">vs. найм аналитика</div>
+          <div class="diff-txt">Не дополнительный человек, который собирает отчёты руками. <strong>Система, которая собирает их сама</strong> — без найма, без задержек.</div>
+        </div>
+      </div>
     </div>
-    <button type="button" class="csp-btn-primary js-open-contact" data-source="case_esim" data-track="esim_cta_diagnose" data-track-block="case_page">Начать диагностику →</button>
+
+    <div class="d-right">
+      <EsimDashboard client:visible />
+    </div>
   </div>
+
+  <div class="d-cta">
+    <div class="cta-bar">
+      <div>
+        <div class="cta-t">Запускаете новое направление?</div>
+        <div class="cta-s">Зашьём систему управления до старта — не будете расчищать хаос через год</div>
+      </div>
+      <button type="button" class="btn js-open-contact" data-source="case_esim" data-track="esim_cta_diagnose" data-track-block="case_page">Начать диагностику →</button>
+    </div>
+  </div>
+  </div>
+
+  <!-- ════ MOBILE ════ -->
+  <div class="m-view">
+  <nav class="nav nav-m">
+    <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
+    <a href="/#cases" class="nav-back" data-track="esim_back_m" data-track-block="case_page">← Кейсы</a>
+  </nav>
+  <div class="nda nda-m">
+    <div class="nda-pill">NDA</div>
+    <div class="nda-txt" style="font-size:10px">Показатели изменены. Структура — реальная.</div>
+  </div>
+
+  <div class="m-hero">
+    <div class="ey" style="margin-bottom:10px"><div class="ey-ln"></div><span class="ey-tx" style="font-size:10px">Кейс 4 · Запуск</span></div>
+    <div class="tag" style="font-size:8px;margin-bottom:10px">E-commerce · Цифровые продукты</div>
+    <h1 class="m-h1">Как новое направление запустилось с управленческой видимостью с первого дня</h1>
+    <p class="m-lead">Опытный собственник знал типовую траекторию запуска без системы. Задача — зашить управление до старта, а не расчищать хаос через год.</p>
+    <div class="m-stats">
+      <div class="m-stat"><div class="m-stat-v c-em">День 1</div><div class="m-stat-l">видимость с запуска</div></div>
+      <div class="m-stat"><div class="m-stat-v c-br">2 ветки</div><div class="m-stat-l">в одной картине</div></div>
+      <div class="m-stat"><div class="m-stat-v c-in">×17</div><div class="m-stat-l">разрыв каналов виден сразу</div></div>
+      <div class="m-stat"><div class="m-stat-v c-sn">0 ₽</div><div class="m-stat-l">найм аналитика</div></div>
+    </div>
+  </div>
+
+  <div class="m-section">
+    <div class="m-block">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Типовой сценарий без системы</span></div>
+      <div class="m-prob-item"><div class="m-prob-dot"></div><div><strong class="c-cr" style="font-size:10px">Мес. 1–3:</strong> сайт запущен, цифры собираются вручную в таблицах</div></div>
+      <div class="m-prob-item"><div class="m-prob-dot"></div><div><strong class="c-sn" style="font-size:10px">Мес. 6–12:</strong> оборот растёт, картина бизнеса распадается, данные в разных кабинетах</div></div>
+      <div class="m-prob-item"><div class="m-prob-dot"></div><div><strong class="c-cr" style="font-size:10px">12+ мес.:</strong> не видно где зарабатываешь, где теряешь. Год потрачен на хаос</div></div>
+      <div class="m-prob-note">Плюс две платёжные ветки (рубли + крипта) — без единой системы это два отдельных учёта. Реальную экономику не увидеть.</div>
+    </div>
+  </div>
+
+  <div class="car-wrap">
+    <div class="bey" style="margin-bottom:0"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
+    <div class="car-hdr">
+      <div class="car-dots" id="mdots"></div>
+      <span class="car-ctr" id="mctr">1 / 3</span>
+    </div>
+    <div class="car">
+      <div class="car-track" id="mtrack">
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">01</div>
+              <div>
+                <div class="car-ttl">Единая картина двух платёжных веток</div>
+                <div class="car-desc">Рублёвая и криптовалютная — в одном дашборде. Выручка, маржа, конверсия — параллельно. Сразу видно кратность.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div class="dp-lbl">Дашборд · обе ветки</div>
+              <div class="dp-two">
+                <div>
+                  <div class="dp-col-hd">Ветка 1 · ₽</div>
+                  <div class="dp-kpi"><div class="dp-kpi-v c-br">31 240 ₽</div><div class="dp-kpi-l">Выручка</div></div>
+                  <div class="dp-kpi"><div class="dp-kpi-v c-em">8 680 ₽</div><div class="dp-kpi-l">Маржа</div></div>
+                  <div class="dp-kpi"><div class="dp-kpi-v c-em">40%</div><div class="dp-kpi-l">Конверсия</div></div>
+                </div>
+                <div>
+                  <div class="dp-col-hd">Ветка 2 · Крипта</div>
+                  <div class="dp-kpi"><div class="dp-kpi-v c-in">26,40 $</div><div class="dp-kpi-l">Выручка</div></div>
+                  <div class="dp-kpi"><div class="dp-kpi-v c-em">6,08 $</div><div class="dp-kpi-l">Маржа</div></div>
+                  <div class="dp-kpi"><div class="dp-kpi-v c-sn">8%</div><div class="dp-kpi-l">Конверсия</div></div>
+                </div>
+              </div>
+              <div class="dp-call">Ветка 1 сильнее по выручке в <span class="c-br" style="font-weight:700">×17</span> — видно с первого дня</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">02</div>
+              <div>
+                <div class="car-ttl">Воронка от уника до закрытого заказа</div>
+                <div class="car-desc">Каждый этап с конверсией — отдельно по каждой ветке. Видно где теряются клиенты.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div class="dp-lbl">Воронка · Ветка 1 (рубли)</div>
+              <div class="dp-fn-row"><div style="flex:1"><div class="dp-fn-bar" style="width:100%;background:rgba(163,163,163,.1);border-color:#555"><span class="dp-fn-lbl" style="color:#A3A3A3">Уники</span></div></div><div class="dp-fn-val">1 280</div></div>
+              <div class="dp-fn-row"><div style="flex:1"><div class="dp-fn-bar" style="width:90%;background:rgba(99,102,241,.15);border-color:#6366F1"><span class="dp-fn-lbl c-in">Клики</span></div></div><div class="dp-fn-val c-in">8 550</div><div class="dp-fn-conv c-in">×54</div></div>
+              <div class="dp-fn-row"><div style="flex:1"><div class="dp-fn-bar" style="width:52%;background:rgba(63,110,232,.2);border-color:#3F6EE8"><span class="dp-fn-lbl c-br">Заказы</span></div></div><div class="dp-fn-val">142</div><div class="dp-fn-conv c-br">11%</div></div>
+              <div class="dp-fn-row"><div style="flex:1"><div class="dp-fn-bar" style="width:36%;background:rgba(16,185,129,.25);border-color:#10B981"><span class="dp-fn-lbl c-em">Закрыты</span></div></div><div class="dp-fn-val c-em">57</div><div class="dp-fn-conv c-em">40%</div></div>
+              <div class="dp-conv-grid">
+                <div class="dp-conv-cell" style="background:rgba(63,110,232,.07)"><div class="dp-conv-l">Конверсия в заказ</div><div class="dp-conv-v c-br">11%</div></div>
+                <div class="dp-conv-cell" style="background:rgba(16,185,129,.07)"><div class="dp-conv-l">Конверсия в оплату</div><div class="dp-conv-v c-em">40%</div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="car-slide">
+          <div class="car-card">
+            <div class="car-head">
+              <div class="car-num">03</div>
+              <div>
+                <div class="car-ttl">Топ продуктов и управление направлением</div>
+                <div class="car-desc">Что реально продаётся — на цифрах. Динамика по дням и периодам. Решения на данных с первого дня.</div>
+              </div>
+            </div>
+            <div class="car-body">
+              <div class="dp-lbl">Топ продуктов · Ветка 1</div>
+              <div class="dp-top-row"><div class="dp-top-n">1</div><div><div class="dp-top-nm">Global eSIM · 20GB · 31 Day</div><div class="dp-top-sub">Global · 4 заказа</div></div><div class="dp-top-val c-em">10 640 ₽</div></div>
+              <div class="dp-top-row"><div class="dp-top-n">2</div><div><div class="dp-top-nm">Kazakhstan eSIM · 5GB · 7 Day</div><div class="dp-top-sub">KZ · 3 заказа</div></div><div class="dp-top-val">2 320 ₽</div></div>
+              <div class="dp-top-row"><div class="dp-top-n">3</div><div><div class="dp-top-nm">Turkiye eSIM · Unlimited · 1 Day</div><div class="dp-top-sub">TR · 4 заказа</div></div><div class="dp-top-val">950 ₽</div></div>
+              <div class="dp-markup">
+                <div class="dp-markup-l">Управление наценками</div>
+                <div class="dp-markup-row"><span>Ветка 1 (₽)</span><span class="c-br">55%</span></div>
+                <div class="dp-markup-row"><span>Ветка 2 (Крипта)</span><span class="c-in">30%</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="car-nav">
+      <button class="car-btn" id="mprev" disabled>← Назад</button>
+      <button class="car-btn" id="mnext">Далее →</button>
+    </div>
+  </div>
+
+  <div class="m-section">
+    <div class="m-block">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Точка Б — результат</span></div>
+      <div class="m-res-grid">
+        <div class="m-res-card"><div class="m-res-v c-em">День 1</div><div class="m-res-l">видимость с запуска</div></div>
+        <div class="m-res-card"><div class="m-res-v c-br">2 ветки</div><div class="m-res-l">в одной картине</div></div>
+        <div class="m-res-card"><div class="m-res-v c-in">×17</div><div class="m-res-l">разрыв виден сразу</div></div>
+        <div class="m-res-card"><div class="m-res-v c-sn">0 мес.</div><div class="m-res-l">задержка между запуском и данными</div></div>
+      </div>
+      <div class="m-res-main"><strong>Главное:</strong> собственник не будет догонять управленческую картину через год. Она у него с первого дня.</div>
+    </div>
+  </div>
+
+  <div class="m-cta">
+    <div class="m-cta-t">Запускаете новое направление?</div>
+    <div class="m-cta-s">Зашьём систему управления до старта — не будете расчищать хаос через год</div>
+    <button type="button" class="btn btn-full js-open-contact" data-source="case_esim_m" data-track="esim_cta_diagnose_m" data-track-block="case_page">Начать диагностику →</button>
+  </div>
+  </div>
+
 </div>
 
 <Footer />
@@ -340,17 +310,234 @@ const ldCase = caseSchema({
 
 </BaseLayout>
 
+<style is:global>
+  body { background: #0A0A0A; }
+
+  /* ── view switch by viewport ── */
+  .case-esim .d-view { display: block; }
+  .case-esim .m-view { display: none; }
+  @media (max-width: 768px) {
+    .case-esim .d-view { display: none; }
+    .case-esim .m-view { display: block; }
+  }
+
+  /* ── colors ── */
+  .case-esim .c-br { color: #3F6EE8; }
+  .case-esim .c-em { color: #10B981; }
+  .case-esim .c-cr { color: #F43F5E; }
+  .case-esim .c-in { color: #6366F1; }
+  .case-esim .c-sn { color: #FCD34D; }
+  .case-esim .c-tn { color: #FB923C; }
+
+  /* ── nav ── */
+  .case-esim .nav { height: 52px; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #2A2A2A; background: rgba(10,10,10,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
+  .case-esim .nav-m { height: 48px; padding: 0 18px; }
+  .case-esim .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
+  .case-esim .logo-mark { width: 20px; height: 20px; background: #3F6EE8; clip-path: polygon(0 0,100% 0,100% 72%,72% 100%,0 100%); }
+  .case-esim .logo-name { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #FFF; }
+  .case-esim .nav-back { font-size: 11px; color: #555; text-decoration: none; transition: color .15s; }
+  .case-esim .nav-back:hover { color: #A3A3A3; }
+
+  /* ── nda bar ── */
+  .case-esim .nda { background: #222; border-bottom: 1px solid #2A2A2A; padding: 8px 48px; display: flex; align-items: center; gap: 10px; }
+  .case-esim .nda-m { padding: 7px 18px; }
+  .case-esim .nda-pill { font-size: 8px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #0A0A0A; background: #FCD34D; padding: 2px 8px; clip-path: polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%); flex-shrink: 0; }
+  .case-esim .nda-txt { font-size: 11px; color: #555; }
+  .case-esim .nda-txt strong { color: #A3A3A3; font-weight: 600; }
+
+  /* ── eyebrow ── */
+  .case-esim .ey { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
+  .case-esim .ey-ln { width: 24px; height: 2px; background: #3F6EE8; flex-shrink: 0; }
+  .case-esim .ey-tx { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #A3A3A3; }
+  .case-esim .tag { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #fff; padding: 4px 10px; background: #6366F1; clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); display: inline-flex; margin-bottom: 14px; }
+  .case-esim .tag-sub { font-size: 11px; color: #555; margin-left: 6px; }
+
+  /* ── d hero ── */
+  .case-esim .d-hero { padding: 60px 48px 0; max-width: 1280px; margin: 0 auto; color: #FFF; }
+  .case-esim .d-tag-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
+  .case-esim .d-h1 { font-size: 38px; font-weight: 900; line-height: 1.15; color: #FFF; margin-bottom: 12px; max-width: 740px; letter-spacing: -.01em; }
+  .case-esim .d-lead { font-size: 15px; line-height: 1.75; color: #A3A3A3; max-width: 640px; margin-bottom: 24px; }
+  .case-esim .d-stats { display: flex; gap: 0; margin-bottom: 52px; border: 1px solid #2A2A2A; overflow: hidden; clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%); flex-wrap: wrap; }
+  .case-esim .d-stat { padding: 14px 22px; border-right: 1px solid #2A2A2A; }
+  .case-esim .d-stat:last-child { border-right: none; }
+  .case-esim .d-stat-v { font-size: 24px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+  .case-esim .d-stat-l { font-size: 10px; color: #555; margin-top: 4px; }
+
+  /* ── d layout ── */
+  .case-esim .d-layout { display: grid; grid-template-columns: 1fr 520px; gap: 28px; padding: 0 48px 80px; max-width: 1280px; margin: 0 auto; align-items: start; }
+  .case-esim .d-right { position: sticky; top: 92px; }
+
+  /* ── blocks ── */
+  .case-esim .bl { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%); padding: 26px 28px; margin-bottom: 10px; }
+  .case-esim .bl:last-child { margin-bottom: 0; }
+  .case-esim .bey { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
+  .case-esim .bey-ln { width: 20px; height: 2px; flex-shrink: 0; }
+  .case-esim .bey-tx { font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #555; }
+
+  /* ── проблема ── */
+  .case-esim .prob-intro { font-size: 13px; line-height: 1.7; color: #A3A3A3; margin-bottom: 14px; }
+  .case-esim .prob-intro strong { color: #FFF; }
+
+  /* ── траектория ── */
+  .case-esim .traj { background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%); padding: 14px 16px; margin-bottom: 10px; }
+  .case-esim .traj-lbl { font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #555; margin-bottom: 10px; }
+  .case-esim .traj-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 7px; }
+  .case-esim .traj-row:last-child { margin-bottom: 0; }
+  .case-esim .traj-period { font-size: 10px; font-weight: 600; color: #F43F5E; min-width: 80px; flex-shrink: 0; margin-top: 1px; }
+  .case-esim .traj-txt { font-size: 12px; color: #A3A3A3; line-height: 1.5; }
+
+  /* ── actions ── */
+  .case-esim .action { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); margin-bottom: 7px; }
+  .case-esim .action:last-child { margin-bottom: 0; }
+  .case-esim .action-num { width: 26px; height: 26px; flex-shrink: 0; background: #3F6EE8; clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; }
+  .case-esim .action-ttl { font-size: 13px; font-weight: 700; color: #FFF; margin-bottom: 3px; line-height: 1.3; }
+  .case-esim .action-desc { font-size: 12px; color: #A3A3A3; line-height: 1.55; }
+
+  /* ── результат ── */
+  .case-esim .res-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
+  .case-esim .res-card { background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%); padding: 14px; }
+  .case-esim .res-v { font-size: 20px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+  .case-esim .res-l { font-size: 10px; color: #555; margin-top: 4px; }
+  .case-esim .res-main { font-size: 13px; line-height: 1.65; color: #A3A3A3; }
+  .case-esim .res-main strong { color: #FFF; font-weight: 600; }
+
+  /* ── отличия ── */
+  .case-esim .diff-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #2A2A2A; }
+  .case-esim .diff-row:last-child { border-bottom: none; }
+  .case-esim .diff-vs { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #555; min-width: 130px; flex-shrink: 0; padding-top: 2px; }
+  .case-esim .diff-txt { font-size: 12px; color: #A3A3A3; line-height: 1.55; }
+  .case-esim .diff-txt strong { color: #FFF; }
+
+  /* ── CTA ── */
+  .case-esim .d-cta { max-width: 1280px; margin: 0 auto; padding: 0 48px 80px; }
+  .case-esim .cta-bar { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%); padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
+  .case-esim .cta-t { font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 5px; }
+  .case-esim .cta-s { font-size: 13px; color: #A3A3A3; }
+  .case-esim .btn { font-family: 'Inter',sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .06em; background: #3F6EE8; color: #fff; border: none; cursor: pointer; padding: 12px 24px; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); transition: background .15s; white-space: nowrap; }
+  .case-esim .btn:hover { background: #2D5BD4; }
+  .case-esim .btn-full { width: 100%; }
+
+  /* ──── MOBILE ──── */
+  .case-esim .m-view { max-width: 480px; margin: 0 auto; background: #0A0A0A; }
+  .case-esim .m-hero { padding: 32px 18px 0; }
+  .case-esim .m-h1 { font-size: 23px; font-weight: 900; line-height: 1.2; color: #FFF; margin-bottom: 10px; }
+  .case-esim .m-lead { font-size: 13px; line-height: 1.7; color: #A3A3A3; margin-bottom: 18px; }
+  .case-esim .m-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 28px; }
+  .case-esim .m-stat { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); padding: 12px; }
+  .case-esim .m-stat-v { font-size: 20px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+  .case-esim .m-stat-l { font-size: 9px; color: #555; margin-top: 4px; }
+  .case-esim .m-section { padding: 0 18px; margin-bottom: 10px; }
+  .case-esim .m-block { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%); padding: 20px; }
+  .case-esim .m-prob-item { display: flex; align-items: flex-start; gap: 9px; font-size: 12px; line-height: 1.6; color: #A3A3A3; margin-bottom: 8px; }
+  .case-esim .m-prob-item:last-child { margin-bottom: 0; }
+  .case-esim .m-prob-dot { width: 5px; height: 5px; border-radius: 50%; background: #555; flex-shrink: 0; margin-top: 6px; }
+  .case-esim .m-prob-note { margin-top: 10px; padding: 8px 10px; background: rgba(244,63,94,.07); border-left: 2px solid #F43F5E; font-size: 11px; color: #A3A3A3; }
+
+  /* ── carousel ── */
+  .case-esim .car-wrap { padding: 0 18px; margin-bottom: 10px; }
+  .case-esim .car-hdr { display: flex; align-items: center; justify-content: space-between; margin: 10px 0; }
+  .case-esim .car-dots { display: flex; gap: 5px; }
+  .case-esim .car-dot { width: 16px; height: 3px; border-radius: 2px; background: #3A3A3A; transition: all .25s; cursor: pointer; }
+  .case-esim .car-dot.on { background: #6366F1; width: 24px; }
+  .case-esim .car-ctr { font-size: 10px; color: #555; }
+  .case-esim .car { overflow: hidden; }
+  .case-esim .car-track { display: flex; transition: transform .35s cubic-bezier(.4,0,.2,1); }
+  .case-esim .car-slide { flex: 0 0 100%; min-width: 0; }
+  .case-esim .car-card { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%); overflow: hidden; }
+  .case-esim .car-head { padding: 16px; display: flex; align-items: flex-start; gap: 12px; border-bottom: 1px solid #2A2A2A; }
+  .case-esim .car-num { width: 28px; height: 28px; flex-shrink: 0; background: #3F6EE8; clip-path: polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; }
+  .case-esim .car-ttl { font-size: 14px; font-weight: 800; color: #FFF; line-height: 1.25; margin-bottom: 4px; }
+  .case-esim .car-desc { font-size: 12px; color: #A3A3A3; line-height: 1.6; }
+  .case-esim .car-body { background: #0A0A0A; padding: 14px 16px; }
+  .case-esim .car-nav { display: flex; justify-content: space-between; padding: 10px 0 0; }
+  .case-esim .car-btn { font-family: 'Inter',sans-serif; font-size: 10px; font-weight: 600; color: #555; background: transparent; border: 1px solid #2A2A2A; padding: 5px 12px; cursor: pointer; clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); transition: all .15s; }
+  .case-esim .car-btn:hover { color: #A3A3A3; }
+  .case-esim .car-btn:disabled { opacity: .3; cursor: default; }
+
+  /* ── dp (mini dashboard inside slides) ── */
+  .case-esim .dp-lbl { font-size: 8px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #555; margin-bottom: 8px; }
+  .case-esim .dp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
+  .case-esim .dp-col-hd { font-size: 8px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #555; margin-bottom: 5px; }
+  .case-esim .dp-kpi { background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); padding: 8px 9px; margin-bottom: 4px; }
+  .case-esim .dp-kpi-v { font-size: 13px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+  .case-esim .dp-kpi-l { font-size: 8px; color: #555; margin-top: 2px; }
+  .case-esim .dp-call { padding: 6px 8px; background: rgba(63,110,232,.07); border-left: 2px solid #3F6EE8; font-size: 10px; color: #A3A3A3; }
+  .case-esim .dp-fn-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
+  .case-esim .dp-fn-bar { height: 18px; display: flex; align-items: center; padding-left: 6px; clip-path: polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%); border-left: 2px solid; }
+  .case-esim .dp-fn-lbl { font-size: 9px; font-weight: 600; }
+  .case-esim .dp-fn-val { font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; margin-left: auto; min-width: 44px; text-align: right; }
+  .case-esim .dp-fn-conv { font-size: 9px; font-weight: 700; min-width: 28px; text-align: right; }
+  .case-esim .dp-conv-grid { margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
+  .case-esim .dp-conv-cell { padding: 7px 9px; clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); }
+  .case-esim .dp-conv-l { font-size: 8px; color: #555; margin-bottom: 2px; }
+  .case-esim .dp-conv-v { font-size: 16px; font-weight: 900; }
+  .case-esim .dp-top-row { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-bottom: 1px solid #2A2A2A; }
+  .case-esim .dp-top-row:last-of-type { border-bottom: none; }
+  .case-esim .dp-top-n { font-size: 9px; font-weight: 700; color: #555; min-width: 12px; }
+  .case-esim .dp-top-nm { font-size: 10px; color: #FFF; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+  .case-esim .dp-top-sub { font-size: 8px; color: #555; }
+  .case-esim .dp-top-val { font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums; color: #A3A3A3; margin-left: auto; }
+  .case-esim .dp-markup { margin-top: 10px; padding: 8px 10px; background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%); }
+  .case-esim .dp-markup-l { font-size: 9px; color: #555; margin-bottom: 4px; }
+  .case-esim .dp-markup-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 10px; color: #A3A3A3; }
+  .case-esim .dp-markup-row:last-child { margin-bottom: 0; }
+  .case-esim .dp-markup-row > span:last-child { font-weight: 700; font-size: 11px; }
+
+  /* ── m result ── */
+  .case-esim .m-res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
+  .case-esim .m-res-card { background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%); padding: 12px; }
+  .case-esim .m-res-v { font-size: 18px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+  .case-esim .m-res-l { font-size: 9px; color: #555; margin-top: 4px; }
+  .case-esim .m-res-main { font-size: 12px; line-height: 1.6; color: #A3A3A3; }
+  .case-esim .m-res-main strong { color: #FFF; font-weight: 600; }
+  .case-esim .m-cta { margin: 0 18px 48px; background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%); padding: 20px; }
+  .case-esim .m-cta-t { font-size: 16px; font-weight: 800; color: #FFF; margin-bottom: 6px; }
+  .case-esim .m-cta-s { font-size: 12px; color: #A3A3A3; margin-bottom: 14px; }
+
+  /* ── desktop tweak <980px ── */
+  @media (max-width: 980px) and (min-width: 769px) {
+    .case-esim .d-layout { grid-template-columns: 1fr; }
+    .case-esim .d-right { position: static; }
+    .case-esim .d-h1 { font-size: 30px; }
+  }
+</style>
 
 <script>
-  document.querySelectorAll<HTMLButtonElement>('.csp-dm-tab[data-csp-tab]').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const target = btn.dataset.cspTab;
-      if (!target) return;
-      document.querySelectorAll('.csp-dm-tab[data-csp-tab]').forEach((b) => b.classList.remove('on'));
-      document.querySelectorAll('.csp-dm-panel').forEach((p) => p.classList.remove('on'));
-      btn.classList.add('on');
-      const panel = document.querySelector(`.csp-dm-panel[data-csp-panel="${target}"]`);
-      if (panel) panel.classList.add('on');
-    });
-  });
+  // Mobile carousel
+  (function () {
+    const track = document.getElementById('mtrack');
+    const dotsEl = document.getElementById('mdots');
+    const ctr = document.getElementById('mctr');
+    const prev = document.getElementById('mprev') as HTMLButtonElement | null;
+    const next = document.getElementById('mnext') as HTMLButtonElement | null;
+    if (!track || !dotsEl || !ctr || !prev || !next) return;
+    const total = track.children.length;
+    let cur = 0;
+
+    for (let i = 0; i < total; i++) {
+      const d = document.createElement('div');
+      d.className = 'car-dot' + (i === 0 ? ' on' : '');
+      d.addEventListener('click', () => go(i));
+      dotsEl.appendChild(d);
+    }
+
+    function go(n: number) {
+      cur = Math.max(0, Math.min(total - 1, n));
+      (track as HTMLElement).style.transform = `translateX(-${cur * 100}%)`;
+      dotsEl!.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
+      ctr!.textContent = `${cur + 1} / ${total}`;
+      prev!.disabled = cur === 0;
+      next!.disabled = cur === total - 1;
+    }
+
+    prev.addEventListener('click', () => go(cur - 1));
+    next.addEventListener('click', () => go(cur + 1));
+
+    let sx = 0;
+    track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
+    track.addEventListener('touchend', (e) => {
+      const dx = e.changedTouches[0].clientX - sx;
+      if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+    }, { passive: true });
+  })();
 </script>

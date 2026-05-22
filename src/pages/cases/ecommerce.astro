@@ -34,7 +34,9 @@ const ldCase = caseSchema({
   <div class="d-view">
   <nav class="nav">
     <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
-    <a href="/#cases" class="nav-back" data-track="sales_back" data-track-block="case_page">← Все кейсы</a>
+    <div class="nav-right"><a href="/#cases" class="nav-back" data-track="sales_back" data-track-block="case_page">← Все кейсы</a>
+    <a href="/cases/esim/" class="nav-next" data-track="sales_next" data-track-block="case_page">Следующий кейс →</a>
+  </div>
   </nav>
   <div class="nda">
     <div class="nda-pill">NDA</div>
@@ -63,7 +65,7 @@ const ldCase = caseSchema({
         <div class="bey"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Точка А — что видел собственник</span></div>
         <div class="plane">
           <div class="plane-hd"><div class="plane-icon" style="background:#F43F5E">V</div><div class="plane-title">Видимости не было</div></div>
-          <div class="plane-body">Менеджеры вели отчёты вручную в Excel. Часть данных не фиксировалась — расхождения в цифрах между отчётами были нормой. Сбор данных занимал от 2 часов в день ключевого сотрудника. Невозможно было быстро получить реальную картину продаж.</div>
+          <div class="plane-body">Менеджеры вели отчёты вручную в Excel. Часть данных не фиксировалась — расхождения в цифрах между отчётами были нормой. Сбор данных занимал от <span class="c-cr">2 часов в день</span> ключевого сотрудника. Невозможно было быстро получить реальную картину продаж.</div>
         </div>
         <div class="plane">
           <div class="plane-hd"><div class="plane-icon" style="background:#FCD34D">C</div><div class="plane-title">Контроля не было</div></div>
@@ -146,7 +148,9 @@ const ldCase = caseSchema({
   <div class="m-view">
   <nav class="nav nav-m">
     <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
-    <a href="/#cases" class="nav-back" data-track="sales_back_m" data-track-block="case_page">← Кейсы</a>
+    <div class="nav-right"><a href="/#cases" class="nav-back" data-track="sales_back_m" data-track-block="case_page">← Кейсы</a>
+    <a href="/cases/esim/" class="nav-next" data-track="sales_next_m" data-track-block="case_page">След. →</a>
+  </div>
   </nav>
   <div class="nda nda-m">
     <div class="nda-pill">NDA</div>

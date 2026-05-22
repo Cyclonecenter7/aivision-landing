@@ -6,6 +6,7 @@ import StickyCta from '@/components/v2/StickyCta.astro';
 import EsimDashboard from '@/components/islands/EsimDashboard.jsx';
 import { SEO, seoUrl } from '@/lib/seo';
 import { caseSchema } from '@/lib/jsonld';
+import '@/styles/case-page-v3.css';
 
 const seo = SEO.caseEsim;
 const ldCase = caseSchema({
@@ -27,13 +28,15 @@ const ldCase = caseSchema({
   jsonLd={[ldCase]}
 >
 
-<div class="case-esim">
+<div class="case-v3">
 
   <!-- ════ DESKTOP ════ -->
   <div class="d-view">
   <nav class="nav">
     <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
-    <a href="/#cases" class="nav-back" data-track="esim_back" data-track-block="case_page">← Все кейсы</a>
+    <div class="nav-right"><a href="/#cases" class="nav-back" data-track="esim_back" data-track-block="case_page">← Все кейсы</a>
+    <a href="/cases/education/" class="nav-next" data-track="esim_next" data-track-block="case_page">Следующий кейс →</a>
+  </div>
   </nav>
   <div class="nda">
     <div class="nda-pill">NDA</div>
@@ -161,7 +164,9 @@ const ldCase = caseSchema({
   <div class="m-view">
   <nav class="nav nav-m">
     <a href="/" class="logo"><div class="logo-mark"></div><span class="logo-name">AIVISION</span></a>
-    <a href="/#cases" class="nav-back" data-track="esim_back_m" data-track-block="case_page">← Кейсы</a>
+    <div class="nav-right"><a href="/#cases" class="nav-back" data-track="esim_back_m" data-track-block="case_page">← Кейсы</a>
+    <a href="/cases/education/" class="nav-next" data-track="esim_next_m" data-track-block="case_page">След. →</a>
+  </div>
   </nav>
   <div class="nda nda-m">
     <div class="nda-pill">NDA</div>
@@ -310,197 +315,6 @@ const ldCase = caseSchema({
 
 </BaseLayout>
 
-<style is:global>
-  body { background: #0A0A0A; }
-
-  /* ── view switch by viewport ── */
-  .case-esim .d-view { display: block; }
-  .case-esim .m-view { display: none; }
-  @media (max-width: 768px) {
-    .case-esim .d-view { display: none; }
-    .case-esim .m-view { display: block; }
-  }
-
-  /* ── colors ── */
-  .case-esim .c-br { color: #3F6EE8; }
-  .case-esim .c-em { color: #10B981; }
-  .case-esim .c-cr { color: #F43F5E; }
-  .case-esim .c-in { color: #6366F1; }
-  .case-esim .c-sn { color: #FCD34D; }
-  .case-esim .c-tn { color: #FB923C; }
-
-  /* ── nav ── */
-  .case-esim .nav { height: 52px; padding: 0 48px; display: flex; align-items: center; justify-content: space-between; border-bottom: 1px solid #2A2A2A; background: rgba(10,10,10,.92); backdrop-filter: blur(12px); -webkit-backdrop-filter: blur(12px); position: sticky; top: 0; z-index: 100; }
-  .case-esim .nav-m { height: 48px; padding: 0 18px; }
-  .case-esim .logo { display: flex; align-items: center; gap: 10px; text-decoration: none; }
-  .case-esim .logo-mark { width: 20px; height: 20px; background: #3F6EE8; clip-path: polygon(0 0,100% 0,100% 72%,72% 100%,0 100%); }
-  .case-esim .logo-name { font-size: 12px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #FFF; }
-  .case-esim .nav-back { font-size: 11px; color: #555; text-decoration: none; transition: color .15s; }
-  .case-esim .nav-back:hover { color: #A3A3A3; }
-
-  /* ── nda bar ── */
-  .case-esim .nda { background: #222; border-bottom: 1px solid #2A2A2A; padding: 8px 48px; display: flex; align-items: center; gap: 10px; }
-  .case-esim .nda-m { padding: 7px 18px; }
-  .case-esim .nda-pill { font-size: 8px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase; color: #0A0A0A; background: #FCD34D; padding: 2px 8px; clip-path: polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%); flex-shrink: 0; }
-  .case-esim .nda-txt { font-size: 11px; color: #555; }
-  .case-esim .nda-txt strong { color: #A3A3A3; font-weight: 600; }
-
-  /* ── eyebrow ── */
-  .case-esim .ey { display: flex; align-items: center; gap: 10px; margin-bottom: 16px; }
-  .case-esim .ey-ln { width: 24px; height: 2px; background: #3F6EE8; flex-shrink: 0; }
-  .case-esim .ey-tx { font-size: 11px; font-weight: 600; letter-spacing: .16em; text-transform: uppercase; color: #A3A3A3; }
-  .case-esim .tag { font-size: 9px; font-weight: 700; letter-spacing: .12em; text-transform: uppercase; color: #fff; padding: 4px 10px; background: #6366F1; clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); display: inline-flex; margin-bottom: 14px; }
-  .case-esim .tag-sub { font-size: 11px; color: #555; margin-left: 6px; }
-
-  /* ── d hero ── */
-  .case-esim .d-hero { padding: 60px 48px 0; max-width: 1280px; margin: 0 auto; color: #FFF; }
-  .case-esim .d-tag-row { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; flex-wrap: wrap; }
-  .case-esim .d-h1 { font-size: 38px; font-weight: 900; line-height: 1.15; color: #FFF; margin-bottom: 12px; max-width: 740px; letter-spacing: -.01em; }
-  .case-esim .d-lead { font-size: 15px; line-height: 1.75; color: #A3A3A3; max-width: 640px; margin-bottom: 24px; }
-  .case-esim .d-stats { display: flex; gap: 0; margin-bottom: 52px; border: 1px solid #2A2A2A; overflow: hidden; clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%); flex-wrap: wrap; }
-  .case-esim .d-stat { padding: 14px 22px; border-right: 1px solid #2A2A2A; }
-  .case-esim .d-stat:last-child { border-right: none; }
-  .case-esim .d-stat-v { font-size: 24px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
-  .case-esim .d-stat-l { font-size: 10px; color: #555; margin-top: 4px; }
-
-  /* ── d layout ── */
-  .case-esim .d-layout { display: grid; grid-template-columns: 1fr 520px; gap: 28px; padding: 0 48px 80px; max-width: 1280px; margin: 0 auto; align-items: start; }
-  .case-esim .d-right { position: sticky; top: 92px; }
-
-  /* ── blocks ── */
-  .case-esim .bl { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%); padding: 26px 28px; margin-bottom: 10px; }
-  .case-esim .bl:last-child { margin-bottom: 0; }
-  .case-esim .bey { display: flex; align-items: center; gap: 8px; margin-bottom: 14px; }
-  .case-esim .bey-ln { width: 20px; height: 2px; flex-shrink: 0; }
-  .case-esim .bey-tx { font-size: 10px; font-weight: 700; letter-spacing: .15em; text-transform: uppercase; color: #555; }
-
-  /* ── проблема ── */
-  .case-esim .prob-intro { font-size: 13px; line-height: 1.7; color: #A3A3A3; margin-bottom: 14px; }
-  .case-esim .prob-intro strong { color: #FFF; }
-
-  /* ── траектория ── */
-  .case-esim .traj { background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%); padding: 14px 16px; margin-bottom: 10px; }
-  .case-esim .traj-lbl { font-size: 9px; font-weight: 600; letter-spacing: .12em; text-transform: uppercase; color: #555; margin-bottom: 10px; }
-  .case-esim .traj-row { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 7px; }
-  .case-esim .traj-row:last-child { margin-bottom: 0; }
-  .case-esim .traj-period { font-size: 10px; font-weight: 600; color: #F43F5E; min-width: 80px; flex-shrink: 0; margin-top: 1px; }
-  .case-esim .traj-txt { font-size: 12px; color: #A3A3A3; line-height: 1.5; }
-
-  /* ── actions ── */
-  .case-esim .action { display: flex; align-items: flex-start; gap: 12px; padding: 12px 14px; background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); margin-bottom: 7px; }
-  .case-esim .action:last-child { margin-bottom: 0; }
-  .case-esim .action-num { width: 26px; height: 26px; flex-shrink: 0; background: #3F6EE8; clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%); display: flex; align-items: center; justify-content: center; font-size: 10px; font-weight: 800; color: #fff; }
-  .case-esim .action-ttl { font-size: 13px; font-weight: 700; color: #FFF; margin-bottom: 3px; line-height: 1.3; }
-  .case-esim .action-desc { font-size: 12px; color: #A3A3A3; line-height: 1.55; }
-
-  /* ── результат ── */
-  .case-esim .res-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 8px; margin-bottom: 14px; }
-  .case-esim .res-card { background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%); padding: 14px; }
-  .case-esim .res-v { font-size: 20px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
-  .case-esim .res-l { font-size: 10px; color: #555; margin-top: 4px; }
-  .case-esim .res-main { font-size: 13px; line-height: 1.65; color: #A3A3A3; }
-  .case-esim .res-main strong { color: #FFF; font-weight: 600; }
-
-  /* ── отличия ── */
-  .case-esim .diff-row { display: flex; align-items: flex-start; gap: 12px; padding: 12px 0; border-bottom: 1px solid #2A2A2A; }
-  .case-esim .diff-row:last-child { border-bottom: none; }
-  .case-esim .diff-vs { font-size: 9px; font-weight: 700; letter-spacing: .1em; text-transform: uppercase; color: #555; min-width: 130px; flex-shrink: 0; padding-top: 2px; }
-  .case-esim .diff-txt { font-size: 12px; color: #A3A3A3; line-height: 1.55; }
-  .case-esim .diff-txt strong { color: #FFF; }
-
-  /* ── CTA ── */
-  .case-esim .d-cta { max-width: 1280px; margin: 0 auto; padding: 0 48px 80px; }
-  .case-esim .cta-bar { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%); padding: 28px 32px; display: flex; align-items: center; justify-content: space-between; gap: 24px; }
-  .case-esim .cta-t { font-size: 18px; font-weight: 800; color: #FFF; margin-bottom: 5px; }
-  .case-esim .cta-s { font-size: 13px; color: #A3A3A3; }
-  .case-esim .btn { font-family: 'Inter',sans-serif; font-size: 12px; font-weight: 700; letter-spacing: .06em; background: #3F6EE8; color: #fff; border: none; cursor: pointer; padding: 12px 24px; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); transition: background .15s; white-space: nowrap; }
-  .case-esim .btn:hover { background: #2D5BD4; }
-  .case-esim .btn-full { width: 100%; }
-
-  /* ──── MOBILE ──── */
-  .case-esim .m-view { max-width: 480px; margin: 0 auto; background: #0A0A0A; }
-  .case-esim .m-hero { padding: 32px 18px 0; }
-  .case-esim .m-h1 { font-size: 23px; font-weight: 900; line-height: 1.2; color: #FFF; margin-bottom: 10px; }
-  .case-esim .m-lead { font-size: 13px; line-height: 1.7; color: #A3A3A3; margin-bottom: 18px; }
-  .case-esim .m-stats { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 28px; }
-  .case-esim .m-stat { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%); padding: 12px; }
-  .case-esim .m-stat-v { font-size: 20px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
-  .case-esim .m-stat-l { font-size: 9px; color: #555; margin-top: 4px; }
-  .case-esim .m-section { padding: 0 18px; margin-bottom: 10px; }
-  .case-esim .m-block { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%); padding: 20px; }
-  .case-esim .m-prob-item { display: flex; align-items: flex-start; gap: 9px; font-size: 12px; line-height: 1.6; color: #A3A3A3; margin-bottom: 8px; }
-  .case-esim .m-prob-item:last-child { margin-bottom: 0; }
-  .case-esim .m-prob-dot { width: 5px; height: 5px; border-radius: 50%; background: #555; flex-shrink: 0; margin-top: 6px; }
-  .case-esim .m-prob-note { margin-top: 10px; padding: 8px 10px; background: rgba(244,63,94,.07); border-left: 2px solid #F43F5E; font-size: 11px; color: #A3A3A3; }
-
-  /* ── carousel ── */
-  .case-esim .car-wrap { padding: 0 18px; margin-bottom: 10px; }
-  .case-esim .car-hdr { display: flex; align-items: center; justify-content: space-between; margin: 10px 0; }
-  .case-esim .car-dots { display: flex; gap: 5px; }
-  .case-esim .car-dot { width: 16px; height: 3px; border-radius: 2px; background: #3A3A3A; transition: all .25s; cursor: pointer; }
-  .case-esim .car-dot.on { background: #6366F1; width: 24px; }
-  .case-esim .car-ctr { font-size: 10px; color: #555; }
-  .case-esim .car { overflow: hidden; }
-  .case-esim .car-track { display: flex; transition: transform .35s cubic-bezier(.4,0,.2,1); }
-  .case-esim .car-slide { flex: 0 0 100%; min-width: 0; }
-  .case-esim .car-card { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%); overflow: hidden; }
-  .case-esim .car-head { padding: 16px; display: flex; align-items: flex-start; gap: 12px; border-bottom: 1px solid #2A2A2A; }
-  .case-esim .car-num { width: 28px; height: 28px; flex-shrink: 0; background: #3F6EE8; clip-path: polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; }
-  .case-esim .car-ttl { font-size: 14px; font-weight: 800; color: #FFF; line-height: 1.25; margin-bottom: 4px; }
-  .case-esim .car-desc { font-size: 12px; color: #A3A3A3; line-height: 1.6; }
-  .case-esim .car-body { background: #0A0A0A; padding: 14px 16px; }
-  .case-esim .car-nav { display: flex; justify-content: space-between; padding: 10px 0 0; }
-  .case-esim .car-btn { font-family: 'Inter',sans-serif; font-size: 10px; font-weight: 600; color: #555; background: transparent; border: 1px solid #2A2A2A; padding: 5px 12px; cursor: pointer; clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); transition: all .15s; }
-  .case-esim .car-btn:hover { color: #A3A3A3; }
-  .case-esim .car-btn:disabled { opacity: .3; cursor: default; }
-
-  /* ── dp (mini dashboard inside slides) ── */
-  .case-esim .dp-lbl { font-size: 8px; font-weight: 600; letter-spacing: .1em; text-transform: uppercase; color: #555; margin-bottom: 8px; }
-  .case-esim .dp-two { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 8px; }
-  .case-esim .dp-col-hd { font-size: 8px; font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: #555; margin-bottom: 5px; }
-  .case-esim .dp-kpi { background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); padding: 8px 9px; margin-bottom: 4px; }
-  .case-esim .dp-kpi-v { font-size: 13px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
-  .case-esim .dp-kpi-l { font-size: 8px; color: #555; margin-top: 2px; }
-  .case-esim .dp-call { padding: 6px 8px; background: rgba(63,110,232,.07); border-left: 2px solid #3F6EE8; font-size: 10px; color: #A3A3A3; }
-  .case-esim .dp-fn-row { display: flex; align-items: center; gap: 6px; margin-bottom: 5px; }
-  .case-esim .dp-fn-bar { height: 18px; display: flex; align-items: center; padding-left: 6px; clip-path: polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%); border-left: 2px solid; }
-  .case-esim .dp-fn-lbl { font-size: 9px; font-weight: 600; }
-  .case-esim .dp-fn-val { font-size: 11px; font-weight: 800; font-variant-numeric: tabular-nums; margin-left: auto; min-width: 44px; text-align: right; }
-  .case-esim .dp-fn-conv { font-size: 9px; font-weight: 700; min-width: 28px; text-align: right; }
-  .case-esim .dp-conv-grid { margin-top: 8px; display: grid; grid-template-columns: 1fr 1fr; gap: 5px; }
-  .case-esim .dp-conv-cell { padding: 7px 9px; clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); }
-  .case-esim .dp-conv-l { font-size: 8px; color: #555; margin-bottom: 2px; }
-  .case-esim .dp-conv-v { font-size: 16px; font-weight: 900; }
-  .case-esim .dp-top-row { display: flex; align-items: center; gap: 7px; padding: 5px 0; border-bottom: 1px solid #2A2A2A; }
-  .case-esim .dp-top-row:last-of-type { border-bottom: none; }
-  .case-esim .dp-top-n { font-size: 9px; font-weight: 700; color: #555; min-width: 12px; }
-  .case-esim .dp-top-nm { font-size: 10px; color: #FFF; flex: 1; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
-  .case-esim .dp-top-sub { font-size: 8px; color: #555; }
-  .case-esim .dp-top-val { font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums; color: #A3A3A3; margin-left: auto; }
-  .case-esim .dp-markup { margin-top: 10px; padding: 8px 10px; background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%); }
-  .case-esim .dp-markup-l { font-size: 9px; color: #555; margin-bottom: 4px; }
-  .case-esim .dp-markup-row { display: flex; justify-content: space-between; margin-bottom: 4px; font-size: 10px; color: #A3A3A3; }
-  .case-esim .dp-markup-row:last-child { margin-bottom: 0; }
-  .case-esim .dp-markup-row > span:last-child { font-weight: 700; font-size: 11px; }
-
-  /* ── m result ── */
-  .case-esim .m-res-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 6px; margin-bottom: 12px; }
-  .case-esim .m-res-card { background: #222; clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%); padding: 12px; }
-  .case-esim .m-res-v { font-size: 18px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
-  .case-esim .m-res-l { font-size: 9px; color: #555; margin-top: 4px; }
-  .case-esim .m-res-main { font-size: 12px; line-height: 1.6; color: #A3A3A3; }
-  .case-esim .m-res-main strong { color: #FFF; font-weight: 600; }
-  .case-esim .m-cta { margin: 0 18px 48px; background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%); padding: 20px; }
-  .case-esim .m-cta-t { font-size: 16px; font-weight: 800; color: #FFF; margin-bottom: 6px; }
-  .case-esim .m-cta-s { font-size: 12px; color: #A3A3A3; margin-bottom: 14px; }
-
-  /* ── desktop tweak <980px ── */
-  @media (max-width: 980px) and (min-width: 769px) {
-    .case-esim .d-layout { grid-template-columns: 1fr; }
-    .case-esim .d-right { position: static; }
-    .case-esim .d-h1 { font-size: 30px; }
-  }
-</style>
 
 <script>
   // Mobile carousel

@@ -48,7 +48,11 @@ src/
 │
 ├── pages/                       file-based роуты SSG
 │   ├── index.astro              главная (композиция 12 секций + StickyCta + ContactModalIsland)
-│   ├── cases/[slug].astro       динамика через getCollection('cases')
+│   ├── cases/                   ★ 4 standalone .astro страниц (НЕ content collection)
+│   │   ├── education.astro      EduDashboard (Финансы / Продукты / Мотивация)
+│   │   ├── construction.astro   BuildDashboard (Проекты / ДДС+прогноз)
+│   │   ├── ecommerce.astro      SalesDashboard (Дашборд / Воронка / Менеджеры) — slug 'ecommerce' но контент про продажи/услуги
+│   │   └── esim.astro           EsimDashboard (Дашборд / Воронка / Топ)
 │   ├── privacy-policy.astro
 │   ├── consent.astro
 │   └── 404.astro                noindex, Astro подхватывает автоматом
@@ -60,43 +64,45 @@ src/
 │   │   ├── Problem · Solution · HowWeWork · Difference · Footer
 │   │   ├── Advantages.astro     collapsible через inline <script> (vanilla)
 │   │   ├── Customization.astro  то же
-│   │   ├── Platform.astro       включает <DashboardSlider client:visible />
+│   │   ├── Platform.astro       включает <DashboardSlider client:visible /> (с NDA badge)
 │   │   ├── Integrations.astro   обёртка над <IntegrationsBuilder client:load />
 │   │   ├── FinalCTA.astro       обёртка над <InlineLeadForm client:load />
-│   │   ├── Cases.astro          getCollection('cases'), сортировка по order
+│   │   ├── Cases.astro          ★ HARDCODED 4 карточки (1 hero + 3 sub), темный фон,
+│   │   │                        SVG-паттерны p-edu/p-bld/p-eco/p-esim
 │   │   └── StickyCta.astro      scroll-listener inline-script
 │   │
 │   ├── islands/                 React-острова (интерактив)
 │   │   ├── ContactModalIsland.jsx   слушает window 'aivision:open-contact'
 │   │   ├── ContactModal.jsx
 │   │   ├── ContactToggleInput.jsx
-│   │   ├── DashboardSlider.jsx
+│   │   ├── DashboardSlider.jsx      для Platform секции главной, NDA badge + footnote
 │   │   ├── InlineLeadForm.jsx       форма для FinalCTA
-│   │   └── IntegrationsBuilder.jsx  chips + форма
+│   │   ├── IntegrationsBuilder.jsx  chips + форма
+│   │   ├── EduDashboard.jsx     ★ 3 таба: Финансы/Продукты/Мотивация (case education)
+│   │   ├── BuildDashboard.jsx   ★ 2 таба: Проекты (4 PnL) / ДДС+прогноз (сравнение доход/расход)
+│   │   ├── SalesDashboard.jsx   ★ 3 таба: Дашборд/Воронка/Менеджеры (case ecommerce)
+│   │   └── EsimDashboard.jsx    ★ 3 таба: Дашборд/Воронка/Топ продуктов (case esim)
 │   │
 │   └── ui/
 │       └── Btn.jsx                  только для ContactModal/CasePage
 │
-├── content/
-│   ├── config.ts                Astro content config (zod schema)
-│   └── cases/
-│       ├── education.md         id:"education", order:1, sliderVariant:"finance"
-│       ├── construction.md      id:"construction", order:2, sliderVariant:"crm"
-│       └── ecommerce.md         id:"ecommerce", order:3, sliderVariant:"ecommerce"
-│
 ├── lib/
 │   ├── tracker.js               visitor/session/click/saveLead → PUBLIC_API_URL/api/*
-│   ├── seo.js                   home/caseEducation/caseConstruction/caseEcommerce/privacy/consent
+│   ├── seo.js                   home/caseEducation/caseConstruction/caseEcommerce/caseEsim/privacy/consent
 │   │                            поля: title, description, ogTitle, ogDescription,
 │   │                            path, ogImage, twitterImage, robots
 │   └── jsonld.js                organizationSchema, websiteSchema, caseSchema()
 │
 ├── data/
-│   └── dashboard-slides.jsx     SLIDER_VARIANTS: finance/crm/ecommerce/platform
+│   └── dashboard-slides.jsx     SLIDER_VARIANTS: finance/crm/ecommerce/platform (для DashboardSlider)
 │
 └── styles/
-    └── global.css               Tailwind base + полный CSS реф v2 в @layer components
-                                 + @import Inter из Google Fonts на первой строке
+    ├── global.css               Tailwind base + полный CSS реф v2 в @layer components
+    │                            + @import Inter из Google Fonts на первой строке
+    │                            ⚠ Содержит .nav стиль для Navbar главной — может конфликтовать
+    │                            с case-v3 nav (override через `.case-v3 .nav { max-width: none; transform: none; ... }`)
+    └── case-page-v3.css         ★ Shared CSS для 4 страниц кейсов, wrap class .case-v3
+                                 (desktop + mobile через @media 768px, view switch без JS)
 
 public/
 ├── demo/                        вшитая сборка CRM (см. scripts/sync-demo.sh)
@@ -155,28 +161,70 @@ scripts/
 JSON-LD: на каждой странице Organization + WebSite автоматически из `BaseLayout`.
 Кейсы дополнительно прокидывают `caseSchema()` через `jsonLd` prop.
 
-### Кейсы как Markdown
+### Кейсы (v3 — standalone .astro)
 
-`src/content/cases/{education,construction,ecommerce}.md` — frontmatter с
-структурированными полями (problems[], actions[], results[], sliderVariant,
-seoKey, order, datePublished, ogImage).
+★ **Content collection УДАЛЁН** (был `src/content/cases/*.md`). Каждый из 4
+кейсов теперь полностью standalone `.astro` файл с:
+- импортом `case-page-v3.css` (shared)
+- обёрткой `<div class="case-v3">`
+- двумя view-блоками `.d-view` (desktop) / `.m-view` (mobile), переключение
+  через `@media (max-width: 768px)` — БЕЗ JS-toggle
+- собственным React-island дашбордом (Edu/Build/Sales/EsimDashboard)
+- inline `<script>` для mobile carousel («Что сделали» 3 слайда + touch + dots + prev/next)
 
-Чтобы добавить новый кейс: создаёшь `<slug>.md`, добавляешь запись в `seo.js`,
-ставишь `seoKey` в frontmatter. Маршрут `/cases/<slug>/` появится автоматом.
+Структура каждой страницы (одна и та же для 4-х):
+1. `<nav class="nav">` — sticky, BACK (← Все кейсы) слева + NEXT справа.
+   Без логотипа. Циклика next:
+   education → construction → ecommerce → esim → education
+2. `<div class="nda">` — жёлтый pill «NDA» + текст «Показатели изменены»
+3. `<div class="d-hero">` — eyebrow + tag + H1 + lead + 4 hero-stat (grid карточки)
+4. `<div class="d-layout">` (1fr 520px grid) — слева контент-блоки, справа sticky React-island
+5. Content-блоки: «Точка А» (3 plane V/C/U) → «Что сделали» (3-5 actions) →
+   «Точка Б» (6 res-card) → «Чем отличается» (diff-row)
+6. CTA-бар + `<Footer />` + `<StickyCta />` + `<ContactModalIsland client:load />`
 
-### DashboardSlider variants
+Чтобы добавить НОВЫЙ кейс:
+1. Скопируй любую страницу `src/pages/cases/*.astro`
+2. Добавь запись в `src/lib/seo.js` (title/og/path)
+3. Создай React-island в `src/components/islands/<Name>Dashboard.jsx`
+4. Обнови SVG-pattern + 4-ю карточку в `Cases.astro` (если нужно)
+5. Обнови циклику next-button у соседних кейсов
 
-`src/data/dashboard-slides.jsx` экспортирует `SLIDER_VARIANTS`:
+### DashboardSlider variants (Platform секция главной)
+
+`src/data/dashboard-slides.jsx` экспортирует `SLIDER_VARIANTS` для
+`<DashboardSlider variant="platform" />` в Platform.astro. Имеет
+**NDA badge** (синий, в header bar) + **footnote** под dot indicators
+(«Уважаем NDA клиентов — цифры иллюстративные»).
 
 | variant | использование |
 |---|---|
-| `finance` | кейс education (`sliderLight: true`) |
-| `crm` | кейс construction |
-| `ecommerce` | кейс ecommerce |
-| `platform` | v2-лендинг Platform секция (dark) |
+| `finance` | (исторический, для cases пока не используется) |
+| `crm` | (исторический) |
+| `ecommerce` | (исторический) |
+| `platform` | v2-лендинг Platform секция (dark) — ЕДИНСТВЕННЫЙ активный |
 
 Слайды автопереключаются каждые 8с. На мобилке `.av-slider-stage`
 зафиксирован высотой 540px (overflow hidden).
+
+### CSS gotchas / уроки
+
+**1. `<style is:global>` дублирование в Astro:** при одинаковых классах в
+двух pages Astro может дедупнуть так что css не попадёт в bundle одной
+из страниц. Решение — extract в отдельный `*.css` файл и `import` в frontmatter.
+
+**2. Глобальный `.nav` (для Hero Navbar) переопределяет `.case-v3 .nav`:**
+hero `.nav` имеет `position: absolute; max-width: 1200px; transform: translateX(-50%)`.
+Tailwind layers > inline. На кейс-странице — явно сбрасываем в case-page-v3.css:
+`max-width: none; transform: none; left: auto; right: auto`.
+
+**3. Python для bulk edits в .astro:** `Edit` tool может выдать «File modified
+since read» из-за linter. Для нескольких замен — `python3 <<EOF` script
+с `.replace()` или `re.sub()`. Так быстрее и атомарно.
+
+**4. CDN/nginx cache:** `?_=$(date +%s)` query bypass в curl для свежей версии.
+При деплое stale файл = rsync не успел или повторно проверь file modtime
+на сервере `/var/www/aivision-landing-dev/dist/`.
 
 ### Inline-формы
 
@@ -226,6 +274,38 @@ npm run check              # astro check (типизация — техдолг,
 - **Я.Вебмастер verification:** `a580ae03a42eedfc` (meta-тег в BaseLayout)
 - **Google Search Console:** DNS-verification (meta-тег не нужен)
 - **Sitemap:** `https://aivisionpro.ru/sitemap-index.xml` (авто через @astrojs/sitemap)
+
+## Workflow / процесс
+
+- **Активная ветка работы:** `feat/astro-migration` (= dev tracking).
+  Все правки лендинга и кейсов идут сюда.
+- **Push на dev:** `git push origin feat/astro-migration:dev` → CI деплоит
+  на `aivisiontest.ru` (~3 мин).
+- **Prod ТОЛЬКО по явному «ок»** от Степана. Push в `main` без подтверждения —
+  запрещено. Если случайно ушло в prod → откат через `git push origin <sha>:main --force`.
+- **Worktree:** работаем в `.claude/worktrees/agitated-gould-4fdab6/` (отдельный
+  checkout от feat-ветки, не пересекается с main checkout). Чтобы npm видел
+  правильный package.json — cwd должен быть в worktree root.
+- **GitHub auth:** в worktree gh CLI может вылезти под другим юзером
+  (dev1klas вместо Cyclonecenter7). `gh auth switch --user Cyclonecenter7`
+  если push 403.
+
+## Open issues / тех. долг
+
+- `Cases.astro` (главная) — карточки 4-го кейса (eSIM) текстово
+  рассинхронизированы с самой страницей: карточка говорит «Два сайта, два
+  партнёра» / «Разные платёжки», страница говорит «Запуск нового направления
+  с управленческой видимостью». Партнёр может прислать обновлённый cases-v5
+  → обновим
+- `BuildDashboard.jsx` — внутри dashboard под графиком ДДС всё ещё текст
+  «Кассовые разрывы устранены — 0 инцидентов после включения алертов».
+  Партнёр заменил «кассовые разрывы» на «налоговые оплаты» в res-grid страницы,
+  но в дашборде этот алёрт-текст пока не правил. Возможно надо синхронизировать
+- Construction action #03 содержит «контроль кассовых разрывов через алерты»
+  (внутри action-desc) — это про процесс, не результат, оставлено
+- `Cases.astro` SVG-паттерны не отражают новые narrative кейсов (p-edu это
+  3 KPI, p-bld это 4 проекта — релевантно; p-eco воронка — норм для sales;
+  p-esim 2 линии — рассинхрон с «запуском нового направления»)
 
 ## Что НЕ делаем
 

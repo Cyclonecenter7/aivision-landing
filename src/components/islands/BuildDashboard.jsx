@@ -65,108 +65,104 @@ function KpiBig({ label, value, sub, subColor, sparkData, accent, sparkColor, id
   );
 }
 
-const PROJECTS = [
-  { id: '1', name: 'Проект 1', code: 'PRJ-01', revenue: 8200000, expenses: 5904000, profit: 2296000, margin: 28, c: C.emerald, grow: '+20%' },
-  { id: '2', name: 'Проект 2', code: 'PRJ-02', revenue: 6100000, expenses: 4758000, profit: 1342000, margin: 22, c: C.brand, grow: '+20%' },
-  { id: '3', name: 'Проект 3', code: 'PRJ-03', revenue: 4400000, expenses: 3916000, profit: 484000, margin: 11, c: C.sun, grow: 'стаб.' },
-  { id: '4', name: 'Проект 4', code: 'PRJ-04', revenue: 1800000, expenses: 1908000, profit: -108000, margin: -6, c: C.crimson, grow: 'убыток', warn: true },
-];
-
-const fmtM = v => {
-  const a = Math.abs(v); const s = v < 0 ? '−' : '';
-  if (a >= 1e6) return s + (a / 1e6).toFixed(1).replace('.', ',') + 'М ₽';
-  if (a >= 1e3) return s + Math.round(a / 1e3) + 'К ₽';
-  return s + Math.round(a) + ' ₽';
-};
 
 function PnL() {
-  const totalRev = PROJECTS.reduce((s, p) => s + p.revenue, 0);
-  const totalExp = PROJECTS.reduce((s, p) => s + p.expenses, 0);
-  const totalProfit = totalRev - totalExp;
-  const totalMargin = (totalProfit / totalRev * 100).toFixed(1);
-
-  const revMonthly = [16, 17, 17.5, 18, 18.2, 19, 19.5, 20, 20.2, 20.5, 20.5, 20.5];
-  const expMonthly = [14, 14.5, 15, 15.2, 15.5, 15.8, 16, 16.2, 16.3, 16.4, 16.5, 16.5];
-  const profitMonthly = revMonthly.map((v, i) => v - expMonthly[i]);
+  // план/факт по проектам — макет ячейки из case-build-opu-only.html
+  const planFact = [
+    { id: '1', name: 'Проект 1', plan: 9000, fact: 8200, c: ACC },
+    { id: '2', name: 'Проект 2', plan: 5800, fact: 6100, c: C.emerald },
+    { id: '3', name: 'Проект 3', plan: 4800, fact: 4400, c: C.sun },
+    { id: '4', name: 'Проект 4', plan: 2400, fact: 1800, c: C.crimson, warn: true },
+  ];
+  const totalPlan = planFact.reduce((s, p) => s + p.plan, 0);
+  const totalFact = planFact.reduce((s, p) => s + p.fact, 0);
+  const totalDelta = totalFact - totalPlan;
+  const totalDeltaPct = (totalDelta / totalPlan * 100).toFixed(1);
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
+      {/* 4 KPI каскад ОПУ: Выручка → Валовая → Операционная → Чистая */}
       <div style={{ display: 'flex', gap: 6 }}>
-        <KpiBig accent label="Чистая прибыль" value={fmtM(totalProfit)} sub="+15% к апрелю" sparkData={profitMonthly} idKey="pnl-net" />
-        <KpiBig label="Маржа" value={`${totalMargin}%`} sub="+2 пп vs пред." subColor={C.emerald} sparkData={[16, 17, 18, 19, 20, 21, 21, 21, 21]} sparkColor={C.emerald} idKey="pnl-margin" />
-        <KpiBig label="Выручка" value={fmtM(totalRev)} sub="+12% YoY" subColor={C.brand} sparkData={revMonthly} sparkColor={C.brand} idKey="pnl-rev" />
-        <KpiBig label="Себес/выручка" value="60.6%" sub="цель ≤65%" subColor={C.sun} sparkData={[65, 64, 63, 62, 61, 61, 61, 60.6, 60.6]} sparkColor={C.sun} idKey="pnl-cost" />
+        <KpiBig accent label="Выручка" value="20,5М ₽" sub="+12% YoY" sparkData={[15, 16, 17, 18, 19, 20, 20.5]} idKey="pnl-rev" />
+        <KpiBig label="Валовая прибыль" value="8,2М ₽" sub="40% маржа" subColor={C.emerald} sparkData={[5, 5.5, 6.5, 7, 7.5, 8, 8.2]} sparkColor={ACC} idKey="pnl-gross" />
+        <KpiBig label="Операционная" value="5,4М ₽" sub="26% маржа" subColor={ACC} sparkData={[3, 3.5, 4, 4.5, 5, 5.2, 5.4]} sparkColor={ACC} idKey="pnl-op" />
+        <KpiBig label="Чистая прибыль" value="4,0М ₽" sub="+15% к апрелю" subColor={C.emerald} sparkData={[2.5, 2.8, 3.2, 3.5, 3.8, 3.9, 4]} sparkColor={ACC} idKey="pnl-net" />
       </div>
 
+      {/* План / Факт — общий + по 4 проектам */}
       <div style={{ background: T.card, ...ch(10), overflow: 'hidden' }}>
-        <div style={{ padding: '10px 14px', borderBottom: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', gap: 8 }}>
+        {/* header */}
+        <div style={{ padding: '12px 14px', borderBottom: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', gap: 8 }}>
           <span style={{ width: 14, height: 2, background: ACC, display: 'block' }} />
-          <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '.13em', textTransform: 'uppercase', color: T.t3 }}>ОПУ по проектам · апрель 2026</span>
-          <span style={{ marginLeft: 'auto', fontSize: 10, color: T.t3 }}>в тыс. ₽</span>
+          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: T.t3 }}>План / Факт · выручка по проектам</span>
+          <span style={{ marginLeft: 'auto', fontSize: 9, color: T.t3 }}>тыс. ₽</span>
         </div>
 
-        <div style={{ padding: '10px 14px', display: 'grid', gridTemplateColumns: '28px minmax(110px,1fr) 90px 90px 90px 60px', gap: 10, fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3, borderBottom: `1px solid ${T.border}` }}>
-          <span></span>
-          <span>Проект</span>
-          <span style={{ textAlign: 'right' }}>Выручка</span>
-          <span style={{ textAlign: 'right' }}>Расходы</span>
-          <span style={{ textAlign: 'right' }}>Прибыль</span>
-          <span style={{ textAlign: 'right' }}>Маржа</span>
-        </div>
-
-        {PROJECTS.map((p, i) => (
-          <div key={p.id} style={{ padding: '10px 14px', display: 'grid', gridTemplateColumns: '28px minmax(110px,1fr) 90px 90px 90px 60px', gap: 10, alignItems: 'center', background: i % 2 === 1 ? ha('#fff', .012) : T.card, borderBottom: `1px solid ${T.border}` }}>
-            <div style={{ width: 24, height: 24, background: ha(p.c, .15), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: p.c, ...ch(5) }}>{p.id}</div>
-            <div style={{ minWidth: 0 }}>
-              <div style={{ fontSize: 11, fontWeight: 600, color: T.t1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
-              <div style={{ fontSize: 9, color: T.t3, fontVariantNumeric: 'tabular-nums' }}>{p.code}{p.warn && ' · УБЫТОЧНЫЙ'}</div>
-            </div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{Math.round(p.revenue / 1000).toLocaleString('ru-RU')}</div>
-            <div style={{ fontSize: 11, fontWeight: 700, color: T.t2, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{Math.round(p.expenses / 1000).toLocaleString('ru-RU')}</div>
-            <div style={{ fontSize: 12, fontWeight: 800, color: p.profit > 0 ? C.emerald : C.crimson, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{p.profit > 0 ? '+' : ''}{Math.round(p.profit / 1000).toLocaleString('ru-RU')}</div>
-            <div style={{ textAlign: 'right' }}>
-              <span style={{ fontSize: 11, fontWeight: 700, color: p.c, background: ha(p.c, .12), padding: '2px 7px', ...ch(4) }}>{p.margin > 0 ? '+' : ''}{p.margin}%</span>
-            </div>
+        {/* ИТОГО ПО КОМПАНИИ — выделено accent-fade */}
+        <div style={{ padding: 14, background: ha(ACC, .08), borderBottom: `1px solid ${T.border}` }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 8 }}>
+            <span style={{ fontSize: 11, fontWeight: 800, color: T.t1, letterSpacing: '.04em', textTransform: 'uppercase' }}>Итого по компании</span>
+            <div style={{ flex: 1 }} />
+            <span style={{ fontSize: 9, color: T.t3, fontVariantNumeric: 'tabular-nums' }}>план {totalPlan.toLocaleString('ru-RU')}</span>
+            <span style={{ fontSize: 13, fontWeight: 800, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{totalFact.toLocaleString('ru-RU')}</span>
+            <span style={{ fontSize: 11, fontWeight: 800, color: totalDelta >= 0 ? C.emerald : C.crimson, background: ha(totalDelta >= 0 ? C.emerald : C.crimson, .15), padding: '3px 8px', fontVariantNumeric: 'tabular-nums', ...ch(4), minWidth: 54, textAlign: 'center' }}>{totalDelta >= 0 ? '+' : ''}{totalDeltaPct}%</span>
           </div>
-        ))}
-
-        <div style={{ padding: '12px 14px', background: T.card2, display: 'grid', gridTemplateColumns: '28px minmax(110px,1fr) 90px 90px 90px 60px', gap: 10, alignItems: 'center' }}>
-          <div></div>
-          <div style={{ fontSize: 11, fontWeight: 800, color: T.t1, letterSpacing: '.05em' }}>ИТОГО</div>
-          <div style={{ fontSize: 12, fontWeight: 800, color: T.t1, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{Math.round(totalRev / 1000).toLocaleString('ru-RU')}</div>
-          <div style={{ fontSize: 12, fontWeight: 800, color: T.t2, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>{Math.round(totalExp / 1000).toLocaleString('ru-RU')}</div>
-          <div style={{ fontSize: 13, fontWeight: 900, color: C.emerald, fontVariantNumeric: 'tabular-nums', textAlign: 'right' }}>+{Math.round(totalProfit / 1000).toLocaleString('ru-RU')}</div>
-          <div style={{ textAlign: 'right' }}>
-            <span style={{ fontSize: 11, fontWeight: 800, color: C.emerald, background: ha(C.emerald, .15), padding: '2px 7px', ...ch(4) }}>{totalMargin}%</span>
+          {/* двойной бар: план серый, факт сверху */}
+          <div style={{ position: 'relative', height: 8, background: T.border, borderRadius: 1 }}>
+            <div style={{ position: 'absolute', inset: 0, background: ha('#fff', .05), borderRadius: 1 }} />
+            <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: Math.min(100, totalFact / totalPlan * 100) + '%', background: totalDelta >= 0 ? C.emerald : ACC, borderRadius: 1, transition: 'width .3s' }} />
+            <div style={{ position: 'absolute', top: -2, left: '100%', width: 2, height: 12, background: T.t2, transform: 'translateX(-1px)' }} />
+          </div>
+          <div style={{ display: 'flex', justifyContent: 'space-between', marginTop: 5, fontSize: 8, color: T.t3, fontVariantNumeric: 'tabular-nums' }}>
+            <span>0</span>
+            <span>план: {totalPlan.toLocaleString('ru-RU')}</span>
           </div>
         </div>
-      </div>
 
-      <div style={{ background: T.card, ...ch(10), overflow: 'hidden' }}>
-        <div style={{ padding: '10px 14px', borderBottom: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', gap: 8 }}>
-          <span style={{ width: 14, height: 2, background: C.emerald, display: 'block' }} />
-          <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '.13em', textTransform: 'uppercase', color: T.t3 }}>ABC-анализ расходов · структура</span>
-        </div>
-        {[
-          { g: 'A', label: 'Топ 80% расходов', sub: 'Стройматериалы + ФОТ · 12 статей', val: '9.6М ₽', c: C.brand, trend: [80, 82, 84, 85, 87], w: '80%' },
-          { g: 'B', label: 'Следующие 15%', sub: 'Логистика + спецтехника · 18 статей', val: '2.4М ₽', c: C.sun, trend: [20, 22, 21, 22, 22], w: '15%' },
-          { g: 'C', label: 'Остаток 5%', sub: 'Прочее · 47 статей', val: '0.8М ₽', c: C.slate, trend: [8, 7, 7, 8, 7.5], w: '5%' },
-        ].map((r, i) => (
-          <div key={r.g} style={{ padding: '12px 14px', display: 'flex', alignItems: 'center', gap: 12, borderBottom: i < 2 ? `1px solid ${T.border}` : 'none' }}>
-            <div style={{ width: 28, height: 28, background: ha(r.c, .15), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 13, fontWeight: 800, color: r.c, ...ch(6) }}>{r.g}</div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
-                <span style={{ fontSize: 12, fontWeight: 600, color: T.t1 }}>{r.label}</span>
-                <span style={{ fontSize: 10, color: T.t3 }}>· {r.sub}</span>
+        {/* строки по проектам */}
+        {planFact.map((p, i) => {
+          const delta = p.fact - p.plan;
+          const deltaPct = (delta / p.plan * 100).toFixed(1);
+          const exceedsPlan = p.fact >= p.plan;
+          const factPct = Math.min(100, p.fact / p.plan * 100);
+          return (
+            <div key={p.id} style={{ padding: '12px 14px', borderBottom: i < planFact.length - 1 ? `1px solid ${T.border}` : 'none' }}>
+              <div style={{ display: 'flex', alignItems: 'center', gap: 10, marginBottom: 7 }}>
+                <div style={{ width: 22, height: 22, background: ha(p.c, .15), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 10, fontWeight: 800, color: p.c, ...ch(5), flexShrink: 0 }}>{p.id}</div>
+                <div style={{ flex: 1, minWidth: 0 }}>
+                  <div style={{ fontSize: 11, fontWeight: 600, color: T.t1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{p.name}</div>
+                  {p.warn && <div style={{ fontSize: 8, fontWeight: 700, color: C.crimson, letterSpacing: '.05em' }}>УБЫТОЧНЫЙ</div>}
+                </div>
+                <span style={{ fontSize: 9, color: T.t3, fontVariantNumeric: 'tabular-nums' }}>план {p.plan.toLocaleString('ru-RU')}</span>
+                <span style={{ fontSize: 12, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums', minWidth: 50, textAlign: 'right' }}>{p.fact.toLocaleString('ru-RU')}</span>
+                <span style={{ fontSize: 10, fontWeight: 700, color: exceedsPlan ? C.emerald : C.crimson, background: ha(exceedsPlan ? C.emerald : C.crimson, .12), padding: '2px 7px', fontVariantNumeric: 'tabular-nums', ...ch(4), minWidth: 54, textAlign: 'center' }}>{delta >= 0 ? '+' : ''}{deltaPct}%</span>
               </div>
-              <div style={{ height: 4, background: T.border, borderRadius: 1 }}>
-                <div style={{ height: '100%', width: r.w, background: r.c, borderRadius: 1 }} />
+              {/* бар с маркой плана */}
+              <div style={{ position: 'relative', height: 6, background: T.border, borderRadius: 1, marginLeft: 32 }}>
+                <div style={{ position: 'absolute', top: 0, left: 0, height: '100%', width: factPct + '%', background: exceedsPlan ? C.emerald : p.c, opacity: .85, borderRadius: 1 }} />
+                {p.fact < p.plan && (
+                  <div style={{ position: 'absolute', top: -2, left: '100%', width: 2, height: 10, background: T.t2, transform: 'translateX(-1px)' }} title="план" />
+                )}
               </div>
             </div>
-            <div style={{ fontSize: 12, fontWeight: 800, color: r.c, fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>{r.val}</div>
-            <div style={{ width: 50, height: 20 }}><BigSpark data={r.trend} color={r.c} h={20} filled={false} idKey={'abc-' + r.g} /></div>
+          );
+        })}
+
+        {/* легенда */}
+        <div style={{ padding: '10px 14px', background: T.card2, display: 'flex', alignItems: 'center', gap: 14, flexWrap: 'wrap' }}>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ width: 14, height: 6, background: C.emerald, borderRadius: 1 }} />
+            <span style={{ fontSize: 9, color: T.t2 }}>выполнили / перевыполнили</span>
           </div>
-        ))}
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ width: 14, height: 6, background: C.crimson, borderRadius: 1, opacity: .85 }} />
+            <span style={{ fontSize: 9, color: T.t2 }}>отстают</span>
+          </div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 5 }}>
+            <div style={{ width: 2, height: 10, background: T.t2 }} />
+            <span style={{ fontSize: 9, color: T.t2 }}>марка плана</span>
+          </div>
+        </div>
       </div>
     </div>
   );

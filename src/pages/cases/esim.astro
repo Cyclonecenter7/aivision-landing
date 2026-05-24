@@ -45,14 +45,14 @@ const ldCase = caseSchema({
     <div class="ey"><div class="ey-ln"></div><span class="ey-tx">Кейс 4 · E-commerce · Запуск</span></div>
     <div class="d-tag-row">
       <div class="tag">E-commerce · Цифровые продукты</div>
-      <span class="tag-sub">Две платёжные ветки · Запуск с нуля</span>
+      <span class="tag-sub">Два платёжных направления · Запуск с нуля</span>
     </div>
     <h1 class="d-h1">Как новое направление запустилось с управленческой видимостью с первого дня</h1>
     <p class="d-lead">Опытный собственник знал, как выглядит запуск без системы: первые полгода в таблицах, потом хаос, потом год на его расчистку. Задача — зашить управление в проект до старта, а не докручивать его потом по живому.</p>
     <div class="d-stats">
       <div class="d-stat"><div class="d-stat-v c-em">День 1</div><div class="d-stat-l">управленческая видимость с запуска</div></div>
-      <div class="d-stat"><div class="d-stat-v c-br">2 ветки</div><div class="d-stat-l">рубли + крипта в одной картине</div></div>
-      <div class="d-stat"><div class="d-stat-v c-in">×17</div><div class="d-stat-l">одна ветка сильнее по выручке</div></div>
+      <div class="d-stat"><div class="d-stat-v c-br">2 направления</div><div class="d-stat-l">рубли + крипта в одной картине</div></div>
+      <div class="d-stat"><div class="d-stat-v c-in">×17</div><div class="d-stat-l">одно направление сильнее по выручке</div></div>
       <div class="d-stat"><div class="d-stat-v c-sn">0 ₽</div><div class="d-stat-l">на найм аналитика</div></div>
     </div>
   </div>
@@ -60,24 +60,19 @@ const ldCase = caseSchema({
   <div class="d-layout">
     <div>
       <div class="bl">
-        <div class="bey"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Точка А — что обычно бывает при запуске</span></div>
-        <p class="prob-intro">Типовая траектория запуска нового направления без управленческой системы — её собственник уже видел и не хотел повторять:</p>
-        <div class="traj">
-          <div class="traj-lbl">Типовой сценарий без системы</div>
-          <div class="traj-row">
-            <div class="traj-period">Месяцы 1–3</div>
-            <div class="traj-txt">Запустили сайт, пошли продажи. Цифры собираются вручную в таблицах — терпимо.</div>
-          </div>
-          <div class="traj-row">
-            <div class="traj-period">Месяцы 6–12</div>
-            <div class="traj-txt">Оборот растёт, но картина бизнеса распадается на части. Данные в разных кабинетах.</div>
-          </div>
-          <div class="traj-row">
-            <div class="traj-period">12+ месяцев</div>
-            <div class="traj-txt">Собственник не видит где зарабатывает, где теряет. Отчёты руками. Решения на ощущениях.</div>
-          </div>
+        <div class="bey"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Точка А — типовая траектория запуска без системы</span></div>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#10B981">1</div><div class="plane-title">Месяцы 1–3 · «всё под контролем»</div></div>
+          <div class="plane-body">Запустили сайт, пошли первые продажи. Цифры собираются вручную в таблицах — пока заказов мало, это терпимо. Иллюзия видимости.</div>
         </div>
-        <p class="prob-intro" style="margin-bottom:10px">Дополнительная сложность — <strong>две платёжные ветки</strong>: рублёвая и криптовалютная. Без единой системы — это два набора отчётов, два кабинета, два учёта. Реальную экономику направления увидеть невозможно.</p>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#FCD34D">2</div><div class="plane-title">Месяцы 6–12 · картина распадается</div></div>
+          <div class="plane-body">Оборот растёт, данные расползаются по кабинетам. Особенно остро при <strong>двух платёжных направлениях</strong> (рубли + крипта) — это два отдельных учёта. Реальную экономику не увидеть.</div>
+        </div>
+        <div class="plane">
+          <div class="plane-hd"><div class="plane-icon" style="background:#F43F5E">3</div><div class="plane-title">12+ месяцев · хаос и расчистка</div></div>
+          <div class="plane-body">Собственник не видит где зарабатывает, где теряет. Решения на ощущениях. Год работы — и ещё год на расчистку. Эту траекторию опытный собственник уже проходил и не хотел повторять.</div>
+        </div>
       </div>
 
       <div class="bl">
@@ -92,22 +87,22 @@ const ldCase = caseSchema({
         <div class="action">
           <div class="action-num">02</div>
           <div>
-            <div class="action-ttl">Единая admin-панель над двумя платёжными ветками</div>
-            <div class="action-desc">Рублёвая ветка и криптовалютная — в одной управленческой картине. Выручка, маржа, заказы, средний чек, конверсия — параллельно по обеим. Сразу видно, какая ветка во сколько раз сильнее по каждой метрике.</div>
+            <div class="action-ttl">Единая admin-панель над двумя платёжными направлениями</div>
+            <div class="action-desc">Рублёвое направление и криптовалютное — в одной управленческой картине. Выручка, маржа, заказы, средний чек, конверсия — параллельно по обеим. Сразу видно, какое направление во сколько раз сильнее по каждой метрике.</div>
           </div>
         </div>
         <div class="action">
           <div class="action-num">03</div>
           <div>
             <div class="action-ttl">Сквозная воронка от уника до закрытого заказа</div>
-            <div class="action-desc">Уники → посещения → клики по продуктам → созданные заказы → оплаченные → закрытые. С конверсией на каждом шаге — отдельно по каждой ветке. Видно где теряются клиенты.</div>
+            <div class="action-desc">Уники → посещения → клики по продуктам → созданные заказы → оплаченные → закрытые. С конверсией на каждом шаге — отдельно по каждому направлению. Видно где теряются клиенты.</div>
           </div>
         </div>
         <div class="action">
           <div class="action-num">04</div>
           <div>
             <div class="action-ttl">Управленческая логика: решения на данных, не на ощущениях</div>
-            <div class="action-desc">Видно в какую ветку вкладывать рекламный бюджет. Видно какие продукты масштабировать. Видно реальную маржу по каждой ветке, а не общий оборот. Топ продуктов по выручке — не «вроде продаётся», а цифра.</div>
+            <div class="action-desc">Видно в какое направление вкладывать рекламный бюджет. Видно какие продукты масштабировать. Видно реальную маржу по каждому направлению, а не общий оборот. Топ продуктов по выручке — не «вроде продаётся», а цифра.</div>
           </div>
         </div>
       </div>
@@ -116,10 +111,10 @@ const ldCase = caseSchema({
         <div class="bey"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Точка Б — что получил собственник</span></div>
         <div class="res-grid">
           <div class="res-card"><div class="res-v c-em">День&nbsp;1</div><div class="res-l">управленческая видимость с момента запуска</div></div>
-          <div class="res-card"><div class="res-v c-br">2 ветки</div><div class="res-l">сведены в одну картину</div></div>
-          <div class="res-card"><div class="res-v c-in">×17</div><div class="res-l">одна ветка доминирует — видно сразу</div></div>
+          <div class="res-card"><div class="res-v c-br">2 направления</div><div class="res-l">сведены в одну картину</div></div>
+          <div class="res-card"><div class="res-v c-in">×17</div><div class="res-l">одно направление доминирует — видно сразу</div></div>
           <div class="res-card"><div class="res-v c-sn">100%</div><div class="res-l">учёт операций без ручного ввода</div></div>
-          <div class="res-card"><div class="res-v c-tn">40%</div><div class="res-l">конверсия рублёвой ветки</div></div>
+          <div class="res-card"><div class="res-v c-tn">40%</div><div class="res-l">конверсия рублёвого направления</div></div>
           <div class="res-card"><div class="res-v c-em">Топ продуктов</div><div class="res-l">100% видимость и сравнение всех позиций</div></div>
         </div>
         <div class="res-main"><strong>Главное:</strong> собственник не будет догонять управленческую картину через год после старта. Она у него с первого дня — это и есть смысл запуска нового направления с управленческой системой.</div>
@@ -176,119 +171,79 @@ const ldCase = caseSchema({
     <p class="m-lead">Опытный собственник знал типовую траекторию запуска без системы. Задача — зашить управление до старта, а не расчищать хаос через год.</p>
     <div class="m-stats">
       <div class="m-stat"><div class="m-stat-v c-em">День 1</div><div class="m-stat-l">видимость с запуска</div></div>
-      <div class="m-stat"><div class="m-stat-v c-br">2 ветки</div><div class="m-stat-l">в одной картине</div></div>
-      <div class="m-stat"><div class="m-stat-v c-in">×17</div><div class="m-stat-l">разрыв каналов виден сразу</div></div>
+      <div class="m-stat"><div class="m-stat-v c-br">2 направления</div><div class="m-stat-l">в одной картине</div></div>
+      <div class="m-stat"><div class="m-stat-v c-in">×17</div><div class="m-stat-l">разрыв виден сразу</div></div>
       <div class="m-stat"><div class="m-stat-v c-sn">0 ₽</div><div class="m-stat-l">найм аналитика</div></div>
     </div>
   </div>
 
-  <div class="m-section">
-    <div class="m-block">
-      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Типовой сценарий без системы</span></div>
-      <div class="m-prob-item"><div class="m-prob-dot"></div><div><strong class="c-cr" style="font-size:10px">Мес. 1–3:</strong> сайт запущен, цифры собираются вручную в таблицах</div></div>
-      <div class="m-prob-item"><div class="m-prob-dot"></div><div><strong class="c-sn" style="font-size:10px">Мес. 6–12:</strong> оборот растёт, картина бизнеса распадается, данные в разных кабинетах</div></div>
-      <div class="m-prob-item"><div class="m-prob-dot"></div><div><strong class="c-cr" style="font-size:10px">12+ мес.:</strong> не видно где зарабатываешь, где теряешь. Год потрачен на хаос</div></div>
-      <div class="m-prob-note">Плюс две платёжные ветки (рубли + крипта) — без единой системы это два отдельных учёта. Реальную экономику не увидеть.</div>
-    </div>
-  </div>
-
-  <div class="car-wrap">
-    <div class="bey" style="margin-bottom:0"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
-    <div class="car-hdr">
-      <div class="car-dots" id="mdots"></div>
-      <span class="car-ctr" id="mctr">1 / 3</span>
-    </div>
-    <div class="car">
-      <div class="car-track" id="mtrack">
-        <div class="car-slide">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">01</div>
-              <div>
-                <div class="car-ttl">Единая картина двух платёжных веток</div>
-                <div class="car-desc">Рублёвая и криптовалютная — в одном дашборде. Выручка, маржа, конверсия — параллельно. Сразу видно кратность.</div>
-              </div>
-            </div>
-            <div class="car-body">
-              <div class="dp-lbl">Дашборд · обе ветки</div>
-              <div class="dp-two">
-                <div>
-                  <div class="dp-col-hd">Ветка 1 · ₽</div>
-                  <div class="dp-kpi"><div class="dp-kpi-v c-br">31 240 ₽</div><div class="dp-kpi-l">Выручка</div></div>
-                  <div class="dp-kpi"><div class="dp-kpi-v c-em">8 680 ₽</div><div class="dp-kpi-l">Маржа</div></div>
-                  <div class="dp-kpi"><div class="dp-kpi-v c-em">40%</div><div class="dp-kpi-l">Конверсия</div></div>
-                </div>
-                <div>
-                  <div class="dp-col-hd">Ветка 2 · Крипта</div>
-                  <div class="dp-kpi"><div class="dp-kpi-v c-in">26,40 $</div><div class="dp-kpi-l">Выручка</div></div>
-                  <div class="dp-kpi"><div class="dp-kpi-v c-em">6,08 $</div><div class="dp-kpi-l">Маржа</div></div>
-                  <div class="dp-kpi"><div class="dp-kpi-v c-sn">8%</div><div class="dp-kpi-l">Конверсия</div></div>
-                </div>
-              </div>
-              <div class="dp-call">Ветка 1 сильнее по выручке в <span class="c-br" style="font-weight:700">×17</span> — видно с первого дня</div>
-            </div>
-          </div>
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#F43F5E"></div><span class="bey-tx">Точка А — типовая траектория без системы</span></div>
+      <div class="m-problems">
+        <div class="m-prob-card" style="border-color:#10B981">
+          <div class="m-prob-card-t c-em">Мес. 1–3 · «всё под контролем»</div>
+          <div class="m-prob-card-d">Цифры собираются вручную в таблицах. Заказов мало — терпимо. Иллюзия видимости.</div>
         </div>
-
-        <div class="car-slide">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">02</div>
-              <div>
-                <div class="car-ttl">Воронка от уника до закрытого заказа</div>
-                <div class="car-desc">Каждый этап с конверсией — отдельно по каждой ветке. Видно где теряются клиенты.</div>
-              </div>
-            </div>
-            <div class="car-body">
-              <div class="dp-lbl">Воронка · Ветка 1 (рубли)</div>
-              <div class="dp-fn-row"><div style="flex:1"><div class="dp-fn-bar" style="width:100%;background:rgba(163,163,163,.1);border-color:#555"><span class="dp-fn-lbl" style="color:#A3A3A3">Уники</span></div></div><div class="dp-fn-val">1 280</div></div>
-              <div class="dp-fn-row"><div style="flex:1"><div class="dp-fn-bar" style="width:90%;background:rgba(99,102,241,.15);border-color:#6366F1"><span class="dp-fn-lbl c-in">Клики</span></div></div><div class="dp-fn-val c-in">8 550</div><div class="dp-fn-conv c-in">×54</div></div>
-              <div class="dp-fn-row"><div style="flex:1"><div class="dp-fn-bar" style="width:52%;background:rgba(63,110,232,.2);border-color:#3F6EE8"><span class="dp-fn-lbl c-br">Заказы</span></div></div><div class="dp-fn-val">142</div><div class="dp-fn-conv c-br">11%</div></div>
-              <div class="dp-fn-row"><div style="flex:1"><div class="dp-fn-bar" style="width:36%;background:rgba(16,185,129,.25);border-color:#10B981"><span class="dp-fn-lbl c-em">Закрыты</span></div></div><div class="dp-fn-val c-em">57</div><div class="dp-fn-conv c-em">40%</div></div>
-              <div class="dp-conv-grid">
-                <div class="dp-conv-cell" style="background:rgba(63,110,232,.07)"><div class="dp-conv-l">Конверсия в заказ</div><div class="dp-conv-v c-br">11%</div></div>
-                <div class="dp-conv-cell" style="background:rgba(16,185,129,.07)"><div class="dp-conv-l">Конверсия в оплату</div><div class="dp-conv-v c-em">40%</div></div>
-              </div>
-            </div>
-          </div>
+        <div class="m-prob-card" style="border-color:#FCD34D">
+          <div class="m-prob-card-t c-sn">Мес. 6–12 · картина распадается</div>
+          <div class="m-prob-card-d">Оборот растёт, данные по разным кабинетам. Два платёжных направления — два отдельных учёта. Реальную экономику не увидеть.</div>
         </div>
-
-        <div class="car-slide">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">03</div>
-              <div>
-                <div class="car-ttl">Топ продуктов и управление направлением</div>
-                <div class="car-desc">Что реально продаётся — на цифрах. Динамика по дням и периодам. Решения на данных с первого дня.</div>
-              </div>
-            </div>
-            <div class="car-body">
-              <div class="dp-lbl">Топ продуктов · Ветка 1</div>
-              <div class="dp-top-row"><div class="dp-top-n">1</div><div><div class="dp-top-nm">Global eSIM · 20GB · 31 Day</div><div class="dp-top-sub">Global · 4 заказа</div></div><div class="dp-top-val c-em">10 640 ₽</div></div>
-              <div class="dp-top-row"><div class="dp-top-n">2</div><div><div class="dp-top-nm">Kazakhstan eSIM · 5GB · 7 Day</div><div class="dp-top-sub">KZ · 3 заказа</div></div><div class="dp-top-val">2 320 ₽</div></div>
-              <div class="dp-top-row"><div class="dp-top-n">3</div><div><div class="dp-top-nm">Turkiye eSIM · Unlimited · 1 Day</div><div class="dp-top-sub">TR · 4 заказа</div></div><div class="dp-top-val">950 ₽</div></div>
-              <div class="dp-markup">
-                <div class="dp-markup-l">Управление наценками</div>
-                <div class="dp-markup-row"><span>Ветка 1 (₽)</span><span class="c-br">55%</span></div>
-                <div class="dp-markup-row"><span>Ветка 2 (Крипта)</span><span class="c-in">30%</span></div>
-              </div>
-            </div>
-          </div>
+        <div class="m-prob-card" style="border-color:#F43F5E">
+          <div class="m-prob-card-t c-cr">12+ мес. · хаос</div>
+          <div class="m-prob-card-d">Решения на ощущениях. Год работы + год на расчистку.</div>
         </div>
       </div>
     </div>
-    <div class="car-nav">
-      <button class="car-btn" id="mprev" disabled>← Назад</button>
-      <button class="car-btn" id="mnext">Далее →</button>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:14px"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
+      <div class="m-action">
+        <div class="m-action-num">01</div>
+        <div>
+          <div class="m-action-ttl">Сайт как точка входа в систему</div>
+          <div class="m-action-desc">Каждое действие пользователя фиксируется и попадает в общую воронку. Не отдельный продукт со своими счётчиками.</div>
+        </div>
+      </div>
+      <div class="m-action">
+        <div class="m-action-num">02</div>
+        <div>
+          <div class="m-action-ttl">Единая admin-панель над двумя направлениями</div>
+          <div class="m-action-desc">Рублёвое и криптовалютное — в одной картине. Выручка, маржа, заказы, конверсия — параллельно. Кратность видна сразу.</div>
+        </div>
+      </div>
+      <div class="m-action">
+        <div class="m-action-num">03</div>
+        <div>
+          <div class="m-action-ttl">Сквозная воронка: уник → закрытый заказ</div>
+          <div class="m-action-desc">Конверсия на каждом шаге — отдельно по каждому направлению. Видно где теряются клиенты.</div>
+        </div>
+      </div>
+      <div class="m-action">
+        <div class="m-action-num">04</div>
+        <div>
+          <div class="m-action-ttl">Решения на данных, не на ощущениях</div>
+          <div class="m-action-desc">Куда вкладывать рекламный бюджет, какие продукты масштабировать — на цифрах. Топ продуктов с первого дня.</div>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="m-section">
-    <div class="m-block">
+  <div class="m-sec">
+    <div class="bey" style="margin-bottom:12px;padding:0 4px"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Система в действии</span></div>
+    <div class="sales-dash-m">
+      <EsimDashboard client:visible />
+    </div>
+  </div>
+
+  <div class="m-sec">
+    <div class="m-bl">
       <div class="bey" style="margin-bottom:12px"><div class="bey-ln" style="background:#555"></div><span class="bey-tx">Точка Б — результат</span></div>
       <div class="m-res-grid">
         <div class="m-res-card"><div class="m-res-v c-em">День 1</div><div class="m-res-l">видимость с запуска</div></div>
-        <div class="m-res-card"><div class="m-res-v c-br">2 ветки</div><div class="m-res-l">в одной картине</div></div>
+        <div class="m-res-card"><div class="m-res-v c-br">2 направления</div><div class="m-res-l">в одной картине</div></div>
         <div class="m-res-card"><div class="m-res-v c-in">×17</div><div class="m-res-l">разрыв виден сразу</div></div>
         <div class="m-res-card"><div class="m-res-v c-em">Топ продуктов</div><div class="m-res-l">100% видимость и сравнение</div></div>
       </div>
@@ -311,43 +266,3 @@ const ldCase = caseSchema({
 
 </BaseLayout>
 
-
-<script>
-  // Mobile carousel
-  (function () {
-    const track = document.getElementById('mtrack');
-    const dotsEl = document.getElementById('mdots');
-    const ctr = document.getElementById('mctr');
-    const prev = document.getElementById('mprev') as HTMLButtonElement | null;
-    const next = document.getElementById('mnext') as HTMLButtonElement | null;
-    if (!track || !dotsEl || !ctr || !prev || !next) return;
-    const total = track.children.length;
-    let cur = 0;
-
-    for (let i = 0; i < total; i++) {
-      const d = document.createElement('div');
-      d.className = 'car-dot' + (i === 0 ? ' on' : '');
-      d.addEventListener('click', () => go(i));
-      dotsEl.appendChild(d);
-    }
-
-    function go(n: number) {
-      cur = Math.max(0, Math.min(total - 1, n));
-      (track as HTMLElement).style.transform = `translateX(-${cur * 100}%)`;
-      dotsEl!.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
-      ctr!.textContent = `${cur + 1} / ${total}`;
-      prev!.disabled = cur === 0;
-      next!.disabled = cur === total - 1;
-    }
-
-    prev.addEventListener('click', () => go(cur - 1));
-    next.addEventListener('click', () => go(cur + 1));
-
-    let sx = 0;
-    track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - sx;
-      if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
-    }, { passive: true });
-  })();
-</script>

@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 const T = { bg: '#0A0A0A', card: '#181818', card2: '#1F1F1F', border: '#2A2A2A', t1: '#FFFFFF', t2: '#A3A3A3', t3: '#555555' };
-const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', indigo: '#6366F1', tan: '#FB923C', slate: '#94A3B8', steel: '#475569' };
-const ACC = C.steel;
+const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', indigo: '#6366F1', tan: '#FB923C', slate: '#94A3B8' };
+const ACC = C.brand;
 const ch = (n = 8) => ({ clipPath: `polygon(0 0,100% 0,100% calc(100% - ${n}px),calc(100% - ${n}px) 100%,0 100%)` });
 const ha = (c, a) => { const h = c.replace('#', ''); return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`; };
 
@@ -25,7 +25,7 @@ function smooth(pts) {
   return d;
 }
 
-function BigSpark({ data, color, h = 54, filled = true, idKey }) {
+function BigSpark({ data, color, h = 54, filled = false, idKey }) {
   if (!data || data.length < 2) return <div style={{ height: h }} />;
   const mn = Math.min(...data), mx = Math.max(...data), r = mx - mn || 1;
   const w = 200;
@@ -59,7 +59,7 @@ function KpiBig({ label, value, sub, subColor, sparkData, accent, sparkColor, id
       <div style={{ fontSize: 22, fontWeight: 800, color: fg, lineHeight: 1, fontVariantNumeric: 'tabular-nums', letterSpacing: '-.025em', marginBottom: 5, whiteSpace: 'nowrap' }}>{value}</div>
       {sub && <div style={{ fontSize: 10, fontWeight: 600, color: subC, fontVariantNumeric: 'tabular-nums', lineHeight: 1.2 }}>{sub}</div>}
       <div style={{ marginLeft: -14, marginRight: -14, marginTop: 'auto', height: 48 }}>
-        <BigSpark data={sparkData} color={accent ? 'rgba(0,0,0,.55)' : (sparkColor || C.brand)} h={48} idKey={idKey} />
+        <BigSpark data={sparkData} color={accent ? 'rgba(0,0,0,.55)' : (sparkColor || C.brand)} h={48} filled={accent} idKey={idKey} />
       </div>
     </div>
   );
@@ -84,9 +84,9 @@ function PnL() {
       {/* 4 KPI каскад ОПУ: Выручка → Валовая → Операционная → Чистая */}
       <div style={{ display: 'flex', gap: 6 }}>
         <KpiBig accent label="Выручка" value="20,5М ₽" sub="+12% YoY" sparkData={[15, 16, 17, 18, 19, 20, 20.5]} idKey="pnl-rev" />
-        <KpiBig label="Валовая прибыль" value="8,2М ₽" sub="40% маржа" subColor={C.emerald} sparkData={[5, 5.5, 6.5, 7, 7.5, 8, 8.2]} sparkColor={ACC} idKey="pnl-gross" />
-        <KpiBig label="Операционная" value="5,4М ₽" sub="26% маржа" subColor={ACC} sparkData={[3, 3.5, 4, 4.5, 5, 5.2, 5.4]} sparkColor={ACC} idKey="pnl-op" />
-        <KpiBig label="Чистая прибыль" value="4,0М ₽" sub="+15% к апрелю" subColor={C.emerald} sparkData={[2.5, 2.8, 3.2, 3.5, 3.8, 3.9, 4]} sparkColor={ACC} idKey="pnl-net" />
+        <KpiBig label="Валовая прибыль" value="8,2М ₽" sub="40% маржа" subColor={C.emerald} sparkData={[5, 5.5, 6.5, 7, 7.5, 8, 8.2]} sparkColor={C.emerald} idKey="pnl-gross" />
+        <KpiBig label="Операционная" value="5,4М ₽" sub="26% маржа" subColor={C.emerald} sparkData={[3, 3.5, 4, 4.5, 5, 5.2, 5.4]} sparkColor={C.emerald} idKey="pnl-op" />
+        <KpiBig label="Чистая прибыль" value="4,0М ₽" sub="+15% к апрелю" subColor={C.emerald} sparkData={[2.5, 2.8, 3.2, 3.5, 3.8, 3.9, 4]} sparkColor={C.emerald} idKey="pnl-net" />
       </div>
 
       {/* План / Факт — общий + по 4 проектам */}

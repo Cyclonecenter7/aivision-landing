@@ -69,7 +69,7 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
           <polygon points="0,0 256,0 256,208 208,256 0,256" fill="#0A0A0A" />
           <polygon points="72,64 192,64 192,148 156,184 72,184" fill="#3F6EE8" />
         </svg>
-        <div style={{ fontSize: 20, fontWeight: 700, color: '#fff', marginBottom: 8 }}>Заявка принята</div>
+        <div style={{ fontSize: 20, fontWeight: 700, color: 'var(--d-text)', marginBottom: 8 }}>Заявка принята</div>
         <p style={{ fontSize: 14, color: 'var(--d-text-sec)', marginBottom: 24 }}>
           Свяжемся в течение 5 минут
         </p>

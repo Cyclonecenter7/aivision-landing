@@ -2104,6 +2104,68 @@
     text-align: center;
   }
 
+  /* ─── FinalCTA · light variant (бел.фон, белая форма) ─── */
+  .cta-section--light {
+    background: #F4F4F5;
+    --d-text: #0A0A0A;
+    --d-text-sec: #525252;
+    --d-text-mut: #888888;
+    --d-surface: #FFFFFF;
+    --d-surface-alt: #F9F9F9;
+    --d-border: #E0E0E0;
+  }
+  .cta-section--light .cta-h2 { color: #0A0A0A; }
+  .cta-section--light .cta-sub { color: #525252; }
+  .cta-section--light .cta-stat-lab { color: #888888; }
+  .cta-section--light .cta-stats--bordered {
+    display: flex;
+    grid-template-columns: none;
+    gap: 0;
+    background: #FFFFFF;
+    box-shadow: inset 0 0 0 1px #E0E0E0;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);
+    overflow: hidden;
+  }
+  .cta-section--light .cta-stats--bordered .cta-stat {
+    flex: 1;
+    padding: 14px 22px;
+  }
+  .cta-section--light .cta-stats--bordered .cta-stat + .cta-stat {
+    box-shadow: inset 1px 0 0 #E0E0E0;
+  }
+  .cta-section--light .cta-stats--bordered .cta-stat-val {
+    font-size: 22px;
+    color: var(--brand);
+  }
+  .cta-section--light .cta-form {
+    background: #FFFFFF;
+    box-shadow: 0 4px 40px rgba(0,0,0,.08);
+  }
+  .cta-section--light .cta-field-lab { color: #888888; }
+  .cta-section--light .cta-input {
+    background: #F9F9F9;
+    color: #0A0A0A;
+    box-shadow: inset 0 0 0 1px #E0E0E0;
+  }
+  .cta-section--light .cta-input::placeholder { color: #BDBDBD; }
+  .cta-section--light .cta-input:focus {
+    background: #FFFFFF;
+    box-shadow: inset 0 0 0 1px var(--brand);
+  }
+  .cta-section--light .cta-toggle-btn {
+    background: #F9F9F9;
+    color: #888888;
+    box-shadow: inset 0 0 0 1px #E0E0E0;
+  }
+  .cta-section--light .cta-toggle-btn.active {
+    background: var(--brand);
+    color: #FFFFFF;
+    box-shadow: inset 0 0 0 1px var(--brand);
+  }
+  .cta-section--light .cta-consent { color: #888888; }
+  .cta-section--light .cta-consent a { color: var(--brand); }
+  .cta-section--light .cta-after { color: #BDBDBD; }
+
   .footer {
     padding: 32px 48px;
     background: #000;

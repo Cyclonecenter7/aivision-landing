@@ -1,12 +1,13 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 
-const T = { bg: '#0A0A0A', card: '#181818', card2: '#222222', border: '#2A2A2A', t1: '#FFFFFF', t2: '#A3A3A3', t3: '#555555' };
-const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', tan: '#FB923C', slate: '#94A3B8', indigo: '#6366F1' };
+const T = { bg: '#0A0A0A', card: '#161616', card2: '#1A1A1A', border: '#252525', borderSoft: '#1F1F1F', t1: '#F0F0F0', t2: '#888888', t3: '#555555' };
+const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', tan: '#FB923C', slate: '#94A3B8' };
 const ch = (n = 8) => ({ clipPath: `polygon(0 0,100% 0,100% calc(100% - ${n}px),calc(100% - ${n}px) 100%,0 100%)` });
 const ha = (c, a) => { const h = c.replace('#', ''); return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`; };
 
 function smooth(pts) {
   const n = pts.length; if (n < 2) return '';
+  if (n === 2) return `M${pts[0][0]},${pts[0][1]} L${pts[1][0]},${pts[1][1]}`;
   const t = new Array(n);
   for (let i = 1; i < n - 1; i++) {
     const d1 = pts[i][0] - pts[i - 1][0], d2 = pts[i + 1][0] - pts[i][0];
@@ -24,257 +25,324 @@ function smooth(pts) {
   return d;
 }
 
-function Spark({ data, color, h = 20 }) {
-  if (!data || data.length < 2) return <div style={{ height: h }} />;
-  const mn = Math.min(...data), mx = Math.max(...data), r = mx - mn || 1;
-  const w = 100;
-  const pts = data.map((v, i) => [(i / (data.length - 1)) * w, h - ((v - mn) / r) * h * .8 - 2]);
+function Spark({ data, color, h = 36, bright = false, fill = true }) {
+  const ref = useRef(null);
+  const [w, setW] = useState(120);
+  useEffect(() => {
+    if (!ref.current) return;
+    const r = new ResizeObserver(([e]) => setW(e.contentRect.width));
+    r.observe(ref.current);
+    return () => r.disconnect();
+  }, []);
+  if (!data || data.length < 2) return <div ref={ref} style={{ height: h }} />;
+  const mn = Math.min(...data), mx = Math.max(...data), rg = mx - mn || 1;
+  const pts = data.map((v, i) => [(i / (data.length - 1)) * w, h - ((v - mn) / rg) * h * .85 - 2]);
   const line = smooth(pts);
   const area = line + ` L${pts[pts.length - 1][0]},${h} L${pts[0][0]},${h} Z`;
-  const id = 'spsls' + color.replace('#', '') + Math.floor(Math.random() * 1e6);
+  const id = 'spwb' + color.replace('#', '') + h + (bright ? 'b' : '') + Math.floor(Math.random() * 1e6);
+  const topOpacity = bright ? .55 : .22;
   return (
-    <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{ display: 'block' }}>
-      <defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity=".18" /><stop offset="100%" stopColor={color} stopOpacity="0" /></linearGradient></defs>
-      <path d={area} fill={`url(#${id})`} />
-      <path d={line} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round" />
-    </svg>
+    <div ref={ref} style={{ width: '100%', height: h }}>
+      <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{ display: 'block', overflow: 'visible' }}>
+        <defs>
+          <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
+            <stop offset="0%" stopColor={color} stopOpacity={topOpacity} />
+            <stop offset="100%" stopColor={color} stopOpacity="0" />
+          </linearGradient>
+        </defs>
+        {fill && <path d={area} fill={`url(#${id})`} />}
+        <path d={line} fill="none" stroke={color} strokeWidth={bright ? 2 : 1.6} strokeLinecap="round" />
+      </svg>
+    </div>
   );
 }
 
-const FUNNEL_STAGES = [
-  { label: 'Лид', v: 100, c: T.t3 },
-  { label: 'Квалифицирован', v: 68, c: C.brand },
-  { label: 'Встреча', v: 42, c: C.tan },
-  { label: 'КП отправлено', v: 31, c: C.sun },
-  { label: 'Оплата', v: 19, c: C.emerald },
-];
+function Kpi({ label, value, delta, deltaLabel, color, accent, sparkData, sparkColor }) {
+  const valColor = accent ? C.tan : (color || T.t1);
+  const sparkC = accent ? C.tan : (sparkColor || color || C.brand);
+  const deltaC = delta && (delta.startsWith('+') || delta.startsWith('↑')) ? C.emerald : (delta && (delta.startsWith('−') || delta.startsWith('-') || delta.startsWith('↓'))) ? C.emerald : C.emerald;
+  // direction logic: + or ↑ = good (green); − pp or ↓ depending — keep simple: positive number/'+'/'↑' → green, '-'/'↓' → crimson, but for ДРР '−5 пп' is good (green)
+  // We'll override per-card with `deltaPositive` prop if needed
+  return (
+    <div style={{ background: T.card, padding: '11px 12px 0', display: 'flex', flexDirection: 'column', gap: 2, overflow: 'hidden', ...ch(7) }}>
+      <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>{label}</div>
+      <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', color: valColor, fontVariantNumeric: 'tabular-nums', lineHeight: 1.1, whiteSpace: 'nowrap' }}>{value}</div>
+      <div style={{ fontSize: 9, color: T.t2, marginBottom: 2, minHeight: 12 }}>
+        {delta && <span style={{ fontWeight: 700, marginRight: 4, color: deltaC }}>{delta}</span>}
+        {deltaLabel}
+      </div>
+      <div style={{ marginLeft: -12, marginRight: -12, marginTop: 'auto' }}>
+        <Spark data={sparkData} color={sparkC} h={32} bright={accent} />
+      </div>
+    </div>
+  );
+}
 
-const MANAGERS = [
-  { name: 'Менеджер А', letter: 'А', conv: 24, deals: 12, revenue: '1.4М', spark: [18, 20, 22, 21, 24, 23, 24], c: C.emerald },
-  { name: 'Менеджер Б', letter: 'Б', conv: 19, deals: 8, revenue: '0.9М', spark: [15, 16, 17, 16, 18, 18, 19], c: C.brand },
-  { name: 'Менеджер В', letter: 'В', conv: 14, deals: 6, revenue: '0.7М', spark: [12, 13, 12, 14, 13, 14, 14], c: C.sun },
-  { name: 'Менеджер Г', letter: 'Г', conv: 9, deals: 3, revenue: '0.3М', spark: [14, 13, 12, 11, 10, 9, 9], c: C.crimson, warn: true },
-];
+function Eyebrow({ color, children }) {
+  return (
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 0 }}>
+      <span style={{ width: 12, height: 1, background: color || C.emerald, flexShrink: 0, display: 'block' }} />
+      <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>{children}</span>
+    </div>
+  );
+}
 
-function DashDashboard() {
-  const revData = [42, 45, 48, 44, 50, 52, 49, 55, 53, 58, 56, 60, 62, 60, 58];
-  const dealData = [35, 38, 40, 37, 42, 44, 41, 46, 44, 48, 47, 50, 52, 50, 47];
-  const mn = 30, mx = 65, r = mx - mn, h = 56, pt = 4;
-  const yi = (v) => pt + h - ((v - mn) / r) * h;
-  const xi = (i) => (i / 14) * 290 + 5;
-  const rpts = revData.map((v, i) => [xi(i), yi(v)]);
-  const dpts = dealData.map((v, i) => [xi(i), yi(v)]);
-  const rl = smooth(rpts); const dl = smooth(dpts);
-  const ra = rl + ` L${rpts[14][0]},${pt + h} L${rpts[0][0]},${pt + h} Z`;
-
+/* ─── TAB 1: ДАШБОРД ─── */
+function TabDashboard() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <div style={{ display: 'flex', gap: 5 }}>
-        {[
-          { label: 'Выручка', val: '5.8М ₽', sub: '+12% vs пред.', spark: revData, color: C.tan, accent: true },
-          { label: 'Сделок активных', val: '47', sub: 'в работе сейчас', spark: dealData, color: C.brand },
-          { label: 'Средний чек', val: '123К ₽', sub: '+8% vs пред.', spark: [88, 92, 95, 98, 102, 105, 108, 112, 115, 118, 120, 121, 123, 122, 123], color: C.emerald },
-          { label: 'Скорость сделки', val: '12 дн.', sub: 'было 18 дней', spark: [18, 17, 17, 16, 16, 15, 15, 14, 14, 13, 13, 12, 12, 12, 12].reverse(), color: C.sun },
-        ].map((it, i) => (
-          <div key={i} style={{ flex: 1, background: it.accent ? C.tan : T.card, padding: '10px 10px 0', ...ch(7) }}>
-            <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.11em', textTransform: 'uppercase', color: it.accent ? 'rgba(0,0,0,.45)' : T.t3, marginBottom: 2 }}>{it.label}</div>
-            <div style={{ fontSize: 16, fontWeight: 800, color: it.accent ? '#0A0A0A' : it.color, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{it.val}</div>
-            <div style={{ fontSize: 9, color: it.accent ? 'rgba(0,0,0,.35)' : T.t2, marginBottom: 2 }}>{it.sub}</div>
-            <div style={{ marginLeft: -10, marginRight: -10 }}><Spark data={it.spark} color={it.accent ? 'rgba(0,0,0,.25)' : it.color} h={20} /></div>
-          </div>
-        ))}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+        <Kpi accent label="Выручка" value="5.8M ₽" delta="+12%" deltaLabel="vs пред."
+          sparkData={[2.1, 2.4, 2.3, 2.8, 3.1, 2.9, 3.4, 3.8, 4.2, 4.5, 5.0, 5.3, 5.6, 5.7, 5.8]} />
+        <Kpi label="Реклама / ДРР" value="7%" delta="−5 пп" deltaLabel="к январю" color={C.brand}
+          sparkData={[12, 11.5, 11, 10.5, 10, 9.8, 9.4, 9, 8.6, 8.2, 8, 7.8, 7.5, 7.3, 7]} sparkColor={C.brand} />
+        <Kpi label="Продажи, шт" value="1 247" delta="+22%" deltaLabel="vs пред." color={C.emerald}
+          sparkData={[820, 850, 890, 920, 940, 970, 1010, 1050, 1090, 1130, 1170, 1200, 1220, 1240, 1247]} sparkColor={C.emerald} />
+        <Kpi label="Остаток, дн" value="14 дн." deltaLabel="по топу" color={C.sun}
+          sparkData={[18, 17, 17, 16, 16, 15, 15, 14, 14, 14, 14, 14, 14, 14, 14]} sparkColor={C.sun} />
       </div>
 
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-          <span style={{ width: 14, height: 1, background: C.tan, display: 'block' }} />
-          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>Выручка · 15 недель</span>
-          <div style={{ marginLeft: 'auto', display: 'flex', gap: 10 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, height: 1.5, background: C.tan, display: 'block' }} /><span style={{ fontSize: 8, color: T.t2 }}>Выручка</span></div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}><span style={{ width: 10, borderBottom: `1.5px dashed ${C.brand}`, display: 'block' }} /><span style={{ fontSize: 8, color: T.t2 }}>Сделки</span></div>
-          </div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <Eyebrow color={C.brand}>Закупки в пути</Eyebrow>
+          <span style={{ fontSize: 10, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>9 партий · 2.4M ₽</span>
         </div>
-        <svg width="100%" height={64} viewBox="0 0 300 64" preserveAspectRatio="none" style={{ display: 'block' }}>
-          <defs>
-            <linearGradient id="slsrg" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={C.tan} stopOpacity=".15" /><stop offset="100%" stopColor={C.tan} stopOpacity="0" /></linearGradient>
-          </defs>
-          <path d={ra} fill="url(#slsrg)" />
-          <path d={rl} fill="none" stroke={C.tan} strokeWidth="1.8" strokeLinecap="round" />
-          <path d={dl} fill="none" stroke={C.brand} strokeWidth="1.3" strokeLinecap="round" strokeDasharray="4 2" />
-          <line x1="5" y1={pt + h} x2="295" y2={pt + h} stroke={T.border} strokeWidth="1" />
-          <circle cx={rpts[14][0]} cy={rpts[14][1]} r="3" fill={C.tan} />
-        </svg>
-      </div>
-
-      <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-          <span style={{ width: 14, height: 1, background: C.emerald, display: 'block' }} />
-          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>Нагрузка менеджера · до и после</span>
-        </div>
-        {[
-          { label: 'Сбор отчётов', was: 120, now: 0, c: C.crimson },
-          { label: 'Сверка данных', was: 40, now: 5, c: C.sun },
-          { label: 'Подготовка сводок', was: 60, now: 10, c: C.tan },
-          { label: 'Продажи', was: 180, now: 305, c: C.emerald },
-        ].map((r) => {
-          const max = 320;
-          const wasW = Math.round(r.was / max * 100);
-          const nowW = Math.round(r.now / max * 100);
-          return (
-            <div key={r.label} style={{ marginBottom: 7 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 3 }}>
-                <span style={{ fontSize: 10, color: T.t2, flex: 1 }}>{r.label}</span>
-                <span style={{ fontSize: 9, color: T.t3 }}>{r.was > r.now ? '−' + (r.was - r.now) : r.now > r.was ? '+' + (r.now - r.was) : ''} мин</span>
-              </div>
-              <div style={{ display: 'flex', gap: 2, height: 5 }}>
-                <div style={{ width: wasW + '%', background: ha(r.c, .25), borderRadius: 1 }} />
-                <div style={{ width: nowW + '%', background: r.c, borderRadius: 1, opacity: .8 }} />
-              </div>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+          {[
+            { l: 'Оплачено', n: 2, c: C.brand },
+            { l: 'Китай', n: 4, c: C.sun },
+            { l: 'Байкал', n: 1, c: C.tan },
+            { l: 'Приёмка', n: 2, c: C.emerald },
+          ].map((s, i) => (
+            <div key={i} style={{ background: ha(s.c, .1), padding: '7px 8px', borderBottom: `2px solid ${s.c}`, ...ch(4) }}>
+              <div style={{ fontSize: 8, fontWeight: 600, color: s.c, letterSpacing: '.06em', marginBottom: 2 }}>{s.l}</div>
+              <div style={{ fontSize: 14, fontWeight: 800, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{s.n}</div>
             </div>
-          );
-        })}
-        <div style={{ fontSize: 8, color: T.t3, marginTop: 4 }}>▪ светлый = было · ▪ яркий = стало</div>
-        <div style={{ marginTop: 8, padding: '7px 10px', background: ha(C.emerald, .07), borderLeft: `2px solid ${C.emerald}`, ...ch(5) }}>
-          <span style={{ fontSize: 10, color: T.t2 }}>Освобождено </span>
-          <span style={{ fontSize: 10, fontWeight: 700, color: C.emerald }}>+2 ч/день</span>
-          <span style={{ fontSize: 10, color: T.t2 }}> — менеджер занимается продажами, а не Excel</span>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <Eyebrow color={C.emerald}>Товар на складах</Eyebrow>
+          <span style={{ fontSize: 10, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>3 241 шт</span>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          {[
+            { l: 'Палочка Гарри', brand: 'Косалея', qty: '87 шт', days: 7, c: C.emerald },
+            { l: 'Леггинсы Pro', brand: 'Be as fit', qty: '143 шт', days: 21, c: C.emerald },
+            { l: 'Кроссовки беговые', brand: 'Easy buy', qty: '52 шт', days: 16, c: C.emerald },
+            { l: 'Носки набор', brand: 'Easy buy', qty: '0 шт', days: 0, c: C.crimson, stop: true },
+          ].map((r, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 0', borderBottom: i < 3 ? `1px solid ${T.borderSoft}` : 'none' }}>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ fontSize: 10, fontWeight: 500, color: T.t1 }}>{r.l}</div>
+                <div style={{ fontSize: 9, color: T.t3 }}>{r.brand}</div>
+              </div>
+              <span style={{ fontSize: 10, fontWeight: 700, color: r.stop ? C.crimson : T.t1, fontVariantNumeric: 'tabular-nums', minWidth: 50, textAlign: 'right' }}>{r.qty}</span>
+              {r.stop
+                ? <span style={{ fontSize: 8, fontWeight: 700, color: C.crimson, background: ha(C.crimson, .15), padding: '2px 6px', ...ch(3) }}>СТОП</span>
+                : <span style={{ fontSize: 9, color: r.days < 7 ? C.crimson : r.days < 14 ? C.sun : C.emerald, fontVariantNumeric: 'tabular-nums', minWidth: 32, textAlign: 'right' }}>{r.days}д</span>
+              }
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+          <Eyebrow color={C.tan}>Индекс локализации</Eyebrow>
+          <div style={{ display: 'flex', alignItems: 'baseline', gap: 5 }}>
+            <span style={{ fontSize: 16, fontWeight: 800, color: C.sun, fontVariantNumeric: 'tabular-nums' }}>1.14</span>
+            <span style={{ fontSize: 9, color: T.t3 }}>цель ≤ 1.0</span>
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          {[
+            { r: 'Центральный', pct: 97, c: C.emerald, share: 36.5 },
+            { r: 'Южный + СК', pct: 29, c: C.sun, share: 14.5 },
+            { r: 'Приволжский', pct: 7, c: C.crimson, share: 14.8 },
+            { r: 'Дальневост. + Сиб.', pct: 3, c: C.crimson, share: 13.6 },
+          ].map((r, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+              <span style={{ fontSize: 10, color: T.t1, flex: '0 0 105px' }}>{r.r}</span>
+              <div style={{ flex: 1, height: 4, background: T.borderSoft, ...ch(2) }}>
+                <div style={{ height: '100%', width: r.pct + '%', background: r.c, ...ch(2) }} />
+              </div>
+              <span style={{ fontSize: 9, fontWeight: 700, color: r.c, fontVariantNumeric: 'tabular-nums', minWidth: 28, textAlign: 'right' }}>{r.pct}%</span>
+              <span style={{ fontSize: 9, color: T.t3, fontVariantNumeric: 'tabular-nums', minWidth: 32, textAlign: 'right' }}>{r.share}%</span>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function DashFunnel() {
+/* ─── TAB 2: ЗАКУПКИ ─── */
+function TabPurchases() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+        <Kpi accent label="В работе" value="14" delta="2 закупа" deltaLabel="новых"
+          sparkData={[8, 9, 10, 11, 12, 12, 13, 13, 13, 14, 14, 14, 14, 14, 14]} />
+        <Kpi label="Вложено" value="3.2M ₽" delta="+18%" deltaLabel="к пред." color={C.brand}
+          sparkData={[1.8, 2.0, 2.1, 2.3, 2.4, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.1, 3.2, 3.2, 3.2]} sparkColor={C.brand} />
+        <Kpi label="Себес точный" value="±0%" deltaLabel="по партиям" color={C.emerald}
+          sparkData={[5, 4, 3, 3, 2, 2, 1, 1, 1, .5, .5, .3, .2, .1, 0]} sparkColor={C.emerald} />
+        <Kpi label="Цикл" value="42 дн." deltaLabel="было 67" color={C.sun}
+          sparkData={[67, 65, 62, 60, 58, 55, 53, 50, 48, 46, 45, 44, 43, 42, 42]} sparkColor={C.sun} />
+      </div>
+
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 10 }}>
-          <span style={{ width: 14, height: 1, background: C.brand, display: 'block' }} />
-          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>Воронка продаж · конверсия по этапам</span>
-        </div>
-        {FUNNEL_STAGES.map((s, i) => {
-          const conv = i > 0 ? Math.round(s.v / FUNNEL_STAGES[i - 1].v * 100) : null;
-          const convC = conv === null ? null : conv > 70 ? C.emerald : conv > 50 ? C.sun : C.crimson;
-          const pct = s.v;
-          return (
-            <div key={i} style={{ marginBottom: 8 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 3 }}>
-                <span style={{ fontSize: 11, fontWeight: 600, color: s.c, flex: 1 }}>{s.label}</span>
-                <span style={{ fontSize: 13, fontWeight: 800, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{s.v}</span>
-                {conv && <span style={{ fontSize: 10, fontWeight: 700, color: convC, background: ha(convC, .12), padding: '1px 6px', ...ch(4) }}>→{conv}%</span>}
-              </div>
-              <div style={{ height: 16, background: T.border, ...ch(4), overflow: 'hidden' }}>
-                <div style={{ height: '100%', width: pct + '%', background: ha(s.c === T.t3 ? '#555' : s.c, .28), borderLeft: `2px solid ${s.c === T.t3 ? '#555' : s.c}` }} />
-              </div>
+        <Eyebrow color={C.brand}>Канбан · 7 стадий закупа</Eyebrow>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 3, marginTop: 8 }}>
+          {[
+            { l: 'План', n: 3, c: '#6B7280' },
+            { l: 'Оплач.', n: 2, c: C.brand },
+            { l: 'Китай', n: 4, c: C.sun },
+            { l: 'Байкал', n: 1, c: C.tan },
+            { l: 'Приёмка', n: 5, c: C.tan },
+            { l: 'На ВБ', n: 8, c: C.emerald },
+            { l: 'Закр.', n: 12, c: '#6B7280' },
+          ].map((s, i) => (
+            <div key={i} style={{ background: ha(s.c, .1), padding: '7px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, borderBottom: `2px solid ${s.c}`, ...ch(3) }}>
+              <span style={{ fontSize: 8, fontWeight: 600, color: s.c, letterSpacing: '.04em' }}>{s.l}</span>
+              <span style={{ fontSize: 12, fontWeight: 800, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{s.n}</span>
             </div>
-          );
-        })}
-        <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6, marginTop: 4 }}>
-          <div style={{ background: ha(C.brand, .07), padding: '8px 10px', ...ch(6) }}>
-            <div style={{ fontSize: 9, color: T.t3, marginBottom: 2 }}>Итоговая конверсия</div>
-            <div style={{ fontSize: 20, fontWeight: 900, color: C.brand }}>19%</div>
-            <div style={{ fontSize: 9, color: T.t3 }}>лид → оплата</div>
-          </div>
-          <div style={{ background: ha(C.emerald, .07), padding: '8px 10px', ...ch(6) }}>
-            <div style={{ fontSize: 9, color: T.t3, marginBottom: 2 }}>Скорость сделки</div>
-            <div style={{ fontSize: 20, fontWeight: 900, color: C.emerald }}>12 дн.</div>
-            <div style={{ fontSize: 9, color: T.t3 }}>было 18 дней</div>
-          </div>
+          ))}
         </div>
       </div>
 
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3, marginBottom: 8 }}>Слабое место воронки</div>
-        <div style={{ padding: '10px 12px', background: ha(C.sun, .07), borderLeft: `2px solid ${C.sun}`, ...ch(6), marginBottom: 6 }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: C.sun, marginBottom: 3 }}>Лид → Квалификация: 68%</div>
-          <div style={{ fontSize: 11, color: T.t2 }}>Каждый третий лид не квалифицируется. Причина — нет скрипта первичной квалификации.</div>
-        </div>
-        <div style={{ padding: '10px 12px', background: ha(C.crimson, .07), borderLeft: `2px solid ${C.crimson}`, ...ch(6) }}>
-          <div style={{ fontSize: 11, fontWeight: 700, color: C.crimson, marginBottom: 3 }}>КП → Оплата: 61%</div>
-          <div style={{ fontSize: 11, color: T.t2 }}>Низкая конверсия после отправки КП. Нет follow-up задач в системе.</div>
+        <Eyebrow color={C.tan}>Активные закупы</Eyebrow>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
+          {[
+            { id: '3.1', name: 'Палочки Гарри · 411 шт', sum: '540К ₽', progress: 85, c: C.tan, status: '2 из 3 грузов' },
+            { id: '3.2', name: 'Леггинсы Pro · 220 шт', sum: '570К ₽', progress: 60, c: C.sun, status: 'на Байкале' },
+            { id: '3.3', name: 'Мантии · 190 шт', sum: '490К ₽', progress: 35, c: C.brand, status: 'в пути Китай' },
+          ].map((p, i) => (
+            <div key={i} style={{ background: T.card2, padding: '8px 10px', ...ch(5) }}>
+              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 5 }}>
+                <div>
+                  <div style={{ fontSize: 10, fontWeight: 700, color: T.t1, marginBottom: 1 }}>№{p.id} · {p.name}</div>
+                  <div style={{ fontSize: 9, color: T.t2 }}>{p.status}</div>
+                </div>
+                <span style={{ fontSize: 11, fontWeight: 800, color: p.c, fontVariantNumeric: 'tabular-nums' }}>{p.sum}</span>
+              </div>
+              <div style={{ height: 3, background: T.borderSoft, ...ch(2) }}>
+                <div style={{ height: '100%', width: p.progress + '%', background: p.c, ...ch(2) }} />
+              </div>
+            </div>
+          ))}
         </div>
       </div>
     </div>
   );
 }
 
-function DashManagers() {
+/* ─── TAB 3: ФИНАНСЫ ─── */
+function TabFinance() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <div style={{ background: T.card, ...ch(8), overflow: 'hidden' }}>
-        <div style={{ padding: '8px 12px', borderBottom: `1px solid ${T.border}` }}>
-          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>Эффективность менеджеров</span>
-        </div>
-        {MANAGERS.map((m, i) => (
-          <div key={i} style={{ padding: '10px 12px', display: 'flex', alignItems: 'center', gap: 10, background: i % 2 === 1 ? ha('#fff', .015) : T.card, borderBottom: `1px solid ${T.border}` }}>
-            <div style={{ width: 28, height: 28, borderRadius: '50%', background: ha(m.c, .15), display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: 11, fontWeight: 800, color: m.c, flexShrink: 0 }}>{m.letter}</div>
-            <div style={{ flex: 1, minWidth: 0 }}>
-              <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 4 }}>
-                <span style={{ fontSize: 11, fontWeight: 600, color: T.t1 }}>{m.name}</span>
-                {m.warn && <span style={{ fontSize: 9, fontWeight: 700, color: C.crimson, background: ha(C.crimson, .15), padding: '1px 5px', ...ch(3) }}>⚠ алерт</span>}
-              </div>
-              <div style={{ display: 'flex', gap: 2 }}>
-                <div style={{ height: 4, width: (m.conv / 25 * 100) + '%', background: m.c, borderRadius: 1, opacity: .8 }} />
-                <div style={{ flex: 1, height: 4, background: T.border, borderRadius: 1 }} />
-              </div>
-            </div>
-            <div style={{ textAlign: 'right', flexShrink: 0 }}>
-              <div style={{ fontSize: 14, fontWeight: 900, color: m.c, fontVariantNumeric: 'tabular-nums' }}>{m.conv}%</div>
-              <div style={{ fontSize: 9, color: T.t3 }}>{m.deals} сд · {m.revenue}</div>
-            </div>
-            <div style={{ width: 44, flexShrink: 0 }}><Spark data={m.spark} color={m.c} h={18} /></div>
-          </div>
-        ))}
+      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+        <Kpi accent label="Чистая прибыль" value="442К ₽" delta="+15%" deltaLabel="к апрелю"
+          sparkData={[280, 300, 320, 340, 360, 370, 380, 400, 410, 420, 430, 438, 440, 441, 442]} />
+        <Kpi label="Маржа" value="33%" delta="+2 пп" deltaLabel="vs пред." color={C.emerald}
+          sparkData={[28, 29, 30, 30, 31, 31, 32, 32, 32, 33, 33, 33, 33, 33, 33]} sparkColor={C.emerald} />
+        <Kpi label="Нагрузка ВБ" value="29%" deltaLabel="цель ≤30%" color={C.brand}
+          sparkData={[35, 34, 33, 33, 32, 31, 31, 30, 30, 30, 29, 29, 29, 29, 29]} sparkColor={C.brand} />
+        <Kpi label="ДРР" value="7%" delta="−5 пп" deltaLabel="к январю" color={C.sun}
+          sparkData={[12, 11.5, 11, 10.5, 10, 9.8, 9.4, 9, 8.6, 8.2, 8, 7.8, 7.5, 7.3, 7]} sparkColor={C.sun} />
       </div>
 
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-          <span style={{ width: 14, height: 1, background: C.crimson, display: 'block' }} />
-          <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>Активные алерты</span>
-        </div>
-        {[
-          { text: 'Менеджер Г — конверсия упала ниже 10% за 2 недели', c: C.crimson, time: 'сегодня 09:14' },
-          { text: '3 сделки без активности более 7 дней', c: C.sun, time: 'вчера' },
-          { text: 'Средний цикл сделки вырос на 20% у Менеджера В', c: C.sun, time: '3 дня назад' },
-        ].map((a, i) => (
-          <div key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, padding: '8px 0', borderBottom: i < 2 ? `1px solid ${T.border}` : 'none' }}>
-            <div style={{ width: 6, height: 6, borderRadius: '50%', background: a.c, flexShrink: 0, marginTop: 3 }} />
-            <div style={{ flex: 1 }}>
-              <div style={{ fontSize: 11, color: T.t1, lineHeight: 1.4, marginBottom: 2 }}>{a.text}</div>
-              <div style={{ fontSize: 9, color: T.t3 }}>{a.time}</div>
+        <Eyebrow color={C.emerald}>ABC-анализ · структура продаж</Eyebrow>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
+          {[
+            { grp: 'A', label: 'Топ 80% выручки', count: '8 артикулов', sum: '4.6М ₽', pct: 80, c: C.emerald, spark: [400, 440, 460, 510, 540, 580, 620, 680, 720, 760, 810, 860, 890, 940, 980] },
+            { grp: 'B', label: 'Следующие 15%', count: '12 артикулов', sum: '870К ₽', pct: 15, c: C.sun, spark: [180, 190, 200, 210, 220, 225, 230, 240, 250, 260, 265, 270, 275, 280, 285] },
+            { grp: 'C', label: 'Остаток 5%', count: '30 артикулов', sum: '290К ₽', pct: 5, c: '#6B7280', spark: [80, 82, 85, 87, 88, 90, 90, 91, 92, 93, 94, 95, 95, 96, 97] },
+          ].map((g, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
+              <span style={{ width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', background: ha(g.c, .15), color: g.c, fontWeight: 800, fontSize: 11, flexShrink: 0, ...ch(4) }}>{g.grp}</span>
+              <div style={{ flex: 1, minWidth: 0 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
+                  <span style={{ fontSize: 10, color: T.t1 }}>{g.label} <span style={{ color: T.t3 }}>· {g.count}</span></span>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: g.c, fontVariantNumeric: 'tabular-nums' }}>{g.sum}</span>
+                </div>
+                <div style={{ height: 4, background: T.borderSoft, ...ch(2) }}>
+                  <div style={{ height: '100%', width: g.pct + '%', background: g.c, ...ch(2) }} />
+                </div>
+              </div>
+              <div style={{ width: 44, flexShrink: 0 }}><Spark data={g.spark} color={g.c} h={18} fill={false} /></div>
             </div>
+          ))}
+        </div>
+      </div>
+
+      <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
+        <Eyebrow color={C.tan}>Куда ушёл рубль · цель 30/40/30</Eyebrow>
+        <div style={{ display: 'flex', height: 20, gap: 2, marginTop: 8, marginBottom: 8, ...ch(4), overflow: 'hidden' }}>
+          <div style={{ width: '29%', background: ha(C.crimson, .4), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontSize: 9, fontWeight: 700, color: C.crimson }}>29%</span>
           </div>
-        ))}
+          <div style={{ width: '42%', background: ha(C.tan, .4), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontSize: 9, fontWeight: 700, color: C.tan }}>42%</span>
+          </div>
+          <div style={{ width: '29%', background: ha(C.slate, .4), display: 'flex', alignItems: 'center', justifyContent: 'center' }}>
+            <span style={{ fontSize: 9, fontWeight: 700, color: C.slate }}>29%</span>
+          </div>
+        </div>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+          {[
+            { l: 'Нагрузка ВБ', v: '29%', tgt: 'цель 30%', c: C.crimson },
+            { l: 'Прибыль', v: '42%', tgt: 'цель 40%', c: C.tan },
+            { l: 'Себестоимость', v: '29%', tgt: 'цель 30%', c: C.slate },
+          ].map((r, i) => (
+            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+              <span style={{ width: 7, height: 7, background: r.c, flexShrink: 0 }} />
+              <span style={{ fontSize: 10, color: T.t2, flex: 1 }}>{r.l}</span>
+              <span style={{ fontSize: 11, fontWeight: 700, color: r.c, fontVariantNumeric: 'tabular-nums', minWidth: 30 }}>{r.v}</span>
+              <span style={{ fontSize: 9, color: T.t3, minWidth: 56 }}>{r.tgt}</span>
+              <span style={{ fontSize: 11, color: C.emerald }}>✓</span>
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
 }
 
 export default function SalesDashboard() {
-  const [tab, setTab] = useState('dash');
-  const TBTN = { height: 22, padding: '0 9px', fontSize: 8, fontWeight: 600, letterSpacing: '.08em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: 'Inter,sans-serif', transition: 'all .12s' };
-  const tabs = [['dash', 'Дашборд'], ['funnel', 'Воронка'], ['managers', 'Менеджеры']];
+  const [tab, setTab] = useState('dashboard');
+  const TBTN = { height: 22, padding: '0 9px', fontSize: 8, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: 'Inter,sans-serif', transition: 'all .12s' };
+  const tabs = [['dashboard', 'Дашборд'], ['purchases', 'Закупки'], ['finance', 'Финансы']];
 
   return (
     <div style={{ background: T.card, ...ch(20), overflow: 'hidden', fontFamily: 'Inter,sans-serif' }}>
-      <div style={{ background: T.card, borderBottom: `1px solid ${T.border}`, padding: '0 12px' }}>
+      <div style={{ background: T.card, borderBottom: `1px solid ${T.borderSoft}`, padding: '0 12px' }}>
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 38 }}>
-          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.1em', color: T.t2 }}>СИСТЕМА В ДЕЙСТВИИ</span>
-          <div style={{ display: 'flex', gap: 1, background: '#0A0A0A', padding: 2, ...ch(5) }}>
+          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.18em', color: T.t2 }}>СИСТЕМА В ДЕЙСТВИИ</span>
+          <div style={{ display: 'flex', gap: 2, background: T.bg, padding: 2, ...ch(5) }}>
             {tabs.map(([k, l]) => {
               const a = tab === k;
-              return <button key={k} onClick={() => setTab(k)} style={{ ...TBTN, background: a ? C.tan : 'transparent', color: a ? '#0A0A0A' : T.t3, ...ch(4) }}>{l}</button>;
+              return <button key={k} onClick={() => setTab(k)} style={{ ...TBTN, background: a ? C.tan : 'transparent', color: a ? '#1a0f00' : T.t3, ...ch(4) }}>{l}</button>;
             })}
           </div>
         </div>
       </div>
+
       <div style={{ padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {tab === 'dash' && <DashDashboard />}
-        {tab === 'funnel' && <DashFunnel />}
-        {tab === 'managers' && <DashManagers />}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
+        {tab === 'dashboard' && <TabDashboard />}
+        {tab === 'purchases' && <TabPurchases />}
+        {tab === 'finance' && <TabFinance />}
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 2 }}>
           <span style={{ fontSize: 7, color: T.t3 }}>Платформа AIVISION · NDA · данные изменены</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}><div style={{ width: 5, height: 5, borderRadius: '50%', background: C.emerald }} /><span style={{ fontSize: 7, color: T.t3 }}>live</span></div>
+          <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
+            <div style={{ width: 5, height: 5, borderRadius: '50%', background: C.emerald }} />
+            <span style={{ fontSize: 7, color: T.t3 }}>live</span>
+          </div>
         </div>
       </div>
     </div>

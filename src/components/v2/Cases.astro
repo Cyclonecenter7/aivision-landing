@@ -1,36 +1,12 @@
 ---
-// v2 design — асимметрия 1 большой + 3 маленьких, тёмный фон, SVG паттерны
-// Реф: docs/cases/cases-v5.html
+// v3 композиция: HERO=Construction (steel) + WB top-right (tan)
+// + eSIM (indigo) + Education (crimson) bottom-right.
+// Hero иллюстрация — 3 финансовых контура (ОПУ/ДДС/Баланс) из cases-v6.html
 ---
 
 <svg width="0" height="0" style="position:absolute;overflow:hidden" aria-hidden="true">
   <defs>
-    <symbol id="p-bld" viewBox="0 0 200 140">
-      <rect x="8"   y="28" width="32" height="28" fill="white" opacity=".22"/>
-      <rect x="8"   y="58" width="32" height="38" fill="white" opacity=".55"/>
-      <rect x="8"   y="98" width="32" height="22" fill="white" opacity=".3"/>
-      <polygon points="28,120 40,108 40,120" fill="#0A0A0A" opacity=".9"/>
-      <rect x="56"  y="10" width="32" height="24" fill="white" opacity=".22"/>
-      <rect x="56"  y="36" width="32" height="52" fill="white" opacity=".7"/>
-      <rect x="56"  y="90" width="32" height="30" fill="white" opacity=".3"/>
-      <polygon points="76,120 88,108 88,120" fill="#0A0A0A" opacity=".9"/>
-      <rect x="104" y="42" width="32" height="18" fill="white" opacity=".1"/>
-      <rect x="104" y="62" width="32" height="16" fill="white" opacity=".1"/>
-      <rect x="104" y="80" width="32" height="40" fill="white" opacity=".1"/>
-      <polygon points="124,120 136,108 136,120" fill="#0A0A0A" opacity=".9"/>
-      <line x1="104" y1="42" x2="136" y2="120" stroke="white" stroke-width=".8" opacity=".2"/>
-      <line x1="136" y1="42" x2="104" y2="120" stroke="white" stroke-width=".8" opacity=".2"/>
-      <rect x="152" y="20" width="32" height="26" fill="white" opacity=".22"/>
-      <rect x="152" y="48" width="32" height="46" fill="white" opacity=".6"/>
-      <rect x="152" y="96" width="32" height="24" fill="white" opacity=".3"/>
-      <polygon points="172,120 184,108 184,120" fill="#0A0A0A" opacity=".9"/>
-      <line x1="0" y1="120" x2="200" y2="120" stroke="white" stroke-width=".5" opacity=".15"/>
-      <text x="24"  y="134" font-family="Inter,sans-serif" font-size="8" fill="white" opacity=".3" text-anchor="middle">П1</text>
-      <text x="72"  y="134" font-family="Inter,sans-serif" font-size="8" fill="white" opacity=".3" text-anchor="middle">П2</text>
-      <text x="120" y="134" font-family="Inter,sans-serif" font-size="8" fill="white" opacity=".15" text-anchor="middle">П3</text>
-      <text x="168" y="134" font-family="Inter,sans-serif" font-size="8" fill="white" opacity=".3" text-anchor="middle">П4</text>
-    </symbol>
-
+    <!-- eco паттерн для WB (фон в карточке) -->
     <symbol id="p-eco" viewBox="0 0 200 140">
       <rect x="0"  y="8"   width="200" height="22" fill="white" opacity=".08"/>
       <polygon points="186,30 200,16 200,30" fill="#0A0A0A" opacity=".9"/>
@@ -63,13 +39,16 @@
       <path d="M20,115 C50,112 70,105 90,100 C110,95 130,92 160,86 C180,82 200,78 220,73 L220,125 L20,125 Z" fill="white" opacity=".04"/>
       <path d="M20,100 C50,95 70,80 90,70 C110,60 130,58 160,45 C180,36 200,30 220,22" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity=".8"/>
       <path d="M20,115 C50,112 70,105 90,100 C110,95 130,92 160,86 C180,82 200,78 220,73" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 3" opacity=".5"/>
-      <line x1="160" y1="20" x2="160" y2="125" stroke="white" stroke-width=".8" stroke-dasharray="3 3" opacity=".25"/>
       <circle cx="160" cy="45" r="3.5" fill="white" opacity=".8"/>
       <circle cx="160" cy="86" r="3.5" fill="white" opacity=".5"/>
-      <line x1="20" y1="10" x2="34" y2="10" stroke="white" stroke-width="1.5" opacity=".5"/>
-      <text x="37" y="13" font-family="Inter,sans-serif" font-size="7" fill="white" opacity=".35">Крипта</text>
-      <line x1="80" y1="10" x2="94" y2="10" stroke="white" stroke-width="1.5" stroke-dasharray="4 2" opacity=".4"/>
-      <text x="97" y="13" font-family="Inter,sans-serif" font-size="7" fill="white" opacity=".3">СБП</text>
+    </symbol>
+
+    <symbol id="p-edu" viewBox="0 0 200 140">
+      <line x1="0" y1="120" x2="200" y2="120" stroke="white" stroke-width=".5" opacity=".15"/>
+      <path d="M5,100 C30,98 60,90 90,75 C120,58 150,38 195,22 L195,120 L5,120 Z" fill="white" opacity=".06"/>
+      <path d="M5,100 C30,98 60,90 90,75 C120,58 150,38 195,22" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity=".75"/>
+      <circle cx="5"   cy="100" r="3" fill="white" opacity=".5"/>
+      <circle cx="195" cy="22"  r="4" fill="white" opacity=".9"/>
     </symbol>
   </defs>
 </svg>
@@ -83,76 +62,127 @@
       <p class="cs-sub">Разные сегменты — единый подход. Управление на цифрах, не на ощущениях.</p>
     </div>
 
-    <!-- DESKTOP grid (mobile = horizontal swipe) -->
     <div class="cs-grid">
 
-      <!-- HERO: Образование -->
-      <a class="cs-card cs-hero" href="/cases/education/" data-track="case_card_education" data-track-block="cases">
-        <div class="cs-tag cs-t-br">Образование <span class="cs-tag-sub">· Офлайн + онлайн · 5+ лет</span></div>
-        <div class="cs-ttl">Как образовательный проект перестал терять маржу</div>
-        <div class="cs-prob">Доход рос на 3% в год — расходы на 6% ежемесячно. 60–70% бюджета уходило в ФОТ без привязки к результату. Клиентская база не работала на повторные продажи.</div>
+      <!-- HERO: Строительство (steel) -->
+      <a class="cs-card cs-hero" href="/cases/construction/" style="--cs-ac:var(--cs-steel)" data-track="case_card_construction" data-track-block="cases">
+        <div class="cs-tag cs-t-st">Строительство <span class="cs-tag-sub">· 200+ млн ₽/год · 4 проекта</span></div>
+        <div class="cs-ttl">Система в бизнесе с оборотом 200+ млн ₽ и 4 проектами</div>
+        <div class="cs-prob">Общий PnL без разбивки — один из проектов тихо съедал ресурс. Развернули полный финансовый контур: ОПУ, ДДС и баланс по каждой единице бизнеса. Учёт перестал быть отчётом — стал инструментом управления.</div>
 
-        <div class="cs-spark-wrap">
-          <div class="cs-spark-lbl">Маржинальность после внедрения</div>
-          <svg width="100%" height="56" viewBox="0 0 380 56" preserveAspectRatio="none">
-            <defs>
-              <linearGradient id="cs-sg" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="0%" stop-color="#10B981" stop-opacity=".18"/>
-                <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
-              </linearGradient>
-            </defs>
-            <line x1="0" y1="50" x2="380" y2="50" stroke="#2A2A2A" stroke-width="1"/>
-            <path d="M0,48 C30,47 60,43 90,38 C130,31 160,24 200,18 C240,12 290,7 340,4 L380,3 L380,56 L0,56 Z" fill="url(#cs-sg)"/>
-            <path d="M0,48 C30,47 60,43 90,38 C130,31 160,24 200,18 C240,12 290,7 340,4 L380,3" fill="none" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
-            <circle cx="0"   cy="48" r="2.5" fill="#555"/>
-            <circle cx="190" cy="19" r="2.5" fill="#10B981" opacity=".6"/>
-            <circle cx="380" cy="3"  r="3.5" fill="#10B981"/>
-            <text x="4"   y="44" font-family="Inter,sans-serif" font-size="8" fill="#555">—</text>
-            <text x="194" y="15" font-family="Inter,sans-serif" font-size="8" fill="#10B981" opacity=".7">+18%</text>
-            <text x="342" y="14" font-family="Inter,sans-serif" font-size="8" fill="#10B981">+27%</text>
-          </svg>
-        </div>
-
-        <div class="cs-div"></div>
         <div class="cs-kr">
-          <div><div class="cs-kv cs-c-em">+18–27%</div><div class="cs-kl">Маржинальность</div></div>
-          <div><div class="cs-kv cs-c-cr">−20%</div><div class="cs-kl">Расходы</div></div>
-          <div><div class="cs-kv cs-c-br">85%+</div><div class="cs-kl">Точность план/факт</div></div>
+          <div><div class="cs-kv cs-c-em">4 PnL</div><div class="cs-kl">Раздельно по проектам</div></div>
+          <div><div class="cs-kv cs-c-st">3 контура</div><div class="cs-kl">ОПУ · ДДС · Баланс</div></div>
+          <div><div class="cs-kv cs-c-em">0</div><div class="cs-kl">Кассовых разрывов</div></div>
         </div>
-        <span class="cs-cta">Открыть кейс <span class="cs-cta-a">→</span></span>
+
+        <!-- иллюстрация: 3 финансовых контура -->
+        <div class="cs-hero-illu">
+
+          <!-- ОПУ блок: каскад -->
+          <div class="cs-illu-block">
+            <div class="cs-illu-lbl">ОПУ</div>
+            <div class="cs-illu-title">Прибыль</div>
+            <div class="cs-opu-rows">
+              <div class="cs-opu-row">
+                <div class="cs-opu-row-bar" style="width:100%"></div>
+                <div class="cs-opu-row-lbl">20,5М</div>
+              </div>
+              <div class="cs-opu-row">
+                <div class="cs-opu-row-bar" style="width:70%"></div>
+                <div class="cs-opu-row-lbl">8,2М</div>
+              </div>
+              <div class="cs-opu-row">
+                <div class="cs-opu-row-bar cs-opu-em-soft" style="width:40%"></div>
+                <div class="cs-opu-row-lbl">5,4М</div>
+              </div>
+              <div class="cs-opu-row">
+                <div class="cs-opu-row-bar cs-opu-em" style="width:28%"></div>
+                <div class="cs-opu-row-lbl cs-c-em" style="font-weight:700">4,0М</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- ДДС блок: bars + line -->
+          <div class="cs-illu-block">
+            <div class="cs-illu-lbl">ДДС</div>
+            <div class="cs-illu-title">Движение</div>
+            <div class="cs-dds-chart">
+              <svg width="100%" height="60" viewBox="0 0 140 60" preserveAspectRatio="none" style="display:block">
+                <defs>
+                  <linearGradient id="cs-ddsG" x1="0" y1="0" x2="0" y2="1">
+                    <stop offset="0%" stop-color="#4F77B5" stop-opacity=".35"/>
+                    <stop offset="100%" stop-color="#4F77B5" stop-opacity="0"/>
+                  </linearGradient>
+                </defs>
+                <line x1="0" y1="55" x2="140" y2="55" stroke="#2A2A2A" stroke-width="1"/>
+                <rect x="4"   y="48" width="10" height="7"  fill="#10B981" opacity=".4" rx="1"/>
+                <rect x="22"  y="46" width="10" height="9"  fill="#10B981" opacity=".4" rx="1"/>
+                <rect x="40"  y="42" width="10" height="13" fill="#10B981" opacity=".5" rx="1"/>
+                <rect x="58"  y="40" width="10" height="15" fill="#10B981" opacity=".5" rx="1"/>
+                <rect x="76"  y="36" width="10" height="19" fill="#10B981" opacity=".55" rx="1"/>
+                <rect x="94"  y="34" width="10" height="21" fill="#10B981" opacity=".6" rx="1"/>
+                <rect x="112" y="30" width="10" height="25" fill="#10B981" opacity=".65" rx="1"/>
+                <path d="M5,32 C25,28 45,22 65,18 C85,14 105,12 135,8" fill="none" stroke="#4F77B5" stroke-width="1.8" stroke-linecap="round"/>
+                <path d="M5,32 C25,28 45,22 65,18 C85,14 105,12 135,8 L135,55 L5,55 Z" fill="url(#cs-ddsG)"/>
+                <path d="M5,40 C25,38 45,34 65,32 C85,30 105,28 135,26" fill="none" stroke="#F43F5E" stroke-width="1.4" stroke-linecap="round" stroke-dasharray="3 2"/>
+              </svg>
+            </div>
+          </div>
+
+          <!-- Баланс блок: сегментный бар -->
+          <div class="cs-illu-block">
+            <div class="cs-illu-lbl">БАЛАНС</div>
+            <div class="cs-illu-title">Структура</div>
+            <div class="cs-bal-seg">
+              <div style="width:36%;background:#4F77B5;opacity:.75"></div>
+              <div style="width:24%;background:#6366F1;opacity:.7"></div>
+              <div style="width:22%;background:#10B981;opacity:.7"></div>
+              <div style="width:18%;background:#94A3B8;opacity:.7"></div>
+            </div>
+            <div class="cs-balance-bar">
+              <div class="cs-bal-row">
+                <div class="cs-bal-dot" style="background:#4F77B5"></div>
+                <span>Дебиторка</span>
+                <span class="cs-bal-pct">36%</span>
+              </div>
+              <div class="cs-bal-row">
+                <div class="cs-bal-dot" style="background:#6366F1"></div>
+                <span>Запасы</span>
+                <span class="cs-bal-pct">24%</span>
+              </div>
+              <div class="cs-bal-row">
+                <div class="cs-bal-dot" style="background:#10B981"></div>
+                <span>Денежные</span>
+                <span class="cs-bal-pct">22%</span>
+              </div>
+            </div>
+          </div>
+
+        </div>
+
+        <span class="cs-cta cs-cta-st">Открыть кейс <span class="cs-cta-a">→</span></span>
       </a>
 
       <div class="cs-right">
 
-        <!-- Строительство -->
-        <a class="cs-card cs-sm" href="/cases/construction/" style="--cs-ac:var(--cs-slate)" data-track="case_card_construction" data-track-block="cases">
-          <svg class="cs-pat" width="180" height="120" aria-hidden="true"><use href="#p-bld"/></svg>
-          <div class="cs-tag cs-t-sl">Строительство <span class="cs-tag-sub">· 200+ млн ₽/год · 4 проекта</span></div>
-          <div class="cs-ttl-m">Система в бизнесе с оборотом 200+ млн ₽ и 4 проектами</div>
-          <div class="cs-prob-s">Общий PnL без разбивки — один из проектов тихо съедал ресурс. Выстроили раздельный учёт и дашборд за 30 дней.</div>
-          <div class="cs-kr cs-sm-kr">
-            <div><div class="cs-kv-m cs-c-em">4 PnL</div><div class="cs-kl">Раздельно</div></div>
-            <div><div class="cs-kv-m cs-c-br">0</div><div class="cs-kl">Разрывов</div></div>
-            <div><div class="cs-kv-m cs-c-em">+20%</div><div class="cs-kl">Рост 2 проектов</div></div>
+        <!-- WB / E-commerce — продолговатый, tan -->
+        <a class="cs-card cs-sm cs-wb" href="/cases/ecommerce/" style="--cs-ac:var(--cs-tan)" data-track="case_card_ecommerce" data-track-block="cases">
+          <div class="cs-wb-content">
+            <div class="cs-tag cs-t-tn">E-commerce <span class="cs-tag-sub">· WB · 3 бренда</span></div>
+            <div class="cs-ttl-m">Продажи на маркетплейсе — управляемый процесс</div>
+            <div class="cs-prob-s">2–3 ч/день ручного сбора отчётов. Закупки в Excel, склады вслепую. Автоматизировали через API.</div>
+            <div class="cs-kr cs-sm-kr">
+              <div><div class="cs-kv-m cs-c-tn">+35%</div><div class="cs-kl">Выручка/кв.</div></div>
+              <div><div class="cs-kv-m cs-c-em">−35%</div><div class="cs-kl">Нагрузка</div></div>
+            </div>
+            <span class="cs-cta cs-cta-tn">Открыть кейс <span class="cs-cta-a">→</span></span>
           </div>
-          <span class="cs-cta">Открыть кейс <span class="cs-cta-a">→</span></span>
+          <svg class="cs-pat cs-pat-wb" width="180" height="120" aria-hidden="true"><use href="#p-eco"/></svg>
         </a>
 
         <div class="cs-bottom">
-          <!-- E-commerce -->
-          <a class="cs-card cs-xs" href="/cases/ecommerce/" style="--cs-ac:var(--cs-em)" data-track="case_card_ecommerce" data-track-block="cases">
-            <svg class="cs-pat" width="160" height="110" aria-hidden="true"><use href="#p-eco"/></svg>
-            <div class="cs-tag cs-t-em">E-commerce <span class="cs-tag-sub">· WB</span></div>
-            <div class="cs-ttl-s">Продажи на маркетплейсе — управляемый процесс</div>
-            <div class="cs-prob-s">2–3 ч/день ручного сбора. Автоматизировали через API.</div>
-            <div class="cs-kr cs-sm-kr">
-              <div><div class="cs-kv-s cs-c-em">+35%</div><div class="cs-kl">Выручка/кв.</div></div>
-              <div><div class="cs-kv-s cs-c-cr">−35%</div><div class="cs-kl">Нагрузка</div></div>
-            </div>
-            <span class="cs-cta">Открыть <span class="cs-cta-a">→</span></span>
-          </a>
-
-          <!-- eSIM -->
+          <!-- eSIM — indigo -->
           <a class="cs-card cs-xs" href="/cases/esim/" style="--cs-ac:var(--cs-in)" data-track="case_card_esim" data-track-block="cases">
             <svg class="cs-pat" width="190" height="110" aria-hidden="true"><use href="#p-esim"/></svg>
             <div class="cs-tag cs-t-in">eSIM <span class="cs-tag-sub">· Крипта + СБП</span></div>
@@ -160,9 +190,22 @@
             <div class="cs-prob-s">Разные платёжки — данные не сводились.</div>
             <div class="cs-kr cs-sm-kr">
               <div><div class="cs-kv-s cs-c-in">2 сайта</div><div class="cs-kl">В дашборде</div></div>
-              <div><div class="cs-kv-s cs-c-br">100%</div><div class="cs-kl">Учтено</div></div>
+              <div><div class="cs-kv-s cs-c-st">100%</div><div class="cs-kl">Учтено</div></div>
             </div>
-            <span class="cs-cta">Открыть <span class="cs-cta-a">→</span></span>
+            <span class="cs-cta cs-cta-in">Открыть <span class="cs-cta-a">→</span></span>
+          </a>
+
+          <!-- Образование — crimson -->
+          <a class="cs-card cs-xs" href="/cases/education/" style="--cs-ac:var(--cs-cr)" data-track="case_card_education" data-track-block="cases">
+            <svg class="cs-pat" width="180" height="110" aria-hidden="true"><use href="#p-edu"/></svg>
+            <div class="cs-tag cs-t-cr">Образование <span class="cs-tag-sub">· Офлайн + онлайн</span></div>
+            <div class="cs-ttl-s">Оборот рос — прибыль падала</div>
+            <div class="cs-prob-s">Видел оборот — не видел маржу. Платформа показала где теряется.</div>
+            <div class="cs-kr cs-sm-kr">
+              <div><div class="cs-kv-s cs-c-em">+18–27%</div><div class="cs-kl">Маржа</div></div>
+              <div><div class="cs-kv-s cs-c-cr">−20%</div><div class="cs-kl">Расходы</div></div>
+            </div>
+            <span class="cs-cta cs-cta-cr">Открыть <span class="cs-cta-a">→</span></span>
           </a>
         </div>
 
@@ -181,6 +224,9 @@
     --cs-slate: #94A3B8;
     --cs-in: #6366F1;
     --cs-sun: #FCD34D;
+    --cs-tan: #FB923C;
+    --cs-steel: #4F77B5;
+    --cs-steel-h: #6A8DC4;
     --cs-surf: #181818;
     --cs-surf2: #222222;
     --cs-brd: #2A2A2A;
@@ -197,7 +243,7 @@
   .cs-h2 em { color: var(--cs-brand); font-style: normal; }
   .cs-sub { font-size: 15px; line-height: 1.7; color: var(--cs-t2); }
 
-  .cs-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; }
+  .cs-grid { display: grid; grid-template-columns: 1.1fr 1fr; gap: 8px; align-items: stretch; }
   .cs-right { display: grid; grid-template-rows: 1fr 1fr; gap: 8px; }
   .cs-bottom { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
 
@@ -251,24 +297,22 @@
     margin-bottom: 12px;
     align-self: flex-start;
   }
-  .cs-tag-sub { font-size: 8px; font-weight: 500; opacity: .6; margin-left: 4px; }
+  .cs-tag-sub { font-size: 8px; font-weight: 500; opacity: .65; margin-left: 4px; }
   .cs-t-br { background: var(--cs-brand); }
-  .cs-t-sl { background: var(--cs-slate); color: #0A0A0A; }
+  .cs-t-st { background: var(--cs-steel); }
+  .cs-t-tn { background: var(--cs-tan); color: #1a0f00; }
   .cs-t-em { background: var(--cs-em); }
   .cs-t-in { background: var(--cs-in); }
+  .cs-t-cr { background: var(--cs-cr); }
+  .cs-t-sl { background: var(--cs-slate); color: #0A0A0A; }
 
-  .cs-ttl    { font-size: 19px; font-weight: 800; line-height: 1.25; color: var(--cs-t1); margin-bottom: 10px; letter-spacing: -.01em; }
+  .cs-ttl    { font-size: 22px; font-weight: 800; line-height: 1.22; color: var(--cs-t1); margin-bottom: 12px; letter-spacing: -.01em; }
   .cs-ttl-m  { font-size: 15px; font-weight: 700; line-height: 1.3;  color: var(--cs-t1); margin-bottom: 8px; }
   .cs-ttl-s  { font-size: 13px; font-weight: 700; line-height: 1.35; color: var(--cs-t1); margin-bottom: 6px; }
-  .cs-prob   { font-size: 13px; line-height: 1.65; color: var(--cs-t2); margin-bottom: 14px; flex-grow: 1; }
+  .cs-prob   { font-size: 13px; line-height: 1.65; color: var(--cs-t2); margin-bottom: 14px; }
   .cs-prob-s { font-size: 12px; line-height: 1.6;  color: var(--cs-t2); margin-bottom: 12px; flex-grow: 1; }
 
-  .cs-spark-wrap { margin-bottom: 16px; }
-  .cs-spark-lbl { font-size: 9px; color: var(--cs-t3); letter-spacing: .09em; text-transform: uppercase; margin-bottom: 5px; }
-
-  .cs-div { height: 1px; background: var(--cs-brd); margin-bottom: 14px; }
-
-  .cs-kr { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 14px; font-variant-numeric: tabular-nums; }
+  .cs-kr { display: flex; gap: 18px; flex-wrap: wrap; margin-bottom: 14px; font-variant-numeric: tabular-nums; }
   .cs-kr.cs-sm-kr { gap: 12px; margin-bottom: 10px; }
   .cs-kv   { font-size: 22px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
   .cs-kv-m { font-size: 17px; font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
@@ -278,6 +322,8 @@
   .cs-c-em { color: var(--cs-em); }
   .cs-c-cr { color: var(--cs-cr); }
   .cs-c-in { color: var(--cs-in); }
+  .cs-c-st { color: var(--cs-steel); }
+  .cs-c-tn { color: var(--cs-tan); }
 
   .cs-cta {
     font-size: 11px;
@@ -291,8 +337,68 @@
     transition: color .15s;
   }
   .cs-cta-a { transition: transform .18s; }
-  .cs-card:hover .cs-cta { color: #6688f8; }
   .cs-card:hover .cs-cta .cs-cta-a { transform: translateX(4px); }
+  .cs-cta-st { color: var(--cs-steel); }
+  .cs-card:hover .cs-cta-st { color: var(--cs-steel-h); }
+  .cs-cta-tn { color: var(--cs-tan); }
+  .cs-card:hover .cs-cta-tn { color: #FFA866; }
+  .cs-cta-in { color: var(--cs-in); }
+  .cs-card:hover .cs-cta-in { color: #8B8DF5; }
+  .cs-cta-cr { color: var(--cs-cr); }
+  .cs-card:hover .cs-cta-cr { color: #FF6B81; }
+
+  /* ─── HERO иллюстрация: 3 финансовых контура ─── */
+  .cs-hero-illu {
+    margin-top: auto;
+    margin-bottom: 18px;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    gap: 8px;
+  }
+  .cs-illu-block {
+    background: var(--cs-surf2);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+    padding: 12px;
+    min-height: 140px;
+    display: flex;
+    flex-direction: column;
+  }
+  .cs-illu-lbl { font-size: 8px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase; color: var(--cs-steel); margin-bottom: 6px; }
+  .cs-illu-title { font-size: 11px; font-weight: 700; color: var(--cs-t1); margin-bottom: 8px; }
+
+  .cs-opu-rows { display: flex; flex-direction: column; gap: 4px; margin-top: auto; }
+  .cs-opu-row { display: flex; align-items: center; gap: 6px; }
+  .cs-opu-row-bar { height: 6px; background: var(--cs-steel); opacity: .7; border-radius: 1px; flex-shrink: 0; }
+  .cs-opu-row-bar.cs-opu-em-soft { background: var(--cs-em); opacity: .55; }
+  .cs-opu-row-bar.cs-opu-em { background: var(--cs-em); opacity: .95; }
+  .cs-opu-row-lbl { font-size: 9px; color: var(--cs-t2); font-variant-numeric: tabular-nums; min-width: 38px; text-align: right; margin-left: auto; }
+
+  .cs-dds-chart { flex: 1; display: flex; align-items: flex-end; margin-top: auto; }
+
+  .cs-bal-seg {
+    display: flex;
+    height: 10px;
+    gap: 1px;
+    margin-bottom: 8px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 3px), calc(100% - 3px) 100%, 0 100%);
+    overflow: hidden;
+  }
+  .cs-balance-bar { display: flex; flex-direction: column; gap: 5px; margin-top: auto; }
+  .cs-bal-row { display: flex; align-items: center; gap: 6px; font-size: 9px; color: var(--cs-t2); }
+  .cs-bal-dot { width: 6px; height: 6px; border-radius: 50%; flex-shrink: 0; }
+  .cs-bal-pct { margin-left: auto; font-weight: 700; color: var(--cs-t1); font-variant-numeric: tabular-nums; }
+
+  /* ─── WB продолговатая карточка ─── */
+  .cs-card.cs-wb { display: grid; grid-template-columns: 1fr auto; gap: 18px; align-items: center; padding: 22px; }
+  .cs-wb-content { display: flex; flex-direction: column; min-width: 0; }
+  .cs-pat-wb {
+    position: static;
+    opacity: .18;
+    flex-shrink: 0;
+    width: 150px;
+    height: 105px;
+  }
+  .cs-card.cs-wb:hover .cs-pat-wb { opacity: .28; }
 
   @media (max-width: 980px) {
     .cs-sect { padding: 64px 0 72px; }
@@ -303,6 +409,10 @@
     .cs-bottom { display: grid; grid-template-columns: 1fr; gap: 8px; }
     .cs-card { padding: 20px; }
     .cs-card.cs-sm, .cs-card.cs-xs { padding: 18px; }
-    .cs-ttl { font-size: 17px; }
+    .cs-ttl { font-size: 18px; }
+    .cs-hero-illu { grid-template-columns: 1fr; gap: 6px; }
+    .cs-illu-block { min-height: auto; }
+    .cs-card.cs-wb { grid-template-columns: 1fr; }
+    .cs-pat-wb { display: none; }
   }
 </style>

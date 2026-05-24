@@ -56,8 +56,8 @@ function Spark({ data, color, h = 22, bright = false }) {
 }
 
 function KpiCard({ label, value, sub, sparkData, sparkColor, accent, warn }) {
-  const valC = accent ? C.tan : (warn ? C.sun : T.t1);
-  const sparkC = accent ? C.tan : (sparkColor || C.brand);
+  const valC = accent ? C.indigo : (warn ? C.sun : T.t1);
+  const sparkC = accent ? C.indigo : (sparkColor || C.brand);
   return (
     <div style={{ background: warn ? ha(C.sun, .06) : T.card, padding: '10px 12px 0', display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, ...ch(7) }}>
       <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.13em', textTransform: 'uppercase', color: T.t3, marginBottom: 2 }}>{label}</div>
@@ -99,13 +99,13 @@ function DashMain({ isMobile }) {
 
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
         <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 8 }}>
-          <span style={{ width: 14, height: 1, background: C.brand, display: 'block' }} />
+          <span style={{ width: 14, height: 1, background: C.indigo, display: 'block' }} />
           <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.13em', textTransform: 'uppercase', color: T.t3 }}>Сравнение направлений · 30 дней</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr auto 1fr', gap: 8, alignItems: 'center' }}>
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             <div style={{ fontSize: 8, fontWeight: 600, color: T.t3, letterSpacing: '.08em', textTransform: 'uppercase' }}>Направление 1 · ₽</div>
-            {[['Выручка', '31 240 ₽', C.brand], ['Маржа', '8 680 ₽', C.emerald], ['Заказов', '142', T.t1], ['Конверсия', '40%', C.emerald]].map(([l, v, c]) => (
+            {[['Выручка', '31 240 ₽', C.indigo], ['Маржа', '8 680 ₽', C.emerald], ['Заказов', '142', T.t1], ['Конверсия', '40%', C.emerald]].map(([l, v, c]) => (
               <div key={l} style={{ background: T.card2, padding: '5px 8px', ...ch(5) }}>
                 <div style={{ fontSize: 7, color: T.t3, marginBottom: 1 }}>{l}</div>
                 <div style={{ fontSize: 12, fontWeight: 800, color: c, fontVariantNumeric: 'tabular-nums' }}>{v}</div>
@@ -116,7 +116,7 @@ function DashMain({ isMobile }) {
           <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 6 }}>
             {[['×17', 'выручка'], ['×20', 'маржа'], ['×9', 'заказов'], ['×5', 'конверсия']].map(([k, l]) => (
               <div key={l} style={{ display: 'flex', flexDirection: 'column', alignItems: 'center' }}>
-                <span style={{ fontSize: 12, fontWeight: 900, color: C.brand, fontVariantNumeric: 'tabular-nums' }}>{k}</span>
+                <span style={{ fontSize: 12, fontWeight: 900, color: C.indigo, fontVariantNumeric: 'tabular-nums' }}>{k}</span>
                 <span style={{ fontSize: 7, color: T.t3 }}>{l}</span>
               </div>
             ))}
@@ -124,7 +124,7 @@ function DashMain({ isMobile }) {
 
           <div style={{ display: 'flex', flexDirection: 'column', gap: 4 }}>
             <div style={{ fontSize: 8, fontWeight: 600, color: T.t3, letterSpacing: '.08em', textTransform: 'uppercase' }}>Направление 2 · Крипта</div>
-            {[['Выручка', '26,40 $', C.indigo], ['Маржа', '6,08 $', C.emerald], ['Заказов', '16', T.t2], ['Конверсия', '8%', C.sun]].map(([l, v, c]) => (
+            {[['Выручка', '26,40 $', C.brand], ['Маржа', '6,08 $', C.emerald], ['Заказов', '16', T.t2], ['Конверсия', '8%', C.sun]].map(([l, v, c]) => (
               <div key={l} style={{ background: T.card2, padding: '5px 8px', ...ch(5) }}>
                 <div style={{ fontSize: 7, color: T.t3, marginBottom: 1 }}>{l}</div>
                 <div style={{ fontSize: 12, fontWeight: 800, color: c, fontVariantNumeric: 'tabular-nums' }}>{v}</div>
@@ -138,8 +138,8 @@ function DashMain({ isMobile }) {
         <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3, marginBottom: 6 }}>Заказы по дням · 10 дней</div>
         <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 8 }}>
           {[
-            { label: 'Направление 1 (₽)', data: ordersN1, color: C.brand, max: 25 },
-            { label: 'Направление 2 (Крипта)', data: ordersN2, color: C.indigo, max: 5 },
+            { label: 'Направление 1 (₽)', data: ordersN1, color: C.indigo, max: 25 },
+            { label: 'Направление 2 (Крипта)', data: ordersN2, color: C.brand, max: 5 },
           ].map((ch2) => (
             <div key={ch2.label}>
               <div style={{ fontSize: 7, color: T.t3, marginBottom: 3 }}>{ch2.label}</div>
@@ -213,12 +213,12 @@ function DashTop() {
       <div style={{ padding: '8px 12px', borderTop: `1px solid ${T.border}`, background: T.card2 }}>
         <div style={{ fontSize: 8, fontWeight: 600, color: T.t3, letterSpacing: '.1em', textTransform: 'uppercase', marginBottom: 4 }}>Топ продуктов · Направление 2</div>
         <div style={{ display: 'flex', alignItems: 'center', gap: 8, padding: '4px 0' }}>
-          <span style={{ fontSize: 9, fontWeight: 700, color: C.indigo, minWidth: 14 }}>1</span>
+          <span style={{ fontSize: 9, fontWeight: 700, color: C.brand, minWidth: 14 }}>1</span>
           <div style={{ flex: 1 }}>
             <div style={{ fontSize: 11, fontWeight: 500, color: T.t1 }}>Russia 10GB 30Day</div>
             <div style={{ fontSize: 9, color: T.t3 }}>RU · 1 заказ</div>
           </div>
-          <span style={{ fontSize: 11, fontWeight: 700, color: C.indigo, fontVariantNumeric: 'tabular-nums' }}>26,40 $</span>
+          <span style={{ fontSize: 11, fontWeight: 700, color: C.brand, fontVariantNumeric: 'tabular-nums' }}>26,40 $</span>
         </div>
       </div>
     </div>
@@ -239,7 +239,7 @@ export default function EsimDashboard() {
           <div style={{ display: 'flex', gap: 2, background: '#0A0A0A', padding: 2, ...ch(5) }}>
             {tabs.map(([k, l]) => {
               const a = tab === k;
-              return <button key={k} onClick={() => setTab(k)} style={{ ...TBTN, background: a ? C.brand : 'transparent', color: a ? '#fff' : T.t3, ...ch(4) }}>{l}</button>;
+              return <button key={k} onClick={() => setTab(k)} style={{ ...TBTN, background: a ? C.indigo : 'transparent', color: a ? '#fff' : T.t3, ...ch(4) }}>{l}</button>;
             })}
           </div>
         </div>

@@ -95,6 +95,13 @@ body.case-v3-body { background: #0A0A0A; }
 .case-v3 .btn:hover { background: #2D5BD4; }
 .case-v3 .btn-full { width: 100%; padding: 12px 20px; }
 
+/* eSIM brand override — фиолетовый из дизайн-системы (#6366F1) */
+.case-v3.case-esim .ey-ln { background: #6366F1; }
+.case-v3.case-esim .action-num { background: #6366F1; }
+.case-v3.case-esim .m-action-num { background: #6366F1; }
+.case-v3.case-esim .btn { background: #6366F1; }
+.case-v3.case-esim .btn:hover { background: #4F46E5; }
+
 /* ──── MOBILE ──── */
 .case-v3 .m-view { max-width: 480px; margin: 0 auto; background: #0A0A0A; }
 .case-v3 .m-hero { padding: 32px 18px 0; }

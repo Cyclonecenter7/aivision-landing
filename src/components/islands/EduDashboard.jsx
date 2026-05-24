@@ -56,16 +56,16 @@ function DashMain() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <div style={{ display: 'flex', gap: 5 }}>
         {[
-          { label: 'Оборот', val: '640К ₽', sub: '+9% vs пред.', spark: revenueData, color: C.brand, accent: true },
+          { label: 'Оборот', val: '640К ₽', sub: '+9% vs пред.', spark: revenueData, color: C.crimson, accent: true },
           { label: 'Маржа', val: '27%', sub: 'было 12% → сейчас', spark: marginData, color: C.emerald },
           { label: 'Расходы', val: '−20%', sub: 'от пика расходов', spark: expData, color: C.crimson },
           { label: 'Повт. продажи', val: '+20%', sub: 'после реактивации', spark: repeatData, color: C.sun },
         ].map((it, i) => (
-          <div key={i} style={{ flex: 1, background: it.accent ? C.brand : T.card, padding: '10px 11px 0', ...ch(7) }}>
-            <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: it.accent ? 'rgba(255,255,255,.55)' : T.t3, marginBottom: 2 }}>{it.label}</div>
-            <div style={{ fontSize: 17, fontWeight: 800, color: it.accent ? '#fff' : it.color, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{it.val}</div>
-            <div style={{ fontSize: 9, color: it.accent ? 'rgba(255,255,255,.45)' : T.t2, marginBottom: 2 }}>{it.sub}</div>
-            <div style={{ marginLeft: -11, marginRight: -11 }}><Spark data={it.spark} color={it.accent ? 'rgba(255,255,255,.7)' : it.color} h={20} /></div>
+          <div key={i} style={{ flex: 1, background: T.card, padding: '10px 11px 0', ...ch(7) }}>
+            <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3, marginBottom: 2 }}>{it.label}</div>
+            <div style={{ fontSize: 17, fontWeight: 800, color: it.color, lineHeight: 1, fontVariantNumeric: 'tabular-nums' }}>{it.val}</div>
+            <div style={{ fontSize: 9, color: T.t2, marginBottom: 2 }}>{it.sub}</div>
+            <div style={{ marginLeft: -11, marginRight: -11 }}><Spark data={it.spark} color={it.color} h={20} /></div>
           </div>
         ))}
       </div>
@@ -213,7 +213,7 @@ export default function EduDashboard() {
           <div style={{ display: 'flex', gap: 1, background: '#0A0A0A', padding: 2, ...ch(5) }}>
             {tabs.map(([k, l]) => {
               const a = tab === k;
-              return <button key={k} onClick={() => setTab(k)} style={{ ...TBTN, background: a ? C.brand : 'transparent', color: a ? '#fff' : T.t3, ...ch(4) }}>{l}</button>;
+              return <button key={k} onClick={() => setTab(k)} style={{ ...TBTN, background: a ? C.crimson : 'transparent', color: a ? '#fff' : T.t3, ...ch(4) }}>{l}</button>;
             })}
           </div>
         </div>

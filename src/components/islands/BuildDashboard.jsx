@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 const T = { bg: '#0A0A0A', card: '#181818', card2: '#1F1F1F', border: '#2A2A2A', t1: '#FFFFFF', t2: '#A3A3A3', t3: '#555555' };
-const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', indigo: '#6366F1', tan: '#FB923C', slate: '#94A3B8' };
-const ACC = C.brand;
+const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', indigo: '#6366F1', tan: '#FB923C', slate: '#94A3B8', steel: '#4F77B5' };
+const ACC = C.steel;
 const ch = (n = 8) => ({ clipPath: `polygon(0 0,100% 0,100% calc(100% - ${n}px),calc(100% - ${n}px) 100%,0 100%)` });
 const ha = (c, a) => { const h = c.replace('#', ''); return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`; };
 
@@ -49,17 +49,16 @@ function BigSpark({ data, color, h = 54, filled = false, idKey }) {
 }
 
 function KpiBig({ label, value, sub, subColor, sparkData, accent, sparkColor, idKey }) {
-  const bg = accent ? ACC : T.card;
-  const fg = accent ? '#fff' : T.t1;
-  const labelColor = accent ? 'rgba(255,255,255,.6)' : T.t3;
-  const subC = accent ? 'rgba(255,255,255,.75)' : (subColor || T.t2);
+  const fg = accent ? ACC : T.t1;
+  const subC = subColor || T.t2;
+  const sparkC = accent ? ACC : (sparkColor || C.brand);
   return (
-    <div style={{ background: bg, padding: '14px 14px 0', display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, height: 138, ...ch(10), overflow: 'hidden' }}>
-      <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: labelColor, marginBottom: 6, lineHeight: 1.2 }}>{label}</div>
+    <div style={{ background: T.card, padding: '14px 14px 0', display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, height: 138, ...ch(10), overflow: 'hidden' }}>
+      <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: T.t3, marginBottom: 6, lineHeight: 1.2 }}>{label}</div>
       <div style={{ fontSize: 22, fontWeight: 800, color: fg, lineHeight: 1, fontVariantNumeric: 'tabular-nums', letterSpacing: '-.025em', marginBottom: 5, whiteSpace: 'nowrap' }}>{value}</div>
       {sub && <div style={{ fontSize: 10, fontWeight: 600, color: subC, fontVariantNumeric: 'tabular-nums', lineHeight: 1.2 }}>{sub}</div>}
       <div style={{ marginLeft: -14, marginRight: -14, marginTop: 'auto', height: 48 }}>
-        <BigSpark data={sparkData} color={accent ? 'rgba(0,0,0,.55)' : (sparkColor || C.brand)} h={48} filled={accent} idKey={idKey} />
+        <BigSpark data={sparkData} color={sparkC} h={48} filled={accent} idKey={idKey} />
       </div>
     </div>
   );

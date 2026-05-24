@@ -5,6 +5,19 @@ const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD
 const ch = (n = 8) => ({ clipPath: `polygon(0 0,100% 0,100% calc(100% - ${n}px),calc(100% - ${n}px) 100%,0 100%)` });
 const ha = (c, a) => { const h = c.replace('#', ''); return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`; };
 
+function useIsMobile(bp = 540) {
+  const [m, setM] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia(`(max-width: ${bp}px)`);
+    const fn = () => setM(mq.matches);
+    fn();
+    mq.addEventListener('change', fn);
+    return () => mq.removeEventListener('change', fn);
+  }, [bp]);
+  return m;
+}
+
 function smooth(pts) {
   const n = pts.length; if (n < 2) return '';
   if (n === 2) return `M${pts[0][0]},${pts[0][1]} L${pts[1][0]},${pts[1][1]}`;
@@ -60,11 +73,10 @@ function Spark({ data, color, h = 36, bright = false, fill = true }) {
 function Kpi({ label, value, delta, deltaLabel, color, accent, sparkData, sparkColor }) {
   const valColor = accent ? C.tan : (color || T.t1);
   const sparkC = accent ? C.tan : (sparkColor || color || C.brand);
-  const deltaC = delta && (delta.startsWith('+') || delta.startsWith('↑')) ? C.emerald : (delta && (delta.startsWith('−') || delta.startsWith('-') || delta.startsWith('↓'))) ? C.emerald : C.emerald;
-  // direction logic: + or ↑ = good (green); − pp or ↓ depending — keep simple: positive number/'+'/'↑' → green, '-'/'↓' → crimson, but for ДРР '−5 пп' is good (green)
-  // We'll override per-card with `deltaPositive` prop if needed
+  const isGood = delta && (delta.startsWith('+') || delta.startsWith('↑') || delta.startsWith('−'));
+  const deltaC = isGood ? C.emerald : T.t2;
   return (
-    <div style={{ background: T.card, padding: '11px 12px 0', display: 'flex', flexDirection: 'column', gap: 2, overflow: 'hidden', ...ch(7) }}>
+    <div style={{ background: T.card, padding: '11px 12px 0', display: 'flex', flexDirection: 'column', gap: 2, overflow: 'hidden', minWidth: 0, ...ch(7) }}>
       <div style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>{label}</div>
       <div style={{ fontSize: 18, fontWeight: 800, letterSpacing: '-0.02em', color: valColor, fontVariantNumeric: 'tabular-nums', lineHeight: 1.1, whiteSpace: 'nowrap' }}>{value}</div>
       <div style={{ fontSize: 9, color: T.t2, marginBottom: 2, minHeight: 12 }}>
@@ -80,18 +92,50 @@ function Kpi({ label, value, delta, deltaLabel, color, accent, sparkData, sparkC
 
 function Eyebrow({ color, children }) {
   return (
-    <div style={{ display: 'flex', alignItems: 'center', gap: 6, marginBottom: 0 }}>
+    <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
       <span style={{ width: 12, height: 1, background: color || C.emerald, flexShrink: 0, display: 'block' }} />
       <span style={{ fontSize: 8, fontWeight: 600, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3 }}>{children}</span>
     </div>
   );
 }
 
+/* ─── Local: Индекс локализации (используется во вкладке Закупки) ─── */
+function LocBlock() {
+  return (
+    <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <Eyebrow color={C.tan}>Индекс локализации</Eyebrow>
+        <div style={{ display: 'flex', alignItems: 'baseline', gap: 5 }}>
+          <span style={{ fontSize: 16, fontWeight: 800, color: C.sun, fontVariantNumeric: 'tabular-nums' }}>1.14</span>
+          <span style={{ fontSize: 9, color: T.t3 }}>цель ≤ 1.0</span>
+        </div>
+      </div>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
+        {[
+          { r: 'Центральный', pct: 97, c: C.emerald, share: 36.5 },
+          { r: 'Южный + СК', pct: 29, c: C.sun, share: 14.5 },
+          { r: 'Приволжский', pct: 7, c: C.crimson, share: 14.8 },
+          { r: 'Дальневост. + Сиб.', pct: 3, c: C.crimson, share: 13.6 },
+        ].map((r, i) => (
+          <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
+            <span style={{ fontSize: 10, color: T.t1, flex: '0 0 100px', whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{r.r}</span>
+            <div style={{ flex: 1, height: 4, background: T.borderSoft, ...ch(2), minWidth: 30 }}>
+              <div style={{ height: '100%', width: r.pct + '%', background: r.c, ...ch(2) }} />
+            </div>
+            <span style={{ fontSize: 9, fontWeight: 700, color: r.c, fontVariantNumeric: 'tabular-nums', minWidth: 28, textAlign: 'right' }}>{r.pct}%</span>
+            <span style={{ fontSize: 9, color: T.t3, fontVariantNumeric: 'tabular-nums', minWidth: 32, textAlign: 'right' }}>{r.share}%</span>
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
 /* ─── TAB 1: ДАШБОРД ─── */
-function TabDashboard() {
+function TabDashboard({ isMobile }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 5 }}>
         <Kpi accent label="Выручка" value="5.8M ₽" delta="+12%" deltaLabel="vs пред."
           sparkData={[2.1, 2.4, 2.3, 2.8, 3.1, 2.9, 3.4, 3.8, 4.2, 4.5, 5.0, 5.3, 5.6, 5.7, 5.8]} />
         <Kpi label="Реклама / ДРР" value="7%" delta="−5 пп" deltaLabel="к январю" color={C.brand}
@@ -103,15 +147,15 @@ function TabDashboard() {
       </div>
 
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, gap: 8, flexWrap: 'wrap' }}>
           <Eyebrow color={C.brand}>Закупки в пути</Eyebrow>
           <span style={{ fontSize: 10, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>9 партий · 2.4M ₽</span>
         </div>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 5 }}>
           {[
             { l: 'Оплачено', n: 2, c: C.brand },
             { l: 'Китай', n: 4, c: C.sun },
-            { l: 'Байкал', n: 1, c: C.tan },
+            { l: 'Фулфилмент', n: 1, c: C.tan },
             { l: 'Приёмка', n: 2, c: C.emerald },
           ].map((s, i) => (
             <div key={i} style={{ background: ha(s.c, .1), padding: '7px 8px', borderBottom: `2px solid ${s.c}`, ...ch(4) }}>
@@ -123,16 +167,16 @@ function TabDashboard() {
       </div>
 
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <Eyebrow color={C.emerald}>Товар на складах</Eyebrow>
-          <span style={{ fontSize: 10, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>3 241 шт</span>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, gap: 8, flexWrap: 'wrap' }}>
+          <Eyebrow color={C.emerald}>Проданные за 7 дней</Eyebrow>
+          <span style={{ fontSize: 10, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>682 шт</span>
         </div>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
           {[
-            { l: 'Палочка Гарри', brand: 'Косалея', qty: '87 шт', days: 7, c: C.emerald },
-            { l: 'Леггинсы Pro', brand: 'Be as fit', qty: '143 шт', days: 21, c: C.emerald },
-            { l: 'Кроссовки беговые', brand: 'Easy buy', qty: '52 шт', days: 16, c: C.emerald },
-            { l: 'Носки набор', brand: 'Easy buy', qty: '0 шт', days: 0, c: C.crimson, stop: true },
+            { l: 'Товар 1', brand: 'Бренд А', qty: '214 шт', days: 7, c: C.emerald },
+            { l: 'Товар 2', brand: 'Бренд Б', qty: '186 шт', days: 21, c: C.emerald },
+            { l: 'Товар 3', brand: 'Бренд В', qty: '142 шт', days: 16, c: C.emerald },
+            { l: 'Товар 4', brand: 'Бренд В', qty: '140 шт', days: 0, c: C.crimson, stop: true },
           ].map((r, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7, padding: '5px 0', borderBottom: i < 3 ? `1px solid ${T.borderSoft}` : 'none' }}>
               <div style={{ flex: 1, minWidth: 0 }}>
@@ -148,42 +192,15 @@ function TabDashboard() {
           ))}
         </div>
       </div>
-
-      <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8 }}>
-          <Eyebrow color={C.tan}>Индекс локализации</Eyebrow>
-          <div style={{ display: 'flex', alignItems: 'baseline', gap: 5 }}>
-            <span style={{ fontSize: 16, fontWeight: 800, color: C.sun, fontVariantNumeric: 'tabular-nums' }}>1.14</span>
-            <span style={{ fontSize: 9, color: T.t3 }}>цель ≤ 1.0</span>
-          </div>
-        </div>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 5 }}>
-          {[
-            { r: 'Центральный', pct: 97, c: C.emerald, share: 36.5 },
-            { r: 'Южный + СК', pct: 29, c: C.sun, share: 14.5 },
-            { r: 'Приволжский', pct: 7, c: C.crimson, share: 14.8 },
-            { r: 'Дальневост. + Сиб.', pct: 3, c: C.crimson, share: 13.6 },
-          ].map((r, i) => (
-            <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 7 }}>
-              <span style={{ fontSize: 10, color: T.t1, flex: '0 0 105px' }}>{r.r}</span>
-              <div style={{ flex: 1, height: 4, background: T.borderSoft, ...ch(2) }}>
-                <div style={{ height: '100%', width: r.pct + '%', background: r.c, ...ch(2) }} />
-              </div>
-              <span style={{ fontSize: 9, fontWeight: 700, color: r.c, fontVariantNumeric: 'tabular-nums', minWidth: 28, textAlign: 'right' }}>{r.pct}%</span>
-              <span style={{ fontSize: 9, color: T.t3, fontVariantNumeric: 'tabular-nums', minWidth: 32, textAlign: 'right' }}>{r.share}%</span>
-            </div>
-          ))}
-        </div>
-      </div>
     </div>
   );
 }
 
-/* ─── TAB 2: ЗАКУПКИ ─── */
-function TabPurchases() {
+/* ─── TAB 2: ЗАКУПКИ (канбан + индекс локализации) ─── */
+function TabPurchases({ isMobile }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 5 }}>
         <Kpi accent label="В работе" value="14" delta="2 закупа" deltaLabel="новых"
           sparkData={[8, 9, 10, 11, 12, 12, 13, 13, 13, 14, 14, 14, 14, 14, 14]} />
         <Kpi label="Вложено" value="3.2M ₽" delta="+18%" deltaLabel="к пред." color={C.brand}
@@ -196,56 +213,34 @@ function TabPurchases() {
 
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
         <Eyebrow color={C.brand}>Канбан · 7 стадий закупа</Eyebrow>
-        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(7,1fr)', gap: 3, marginTop: 8 }}>
+        <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(4,1fr)' : 'repeat(7,1fr)', gap: 3, marginTop: 8 }}>
           {[
             { l: 'План', n: 3, c: '#6B7280' },
             { l: 'Оплач.', n: 2, c: C.brand },
             { l: 'Китай', n: 4, c: C.sun },
-            { l: 'Байкал', n: 1, c: C.tan },
+            { l: 'Фулфил.', n: 1, c: C.tan },
             { l: 'Приёмка', n: 5, c: C.tan },
             { l: 'На ВБ', n: 8, c: C.emerald },
             { l: 'Закр.', n: 12, c: '#6B7280' },
           ].map((s, i) => (
-            <div key={i} style={{ background: ha(s.c, .1), padding: '7px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, borderBottom: `2px solid ${s.c}`, ...ch(3) }}>
-              <span style={{ fontSize: 8, fontWeight: 600, color: s.c, letterSpacing: '.04em' }}>{s.l}</span>
+            <div key={i} style={{ background: ha(s.c, .1), padding: '7px 4px', display: 'flex', flexDirection: 'column', alignItems: 'center', gap: 2, borderBottom: `2px solid ${s.c}`, minWidth: 0, ...ch(3) }}>
+              <span style={{ fontSize: 8, fontWeight: 600, color: s.c, letterSpacing: '.04em', whiteSpace: 'nowrap' }}>{s.l}</span>
               <span style={{ fontSize: 12, fontWeight: 800, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{s.n}</span>
             </div>
           ))}
         </div>
       </div>
 
-      <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
-        <Eyebrow color={C.tan}>Активные закупы</Eyebrow>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 6, marginTop: 8 }}>
-          {[
-            { id: '3.1', name: 'Палочки Гарри · 411 шт', sum: '540К ₽', progress: 85, c: C.tan, status: '2 из 3 грузов' },
-            { id: '3.2', name: 'Леггинсы Pro · 220 шт', sum: '570К ₽', progress: 60, c: C.sun, status: 'на Байкале' },
-            { id: '3.3', name: 'Мантии · 190 шт', sum: '490К ₽', progress: 35, c: C.brand, status: 'в пути Китай' },
-          ].map((p, i) => (
-            <div key={i} style={{ background: T.card2, padding: '8px 10px', ...ch(5) }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 5 }}>
-                <div>
-                  <div style={{ fontSize: 10, fontWeight: 700, color: T.t1, marginBottom: 1 }}>№{p.id} · {p.name}</div>
-                  <div style={{ fontSize: 9, color: T.t2 }}>{p.status}</div>
-                </div>
-                <span style={{ fontSize: 11, fontWeight: 800, color: p.c, fontVariantNumeric: 'tabular-nums' }}>{p.sum}</span>
-              </div>
-              <div style={{ height: 3, background: T.borderSoft, ...ch(2) }}>
-                <div style={{ height: '100%', width: p.progress + '%', background: p.c, ...ch(2) }} />
-              </div>
-            </div>
-          ))}
-        </div>
-      </div>
+      <LocBlock />
     </div>
   );
 }
 
 /* ─── TAB 3: ФИНАНСЫ ─── */
-function TabFinance() {
+function TabFinance({ isMobile }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
-      <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 5 }}>
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 5 }}>
         <Kpi accent label="Чистая прибыль" value="442К ₽" delta="+15%" deltaLabel="к апрелю"
           sparkData={[280, 300, 320, 340, 360, 370, 380, 400, 410, 420, 430, 438, 440, 441, 442]} />
         <Kpi label="Маржа" value="33%" delta="+2 пп" deltaLabel="vs пред." color={C.emerald}
@@ -267,15 +262,15 @@ function TabFinance() {
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <span style={{ width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', background: ha(g.c, .15), color: g.c, fontWeight: 800, fontSize: 11, flexShrink: 0, ...ch(4) }}>{g.grp}</span>
               <div style={{ flex: 1, minWidth: 0 }}>
-                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3 }}>
-                  <span style={{ fontSize: 10, color: T.t1 }}>{g.label} <span style={{ color: T.t3 }}>· {g.count}</span></span>
-                  <span style={{ fontSize: 10, fontWeight: 700, color: g.c, fontVariantNumeric: 'tabular-nums' }}>{g.sum}</span>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 3, gap: 6 }}>
+                  <span style={{ fontSize: 10, color: T.t1, whiteSpace: 'nowrap', overflow: 'hidden', textOverflow: 'ellipsis' }}>{g.label} <span style={{ color: T.t3 }}>· {g.count}</span></span>
+                  <span style={{ fontSize: 10, fontWeight: 700, color: g.c, fontVariantNumeric: 'tabular-nums', whiteSpace: 'nowrap' }}>{g.sum}</span>
                 </div>
                 <div style={{ height: 4, background: T.borderSoft, ...ch(2) }}>
                   <div style={{ height: '100%', width: g.pct + '%', background: g.c, ...ch(2) }} />
                 </div>
               </div>
-              <div style={{ width: 44, flexShrink: 0 }}><Spark data={g.spark} color={g.c} h={18} fill={false} /></div>
+              {!isMobile && <div style={{ width: 44, flexShrink: 0 }}><Spark data={g.spark} color={g.c} h={18} fill={false} /></div>}
             </div>
           ))}
         </div>
@@ -316,14 +311,15 @@ function TabFinance() {
 
 export default function SalesDashboard() {
   const [tab, setTab] = useState('dashboard');
+  const isMobile = useIsMobile(540);
   const TBTN = { height: 22, padding: '0 9px', fontSize: 8, fontWeight: 700, letterSpacing: '.1em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: 'Inter,sans-serif', transition: 'all .12s' };
   const tabs = [['dashboard', 'Дашборд'], ['purchases', 'Закупки'], ['finance', 'Финансы']];
 
   return (
     <div style={{ background: T.card, ...ch(20), overflow: 'hidden', fontFamily: 'Inter,sans-serif' }}>
       <div style={{ background: T.card, borderBottom: `1px solid ${T.borderSoft}`, padding: '0 12px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 38 }}>
-          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.18em', color: T.t2 }}>СИСТЕМА В ДЕЙСТВИИ</span>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 38, gap: 8 }}>
+          <span style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.18em', color: T.t2, whiteSpace: 'nowrap' }}>СИСТЕМА В ДЕЙСТВИИ</span>
           <div style={{ display: 'flex', gap: 2, background: T.bg, padding: 2, ...ch(5) }}>
             {tabs.map(([k, l]) => {
               const a = tab === k;
@@ -334,15 +330,11 @@ export default function SalesDashboard() {
       </div>
 
       <div style={{ padding: '10px 12px', display: 'flex', flexDirection: 'column', gap: 6 }}>
-        {tab === 'dashboard' && <TabDashboard />}
-        {tab === 'purchases' && <TabPurchases />}
-        {tab === 'finance' && <TabFinance />}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 2 }}>
+        {tab === 'dashboard' && <TabDashboard isMobile={isMobile} />}
+        {tab === 'purchases' && <TabPurchases isMobile={isMobile} />}
+        {tab === 'finance' && <TabFinance isMobile={isMobile} />}
+        <div style={{ paddingTop: 2 }}>
           <span style={{ fontSize: 7, color: T.t3 }}>Платформа AIVISION · NDA · данные изменены</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}>
-            <div style={{ width: 5, height: 5, borderRadius: '50%', background: C.emerald }} />
-            <span style={{ fontSize: 7, color: T.t3 }}>live</span>
-          </div>
         </div>
       </div>
     </div>

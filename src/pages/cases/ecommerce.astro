@@ -186,152 +186,37 @@ const ldCase = caseSchema({
     </div>
   </div>
 
-  <div class="car-wrap">
-    <div class="bey" style="margin-bottom:0"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
-    <div class="car-hdr">
-      <div class="car-dots" id="sdots"></div>
-      <span class="car-ctr" id="sctr">1 / 3</span>
-    </div>
-    <div class="car">
-      <div class="car-track" id="strack">
-        <div class="car-slide">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">01</div>
-              <div>
-                <div class="car-ttl">Данные собираются автоматически</div>
-                <div class="car-desc">API-подключение — продажи в платформе без ручного ввода. Реал-тайм вместо актуализации раз в день.</div>
-              </div>
-            </div>
-            <div class="car-body">
-              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Дашборд продаж · сегодня</div>
-              <div style="display:flex;gap:5px;margin-bottom:8px">
-                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
-                  <div style="font-size:7px;color:#555;margin-bottom:2px">ВЫРУЧКА</div>
-                  <div class="c-tn" style="font-size:14px;font-weight:900">5.8М ₽</div>
-                  <div class="c-em" style="font-size:8px">↑ реал-тайм</div>
-                </div>
-                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
-                  <div style="font-size:7px;color:#555;margin-bottom:2px">СДЕЛОК</div>
-                  <div class="c-br" style="font-size:14px;font-weight:900">47</div>
-                  <div style="font-size:8px;color:#555">в работе</div>
-                </div>
-                <div style="flex:1;background:#222;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px">
-                  <div style="font-size:7px;color:#555;margin-bottom:2px">СР. ЧЕК</div>
-                  <div class="c-em" style="font-size:14px;font-weight:900">123К</div>
-                  <div class="c-em" style="font-size:8px">↑ +8%</div>
-                </div>
-              </div>
-              <div style="padding:7px 8px;background:rgba(251,146,60,.07);border-left:2px solid #FB923C;font-size:10px;color:#A3A3A3">
-                Ручной сбор данных: <s class="c-cr">2 ч/день</s> → <strong class="c-em">0</strong>
-              </div>
-            </div>
-          </div>
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:14px"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
+      <div class="m-action">
+        <div class="m-action-num">01</div>
+        <div>
+          <div class="m-action-ttl">Данные собираются автоматически</div>
+          <div class="m-action-desc">API-подключение — продажи в платформе без ручного ввода. Реал-тайм вместо актуализации раз в день.</div>
         </div>
-
-        <div class="car-slide">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">02</div>
-              <div>
-                <div class="car-ttl">Воронка — видно где застревают сделки</div>
-                <div class="car-desc">Каждый этап с конверсией. Руководитель видит где менеджер теряет клиентов — без пересказа.</div>
-              </div>
-            </div>
-            <div class="car-body">
-              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Воронка продаж</div>
-              <div style="display:flex;flex-direction:column;gap:5px">
-                <div style="display:flex;align-items:center;gap:6px">
-                  <div style="flex:1"><div style="height:20px;width:100%;background:rgba(63,110,232,.08);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #555;display:flex;align-items:center;padding-left:7px"><span style="font-size:9px;font-weight:600;color:#555">Лид</span></div></div>
-                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">100</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:6px">
-                  <div style="flex:1"><div style="height:20px;width:68%;background:rgba(63,110,232,.12);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #3F6EE8;display:flex;align-items:center;padding-left:7px"><span class="c-br" style="font-size:9px;font-weight:600">Квалифицирован</span></div></div>
-                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">68</span>
-                  <span class="c-br" style="font-size:9px;font-weight:700;background:rgba(0,0,0,.3);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">68%</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:6px">
-                  <div style="flex:1"><div style="height:20px;width:42%;background:rgba(251,146,60,.16);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #FB923C;display:flex;align-items:center;padding-left:7px"><span class="c-tn" style="font-size:9px;font-weight:600">Встреча</span></div></div>
-                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">42</span>
-                  <span class="c-sn" style="font-size:9px;font-weight:700;background:rgba(0,0,0,.3);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">62%</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:6px">
-                  <div style="flex:1"><div style="height:20px;width:31%;background:rgba(252,211,77,.16);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #FCD34D;display:flex;align-items:center;padding-left:7px"><span class="c-sn" style="font-size:9px;font-weight:600">КП</span></div></div>
-                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">31</span>
-                  <span class="c-em" style="font-size:9px;font-weight:700;background:rgba(0,0,0,.3);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">74%</span>
-                </div>
-                <div style="display:flex;align-items:center;gap:6px">
-                  <div style="flex:1"><div style="height:20px;width:19%;background:rgba(16,185,129,.16);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid #10B981;display:flex;align-items:center;padding-left:7px"><span class="c-em" style="font-size:9px;font-weight:600">Оплата</span></div></div>
-                  <span style="font-size:11px;font-weight:800;color:#FFF;font-variant-numeric:tabular-nums;min-width:32px;text-align:right">19</span>
-                  <span class="c-sn" style="font-size:9px;font-weight:700;background:rgba(0,0,0,.3);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">61%</span>
-                </div>
-              </div>
-              <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px">
-                <div style="background:rgba(63,110,232,.07);padding:7px 9px;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%)">
-                  <div style="font-size:8px;color:#555;margin-bottom:2px">Конверсия лид→оплата</div>
-                  <div class="c-br" style="font-size:16px;font-weight:900">19%</div>
-                </div>
-                <div style="background:rgba(16,185,129,.07);padding:7px 9px;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%)">
-                  <div style="font-size:8px;color:#555;margin-bottom:2px">Скорость сделки</div>
-                  <div class="c-em" style="font-size:16px;font-weight:900">12 дн.</div>
-                </div>
-              </div>
-            </div>
-          </div>
+      </div>
+      <div class="m-action">
+        <div class="m-action-num">02</div>
+        <div>
+          <div class="m-action-ttl">Воронка — видно где застревают сделки</div>
+          <div class="m-action-desc">Каждый этап с конверсией. Руководитель видит где менеджер теряет клиентов — без пересказа.</div>
         </div>
-
-        <div class="car-slide">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">03</div>
-              <div>
-                <div class="car-ttl">Эффективность менеджеров и алерты</div>
-                <div class="car-desc">Кто справляется, кто нет — на цифрах, не на ощущениях. Алерты по проседанию метрик — до проблемы.</div>
-              </div>
-            </div>
-            <div class="car-body">
-              <div style="font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:#555;margin-bottom:8px">Менеджеры · конверсия лид→оплата</div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-                <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A3A3A3;flex-shrink:0">А</div>
-                <div style="flex:1">
-                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:500;color:#FFF">Менеджер А</span></div>
-                  <div style="height:4px;background:#2A2A2A;border-radius:2px;overflow:hidden"><div style="height:100%;width:96%;background:#10B981;border-radius:2px"></div></div>
-                </div>
-                <div style="text-align:right;flex-shrink:0"><div class="c-em" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">24%</div><div style="font-size:9px;color:#555">12 сделок</div></div>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-                <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A3A3A3;flex-shrink:0">Б</div>
-                <div style="flex:1">
-                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:500;color:#FFF">Менеджер Б</span></div>
-                  <div style="height:4px;background:#2A2A2A;border-radius:2px;overflow:hidden"><div style="height:100%;width:76%;background:#3F6EE8;border-radius:2px"></div></div>
-                </div>
-                <div style="text-align:right;flex-shrink:0"><div class="c-br" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">19%</div><div style="font-size:9px;color:#555">8 сделок</div></div>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-                <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A3A3A3;flex-shrink:0">В</div>
-                <div style="flex:1">
-                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:500;color:#FFF">Менеджер В</span></div>
-                  <div style="height:4px;background:#2A2A2A;border-radius:2px;overflow:hidden"><div style="height:100%;width:56%;background:#FCD34D;border-radius:2px"></div></div>
-                </div>
-                <div style="text-align:right;flex-shrink:0"><div class="c-sn" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">14%</div><div style="font-size:9px;color:#555">6 сделок</div></div>
-              </div>
-              <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
-                <div style="width:20px;height:20px;border-radius:50%;background:rgba(255,255,255,.06);display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#A3A3A3;flex-shrink:0">Г</div>
-                <div style="flex:1">
-                  <div style="display:flex;align-items:center;gap:6px;margin-bottom:2px"><span style="font-size:10px;font-weight:500;color:#FFF">Менеджер Г</span><span class="c-cr" style="font-size:8px;font-weight:700;background:rgba(244,63,94,.12);padding:1px 5px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%)">⚠ алерт</span></div>
-                  <div style="height:4px;background:#2A2A2A;border-radius:2px;overflow:hidden"><div style="height:100%;width:36%;background:#F43F5E;border-radius:2px"></div></div>
-                </div>
-                <div style="text-align:right;flex-shrink:0"><div class="c-cr" style="font-size:12px;font-weight:800;font-variant-numeric:tabular-nums">9%</div><div style="font-size:9px;color:#555">3 сделок</div></div>
-              </div>
-              <div style="margin-top:6px;padding:7px 8px;background:rgba(251,146,60,.07);border-left:2px solid #FB923C;font-size:10px;color:#A3A3A3">Менеджер Г — алерт отправлен руководителю автоматически</div>
-            </div>
-          </div>
+      </div>
+      <div class="m-action">
+        <div class="m-action-num">03</div>
+        <div>
+          <div class="m-action-ttl">Эффективность менеджеров и алерты</div>
+          <div class="m-action-desc">Кто справляется, кто нет — на цифрах, не на ощущениях. Алерты по проседанию метрик — до проблемы.</div>
         </div>
       </div>
     </div>
-    <div class="car-nav">
-      <button class="car-btn" id="sprev" disabled>← Назад</button>
-      <button class="car-btn" id="snext">Далее →</button>
+  </div>
+
+  <div class="m-sec">
+    <div class="bey" style="margin-bottom:12px;padding:0 4px"><div class="bey-ln" style="background:#FB923C"></div><span class="bey-tx">Система в действии</span></div>
+    <div class="sales-dash-m">
+      <SalesDashboard client:visible />
     </div>
   </div>
 
@@ -363,37 +248,3 @@ const ldCase = caseSchema({
 
 </BaseLayout>
 
-<script>
-  (function () {
-    const track = document.getElementById('strack');
-    const dotsEl = document.getElementById('sdots');
-    const ctr = document.getElementById('sctr');
-    const prev = document.getElementById('sprev') as HTMLButtonElement | null;
-    const next = document.getElementById('snext') as HTMLButtonElement | null;
-    if (!track || !dotsEl || !ctr || !prev || !next) return;
-    const total = track.children.length;
-    let cur = 0;
-    for (let i = 0; i < total; i++) {
-      const d = document.createElement('div');
-      d.className = 'car-dot' + (i === 0 ? ' on' : '');
-      d.addEventListener('click', () => go(i));
-      dotsEl.appendChild(d);
-    }
-    function go(n: number) {
-      cur = Math.max(0, Math.min(total - 1, n));
-      (track as HTMLElement).style.transform = `translateX(-${cur * 100}%)`;
-      dotsEl!.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
-      ctr!.textContent = `${cur + 1} / ${total}`;
-      prev!.disabled = cur === 0;
-      next!.disabled = cur === total - 1;
-    }
-    prev.addEventListener('click', () => go(cur - 1));
-    next.addEventListener('click', () => go(cur + 1));
-    let sx = 0;
-    track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - sx;
-      if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
-    }, { passive: true });
-  })();
-</script>

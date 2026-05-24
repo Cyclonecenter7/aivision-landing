@@ -1,8 +1,8 @@
 import { useState } from 'react';
 
 const T = { bg: '#0A0A0A', card: '#181818', card2: '#1F1F1F', border: '#2A2A2A', t1: '#FFFFFF', t2: '#A3A3A3', t3: '#555555' };
-const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', indigo: '#6366F1', tan: '#FB923C', slate: '#94A3B8' };
-const ACC = C.brand;
+const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', indigo: '#6366F1', tan: '#FB923C', slate: '#94A3B8', steel: '#475569' };
+const ACC = C.steel;
 const ch = (n = 8) => ({ clipPath: `polygon(0 0,100% 0,100% calc(100% - ${n}px),calc(100% - ${n}px) 100%,0 100%)` });
 const ha = (c, a) => { const h = c.replace('#', ''); return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`; };
 
@@ -37,8 +37,9 @@ function BigSpark({ data, color, h = 54, filled = true, idKey }) {
     <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{ display: 'block' }}>
       <defs>
         <linearGradient id={id} x1="0" y1="0" x2="0" y2="1">
-          <stop offset="0%" stopColor={color} stopOpacity={filled ? '.55' : '0'} />
-          <stop offset="100%" stopColor={color} stopOpacity={filled ? '.15' : '0'} />
+          <stop offset="0%" stopColor={color} stopOpacity={filled ? '.45' : '0'} />
+          <stop offset="60%" stopColor={color} stopOpacity={filled ? '.05' : '0'} />
+          <stop offset="100%" stopColor={color} stopOpacity="0" />
         </linearGradient>
       </defs>
       {filled && <path d={area} fill={`url(#${id})`} />}
@@ -386,32 +387,36 @@ function Balance() {
   );
 }
 
-export default function BuildDashboard() {
-  const [tab, setTab] = useState('pnl');
+export default function BuildDashboard({ only, hideHeader = false, hideFooter = false }) {
+  const [tab, setTab] = useState(only || 'pnl');
+  const active = only || tab;
   const TBTN = { height: 24, padding: '0 11px', fontSize: 9, fontWeight: 600, letterSpacing: '.09em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: 'Inter,sans-serif', transition: 'all .12s' };
   const tabs = [['pnl', 'ОПУ'], ['dds', 'ДДС'], ['balance', 'Баланс']];
 
   return (
     <div style={{ background: T.card, ...ch(20), overflow: 'hidden', fontFamily: 'Inter,sans-serif' }}>
-      <div style={{ background: T.card, borderBottom: `1px solid ${T.border}`, padding: '0 14px' }}>
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 42 }}>
-          <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.12em', color: T.t2 }}>СИСТЕМА В ДЕЙСТВИИ</span>
-          <div style={{ display: 'flex', gap: 2, background: '#0A0A0A', padding: 2, ...ch(6) }}>
-            {tabs.map(([k, l]) => {
-              const a = tab === k;
-              return <button key={k} type="button" onClick={() => setTab(k)} style={{ ...TBTN, background: a ? ACC : 'transparent', color: a ? '#fff' : T.t3, ...ch(5) }}>{l}</button>;
-            })}
+      {!hideHeader && (
+        <div style={{ background: T.card, borderBottom: `1px solid ${T.border}`, padding: '0 14px' }}>
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', height: 42 }}>
+            <span style={{ fontSize: 10, fontWeight: 700, letterSpacing: '.12em', color: T.t2 }}>СИСТЕМА В ДЕЙСТВИИ</span>
+            <div style={{ display: 'flex', gap: 2, background: '#0A0A0A', padding: 2, ...ch(6) }}>
+              {tabs.map(([k, l]) => {
+                const a = active === k;
+                return <button key={k} type="button" onClick={() => setTab(k)} disabled={!!only} style={{ ...TBTN, background: a ? ACC : 'transparent', color: a ? '#fff' : T.t3, ...ch(5), opacity: only && !a ? .3 : 1, cursor: only ? 'default' : 'pointer' }}>{l}</button>;
+              })}
+            </div>
           </div>
         </div>
-      </div>
+      )}
       <div style={{ padding: '12px 14px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {tab === 'pnl' && <PnL />}
-        {tab === 'dds' && <DDS />}
-        {tab === 'balance' && <Balance />}
-        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
-          <span style={{ fontSize: 8, color: T.t3 }}>Платформа AIVISION · NDA · данные изменены</span>
-          <div style={{ display: 'flex', alignItems: 'center', gap: 4 }}><div style={{ width: 5, height: 5, borderRadius: '50%', background: C.emerald }} /><span style={{ fontSize: 8, color: T.t3 }}>live</span></div>
-        </div>
+        {active === 'pnl' && <PnL />}
+        {active === 'dds' && <DDS />}
+        {active === 'balance' && <Balance />}
+        {!hideFooter && (
+          <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
+            <span style={{ fontSize: 8, color: T.t3 }}>Платформа AIVISION · NDA · данные изменены</span>
+          </div>
+        )}
       </div>
     </div>
   );

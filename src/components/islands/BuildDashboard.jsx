@@ -1,10 +1,23 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 
 const T = { bg: '#0A0A0A', card: '#181818', card2: '#1F1F1F', border: '#2A2A2A', t1: '#FFFFFF', t2: '#A3A3A3', t3: '#555555' };
 const C = { brand: '#3F6EE8', emerald: '#10B981', crimson: '#F43F5E', sun: '#FCD34D', indigo: '#6366F1', tan: '#FB923C', slate: '#94A3B8' };
 const ACC = C.slate;
 const ch = (n = 8) => ({ clipPath: `polygon(0 0,100% 0,100% calc(100% - ${n}px),calc(100% - ${n}px) 100%,0 100%)` });
 const ha = (c, a) => { const h = c.replace('#', ''); return `rgba(${parseInt(h.slice(0, 2), 16)},${parseInt(h.slice(2, 4), 16)},${parseInt(h.slice(4, 6), 16)},${a})`; };
+
+function useIsMobile(bp = 540) {
+  const [m, setM] = useState(false);
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    const mq = window.matchMedia(`(max-width: ${bp}px)`);
+    const fn = () => setM(mq.matches);
+    fn();
+    mq.addEventListener('change', fn);
+    return () => mq.removeEventListener('change', fn);
+  }, [bp]);
+  return m;
+}
 
 function smooth(pts) {
   const n = pts.length; if (n < 2) return '';
@@ -48,24 +61,28 @@ function BigSpark({ data, color, h = 54, filled = false, idKey }) {
   );
 }
 
-function KpiBig({ label, value, sub, subColor, sparkData, accent, sparkColor, idKey }) {
+function KpiBig({ label, value, sub, subColor, sparkData, accent, sparkColor, idKey, isMobile = false }) {
   const fg = accent ? ACC : T.t1;
   const subC = subColor || T.t2;
   const sparkC = accent ? ACC : (sparkColor || C.brand);
+  const pad = isMobile ? '10px 11px 0' : '14px 14px 0';
+  const h = isMobile ? 120 : 138;
+  const sparkH = isMobile ? 36 : 48;
+  const valSz = isMobile ? 17 : 22;
   return (
-    <div style={{ background: T.card, padding: '14px 14px 0', display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, height: 138, ...ch(10), overflow: 'hidden' }}>
-      <div style={{ fontSize: 9, fontWeight: 700, letterSpacing: '.14em', textTransform: 'uppercase', color: T.t3, marginBottom: 6, lineHeight: 1.2 }}>{label}</div>
-      <div style={{ fontSize: 22, fontWeight: 800, color: fg, lineHeight: 1, fontVariantNumeric: 'tabular-nums', letterSpacing: '-.025em', marginBottom: 5, whiteSpace: 'nowrap' }}>{value}</div>
-      {sub && <div style={{ fontSize: 10, fontWeight: 600, color: subC, fontVariantNumeric: 'tabular-nums', lineHeight: 1.2 }}>{sub}</div>}
-      <div style={{ marginLeft: -14, marginRight: -14, marginTop: 'auto', height: 48 }}>
-        <BigSpark data={sparkData} color={sparkC} h={48} filled={accent} idKey={idKey} />
+    <div style={{ background: T.card, padding: pad, display: 'flex', flexDirection: 'column', flex: 1, minWidth: 0, height: h, ...ch(10), overflow: 'hidden' }}>
+      <div style={{ fontSize: 8, fontWeight: 700, letterSpacing: '.12em', textTransform: 'uppercase', color: T.t3, marginBottom: 5, lineHeight: 1.2 }}>{label}</div>
+      <div style={{ fontSize: valSz, fontWeight: 800, color: fg, lineHeight: 1, fontVariantNumeric: 'tabular-nums', letterSpacing: '-.025em', marginBottom: 4, whiteSpace: 'nowrap' }}>{value}</div>
+      {sub && <div style={{ fontSize: 9, fontWeight: 600, color: subC, fontVariantNumeric: 'tabular-nums', lineHeight: 1.2 }}>{sub}</div>}
+      <div style={{ marginLeft: isMobile ? -11 : -14, marginRight: isMobile ? -11 : -14, marginTop: 'auto', height: sparkH }}>
+        <BigSpark data={sparkData} color={sparkC} h={sparkH} filled={accent} idKey={idKey} />
       </div>
     </div>
   );
 }
 
 
-function PnL() {
+function PnL({ isMobile }) {
   // план/факт по проектам — макет ячейки из case-build-opu-only.html
   const planFact = [
     { id: '1', name: 'Проект 1', plan: 9000, fact: 8200, c: ACC },
@@ -81,11 +98,11 @@ function PnL() {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {/* 4 KPI каскад ОПУ: Выручка → Валовая → Операционная → Чистая */}
-      <div style={{ display: 'flex', gap: 6 }}>
-        <KpiBig accent label="Выручка" value="20,5М ₽" sub="+12% YoY" sparkData={[15, 16, 17, 18, 19, 20, 20.5]} idKey="pnl-rev" />
-        <KpiBig label="Валовая прибыль" value="8,2М ₽" sub="40% маржа" subColor={C.emerald} sparkData={[5, 5.5, 6.5, 7, 7.5, 8, 8.2]} sparkColor={C.emerald} idKey="pnl-gross" />
-        <KpiBig label="Операционная" value="5,4М ₽" sub="26% маржа" subColor={C.emerald} sparkData={[3, 3.5, 4, 4.5, 5, 5.2, 5.4]} sparkColor={C.emerald} idKey="pnl-op" />
-        <KpiBig label="Чистая прибыль" value="4,0М ₽" sub="+15% к апрелю" subColor={C.emerald} sparkData={[2.5, 2.8, 3.2, 3.5, 3.8, 3.9, 4]} sparkColor={C.emerald} idKey="pnl-net" />
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 6 }}>
+        <KpiBig accent label="Выручка" value="20,5М ₽" sub="+12% YoY" sparkData={[15, 16, 17, 18, 19, 20, 20.5]} idKey="pnl-rev" isMobile={isMobile} />
+        <KpiBig label="Валовая прибыль" value="8,2М ₽" sub="40% маржа" subColor={C.emerald} sparkData={[5, 5.5, 6.5, 7, 7.5, 8, 8.2]} sparkColor={C.emerald} idKey="pnl-gross" isMobile={isMobile} />
+        <KpiBig label="Операционная" value="5,4М ₽" sub="26% маржа" subColor={C.emerald} sparkData={[3, 3.5, 4, 4.5, 5, 5.2, 5.4]} sparkColor={C.emerald} idKey="pnl-op" isMobile={isMobile} />
+        <KpiBig label="Чистая прибыль" value="4,0М ₽" sub="+15% к апрелю" subColor={C.emerald} sparkData={[2.5, 2.8, 3.2, 3.5, 3.8, 3.9, 4]} sparkColor={C.emerald} idKey="pnl-net" isMobile={isMobile} />
       </div>
 
       {/* План / Факт — общий + по 4 проектам */}
@@ -167,7 +184,7 @@ function PnL() {
   );
 }
 
-function DDS() {
+function DDS({ isMobile }) {
   const months = ['Янв', 'Фев', 'Мар', 'Апр', 'Май', 'Июн', 'Июл', 'Авг', 'Сен', 'Окт', 'Ноя', 'Дек'];
   const income = [18, 19, 20, 22, 21, 23, 22, 24, 23, 25, 24, 26];
   const outflow = [17, 18, 18, 19, 18, 20, 18, 19, 18, 20, 19, 21];
@@ -176,11 +193,11 @@ function DDS() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <div style={{ display: 'flex', gap: 6 }}>
-        <KpiBig accent label="Остаток на счетах" value="14.6М ₽" sub="+2.1М за месяц" sparkData={cumBalance} idKey="dds-bal" />
-        <KpiBig label="Приходы YTD" value="267М ₽" sub="+18% YoY" subColor={C.emerald} sparkData={income} sparkColor={C.emerald} idKey="dds-in" />
-        <KpiBig label="Расходы YTD" value="221М ₽" sub="−3% к плану" subColor={C.crimson} sparkData={outflow} sparkColor={C.crimson} idKey="dds-out" />
-        <KpiBig label="Кассовые разрывы" value="0" sub="за 12 мес." subColor={C.emerald} sparkData={[2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]} sparkColor={C.emerald} idKey="dds-gap" />
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 6 }}>
+        <KpiBig accent label="Остаток на счетах" value="14.6М ₽" sub="+2.1М за месяц" sparkData={cumBalance} idKey="dds-bal" isMobile={isMobile} />
+        <KpiBig label="Приходы YTD" value="267М ₽" sub="+18% YoY" subColor={C.emerald} sparkData={income} sparkColor={C.emerald} idKey="dds-in" isMobile={isMobile} />
+        <KpiBig label="Расходы YTD" value="221М ₽" sub="−3% к плану" subColor={C.crimson} sparkData={outflow} sparkColor={C.crimson} idKey="dds-out" isMobile={isMobile} />
+        <KpiBig label="Кассовые разрывы" value="0" sub="за 12 мес." subColor={C.emerald} sparkData={[2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]} sparkColor={C.emerald} idKey="dds-gap" isMobile={isMobile} />
       </div>
 
       <div style={{ background: T.card, padding: 14, ...ch(10) }}>
@@ -278,7 +295,7 @@ function DDS() {
   );
 }
 
-function Balance() {
+function Balance({ isMobile }) {
   const assets = [
     { label: 'Денежные средства', val: 14.6, c: C.emerald },
     { label: 'Дебиторская задолженность', val: 22.4, c: C.brand },
@@ -298,11 +315,11 @@ function Balance() {
 
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
-      <div style={{ display: 'flex', gap: 6 }}>
-        <KpiBig accent label="Чистые активы" value="32.5М ₽" sub="+4.2М за квартал" sparkData={[24, 26, 27, 29, 30, 31, 32, 32.5]} idKey="bal-na" />
-        <KpiBig label="Оборотный капитал" value="36.5М ₽" sub="ликвидность 1.8" subColor={C.emerald} sparkData={[28, 30, 32, 34, 35, 36, 36.5, 36.5]} sparkColor={C.emerald} idKey="bal-wc" />
-        <KpiBig label="Долговая нагрузка" value="0.43" sub="цель ≤0.5" subColor={C.sun} sparkData={[.6, .55, .5, .48, .46, .44, .43, .43]} sparkColor={C.sun} idKey="bal-debt" />
-        <KpiBig label="ROE годовой" value="28.4%" sub="+5 пп YoY" subColor={C.emerald} sparkData={[19, 21, 23, 24, 25, 26, 27, 28, 28.4]} sparkColor={C.emerald} idKey="bal-roe" />
+      <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 6 }}>
+        <KpiBig accent label="Чистые активы" value="32.5М ₽" sub="+4.2М за квартал" sparkData={[24, 26, 27, 29, 30, 31, 32, 32.5]} idKey="bal-na" isMobile={isMobile} />
+        <KpiBig label="Оборотный капитал" value="36.5М ₽" sub="ликвидность 1.8" subColor={C.emerald} sparkData={[28, 30, 32, 34, 35, 36, 36.5, 36.5]} sparkColor={C.emerald} idKey="bal-wc" isMobile={isMobile} />
+        <KpiBig label="Долговая нагрузка" value="0.43" sub="цель ≤0.5" subColor={C.sun} sparkData={[.6, .55, .5, .48, .46, .44, .43, .43]} sparkColor={C.sun} idKey="bal-debt" isMobile={isMobile} />
+        <KpiBig label="ROE годовой" value="28.4%" sub="+5 пп YoY" subColor={C.emerald} sparkData={[19, 21, 23, 24, 25, 26, 27, 28, 28.4]} sparkColor={C.emerald} idKey="bal-roe" isMobile={isMobile} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>
@@ -384,6 +401,7 @@ function Balance() {
 
 export default function BuildDashboard({ only, hideHeader = false, hideFooter = false }) {
   const [tab, setTab] = useState(only || 'pnl');
+  const isMobile = useIsMobile(540);
   const active = only || tab;
   const TBTN = { height: 24, padding: '0 11px', fontSize: 9, fontWeight: 600, letterSpacing: '.09em', textTransform: 'uppercase', border: 'none', cursor: 'pointer', fontFamily: 'Inter,sans-serif', transition: 'all .12s' };
   const tabs = [['pnl', 'ОПУ'], ['dds', 'ДДС'], ['balance', 'Баланс']];
@@ -404,9 +422,9 @@ export default function BuildDashboard({ only, hideHeader = false, hideFooter = 
         </div>
       )}
       <div style={{ padding: '12px 14px 14px', display: 'flex', flexDirection: 'column', gap: 8 }}>
-        {active === 'pnl' && <PnL />}
-        {active === 'dds' && <DDS />}
-        {active === 'balance' && <Balance />}
+        {active === 'pnl' && <PnL isMobile={isMobile} />}
+        {active === 'dds' && <DDS isMobile={isMobile} />}
+        {active === 'balance' && <Balance isMobile={isMobile} />}
         {!hideFooter && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
             <span style={{ fontSize: 8, color: T.t3 }}>Платформа AIVISION · NDA · данные изменены</span>

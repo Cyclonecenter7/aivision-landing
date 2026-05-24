@@ -102,12 +102,12 @@ body.case-v3-body { background: #0A0A0A; }
 .case-v3.case-esim .btn { background: #6366F1; }
 .case-v3.case-esim .btn:hover { background: #4F46E5; }
 
-/* Construction brand override — steel-blue (#4F77B5) */
-.case-v3.case-construction .ey-ln { background: #4F77B5; }
-.case-v3.case-construction .action-num { background: #4F77B5; }
-.case-v3.case-construction .m-action-num { background: #4F77B5; }
-.case-v3.case-construction .btn { background: #4F77B5; }
-.case-v3.case-construction .btn:hover { background: #6A8DC4; }
+/* Construction brand override — steel-blue (#94A3B8) */
+.case-v3.case-construction .ey-ln { background: #94A3B8; }
+.case-v3.case-construction .action-num { background: #94A3B8; }
+.case-v3.case-construction .m-action-num { background: #94A3B8; }
+.case-v3.case-construction .btn { background: #94A3B8; }
+.case-v3.case-construction .btn:hover { background: #B4C4D7; }
 
 /* Education brand override — crimson (#F43F5E) */
 .case-v3.case-education .ey-ln { background: #F43F5E; }

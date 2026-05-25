@@ -139,8 +139,10 @@ body.case-v3-body { background: #0A0A0A; }
 .case-v3 .car-dot.on { width: 24px; background: #3F6EE8; }
 .case-v3 .car-ctr { font-size: 10px; color: #555; }
 .case-v3 .car { overflow: hidden; }
-.case-v3 .car-track { display: flex; transition: transform .35s cubic-bezier(.4,0,.2,1); }
-.case-v3 .car-slide { flex: 0 0 100%; min-width: 0; }
+.case-v3 .car-track { display: block; }
+.case-v3 .car-slide { display: none; min-width: 0; animation: car-fade .25s ease; }
+.case-v3 .car-slide.on { display: block; }
+@keyframes car-fade { from { opacity: 0; transform: translateY(4px); } to { opacity: 1; transform: none; } }
 .case-v3 .car-card { background: #181818; clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%); overflow: hidden; }
 .case-v3 .car-head { padding: 16px; display: flex; align-items: flex-start; gap: 12px; border-bottom: 1px solid #2A2A2A; }
 .case-v3 .car-num { width: 28px; height: 28px; flex-shrink: 0; background: #3F6EE8; clip-path: polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%); display: flex; align-items: center; justify-content: center; font-size: 11px; font-weight: 800; color: #fff; }

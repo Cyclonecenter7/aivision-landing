@@ -196,7 +196,7 @@ const ldCase = caseSchema({
       <div class="car-track" id="btrack">
 
         <!-- слайд 1: ОПУ — тот же React-island, что и на десктопе -->
-        <div class="car-slide">
+        <div class="car-slide on">
           <div class="car-card">
             <div class="car-head">
               <div class="car-num">01</div>
@@ -307,9 +307,10 @@ const ldCase = caseSchema({
       d.addEventListener('click', () => go(i));
       dotsEl.appendChild(d);
     }
+    const slides = Array.from(track!.children) as HTMLElement[];
     function go(n: number) {
       cur = Math.max(0, Math.min(total - 1, n));
-      (track as HTMLElement).style.transform = `translateX(-${cur * 100}%)`;
+      slides.forEach((s, i) => s.classList.toggle('on', i === cur));
       dotsEl!.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
       ctr!.textContent = `${cur + 1} / ${total}`;
       prev!.disabled = cur === 0;

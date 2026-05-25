@@ -99,7 +99,7 @@ function PnL({ isMobile }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {/* 4 KPI каскад ОПУ: Выручка → Валовая → Операционная → Чистая */}
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 6 }}>
-        <KpiBig accent label="Выручка" value="20,5М ₽" sub="+12% YoY" sparkData={[15, 16, 17, 18, 19, 20, 20.5]} idKey="pnl-rev" isMobile={isMobile} />
+        <KpiBig accent label="Выручка" value="20,5М ₽" sub="+12% к прошлому году" sparkData={[15, 16, 17, 18, 19, 20, 20.5]} idKey="pnl-rev" isMobile={isMobile} />
         <KpiBig label="Валовая прибыль" value="8,2М ₽" sub="40% маржа" subColor={C.emerald} sparkData={[5, 5.5, 6.5, 7, 7.5, 8, 8.2]} sparkColor={C.emerald} idKey="pnl-gross" isMobile={isMobile} />
         <KpiBig label="Операционная" value="5,4М ₽" sub="26% маржа" subColor={C.emerald} sparkData={[3, 3.5, 4, 4.5, 5, 5.2, 5.4]} sparkColor={C.emerald} idKey="pnl-op" isMobile={isMobile} />
         <KpiBig label="Чистая прибыль" value="4,0М ₽" sub="+15% к апрелю" subColor={C.emerald} sparkData={[2.5, 2.8, 3.2, 3.5, 3.8, 3.9, 4]} sparkColor={C.emerald} idKey="pnl-net" isMobile={isMobile} />
@@ -195,8 +195,8 @@ function DDS({ isMobile }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 6 }}>
         <KpiBig accent label="Остаток на счетах" value="14.6М ₽" sub="+2.1М за месяц" sparkData={cumBalance} idKey="dds-bal" isMobile={isMobile} />
-        <KpiBig label="Приходы YTD" value="267М ₽" sub="+18% YoY" subColor={C.emerald} sparkData={income} sparkColor={C.emerald} idKey="dds-in" isMobile={isMobile} />
-        <KpiBig label="Расходы YTD" value="221М ₽" sub="−3% к плану" subColor={C.crimson} sparkData={outflow} sparkColor={C.crimson} idKey="dds-out" isMobile={isMobile} />
+        <KpiBig label="Приходы за год" value="267М ₽" sub="+18% к прошлому году" subColor={C.emerald} sparkData={income} sparkColor={C.emerald} idKey="dds-in" isMobile={isMobile} />
+        <KpiBig label="Расходы за год" value="221М ₽" sub="−3% к плану" subColor={C.crimson} sparkData={outflow} sparkColor={C.crimson} idKey="dds-out" isMobile={isMobile} />
         <KpiBig label="Кассовые разрывы" value="0" sub="за 12 мес." subColor={C.emerald} sparkData={[2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]} sparkColor={C.emerald} idKey="dds-gap" isMobile={isMobile} />
       </div>
 
@@ -319,7 +319,7 @@ function Balance({ isMobile }) {
         <KpiBig accent label="Чистые активы" value="32.5М ₽" sub="+4.2М за квартал" sparkData={[24, 26, 27, 29, 30, 31, 32, 32.5]} idKey="bal-na" isMobile={isMobile} />
         <KpiBig label="Оборотный капитал" value="36.5М ₽" sub="ликвидность 1.8" subColor={C.emerald} sparkData={[28, 30, 32, 34, 35, 36, 36.5, 36.5]} sparkColor={C.emerald} idKey="bal-wc" isMobile={isMobile} />
         <KpiBig label="Долговая нагрузка" value="0.43" sub="цель ≤0.5" subColor={C.sun} sparkData={[.6, .55, .5, .48, .46, .44, .43, .43]} sparkColor={C.sun} idKey="bal-debt" isMobile={isMobile} />
-        <KpiBig label="ROE годовой" value="28.4%" sub="+5 пп YoY" subColor={C.emerald} sparkData={[19, 21, 23, 24, 25, 26, 27, 28, 28.4]} sparkColor={C.emerald} idKey="bal-roe" isMobile={isMobile} />
+        <KpiBig label="ROE годовой" value="28.4%" sub="+5 пп к прошлому году" subColor={C.emerald} sparkData={[19, 21, 23, 24, 25, 26, 27, 28, 28.4]} sparkColor={C.emerald} idKey="bal-roe" isMobile={isMobile} />
       </div>
 
       <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: 6 }}>

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Components" name="Components — Status Tags & Heat" subtitle="7 статусов заявок · Heat теги · Категории · Dots" viewport="700x280" -->
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0A0A;color:#fff;padding:24px;-webkit-font-smoothing:antialiased;font-family:'IBM Plex Sans',system-ui,sans-serif;}
+.row{display:flex;align-items:center;gap:8px;margin-bottom:14px;flex-wrap:wrap;}
+.label{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#666;width:120px;flex-shrink:0;}
+.ch4{clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);}
+.ch6{clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);}
+.tag{display:inline-flex;align-items:center;gap:4px;padding:4px 10px;font-size:11px;font-weight:600;letter-spacing:0.04em;}
+.divider{height:1px;background:#1A1A1A;margin:14px 0;}
+.dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+</style>
+</head>
+<body>
+  <div class="row">
+    <div class="label">Статусы заявок</div>
+    <span class="tag ch4" style="background:rgba(63,110,232,0.15);color:#3F6EE8;">Новая</span>
+    <span class="tag ch4" style="background:rgba(252,211,77,0.18);color:#FCD34D;">Связались</span>
+    <span class="tag ch4" style="background:#3F6EE8;color:#fff;">В работе</span>
+    <span class="tag ch4" style="background:rgba(148,163,184,0.18);color:#94A3B8;">Недоступен</span>
+    <span class="tag ch4" style="background:rgba(148,163,184,0.18);color:#94A3B8;">Не целевой</span>
+    <span class="tag ch4" style="background:rgba(16,185,129,0.15);color:#10B981;">Завершена</span>
+    <span class="tag ch4" style="background:rgba(244,63,94,0.15);color:#F43F5E;">Провалена</span>
+  </div>
+  <div class="divider"></div>
+  <div class="row">
+    <div class="label">Heat — лиды</div>
+    <span class="tag ch4" style="background:rgba(244,63,94,0.15);color:#F43F5E;">
+      <svg width="11" height="11" viewBox="0 0 32 32" fill="none" style="color:#F43F5E;flex-shrink:0;"><path d="M4 4 L28 4 L28 22 L22 28 L4 28 Z" fill="currentColor"/></svg>
+      Горячий
+    </span>
+    <span class="tag ch4" style="background:rgba(252,211,77,0.18);color:#FCD34D;">
+      <svg width="11" height="11" viewBox="0 0 32 32" fill="none" style="color:#FCD34D;flex-shrink:0;"><path d="M4 4 L28 4 L28 22 L22 28 L4 28 Z" fill="currentColor" fill-opacity="0.35"/><path d="M4 4 L28 4 L28 22 L22 28 L4 28 Z" stroke="currentColor" stroke-width="3"/></svg>
+      Тёплый
+    </span>
+    <span class="tag ch4" style="background:rgba(148,163,184,0.18);color:#94A3B8;">
+      <svg width="11" height="11" viewBox="0 0 32 32" fill="none" style="color:#94A3B8;flex-shrink:0;"><path d="M4 4 L28 4 L28 22 L22 28 L4 28 Z" stroke="currentColor" stroke-width="3"/></svg>
+      Холодный
+    </span>
+  </div>
+  <div class="divider"></div>
+  <div class="row">
+    <div class="label">Категории</div>
+    <span class="tag ch4" style="background:rgba(63,110,232,0.15);color:#3F6EE8;">direct</span>
+    <span class="tag ch4" style="background:rgba(99,102,241,0.18);color:#6366F1;">yandex</span>
+    <span class="tag ch4" style="background:rgba(251,146,60,0.18);color:#FB923C;">telegram</span>
+    <span class="tag ch4" style="background:rgba(148,163,184,0.18);color:#94A3B8;">другое</span>
+  </div>
+  <div class="divider"></div>
+  <div class="row">
+    <div class="label">Dot indicators</div>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#A3A3A3;"><span class="dot" style="background:#F43F5E;"></span>Горячий лид</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#A3A3A3;"><span class="dot" style="background:#FCD34D;"></span>Тёплый лид</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#A3A3A3;"><span class="dot" style="background:#94A3B8;"></span>Холодный лид</span>
+    <span style="display:inline-flex;align-items:center;gap:6px;font-size:12px;color:#A3A3A3;"><span class="dot" style="background:#10B981;"></span>Завершена</span>
+  </div>
+</body>
+</html>

@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Components" name="Focus · Selection" subtitle="Фокус на скос-элементе = ChamferBorder SVG-обводка по его собственному срезу — НИКОГДА border+clip-path (рвёт угол)" viewport="940x600" -->
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    padding: 28px;
+    font-family: var(--font-ui);
+  }
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    color: var(--text-muted);
+    margin-bottom: 6px;
+  }
+  h1 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    font-size: 30px;
+    letter-spacing: -0.02em;
+    margin-bottom: 4px;
+  }
+  h1 .accent { color: var(--brand); }
+  .lede {
+    color: var(--text-secondary);
+    font-size: 14px;
+    max-width: 780px;
+    margin-bottom: 26px;
+    text-wrap: pretty;
+  }
+  .lede code, .note code, .hd code { font-family: var(--font-mono); font-size: 0.86em; color: var(--text-secondary); background: var(--surface-alt); padding: 1px 5px; }
+
+  .row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 18px;
+    margin-bottom: 18px;
+  }
+  .case {
+    background: var(--surface);
+    padding: 20px 22px 22px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+    display: flex;
+    flex-direction: column;
+  }
+  .case .tag {
+    font-family: var(--font-mono);
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 5px;
+  }
+  .case h2 {
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 5px;
+  }
+  .case p {
+    font-size: 12.5px;
+    line-height: 1.55;
+    color: var(--text-muted);
+    margin-bottom: 18px;
+  }
+  .case p code { font-family: var(--font-mono); font-size: 11px; color: var(--text-secondary); }
+  .stage {
+    position: relative;
+    background: var(--bg);
+    height: 168px;
+    margin-top: auto;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  }
+
+  /* mini KPI used as the focus target */
+  .kpi {
+    position: relative;
+    background: var(--surface-alt);
+    padding: 16px 18px 18px;
+    width: 150px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  }
+  .kpi .lab { font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); }
+  .kpi .val { font-family: var(--font-display); font-size: 34px; font-weight: 500; line-height: 1.1; }
+  .kpi .dl  { font-family: var(--font-mono); font-size: 10px; color: var(--emerald); }
+
+  /* ── CASE A: on-element selection — ChamferBorder SVG stroke ──── */
+  .sel-svg { position: absolute; inset: 0; width: 100%; height: 100%; overflow: visible; pointer-events: none; }
+  .sel-svg polygon {
+    fill: none; stroke: var(--brand); stroke-width: 2;
+    stroke-dasharray: 100; stroke-dashoffset: 0;   /* fully drawn (latched) */
+  }
+  .kpi.selected { background: var(--surface); }
+
+  /* ── CASE B: input focus — recoloured ChamferBorder ──────────── */
+  .field { width: 190px; }
+  .field .lbl { font-family: var(--font-mono); font-size: 9px; letter-spacing: .1em; text-transform: uppercase; color: var(--text-muted); margin-bottom: 6px; }
+  .cf { position: relative; display: block; }
+  .cf input {
+    display: block; width: 100%; height: 40px; padding: 0 13px;
+    background: var(--surface-alt); color: var(--text-primary);
+    font-family: var(--font-ui); font-size: 13px; border: none; outline: none;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+  }
+  .cf .ch-svg { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; overflow: visible; }
+  .cf .ch-svg polygon { fill: none; stroke: var(--brand); stroke-width: 1.5; }
+  .cf .cursor { position: absolute; right: 13px; top: 50%; width: 1.5px; height: 18px; transform: translateY(-50%); background: var(--brand); }
+
+  /* ── WRONG vs RIGHT comparison ───────────────────────────────── */
+  .compare { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  .panel {
+    padding: 18px 20px 20px;
+    background: var(--surface);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  }
+  .panel .hd { display: flex; align-items: center; gap: 8px; font-size: 13px; font-weight: 600; margin-bottom: 14px; }
+  .panel .badge { font-family: var(--font-mono); font-size: 10px; letter-spacing: .08em; padding: 3px 8px; }
+  .badge.no  { background: rgba(244,63,94,0.16); color: var(--crimson); }
+  .badge.yes { background: rgba(16,185,129,0.16); color: var(--emerald); }
+  .mini-stage { position: relative; background: var(--bg); height: 132px; display: flex; align-items: center; justify-content: center; overflow: hidden;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%); }
+
+  /* WRONG: chamfered border on the selected card → torn corner */
+  .kpi.bad { background: var(--surface); border: 2px solid var(--brand); }
+  .note { font-size: 12px; color: var(--text-muted); margin-top: 12px; line-height: 1.55; }
+  .note code { font-family: var(--font-mono); font-size: 11px; }
+</style>
+</head>
+<body>
+  <div class="eyebrow">Канон · фокус и выбор</div>
+  <h1>Фокус на скос-элементе — <span class="accent">SVG-обводка</span>, не border</h1>
+  <p class="lede">У нас фокус всегда живёт ПОВЕРХ скошенного элемента и повторяет его собственный срез — это <code>ChamferBorder</code> (SVG-<code>polygon</code>, <code>stroke</code>). <code>border</code> + <code>clip-path</code> рвёт угол. Никаких спотлайтов с затемнением — ровно два случая.</p>
+
+  <div class="row">
+    <!-- CASE A -->
+    <div class="case">
+      <div class="tag">Случай 1</div>
+      <h2>Выбор на месте</h2>
+      <p>Карточка / KPI становится «выбранной». SVG-обводка <code>ChamferBorder</code> по её собственному скосу — паттерн «Select (H)», один <code>&lt;polygon pathLength="100"&gt;</code>, <code>stroke-dashoffset</code> 100→0. Без <code>border</code>.</p>
+      <div class="stage">
+        <div class="kpi selected">
+          <svg class="sel-svg" viewBox="0 0 150 90" preserveAspectRatio="none"><polygon pathLength="100" points="1,1 1,89 139,89 149,79 149,1"/></svg>
+          <div class="lab">Сделки</div><div class="val">42</div><div class="dl">↑ месяц</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- CASE B -->
+    <div class="case">
+      <div class="tag">Случай 2</div>
+      <h2>Фокус поля ввода</h2>
+      <p>Клавиатурный <code>:focus-visible</code> на инпуте/кнопке. Та же <code>ChamferBorder</code>-обводка перекрашивает <code>stroke</code> в <code>--brand</code>. Никогда <code>outline</code> или <code>box-shadow</code> на самом скос-контроле.</p>
+      <div class="stage">
+        <div class="field">
+          <div class="lbl">Клиент</div>
+          <div class="cf"><input type="text" value="Иван Петров"/><span class="cursor"></span><svg class="ch-svg" viewBox="0 0 190 40" preserveAspectRatio="none"><polygon points="0,0 190,0 190,32 182,40 0,40"/></svg></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="compare">
+    <div class="panel">
+      <div class="hd"><span class="badge no">НЕВЕРНО</span> <code>border</code> на скос-карточке</div>
+      <div class="mini-stage">
+        <div class="kpi bad"><div class="lab">Сделки</div><div class="val">42</div><div class="dl">↑ месяц</div></div>
+      </div>
+      <p class="note"><code>border</code> + <code>clip-path</code> → срез режет обводку у нижне-правого угла: линия рвётся, угол «надкушен». Классический crimson-артефакт.</p>
+    </div>
+
+    <div class="panel">
+      <div class="hd"><span class="badge yes">ВЕРНО</span> <code>ChamferBorder</code> SVG-stroke</div>
+      <div class="mini-stage">
+        <div class="kpi selected">
+          <svg class="sel-svg" viewBox="0 0 150 90" preserveAspectRatio="none"><polygon points="1,1 1,89 139,89 149,79 149,1"/></svg>
+          <div class="lab">Сделки</div><div class="val">42</div><div class="dl">↑ месяц</div>
+        </div>
+      </div>
+      <p class="note"><code>&lt;polygon&gt;</code> повторяет точки скоса, <code>fill:none; stroke:--brand</code>. Угол закрыт, обводка идёт по самому срезу. Один overlay поверх — контрол не трогаем.</p>
+    </div>
+  </div>
+</body>
+</html>

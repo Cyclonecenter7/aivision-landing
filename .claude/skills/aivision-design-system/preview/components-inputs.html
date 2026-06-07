@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Components" name="Components — Form Controls" subtitle="Select · Textarea · Toggle · prefix-иконка · ChamferBorder-фокус (updateChamferSVG — канон) — сверх базового Input" viewport="700x360" -->
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0A0A;color:#fff;padding:24px;-webkit-font-smoothing:antialiased;font-family:'IBM Plex Sans',system-ui,sans-serif;}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.field{display:flex;flex-direction:column;gap:6px;}
+.field-label{font-size:11px;font-weight:500;color:#A3A3A3;letter-spacing:0.04em;}
+
+/* ── ChamferField ─────────────────────────────────────────────────
+   clip-path + border несовместимы — border обрезается скосом.
+   Решение: SVG-overlay рисует polygon-контур поверх поля.
+   JS вычисляет точные координаты скоса по реальным размерам.   */
+.cf {
+  position: relative;
+  display: block;
+}
+.cf input, .cf select, .cf textarea {
+  display: block;
+  width: 100%;
+  height: 40px;
+  padding: 0 12px;
+  background: #181818;
+  color: #fff;
+  font-family:'IBM Plex Sans',system-ui,sans-serif;
+  font-size: 14px;
+  border: none;
+  outline: none;
+  /* Clip to chamfer shape */
+  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+}
+.cf textarea {
+  height: 72px;
+  padding: 10px 12px;
+  resize: none;
+}
+.cf select {
+  appearance: none;
+  cursor: pointer;
+  padding-right: 32px;
+}
+.cf input::placeholder,
+.cf textarea::placeholder { color: #666; }
+
+/* SVG overlay — drawn by JS */
+.cf svg.ch-svg {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  overflow: visible;
+}
+.cf svg.ch-svg polygon {
+  fill: none;
+  stroke: #2A2A2A;
+  stroke-width: 1.5;
+  transition: stroke .15s;
+}
+/* Focus: JS adds .is-focused */
+.cf.is-focused svg.ch-svg polygon { stroke: #3F6EE8; }
+/* Error */
+.cf.is-error svg.ch-svg polygon   { stroke: #F43F5E; }
+/* Disabled */
+.cf.is-disabled { opacity: .45; pointer-events: none; }
+.cf.is-disabled svg.ch-svg polygon { stroke: #3A3A3A; }
+
+.select-arrow {
+  position: absolute;
+  right: 13px; top: 50%;
+  width: 7px; height: 7px;
+  border-right: 1.5px solid #A3A3A3;
+  border-bottom: 1.5px solid #A3A3A3;
+  transform: translateY(-65%) rotate(45deg);
+  pointer-events: none;
+}
+
+/* prefix icon wrapper */
+.cf .prefix-icon {
+  position: absolute;
+  left: 13px; top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  z-index: 1;
+}
+
+.toggle-wrap { display:flex; align-items:center; gap:10px; font-size:13px; color:#A3A3A3; }
+.toggle      { width:40px; height:22px; background:#3F6EE8; border-radius:11px; position:relative; cursor:pointer; flex-shrink:0; }
+.toggle-knob { position:absolute; top:3px; left:21px; width:16px; height:16px; background:#fff; border-radius:50%; box-shadow:0 1px 3px rgba(0,0,0,.3); }
+.toggle-off  { background:#3A3A3A; }
+.toggle-off .toggle-knob { left:3px; }
+</style>
+</head>
+<body>
+<div style="font-size:11px;color:#666;margin-bottom:18px;line-height:1.5;">Базовое текстовое поле (default / error / disabled) — в карточке <b style="color:#A3A3A3;font-weight:600;">Component — Input</b>. Здесь — остальные элементы формы и эталон <b style="color:#A3A3A3;font-weight:600;">ChamferBorder</b>-фокуса.</div>
+<div class="grid">
+
+  <!-- Focus — эталон ChamferBorder-обводки -->
+  <div class="field">
+    <div class="field-label">Focus · ChamferBorder stroke</div>
+    <div class="cf is-focused" data-ch="8">
+      <input type="text" value="Иван Петров"/>
+      <svg class="ch-svg"><polygon/></svg>
+    </div>
+  </div>
+
+  <!-- Prefix (search) -->
+  <div class="field">
+    <div class="field-label">With prefix</div>
+    <div class="cf" data-ch="8" style="position:relative;">
+      <span class="prefix-icon">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+      </span>
+      <input type="text" placeholder="Поиск по заявкам" style="padding-left:34px;"/>
+      <svg class="ch-svg"><polygon/></svg>
+    </div>
+  </div>
+
+  <!-- Select — см. отдельную карточку Component — Select -->
+  <div class="field">
+    <div class="field-label">Select → Component — Select</div>
+    <div style="display:flex;align-items:center;justify-content:space-between;gap:10px;height:40px;padding:0 13px;background:var(--surface-alt,#181818);color:#666;font-size:13px;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);">
+      Кастомный дропдаун
+      <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="2.4"><polyline points="6 9 12 15 18 9"/></svg>
+    </div>
+  </div>
+
+  <!-- Toggles -->
+  <div class="field">
+    <div class="field-label">Toggle</div>
+    <div style="display:flex;flex-direction:column;gap:12px;padding-top:4px;">
+      <div class="toggle-wrap">
+        <div class="toggle"><div class="toggle-knob"></div></div>
+        Уведомления включены
+      </div>
+      <div class="toggle-wrap">
+        <div class="toggle toggle-off"><div class="toggle-knob"></div></div>
+        Автообновление
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- Textarea -->
+<div class="field" style="margin-top:16px;">
+  <div class="field-label">Textarea</div>
+  <div class="cf" data-ch="8">
+    <textarea placeholder="Комментарий к заявке..."></textarea>
+    <svg class="ch-svg"><polygon/></svg>
+  </div>
+</div>
+
+<script>
+/* ── ChamferBorder SVG updater ─────────────────────────────────── */
+function updateChamferSVG(el) {
+  const ch = parseInt(el.dataset.ch) || 8;
+  const rect = el.getBoundingClientRect();
+  const w = rect.width, h = rect.height;
+  if (!w || !h) return;
+  const svg = el.querySelector('svg.ch-svg');
+  const poly = el.querySelector('svg.ch-svg polygon');
+  svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+  svg.setAttribute('width', w);
+  svg.setAttribute('height', h);
+  poly.setAttribute('points',
+    `0,0 ${w},0 ${w},${h - ch} ${w - ch},${h} 0,${h}`);
+}
+
+function init() {
+  const fields = document.querySelectorAll('.cf');
+
+  fields.forEach(el => {
+    updateChamferSVG(el);
+
+    // Focus / blur
+    const control = el.querySelector('input, select, textarea');
+    if (control) {
+      control.addEventListener('focus', () => {
+        if (!el.classList.contains('is-error') && !el.classList.contains('is-disabled'))
+          el.classList.add('is-focused');
+      });
+      control.addEventListener('blur', () => {
+        el.classList.remove('is-focused');
+      });
+    }
+
+    // Resize observer for dynamic widths
+    if (window.ResizeObserver) {
+      new ResizeObserver(() => updateChamferSVG(el)).observe(el);
+    }
+  });
+}
+
+// Run after layout
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  requestAnimationFrame(init);
+}
+</script>
+</body>
+</html>

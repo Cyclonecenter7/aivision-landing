@@ -1,461 +1,143 @@
 ---
 name: aivision-design-system
-description: Создавать дизайн и писать контент в бренде AIVISION — российский B2B-консалтинг «Система управляемой прибыли». Строгая геометрия с chamfer-углом, закрытая палитра из 7 цветов, только Inter, monotone curves на графиках, диагностический тон без хайпа. Использовать всегда, когда нужно сделать что-либо в бренде AIVISION или CRM AIVISION. НЕ использовать для дизайна других брендов.
+description: Use this skill to generate well-branded interfaces and assets for AIVISION — a Russian B2B management consulting platform. Two type families, three voices: Onest (brand/headlines/hero numbers), IBM Plex Sans (UI/body), IBM Plex Mono (data/labels/numbers). Covers marketing landing, CRM admin, social media, slides — plus a chamfer motion system. Contains design guidelines, color tokens, typography, fonts, UI kit prototypes, and a full Instagram/Threads social design canon.
+user-invocable: true
 ---
 
-# AIVISION · Дизайн-система v1.0
+Read this file fully, then explore the other available files as needed.
 
-AIVISION — российский B2B-консалтинг для собственников бизнеса (оборот от 10 млн ₽/мес). Строит «системы управляемой прибыли»: находит где теряется маржа, внедряет KPI и управленческий учёт, собирает единый BI-центр принятия решений.
+If creating visual artifacts (slides, mocks, prototypes, social posts), copy assets out and create static HTML files. If working on production code, read the rules here to become an expert in designing with this brand.
 
-> «Мы не даём советы. Мы строим систему и ведём бизнес к результату.»
+If invoked without guidance — ask what to build, ask questions, act as expert designer outputting HTML artifacts or production code.
 
----
+## Quick start
 
-## 1 · Когда применять скилл
-
-Использовать когда пользователь просит сделать что-то в бренде AIVISION:
-
-- Лендинги, кейсы, питч-деки, рекламные креативы, письма
-- Дашборды, BI-отчёты, CRM-экраны (заявки/клиенты/сделки/задачи)
-- Карточки лидов, сделок, задач — любые внутренние интерфейсы
-- Копирайт в стиле AIVISION (русский, диагностический тон)
-
-НЕ применять для дизайна других брендов или на английском.
-
----
-
-## 2 · Что читать перед работой — ПЯТЬ файлов
-
-В этом скилле есть пять HTML-референсов:
-
-### `palette.html` — **ПАЛИТРА · ГЛАВНЫЙ ЗАКОН**
-
-**Открывать первым** для любой задачи где есть цвет. 7 цветов с фиксированными правилами применения, 4 закона использования, живые примеры каждого цвета в реальных компонентах. Это закон — нельзя добавлять цвета вне этой палитры.
-
-### `reference-inspire.html` — витрина всех атомов (desktop)
-
-Все компоненты по одному с подписями, плюс палитра как первая секция. Когда нужно увидеть **как выглядит конкретный атом** — кнопка, инпут, KPI-карточка, тег, donut, monotone-график, period tabs с календарём.
-
-### `reference-work.html` — рабочая CRM (desktop)
-
-Полноценное CRM-приложение со всеми разделами: Дашборд / Заявки / Клиенты / Сделки / Задачи. Когда нужно увидеть **как компоненты работают в композиции** — настоящие экраны с реальными данными, sidebar-навигацией, переключением страниц.
-
-⚠ Этот файл частично обновлён — токены палитры и StatusTag правильные, но композиции страниц не все доведены до v1.0 эстетики. Использовать как образец структуры, не как образец качества.
-
-### `reference-mobile.html` — мобильная CRM (mobile)
-
-Мобильная версия CRM на 390×844 (iPhone). Три ключевых экрана: Дашборд / Заявки / Задачи. Внизу — **стеклянный scrollable tab bar** (backdrop-filter blur). Адаптивные паттерны: горизонтальные heat-бары вместо donut, карточки вместо таблиц, FAB для быстрых действий.
-
-### `reference-logo.html` — логотип
-
-Все варианты логотипа, размеры, favicon, Apple Touch Icon (180×180), Android иконки (512×512), manifest.json для PWA, готовый HTML-блок для `<head>`. С кнопками скачивания каждого файла.
-
-**Перед любой задачей в бренде** — открой нужный референс, найди ближайший образец, копируй паттерн. Не изобретай заново.
+1. `README.md` — company context, CONTENT FUNDAMENTALS, VISUAL FOUNDATIONS, ICONOGRAPHY
+2. `colors_and_type.css` — all CSS tokens (colors, type scale, chamfer helpers, animations)
+3. UI reference — `ui_kits/landing/index.html` / `ui_kits/crm/index.html` / `ui_kits/mobile/index.html`
+4. Component reference — `preview/` folder (25+ cards)
+5. Fonts — self-hosted in `fonts/` or Google Fonts CDN
+6. Slides — `slides/index.html` (6-slide pitch deck template)
+7. Social — `social/reference-carousel.html` (эталон) + `social/tokens.html`
 
 ---
 
-## 3 · Палитра — закрытая система из 7 цветов
+## Три поверхности — три канона
 
-**Главное правило: цветов ровно 7, не больше.** Если кажется что нужен восьмой — это сигнал переосмыслить структуру блока, а не добавить цвет.
+| Задача | Канон | Файлы |
+|---|---|---|
+| Лендинг, кейсы, маркетинговые страницы | **Landing** — Onest + Plex Sans | `ui_kits/landing/index.html` |
+| CRM-дашборд, заявки, финансы, задачи | **CRM** — Onest + Plex Sans + Plex Mono | `ui_kits/crm/index.html`, `ui_kits/mobile/index.html` |
+| Instagram / Threads — карусели, посты | **Social** — только Plex Sans, 3 фона | см. раздел ниже |
+| Питч-деки, презентации | **Slides** — Onest + Plex Sans/Mono | `slides/index.html` |
 
-### Семантика (5) — фиксированный смысл
+---
 
+## Core design rules (must follow)
+
+- **7-color closed palette** — brand #3F6EE8, emerald #10B981, crimson #F43F5E, sun #FCD34D, slate #94A3B8, indigo #6366F1, tangerine #FB923C. No ad-hoc colors.
+- **Chamfer** — `clip-path: polygon(0 0, 100% 0, 100% calc(100% - Xpx), calc(100% - Xpx) 100%, 0 100%)` on all interactive/container elements **in hi-fi output (landing, CRM, slides, social)**. **One scale: `--chamfer` = 10px everywhere** — chamfer does NOT scale with importance ("bigger cut = more focus" is a trap); focus & hierarchy come from **motion + colour** (`.ch-hover` / `.ch-press` / `ChamferBorder` draw — see `preview/chamfer-motion-lab.html`). No border-radius (except true circles). ⛔ **NOT in wireframes / lo-fi sketches / storyboards** — those use plain square corners.
+- **Focus / selection on a chamfered element = `ChamferBorder` SVG stroke, NEVER a chamfered `border`** (the #1 bug). `border`+`clip-path` tears the cut corner. Focus always lives as a `<polygon>` stroke overlay tracing the element's OWN chamfer. We do NOT use spotlight/dimming overlays. Two cases: (1) in-place selection → `ChamferBorder` stroke (Select-H); (2) input `:focus-visible` → recoloured `ChamferBorder`. Canon: `preview/focus-and-spotlight.html`.
+- **No gradients** — except linear gradient under chart lines (opacity 0.25 → 0) and glass blur on mobile tab bar.
+- **2 families, 3 voices** — **Onest** = brand voice (headlines, hero/short numbers, logo; neo-grotesque with native Cyrillic — contrast comes from weight + tight tracking, NOT optical size). **IBM Plex Sans** = human voice (body, UI, labels, buttons). **IBM Plex Mono** = machine voice (eyebrows, table data, FULL precise numbers, dates, IDs; `tabular-nums` + slashed `zero`). Never reach for Inter or Fraunces — they are gone. Onest has no italic and no `opsz` axis — never apply `font-style:italic` or `font-variation-settings:opsz` to it.
+- **Number system — «число = главный объект»** (see `preview/type-hero.html` + utilities in `colors_and_type.css`):
+  - SHORT display number → **Onest ticker** (`.num-ticker`, weight 600), abbreviated («1,54 МЛН ₽», «48», «18%»). `.num-ticker--rule` adds the brand chamfer-underline (echoes the logo mark).
+  - FULL precise number → **Plex Mono** (`.num-mono`) — even digit groups, no display-font cramping.
+  - Unit (₽, %, МЛН) → muted mono, smaller (`.num-unit`).
+  - Delta → `.delta-chip` (mono, chamfer, status colour: `--up` emerald ↑ / `--down` crimson ↓). NO «пп» jargon.
+  - Comparison baseline → stated **ONCE per screen** (`.delta-base`, e.g. «Δ к апрелю»), never repeated on every card.
+- **Display accent** — 1–3 words / the key number in headings coloured `--brand` (colour only — Onest has no italic).
+- **Monotone curves** — Steffen interpolation for all line charts (copy `smooth()` from `ui_kits/crm/index.html`).
+- **Editorial page headers** — every CRM page: mono eyebrow + Onest heading with a factual statement and a coloured accent number.
+- **Logo** — clean **Onest wordmark** (`.logo-wordmark`, weight 600 UPPERCASE), monochrome (no blue tint on the word). The chamfer lives ONLY in the square mark — never a second chamfer in the wordmark. No «AI» highlight.
+- **Lucide icons** — stroke only, stroke-width 2, 20px. No emoji.
+- **Russian language** — diagnostic tone, no exclamations, no hype words. Real minus U+2212, non-breaking space in ₽ amounts.
+- **Dark theme default** — bg #0A0A0A, surface #181818, surface-alt #222222. Light theme: bg #FAFAFA, surface #FFFFFF.
+
+---
+
+## Motion canon
+
+Token reference + principles: **`preview/motion-principles.html`** (durations, easing roles, interaction→token map). State set: **`preview/interaction-states.html`**. Live lab: **`preview/chamfer-motion-lab.html`**. Page-load: **`preview/crm-page-load.html`**.
+
+**Живой бренд — но движение по делу.** AIVISION должен ощущаться живым продуктом, а не статичной макеткой: знак-скос дышит, числа набегают, контент въезжает под фирменным углом. Это «продуктовый вайб» — интерфейс реагирует и подтверждает действия. Но движение — это инструмент смысла, не украшение:
+- **Анимируй там, где есть событие:** загрузка (лоадер-знак), появление данных (count-up, page-load reveal), действие пользователя (ховер/клик/флуд кнопки, выбор карточки), смена состояния (тосты, раскрытие поиска), переход. Движение **отвечает** на что-то.
+- **НЕ анимируй ради красоты:** никаких вечных декоративных циклов на контенте, параллакса, «плавающих» элементов, аним-на-скролл просто потому что можно. Если убрать анимацию и смысл не теряется — убери её.
+- **Каждое движение — про скос.** Скос прочерчивается, углубляется, обегает контур, режется при въезде, рассыпается на скос-осколки. Движение носит бренд, а не живёт отдельно.
+- **Токены, а не магические числа.** Длительности: `--dur-instant 80ms` (hover-тинт), `--dur-fast 140ms` (press/фокус/чипы), `--dur-base 220ms` (меню/тосты/смена состояния), `--dur-slow 360ms` (модалки/page-load). Easing-роли: `--ease-out` (вход+UI), `--ease-in` (уход), `--ease-in-out` (перемещение), `--ease-spring` (акцент, лёгкий overshoot — только модалка/tooltip/ключевой выбор). Никаких длительностей >360ms в UI. Карта интеракция→токен — в `motion-principles.html`.
+- **Тихий каркас.** Таблицы, шапки, разделители, плотные списки не дёргаются. Жизнь — в акцентных моментах (KPI, hero, CTA, лоадер, тосты), не везде сразу.
+
+- **Chamfer is the motion subject.** Focus/hierarchy = motion + colour, never a bigger cut. The 10px rest cut deepens **transiently**: `.ch-hover` (+6px) on hover, `.ch-press` (+8px) on click — always returns to 10px.
+- **Select (H)** — one continuous accent line: on hover it draws down the left edge; on click it wraps the full chamfer outline and the card latches «selected». One stroke, no parallel elements.
+- **Focus-split (I)** — focus at the LAYOUT level: click a panel → it grows, siblings collapse to chamfered slivers (flex-grow); cut stays 10px, colour rail intensifies.
+- **Button flood (P)** — chamfered button (action = static cut, no deepen): hover draws a left-edge line, click floods the brand colour left→right.
+- **Page-load** — content rises + fades top-down, staggered ~60→430ms, easeOutQuart, ~1s total. Visible end-state is the BASE style; animate FROM hidden gated on a `.reset`/replay so print & no-JS show content. Never leave content stuck at opacity 0.
+- **Loader** — the brand mark itself, one looped cycle: contour draws → fills & breathes → shatters into 4 chamfer shards → shards merge into a line → repeat (`O` in the lab).
+- **Numbers count up**, **toasts** fly in from the corner with the chamfer cutting in, **histogram** bars grow from the bottom with a top-left chamfer.
+- **Respect `prefers-reduced-motion`** — keep the FADE, drop movement & scale. All entrance keyframes are redefined opacity-only and chamfer-deepen/spinner are suppressed under the media query (already wired in `colors_and_type.css`). Content still appears — just without travel or spring.
+
+---
+
+## Social Canon — Instagram / Threads
+
+Использовать когда нужен статичный медиа-контент для соцсетей: карусели, одиночные посты, обложки.
+**Открой `social/reference-carousel.html` первым** — эталонная карусель из 6 слайдов со всеми паттернами.
+**Токены и размеры:** `social/tokens.html`.
+
+### Холст и логотип
+- Размер: **1080×1080 px** (1:1). Padding: **8%** со всех сторон = 86px.
+- Логотип **на каждом слайде**, top 8% left 8%. Метка 44×44px, wordmark **Onest 600 UPPERCASE** ls 0.02em (был Inter — больше нет).
+- Chamfer на метке: `clip-path: polygon(0 0, 100% 0, 100% 81%, 81% 100%, 0 100%)`
+- Цвет метки: на белом → `#0A0A0A`; на чёрном → `#3F6EE8`; на синем → `#FFFFFF`
+
+### Три фона — строго
 ```
-brand     #3F6EE8    маржа, бренд, primary CTA, "В работе"
-emerald   #10B981    доход, рост, "Завершена", "Закрыта"
-crimson   #F43F5E    расход, провал, просрочка, ГОРЯЧИЙ ЛИД
-sun       #FCD34D    "Связались", дедлайн, ТЁПЛЫЙ ЛИД
-slate     #94A3B8    "Недоступен", нет данных, ХОЛОДНЫЙ ЛИД
+WHITE  #FAFAFA   обложки, основная масса слайдов
+BLACK  #0A0A0A   контраст, раскрытие, финал
+BLUE   #3F6EE8   кульминация — один раз за карусель
 ```
+Никаких других цветов. Синий — только 1 раз. Не больше 2 одинаковых фонов подряд.
 
-### Категориальные (2) — без смысла, для отличения
+### Шрифт — только IBM Plex Sans
+| Роль | Preview 340px | На 1080px | Weight |
+|---|---|---|---|
+| H1 (обложка) | 22px | 55–110px (по длине) | 800 |
+| H2 (заголовок слайда) | 19px | 80px | 800 |
+| Sub | 11px | 35px | 500 |
+| Eyebrow | 8px | 25px | 600 UPPERCASE ls 0.15em |
+| Body | 10px | 32px | 400 |
+| Level num | 11px | 35px | 700 |
+| Level title | 13px | 41px | 700 |
 
+H1 на 1080px подбирается по длине: короткий (≤4 слова) → 90–110px; средний → 70–85px; длинный (6+ слов) → 55–70px. Самое длинное слово должно занимать 35–55% рабочей ширины (907px).
+
+### Цвета на слайде
+- На белом: текст `#0A0A0A`, muted `#525252`, акцент `#3F6EE8`
+- На чёрном: текст `#FFFFFF`, muted `#A3A3A3`, акцент `#3F6EE8`
+- На синем: текст `#FFFFFF`, muted `rgba(255,255,255,.78)`, акцентов нет
+- **Запрещены:** emerald, crimson, sun, slate на слайдах соцсетей
+
+### Структура карусели
 ```
-indigo    #6366F1    второй синий для категорий
-tangerine #FB923C    тёплый акцент для категорий
-```
-
-### Heat-классификация — алиасы на семантику
-
-```
-HEAT.hot  = crimson    срочная возможность
-HEAT.warm = sun        в работе
-HEAT.cold = slate      остыл
-```
-
-Heat НЕ отдельная палитра. Это смысловые алиасы на crimson/sun/slate. Контекст блока ("Заявки" или "Финансы") задаёт прочтение цвета.
-
-### 4 закона использования
-
-1. **Семантика побеждает категорию.** Если цвет занят семантическим смыслом (emerald = успех), он не используется в этом же блоке для «просто отличить категории». Никогда не красим «количество визитов» в emerald — пользователь подсознательно прочитает это как «успех».
-
-2. **Порядок назначения категориальных цветов фиксирован.** Если на диаграмме N категорий — берём цвета строго в этом порядке: `brand → emerald → crimson → sun → indigo → tangerine → slate`. Не пропускаем, не миксуем «по вкусу».
-
-3. **Максимум 5 цветов на одном блоке.** Если данных больше — группируем в «Другое» (сегмент slate). Дашборд с 7 цветами в одной диаграмме нечитаем за полсекунды.
-
-4. **Палитра закрытая.** Если новая фича требует 8-го цвета — это сигнал переосмыслить структуру блока, а не добавить цвет. Расширение происходит через ревизию системы.
-
-### Что использовать где
-
-| Контекст                           | Цвет                                         |
-| ---------------------------------- | -------------------------------------------- |
-| KPI «Маржа»                        | brand (с акцентным фоном — главная карточка) |
-| KPI «Доходы»                       | emerald spark + emerald дельта               |
-| KPI «Расходы»                      | crimson spark + crimson дельта               |
-| KPI план/прогресс                  | brand fill + белая прогресс-полоса           |
-| Линия "Маржа" на графике           | brand                                        |
-| Линия "Доходы" на графике          | emerald                                      |
-| Линия "Расходы" на графике         | crimson                                      |
-| Статус «Новая»                     | brand                                        |
-| Статус «Связались»                 | sun                                          |
-| Статус «В работе»                  | brand fill + white text                      |
-| Статус «Недоступен» / «Не целевой» | slate                                        |
-| Статус «Завершена»                 | emerald                                      |
-| Статус «Провалена»                 | crimson                                      |
-| Просроченная задача                | crimson                                      |
-| Дедлайн "Сегодня"                  | sun                                          |
-| Heat «Горячий»                     | crimson                                      |
-| Heat «Тёплый»                      | sun                                          |
-| Heat «Холодный»                    | slate                                        |
-| Источник трафика "yandex"          | indigo                                       |
-| Источник трафика "telegram"        | tangerine                                    |
-| Тип клиента "Standard"             | indigo                                       |
-| Empty state иконки и текст         | slate                                        |
-| Сетка графиков                     | chartGrid (слабый серый)                     |
-
-### Темы (light / dark) — токены из этого списка
-
-```
-DARK:
-  bg #0A0A0A · surface #181818 · surface-alt #222222
-  border #2A2A2A · border-strong #3A3A3A
-  text-primary #FFFFFF · text-secondary #A3A3A3 · text-muted #666666
-  chart-grid #222222
-
-LIGHT:
-  bg #FAFAFA · surface #FFFFFF · surface-alt #F4F4F4
-  border #E8E8E8 · border-strong #D4D4D4
-  text-primary #0A0A0A · text-secondary #525252 · text-muted #999999
-  chart-grid #EFEFEF
+1/N  Обложка     WHITE   H1 + sub
+2/N  Постановка  WHITE   body ×3 фразы
+3/N  Раскрытие   BLACK   level-num с divider
+4/N  Раскрытие   WHITE   level-num с divider
+5/N  Кульминация BLUE ★  eyebrow + H2 + body  ← один раз
+6/N  Финал       BLACK   вопрос или CTA
 ```
 
-Бренд `#3F6EE8` остаётся одинаковым в обеих темах. Hover у бренда — `#5A85F0` (dark) / `#2D5BD4` (light).
-
----
-
-## 4 · Пять правил, которые нельзя нарушать
-
-1. **Chamfer снизу справа на каждом интерактивном/контейнерном элементе.**
-
-   ```css
-   clip-path: polygon(0 0, 100% 0, 100% calc(100% - Xpx), calc(100% - Xpx) 100%, 0 100%);
-   ```
-
-   Размеры: 4 / 6 / 8 / 10 / 12 / 16 / 20 / 28.
-
-   ⚠ **CSS `border` несовместим с `clip-path`** — браузер обрезает border на скошенном углу. Если на chamfer-элементе нужна обводка:
-   - **Лучший выбор** — отказаться от обводки, использовать контраст фонов (`#FFF` карточка на `#F4F4F4` фоне)
-   - **Если обводка нужна** — компонент `<ChamferBorder>` (SVG-overlay поверх элемента) из `reference-inspire.html`. Скопировать как есть.
-   - **Никогда** — `border: 1px solid + clip-path` вместе
-   - **`chOutline` УДАЛЁН из кодовой базы** (был `box-shadow: inset` — тоже режется clip-path). ESLint блокирует его импорт.
-   - Для кнопок с обводкой — `<Btn variant="outlined">` (Btn оборачивает в `<ChamferBorder>` внутри).
-   - Для контейнеров — `<ChamferBorder px={X} color={...}>` вокруг блока.
-
-2. **Никаких `border-radius`** — кроме настоящих кругов (буллеты, прогресс-бары, аватары, ручка Toggle).
-
-3. **Никаких градиентов, glassmorphism, теней** — кроме:
-   - `box-shadow` на dropdown'ах и popover'ах для отрыва от фона
-   - линейного градиента под линией графика (`stopOpacity 0.25 → 0`)
-   - стекло-эффекта `backdrop-filter: blur` на mobile tab bar (исключение, см. раздел 11)
-
-4. **Один акцент на блок.** `#3F6EE8` встречается один раз. На синем фоне акцент становится белым.
-
-5. **Каждая секция начинается с eyebrow** — 24px цветная линия + 12px UPPERCASE-лейбл, `letter-spacing: +0.15em`.
-
----
-
-## 5 · Графики — только monotone curves
-
-**Все линейные графики (KPI-спарклайны, главный график «Маржа · Доходы · Расходы») рисуются через Steffen monotone interpolation, не Catmull-Rom.**
-
-```js
-function smoothPath(points) {
-  const n = points.length;
-  if (n < 2) return '';
-  if (n === 2) return `M${points[0][0]},${points[0][1]} L${points[1][0]},${points[1][1]}`;
-
-  const tangents = new Array(n);
-  for (let i = 1; i < n - 1; i++) {
-    const dx1 = points[i][0] - points[i - 1][0];
-    const dx2 = points[i + 1][0] - points[i][0];
-    const dy1 = points[i][1] - points[i - 1][1];
-    const dy2 = points[i + 1][1] - points[i][1];
-    const s1 = dy1 / dx1;
-    const s2 = dy2 / dx2;
-    if (s1 * s2 <= 0) {
-      tangents[i] = 0;
-    } else {
-      const p = (s1 * dx2 + s2 * dx1) / (dx1 + dx2);
-      tangents[i] = Math.sign(s1) * Math.min(Math.abs(s1), Math.abs(s2), 0.5 * Math.abs(p));
-    }
-  }
-  tangents[0] = (points[1][1] - points[0][1]) / (points[1][0] - points[0][0]);
-  tangents[n - 1] = (points[n - 1][1] - points[n - 2][1]) / (points[n - 1][0] - points[n - 2][0]);
-
-  let d = `M${points[0][0]},${points[0][1]}`;
-  for (let i = 0; i < n - 1; i++) {
-    const dx = (points[i + 1][0] - points[i][0]) / 3;
-    const cp1x = points[i][0] + dx;
-    const cp1y = points[i][1] + tangents[i] * dx;
-    const cp2x = points[i + 1][0] - dx;
-    const cp2y = points[i + 1][1] - tangents[i + 1] * dx;
-    d += ` C${cp1x},${cp1y} ${cp2x},${cp2y} ${points[i + 1][0]},${points[i + 1][1]}`;
-  }
-  return d;
-}
-```
-
-**Зачем это правильно:** monotone-кривая плавная, но НИКОГДА не выходит за фактические значения. На финансовом графике если в одной точке 1.2M, а соседи 0 и 200K — Catmull-Rom может «выпрыгнуть» выше 1.2M из-за инерции, у monotone такого не бывает. Это профессиональный стандарт для финансовых графиков (Apple, Stripe, Linear, Vercel).
-
-**Заливка под линией:** линейный градиент сверху-вниз `stopOpacity 0.25 → 0`. Уникальный `id` на каждый график (включить размер или название серии в id, иначе React переиспользует и градиент пропадёт).
-
-**Толщина линии:** 2.25px для главных графиков, 1.75px для KPI-спарклайнов.
-
-**Сетка графика:** первая линия (нулевая) сплошная `1px`, остальные пунктирные `strokeDasharray="2 4"`. Цвет — токен `chartGrid`.
-
-**Padding LineChart:** `padT: 24, padB: 32` — чтобы пиковые точки не упирались в верх карточки, а подписи дат не клеились к нижней границе.
-
-**Точки на узлах:** круг радиусом 3px, заливка под цвет surface, обводка цветом серии 2px. На hover — радиус 4.5px.
-
----
-
-## 6 · Голос бренда — как пишет AIVISION
-
-- **Только русский язык.** Деловой тон, никакого маркетингового хайпа.
-- **От первого лица множественного числа («мы»).** К читателю — косвенно: _«Собственник видел оборот, но не видел маржи»_.
-- **Никаких восклицаний. Никаких эмодзи. Никаких слов-усилителей** («уникальный», «революционный», «гарантированно»).
-- **Диагностический триптих**: проблема → механизм → разрешение. Тире вместо глаголов-связок: _«Доход рос — расходы быстрее.»_
-- **Числа со знаком**: `+93%`, `−32%`, `200М+`. Настоящий минус `−` (U+2212), не дефис. Валюта `₽` постфиксом, неразрывный пробел: `376 185 ₽`.
-- **`font-variant-numeric: tabular-nums`** на всех числах в таблицах и метриках.
-- **Эйбровы:** UPPERCASE — ПРОБЛЕМА · ПРОДУКТЫ · КЕЙСЫ · ДИАГНОСТИКА · СИСТЕМА УПРАВЛЯЕМОЙ ПРИБЫЛИ.
-- **CTA:** «Разобрать бизнес» · «Начать диагностику» · «Узнать подробнее».
-
----
-
-## 7 · Heat-иконка — миниатюра логотипа
-
-Маркер heat-классификации = миниатюра внешнего контура логотипа AIVISION с разной заливкой:
-
-- `hot` → **filled** (полная заливка цветом crimson)
-- `warm` → **half-filled** (35% fill + outline 3px цветом sun)
-- `cold` → **outline only** (только контур 3px цветом slate)
-
-SVG path: `M4 4 L28 4 L28 22 L22 28 L4 28 Z` в `viewBox 32×32`.
-
-Использовать на каждой карточке/строке заявки, лида, сделки в CRM. Готовая реализация — компонент `HeatIcon` в обоих референсах.
-
----
-
-## 8 · Статусы заявок и сделок — 7 статусов
-
-7 статусов через компонент `StatusTag`:
-
-| Статус     | Семантика                          | Цвет               |
-| ---------- | ---------------------------------- | ------------------ |
-| Новая      | только что пришла, нужна обработка | brand tint         |
-| Связались  | первый контакт сделан, в работе    | sun tint           |
-| В работе   | активная сделка/проект             | brand fill + white |
-| Недоступен | не отвечает                        | slate tint         |
-| Не целевой | вне ICP                            | slate tint         |
-| Завершена  | закрыта успешно                    | emerald tint       |
-| Провалена  | реальная ошибка                    | crimson tint       |
-
-Не путать **status** (что происходит со сделкой) и **heat** (приоритет лида) — это разные теги, разные тени, разные цвета.
-
----
-
-## 9 · Editorial-заголовок страницы (обязательный паттерн)
-
-**Каждая страница в CRM начинается с editorial-заголовка** — короткой осмысленной фразы с цифрой и контекстом, а не сухого «Дашборд» или «Заявки».
-
-Структура:
-
-```
-[ Eyebrow — мелкий UPPERCASE-контекст ]
-[ Заголовок-факт с акцентным числом ]
-```
-
-Примеры:
-
-- «МАЙ · 2 ИЗ 31 ДН.» → **«48 новых заявок. +18% к апрелю.»**
-- «ПЛАН НА 2 МАЯ» → **«3 задачи на сегодня. 1 просрочена.»**
-- «ВОРОНКА · МАЙ» → **«15 сделок в работе. 4,8 М ₽ в пайплайне.»**
-- «КЛИЕНТЫ · АКТИВНЫЕ» → **«12 whales. LTV выше 1 М ₽.»**
-- «СВОД · СЕГОДНЯ · 4 МАЯ» → **«Сегодня — пусто. План — 33 333 ₽ в день.»**
-
-Правила:
-
-- **Eyebrow сверху** — 10–11px, UPPERCASE, letter-spacing 0.12–0.15em, цвет brand или text-secondary. С 24px цветной линией слева.
-- **Заголовок** — 22–32px (мобила/десктоп), font-weight 700, letter-spacing -0.02em.
-- **Цифра-акцент** оборачивается в `<span style={{color: brand}}>` или окрашивается семантически (emerald если рост, crimson если падение).
-- **Структура смысла:** факт + дельта/оценка (короткая фраза с тире или вторым предложением).
-- **Никаких «Welcome back» или «Добро пожаловать»** — это AIVISION, диагностический тон.
-
-Этот паттерн применяется **на каждой странице где есть метрики** — Дашборд, Заявки, Задачи, Сделки, Клиенты, Финансы. Реализация — компонент `Eyebrow` + `<h1>` или `<h2>` сразу под ним.
-
----
-
-## 10 · Логотип
-
-Логотип AIVISION = **одна chamfer-форма**. Никакой внешней рамки. Цвет адаптируется к фону.
-
-**SVG path** (viewBox 256×256):
-
-```
-M 0 0 L 256 0 L 256 208 L 208 256 L 0 256 Z
-```
-
-**Варианты заливки:**
-
-- На светлом фоне — `#0A0A0A` чёрный
-- На тёмном фоне — `#3F6EE8` синий (бренд)
-- На синем фоне — `#FFFFFF` белый
-- Mono (универсальный) — `currentColor`
-
-**Wordmark:** «AIVISION» Inter 700 UPPERCASE, `letter-spacing: 0.15em`. Лого + wordmark — всегда вместе если ширина > 24px.
-
-**Минимальный размер** — 16px. Стандарт в шапке — 24–28px. Hero — 48px+.
-
-⚠ **Не использовать двойную геометрию** (внешний контур + внутренняя метка). На PWA-иконках iOS/Android уже добавляют свою плашку — наш внешний контур поверх неё создаёт эффект «коробки в коробке».
-
-**Все варианты, размеры, favicon, Apple Touch Icon, Android adaptive, manifest.json и готовый HTML для подключения** — в файле `reference-logo.html`.
-
----
-
-## 11 · Mobile tab bar — стеклянный над контентом
-
-**На мобиле tab bar полупрозрачный со стекло-эффектом** (iOS-style), не сплошной surface. Это ощущение «парит над контентом» а не «отрезает кусок экрана снизу».
-
-```css
-.tab-bar {
-  position: sticky;
-  bottom: 0;
-  background: rgba(10, 10, 10, 0.72); /* dark */
-  backdrop-filter: blur(20px) saturate(180%);
-  -webkit-backdrop-filter: blur(20px) saturate(180%);
-  box-shadow: 0 -1px 0 0 rgba(255, 255, 255, 0.06); /* dark — намёк на отрыв */
-  padding-bottom: max(12px, env(safe-area-inset-bottom));
-  z-index: 30;
-}
-body[data-theme='light'] .tab-bar {
-  background: rgba(255, 255, 255, 0.72);
-  box-shadow: 0 -1px 0 0 rgba(0, 0, 0, 0.06);
-}
-```
-
-Контент страницы получает `padding-bottom: 88px` чтобы не уезжал под bar.
-
-⚠ **Это исключение из правила «никаких glassmorphism».** Стекло разрешено **только** на iOS-style mobile tab bars и фиксированных хедерах поверх скроллящегося контента — там где это системный паттерн iOS, а не декорация. На десктопных карточках и блоках glass запрещён по-прежнему.
-
-В `reference-mobile.html` tab bar реализован стеклянным — копируйте оттуда.
-
----
-
-## 12 · Иконография
-
-- **Библиотека:** Lucide. Только stroke, `stroke-width: 2`, размер 20px (12–16 внутри кнопок).
-- **Никаких fill, emoji, иконочных шрифтов.** Цвет через `currentColor`.
-
----
-
-## 13 · Dropdown'ы и оверлеи — обязательные правила
-
-Любой floating UI (dropdown, popover, tooltip, toast, модалка) ОБЯЗАТЕЛЬНО:
-
-- `background:` непрозрачный цвет темы (`surface`, не transparent)
-- `z-index: 100` минимум
-- `box-shadow` для отрыва от фона
-- `position: absolute` с фиксированными top/left/right
-- **Notification bell** — позиционирование через `right: 0` (не `left`), иначе уезжает за край экрана при клике в правой части шапки
-- Календарь / `PeriodTabs` popover — открывается ниже кнопки, оверлей-клик-аут на закрытие
-
-Никогда не оставлять plain `position: absolute` без фона — текст будет проступать сквозь dropdown.
-
----
-
-## 14 · Period Picker — табы + календарь
-
-На дашбордах фильтр периода = группа табов **«Сегодня · Неделя · Этот месяц»** + отдельная кнопка **«Свой период»** с popover-календарём.
-
-Календарь:
-
-- Ширина 320px, padding 16px
-- Шапка: `‹ Май 2026 ›` с кнопками-стрелками
-- Дни недели: `Пн Вт Ср Чт Пт Сб Вс` (понедельник первый)
-- Хелпер сверху меняется по состоянию: `'Выберите начало периода'` → `'Выберите конец периода'` → `'Готово'`
-- Логика двух кликов: первый клик = старт даты, второй клик = конец, диапазон применяется автоматически
-- Hover на дне (когда выбран старт, ещё не выбран конец): подсвечивает диапазон от старта до текущего ховера
-- Сегодняшний день: цвет текста brand
-- Старт/конец диапазона: фон brand, белый текст
-- Дни между стартом и концом: фон `rgba(63,110,232,0.2)` (dark) / `rgba(63,110,232,0.12)` (light)
-- Футер: ghost-кнопка «Сбросить» (возвращает к дефолту — «Этот месяц») и «Закрыть»
-
-Когда активен кастомный период — кнопка «Свой период» становится синей и показывает диапазон `DD.MM — DD.MM`. Рядом появляется ghost-крестик «Сбросить».
-
-Готовая реализация — компонент `PeriodTabs` в `reference-inspire.html`.
-
----
-
-## 15 · Можно / Нельзя
-
-| Можно                                           | Нельзя                                                      |
-| ----------------------------------------------- | ----------------------------------------------------------- |
-| 7 цветов из палитры AIVISION v1.0               | Любые цвета вне палитры                                     |
-| Семантика → бренд/деньги/состояние              | Семантика → «потому что красиво»                            |
-| `indigo`, `tangerine` для категорий             | `indigo`, `tangerine` на семантических блоках               |
-| Плоские цвета, один акцент на блок              | Градиенты на UI-блоках                                      |
-| Линейный градиент **только** под линией графика | Декоративные градиенты                                      |
-| Chamfer снизу справа на всём                    | Скруглённые углы на кнопках/карточках                       |
-| `<ChamferBorder>` для обводки на chamfer        | `border: 1px solid` + `clip-path` (бордер обрывается)       |
-| `<Btn variant="outlined">` для outlined-кнопок  | `chOutline()` (удалён — был box-shadow inset, тоже режется) |
-| Heat-теги для лидов/сделок                      | Heat-цвета на финансовом блоке                              |
-| `StatusTag` для статуса заявки                  | смешивать heat и status в одном теге                        |
-| Только Inter, 400–700                           | Смешанные гарнитуры                                         |
-| Большие жирные числа `tabular-nums`             | Иконочный «data slop»                                       |
-| Lucide stroke 2px                               | Filled-иконки, эмодзи, разные размеры                       |
-| `−93%` с U+2212                                 | `-93%` с дефисом                                            |
-| `376 185 ₽` с неразрывным пробелом              | `376185 ₽` слитно                                           |
-| Floating UI с фоном + z-index                   | Прозрачные dropdown'ы                                       |
-| Monotone curves на графиках                     | Catmull-Rom (выпрыгивает за данные), polyline (острые пики) |
-| Glass (backdrop-filter) на mobile tab bar       | Glass на десктопных блоках                                  |
-
----
-
-## 16 · Рабочий процесс
-
-1. **Читай палитру первой** — `palette.html` задаёт язык всей системы. Любая задача с цветом начинается тут.
-2. **Определи тип задачи** — лендинг / десктоп-экран CRM / мобильный экран / отдельный компонент.
-3. **Найди ближайший образец** в одном из референсов:
-   - Атом → `reference-inspire.html`
-   - Десктоп-композиция → `reference-work.html`
-   - Мобильный экран → `reference-mobile.html`
-   - Логотип/PWA → `reference-logo.html`
-4. **Копируй паттерн.** Не изобретай заново. Если кажется что нужного компонента нет — посмотри ещё раз. Скорее всего он есть.
-5. **Применяй обязательные паттерны** — каждая страница начинается с editorial-заголовка (раздел 9). Mobile tab bar делается со стекло-эффектом (раздел 11). Графики через monotone (раздел 5).
-6. **Сверь с правилами 4 и 15** перед сдачей. Особенно — нет ли где `border + clip-path`, нет ли цветов вне палитры.
-
----
-
-## Структура скилла
-
-```
-aivision-design-system/
-├── SKILL.md                  ← этот файл
-├── palette.html              ← палитра + 4 закона + примеры (читать первой)
-├── reference-inspire.html    ← витрина всех атомов (desktop)
-├── reference-work.html       ← живая CRM со всеми разделами (desktop)
-├── reference-mobile.html     ← мобильная CRM (Дашборд/Заявки/Задачи)
-└── reference-logo.html       ← логотип, favicon, PWA-иконки
-```
-
-Всё. Никаких других файлов в скилле быть не должно.
+### Правила текста
+- Body ≤ 3 строк на слайд. Заголовок 2–4 строки.
+- Переносы через `<br>`, слова-связки через `&nbsp;`.
+- Тон диагностический, без восклиций и эмодзи.
+- CTA в финале — вопрос, не «жми ссылку».
+
+### Чек-лист перед выдачей
+- [ ] Логотип на каждом слайде, правильный цвет метки
+- [ ] Padding 8% соблюдён
+- [ ] Синий фон ровно 1 раз (или не встречается)
+- [ ] Только Plex Sans, только три фона
+- [ ] Никаких border-radius, градиентов, теней
+- [ ] Body ≤ 3 строк, H1 по § 4.2 (35–55% рабочей ширины)
+- [ ] При экспорте PNG: рендер → сверка с критерием ширины → итерация (не показывать первый рендер без сверки)

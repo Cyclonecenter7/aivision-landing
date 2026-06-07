@@ -1,0 +1,419 @@
+<!-- @dsCard group="Type" viewport="1280x4200" name="Font picker — дисплейный голос" subtitle="Space Grotesk и 6 альтернатив в контекстах AIVISION" -->
+<!DOCTYPE html>
+<html lang="ru" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIVISION — выбор дисплейного шрифта</title>
+<link rel="stylesheet" href="../colors_and_type.css">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@400;500;600;700&family=Golos+Text:wght@400;500;600;700&family=Manrope:wght@400;500;600;700&family=Rubik:wght@400;500;600;700&family=Unbounded:wght@400;500;600;700&family=Commissioner:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  body {
+    background: var(--bg);
+    color: var(--text-primary);
+    padding: 56px 48px 96px;
+    min-height: 100vh;
+  }
+  .wrap { max-width: 1080px; margin: 0 auto; }
+
+  /* ── Page head ─────────────────────────────────────── */
+  .page-eyebrow {
+    font-family: var(--font-mono);
+    font-size: 11px; font-weight: 500;
+    letter-spacing: 0.16em; text-transform: uppercase;
+    color: var(--brand);
+    display: flex; align-items: center; gap: 12px;
+    margin-bottom: 20px;
+  }
+  .page-eyebrow::before {
+    content: ''; width: 28px; height: 1px; background: var(--brand);
+  }
+  .page-title {
+    font-family: var(--font-ui);
+    font-size: 34px; font-weight: 700; letter-spacing: -0.02em;
+    line-height: 1.12; margin-bottom: 14px; max-width: 22ch;
+  }
+  .page-sub {
+    font-family: var(--font-ui);
+    font-size: 16px; line-height: 1.6; color: var(--text-secondary);
+    max-width: 64ch;
+  }
+  .page-sub b { color: var(--text-primary); font-weight: 600; }
+
+  .legend {
+    display: flex; flex-wrap: wrap; gap: 10px 18px;
+    margin-top: 24px; padding-top: 22px;
+    border-top: 1px solid var(--border);
+    font-family: var(--font-mono); font-size: 11px;
+    letter-spacing: 0.04em; color: var(--text-muted);
+  }
+  .legend b { color: var(--text-secondary); font-weight: 500; }
+
+  /* ── Specimen card ─────────────────────────────────── */
+  .specimens { margin-top: 40px; display: flex; flex-direction: column; gap: 22px; }
+
+  .card {
+    position: relative;
+    background: var(--surface);
+    padding: 34px 38px 38px;
+  }
+  .card.current { background: #141414; }
+
+  .card-head {
+    display: flex; align-items: baseline; justify-content: space-between;
+    gap: 16px; margin-bottom: 30px;
+    padding-bottom: 18px; border-bottom: 1px solid var(--border);
+  }
+  .card-name {
+    font-family: var(--font-ui);
+    font-size: 20px; font-weight: 600; letter-spacing: -0.01em;
+    display: flex; align-items: baseline; gap: 12px;
+  }
+  .card-idx {
+    font-family: var(--font-mono); font-size: 12px; font-weight: 500;
+    color: var(--text-muted); letter-spacing: 0.04em;
+  }
+  .badge-current {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 600;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--sun); background: rgba(252,211,77,0.14);
+    padding: 4px 9px;
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 4px), calc(100% - 4px) 100%, 0 100%);
+  }
+  .card-note {
+    font-family: var(--font-ui); font-size: 14px; line-height: 1.55;
+    color: var(--text-secondary); text-align: right; max-width: 38ch;
+  }
+
+  /* the demo font hook — each card sets --demo */
+  .demo { /* container, individual elements pull --demo */ }
+
+  /* row: logo + ticker */
+  .demo-top {
+    display: flex; align-items: flex-end; justify-content: space-between;
+    gap: 40px; flex-wrap: wrap;
+  }
+
+  .demo-logo {
+    font-family: var(--demo);
+    font-weight: 600; letter-spacing: 0.01em; text-transform: uppercase;
+    font-size: 26px; display: flex; align-items: center; gap: 13px;
+  }
+  .logo-mark {
+    width: 30px; height: 30px; background: var(--brand);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%);
+    flex-shrink: 0;
+  }
+
+  .demo-ticker {
+    position: relative;
+    font-family: var(--demo);
+    font-weight: 600; letter-spacing: -0.03em; line-height: 0.86;
+    font-variant-numeric: tabular-nums;
+    font-size: 84px;
+    padding-bottom: 11px;
+  }
+  .demo-ticker::after {
+    content: ''; position: absolute; left: 0; bottom: 0;
+    width: 64%; height: 4px; background: var(--brand);
+    clip-path: polygon(0 0, 100% 0, calc(100% - 4px) 100%, 0 100%);
+  }
+  .demo-ticker .u {
+    font-family: var(--font-mono); font-size: 0.26em; font-weight: 500;
+    color: var(--text-muted); letter-spacing: 0.02em; margin-left: 6px;
+  }
+
+  /* hero heading */
+  .demo-hero {
+    font-family: var(--demo);
+    font-weight: 500; letter-spacing: -0.022em; line-height: 1.08;
+    font-size: 46px; margin-top: 38px; max-width: 18ch;
+  }
+  .demo-hero em { font-style: normal; color: var(--brand); }
+
+  /* lower row: section heads + kpi cluster */
+  .demo-bottom {
+    display: grid; grid-template-columns: 1.3fr 1fr; gap: 34px;
+    margin-top: 40px; align-items: start;
+  }
+  .demo-section {
+    font-family: var(--demo);
+    font-weight: 500; letter-spacing: -0.025em; line-height: 1.15;
+    font-size: 26px;
+  }
+  .demo-section + .demo-section { margin-top: 14px; color: var(--text-secondary); }
+
+  .kpi-row { display: flex; gap: 28px; }
+  .kpi-label {
+    font-family: var(--font-mono); font-size: 10px; font-weight: 500;
+    letter-spacing: 0.12em; text-transform: uppercase;
+    color: var(--text-muted); margin-bottom: 6px;
+  }
+  .kpi-val {
+    font-family: var(--demo);
+    font-weight: 700; letter-spacing: -0.03em; line-height: 1;
+    font-variant-numeric: tabular-nums;
+    font-size: 38px;
+  }
+  .kpi-val.up { color: var(--emerald); }
+  .kpi-val.down { color: var(--crimson); }
+
+  /* glyph strip */
+  .demo-glyphs {
+    font-family: var(--demo);
+    margin-top: 34px; padding-top: 22px; border-top: 1px solid var(--border);
+    font-size: 22px; font-weight: 500; letter-spacing: 0.01em;
+    color: var(--text-secondary);
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .demo-glyphs span:first-child { color: var(--text-primary); }
+  .demo-glyphs .nums { font-variant-numeric: tabular-nums; letter-spacing: 0; }
+
+  /* per-card font assignment */
+  .f-grotesk   { --demo: 'Space Grotesk', sans-serif; }
+  .f-onest     { --demo: 'Onest', sans-serif; }
+  .f-golos     { --demo: 'Golos Text', sans-serif; }
+  .f-manrope   { --demo: 'Manrope', sans-serif; }
+  .f-rubik     { --demo: 'Rubik', sans-serif; }
+  .f-unbounded { --demo: 'Unbounded', sans-serif; }
+  .f-commissioner { --demo: 'Commissioner', sans-serif; }
+
+  .foot {
+    margin-top: 44px; padding: 26px 30px;
+    background: var(--surface-alt);
+    font-family: var(--font-ui); font-size: 15px; line-height: 1.6;
+    color: var(--text-secondary);
+    clip-path: polygon(0 0, 100% 0, 100% calc(100% - 10px), calc(100% - 10px) 100%, 0 100%);
+  }
+  .foot b { color: var(--text-primary); font-weight: 600; }
+  .foot .tag { font-family: var(--font-mono); color: var(--brand); }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="page-eyebrow">Тип-ревизия · дисплейный голос</div>
+  <h1 class="page-title">Выбираем новый бренд-шрифт вместо Space&nbsp;Grotesk</h1>
+  <p class="page-sub">Меняем <b>только дисплейный голос</b> — заголовки, hero-числа, логотип, KPI. Тело (IBM&nbsp;Plex&nbsp;Sans) и моно-данные (IBM&nbsp;Plex&nbsp;Mono) остаются. Все варианты ниже — с <b>родной кириллицей</b>, поэтому сравнивай прямо по русским заголовкам и цифрам (у нас число — главный объект).</p>
+
+  <div class="legend">
+    <span><b>Контексты:</b> логотип · hero-тикер · заголовок с акцентом · KPI · секция · глифы</span>
+    <span><b>Все шрифты:</b> Latin + Cyrillic, Google&nbsp;Fonts</span>
+  </div>
+
+  <div class="specimens">
+
+    <!-- 0 — current -->
+    <section class="card current">
+      <div class="card-head">
+        <div class="card-name"><span class="card-idx">00</span> Space Grotesk <span class="badge-current">сейчас</span></div>
+        <div class="card-note">Геометрический гротеск <b style="color:var(--crimson)">без кириллицы</b> — русские заголовки уже сейчас падают в Plex&nbsp;Sans. Главный повод заменить.</div>
+      </div>
+      <div class="demo f-grotesk">
+        <div class="demo-top">
+          <div class="demo-logo"><span class="logo-mark"></span>AIVISION</div>
+          <div class="demo-ticker">847<span class="u">МЛН&nbsp;₽</span></div>
+        </div>
+        <div class="demo-hero">Закрывайте сделки <em>на 34% быстрее</em></div>
+        <div class="demo-bottom">
+          <div>
+            <div class="demo-section">Воронка продаж за квартал</div>
+            <div class="demo-section">Прогноз и фактический доход</div>
+          </div>
+          <div class="kpi-row">
+            <div><div class="kpi-label">Маржа</div><div class="kpi-val up">+18%</div></div>
+            <div><div class="kpi-label">Просрочка</div><div class="kpi-val down">−6%</div></div>
+          </div>
+        </div>
+        <div class="demo-glyphs">
+          <span>ABEGKQRSagenrty &amp; @ ₽ %</span>
+          <span class="nums">0123456789 — 1,54 · 48 · 18%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 1 — Onest -->
+    <section class="card">
+      <div class="card-head">
+        <div class="card-name"><span class="card-idx">01</span> Onest</div>
+        <div class="card-note">Нео-гротеск, рисовался сразу под латиницу+кириллицу. Нейтральный, техничный, ровные цифры — ближе всего к духу Space&nbsp;Grotesk, но чище.</div>
+      </div>
+      <div class="demo f-onest">
+        <div class="demo-top">
+          <div class="demo-logo"><span class="logo-mark"></span>AIVISION</div>
+          <div class="demo-ticker">847<span class="u">МЛН&nbsp;₽</span></div>
+        </div>
+        <div class="demo-hero">Закрывайте сделки <em>на 34% быстрее</em></div>
+        <div class="demo-bottom">
+          <div>
+            <div class="demo-section">Воронка продаж за квартал</div>
+            <div class="demo-section">Прогноз и фактический доход</div>
+          </div>
+          <div class="kpi-row">
+            <div><div class="kpi-label">Маржа</div><div class="kpi-val up">+18%</div></div>
+            <div><div class="kpi-label">Просрочка</div><div class="kpi-val down">−6%</div></div>
+          </div>
+        </div>
+        <div class="demo-glyphs">
+          <span>ABEGKQRSagenrty &amp; @ ₽ %</span>
+          <span class="nums">0123456789 — 1,54 · 48 · 18%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2 — Golos Text -->
+    <section class="card">
+      <div class="card-head">
+        <div class="card-name"><span class="card-idx">02</span> Golos Text</div>
+        <div class="card-note">Русский нейтральный гротеск (Paratype). Кириллица — родная и образцовая. Сдержанный, деловой — «диагностический тон».</div>
+      </div>
+      <div class="demo f-golos">
+        <div class="demo-top">
+          <div class="demo-logo"><span class="logo-mark"></span>AIVISION</div>
+          <div class="demo-ticker">847<span class="u">МЛН&nbsp;₽</span></div>
+        </div>
+        <div class="demo-hero">Закрывайте сделки <em>на 34% быстрее</em></div>
+        <div class="demo-bottom">
+          <div>
+            <div class="demo-section">Воронка продаж за квартал</div>
+            <div class="demo-section">Прогноз и фактический доход</div>
+          </div>
+          <div class="kpi-row">
+            <div><div class="kpi-label">Маржа</div><div class="kpi-val up">+18%</div></div>
+            <div><div class="kpi-label">Просрочка</div><div class="kpi-val down">−6%</div></div>
+          </div>
+        </div>
+        <div class="demo-glyphs">
+          <span>ABEGKQRSagenrty &amp; @ ₽ %</span>
+          <span class="nums">0123456789 — 1,54 · 48 · 18%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3 — Manrope -->
+    <section class="card">
+      <div class="card-head">
+        <div class="card-name"><span class="card-idx">03</span> Manrope</div>
+        <div class="card-note">Геометрический, полузакрытые формы. Дружелюбнее и мягче, хорошо живёт в крупном кегле. Кириллица полная.</div>
+      </div>
+      <div class="demo f-manrope">
+        <div class="demo-top">
+          <div class="demo-logo"><span class="logo-mark"></span>AIVISION</div>
+          <div class="demo-ticker">847<span class="u">МЛН&nbsp;₽</span></div>
+        </div>
+        <div class="demo-hero">Закрывайте сделки <em>на 34% быстрее</em></div>
+        <div class="demo-bottom">
+          <div>
+            <div class="demo-section">Воронка продаж за квартал</div>
+            <div class="demo-section">Прогноз и фактический доход</div>
+          </div>
+          <div class="kpi-row">
+            <div><div class="kpi-label">Маржа</div><div class="kpi-val up">+18%</div></div>
+            <div><div class="kpi-label">Просрочка</div><div class="kpi-val down">−6%</div></div>
+          </div>
+        </div>
+        <div class="demo-glyphs">
+          <span>ABEGKQRSagenrty &amp; @ ₽ %</span>
+          <span class="nums">0123456789 — 1,54 · 48 · 18%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4 — Rubik -->
+    <section class="card">
+      <div class="card-head">
+        <div class="card-name"><span class="card-idx">04</span> Rubik</div>
+        <div class="card-note">Геометрик с еле заметно скруглёнными углами. Мягче и «цифровее»; осторожно — лёгко конфликтует с «без-радиусным» правилом скоса.</div>
+      </div>
+      <div class="demo f-rubik">
+        <div class="demo-top">
+          <div class="demo-logo"><span class="logo-mark"></span>AIVISION</div>
+          <div class="demo-ticker">847<span class="u">МЛН&nbsp;₽</span></div>
+        </div>
+        <div class="demo-hero">Закрывайте сделки <em>на 34% быстрее</em></div>
+        <div class="demo-bottom">
+          <div>
+            <div class="demo-section">Воронка продаж за квартал</div>
+            <div class="demo-section">Прогноз и фактический доход</div>
+          </div>
+          <div class="kpi-row">
+            <div><div class="kpi-label">Маржа</div><div class="kpi-val up">+18%</div></div>
+            <div><div class="kpi-label">Просрочка</div><div class="kpi-val down">−6%</div></div>
+          </div>
+        </div>
+        <div class="demo-glyphs">
+          <span>ABEGKQRSagenrty &amp; @ ₽ %</span>
+          <span class="nums">0123456789 — 1,54 · 48 · 18%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5 — Unbounded -->
+    <section class="card">
+      <div class="card-head">
+        <div class="card-name"><span class="card-idx">05</span> Unbounded</div>
+        <div class="card-note">Смелый геометрический дисплей (Cyreal) с ярким характером. Много индивидуальности — сильный бренд-голос, но только для hero.</div>
+      </div>
+      <div class="demo f-unbounded">
+        <div class="demo-top">
+          <div class="demo-logo"><span class="logo-mark"></span>AIVISION</div>
+          <div class="demo-ticker">847<span class="u">МЛН&nbsp;₽</span></div>
+        </div>
+        <div class="demo-hero">Закрывайте сделки <em>на 34% быстрее</em></div>
+        <div class="demo-bottom">
+          <div>
+            <div class="demo-section">Воронка продаж за квартал</div>
+            <div class="demo-section">Прогноз и фактический доход</div>
+          </div>
+          <div class="kpi-row">
+            <div><div class="kpi-label">Маржа</div><div class="kpi-val up">+18%</div></div>
+            <div><div class="kpi-label">Просрочка</div><div class="kpi-val down">−6%</div></div>
+          </div>
+        </div>
+        <div class="demo-glyphs">
+          <span>ABEGKQRSagenrty &amp; @ ₽ %</span>
+          <span class="nums">0123456789 — 1,54 · 48 · 18%</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- 6 — Commissioner -->
+    <section class="card">
+      <div class="card-head">
+        <div class="card-name"><span class="card-idx">06</span> Commissioner</div>
+        <div class="card-note">Низкоконтрастный гротеск с лёгкой гуманистикой. Спокойный, универсальный, полная кириллица — надёжный рабочий выбор.</div>
+      </div>
+      <div class="demo f-commissioner">
+        <div class="demo-top">
+          <div class="demo-logo"><span class="logo-mark"></span>AIVISION</div>
+          <div class="demo-ticker">847<span class="u">МЛН&nbsp;₽</span></div>
+        </div>
+        <div class="demo-hero">Закрывайте сделки <em>на 34% быстрее</em></div>
+        <div class="demo-bottom">
+          <div>
+            <div class="demo-section">Воронка продаж за квартал</div>
+            <div class="demo-section">Прогноз и фактический доход</div>
+          </div>
+          <div class="kpi-row">
+            <div><div class="kpi-label">Маржа</div><div class="kpi-val up">+18%</div></div>
+            <div><div class="kpi-label">Просрочка</div><div class="kpi-val down">−6%</div></div>
+          </div>
+        </div>
+        <div class="demo-glyphs">
+          <span>ABEGKQRSagenrty &amp; @ ₽ %</span>
+          <span class="nums">0123456789 — 1,54 · 48 · 18%</span>
+        </div>
+      </div>
+    </section>
+
+  </div>
+
+  <div class="foot">
+    Назови номер или имя — например <span class="tag">«01, Onest»</span> — и я заменю <b>--font-display</b> в <b>colors_and_type.css</b> на выбранный, обновлю SKILL/README и все упоминания. Если хочешь сравнить пару вариантов в живом макете (лендинг или CRM) — скажу, соберу.
+  </div>
+
+</div>
+</body>
+</html>

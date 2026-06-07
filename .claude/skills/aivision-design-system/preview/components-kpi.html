@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Components" name="Components — KPI Trends & States" subtitle="Sparkline-тренд · accent-плитка с прогрессом · empty state — сверх базового KPICard" viewport="700x155" -->
+
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&family=IBM+Plex+Mono:wght@400;500;600&family=Onest:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0A0A;color:#fff;padding:20px;-webkit-font-smoothing:antialiased;font-family:'IBM Plex Sans',system-ui,sans-serif;}
+.grid{display:grid;grid-template-columns:repeat(4,1fr);gap:10px;}
+.card{
+  clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);
+  padding:14px 14px 0;
+  overflow:hidden;
+  height:130px;
+  display:flex;
+  flex-direction:column;
+  gap:4px;
+}
+.kpi-label{font-size:9px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;}
+.kpi-value{
+  font-family:'Onest',system-ui,sans-serif;
+  font-size:24px;
+  font-weight:700;
+  letter-spacing:-0.025em;
+  line-height:1.1;
+  font-variant-numeric:tabular-nums;
+  /* No white-space:nowrap — let it wrap if needed */
+  overflow:hidden;
+  min-width:0;
+}
+.kpi-delta{font-size:11px;font-weight:600;font-variant-numeric:tabular-nums;}
+.kpi-sub{font-size:10px;}
+.spark{margin-top:auto;margin-left:-14px;margin-right:-14px;height:28px;display:block;flex-shrink:0;}
+</style>
+<script>
+function smooth(pts){
+  const n=pts.length;if(n<2)return'';
+  const t=new Array(n);
+  for(let i=1;i<n-1;i++){const dx1=pts[i][0]-pts[i-1][0],dx2=pts[i+1][0]-pts[i][0],s1=(pts[i][1]-pts[i-1][1])/dx1,s2=(pts[i+1][1]-pts[i][1])/dx2;if(s1*s2<=0){t[i]=0}else{const p=(s1*dx2+s2*dx1)/(dx1+dx2);t[i]=Math.sign(s1)*Math.min(Math.abs(s1),Math.abs(s2),.5*Math.abs(p));}}
+  t[0]=(pts[1][1]-pts[0][1])/(pts[1][0]-pts[0][0]);t[n-1]=(pts[n-1][1]-pts[n-2][1])/(pts[n-1][0]-pts[n-2][0]);
+  let d=`M${pts[0][0]},${pts[0][1]}`;
+  for(let i=0;i<n-1;i++){const dx=(pts[i+1][0]-pts[i][0])/3,cp1x=pts[i][0]+dx,cp1y=pts[i][1]+t[i]*dx,cp2x=pts[i+1][0]-dx,cp2y=pts[i+1][1]-t[i+1]*dx;d+=` C${cp1x},${cp1y} ${cp2x},${cp2y} ${pts[i+1][0]},${pts[i+1][1]}`;}
+  return d;
+}
+function drawSpark(svgEl,data,color,accentFill){
+  const W=svgEl.getBoundingClientRect().width||200,H=32;
+  svgEl.setAttribute('viewBox',`0 0 ${W} ${H}`);
+  const mn=Math.min(...data),mx=Math.max(...data),rng=(mx-mn)||1;
+  const pts=data.map((v,i)=>[(i/(data.length-1))*W, H-((v-mn)/rng)*H*0.85-3]);
+  const line=smooth(pts);
+  const area=line+` L${pts[pts.length-1][0]},${H} L${pts[0][0]},${H} Z`;
+  const id='g'+Math.random().toString(36).slice(2);
+  svgEl.innerHTML=`<defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="${color}" stop-opacity="${accentFill?.0.4:0.25}"/><stop offset="100%" stop-color="${color}" stop-opacity="0"/></linearGradient></defs><path d="${area}" fill="url(#${id})"/><path d="${line}" fill="none" stroke="${color}" stroke-width="1.75" stroke-linecap="round"/>`;
+}
+window.addEventListener('load',()=>{
+  const sparks=[
+    {id:'s1',data:[820,950,1100,980,1250,1350,1540],color:'rgba(255,255,255,0.9)',accent:true},
+    {id:'s2',data:[1200,1380,1550,1490,1700,1820,1950],color:'#10B981'},
+    {id:'s3',data:[450,480,420,510,400,380,420],color:'#F43F5E'},
+    {id:'s4',data:[400,420,380,440,460,410,480],color:'#3F6EE8'},
+  ];
+  sparks.forEach(({id,data,color,accent})=>{
+    const el=document.getElementById(id);
+    if(el)drawSpark(el,data,color,accent);
+  });
+});
+</script>
+</head>
+<body>
+<div class="grid">
+  <!-- Brand/accent KPI -->
+  <div class="card" style="background:#3F6EE8;">
+    <div class="kpi-label" style="color:rgba(255,255,255,0.7);">Маржа</div>
+    <div class="kpi-value" style="color:#fff;">1,54 М ₽</div>
+    <div class="kpi-delta" style="color:rgba(255,255,255,0.85);">↑ +154% от плана</div>
+    <div style="margin-top:4px;height:3px;background:rgba(255,255,255,0.2);position:relative;flex-shrink:0;"><div style="position:absolute;inset:0;width:78%;background:#fff;"></div></div>
+    <svg id="s1" class="spark" preserveAspectRatio="none"></svg>
+  </div>
+  <!-- Emerald KPI -->
+  <div class="card" style="background:#181818;">
+    <div class="kpi-label" style="color:#666;">Доходы</div>
+    <div class="kpi-value">1,95 М ₽</div>
+    <div class="kpi-delta" style="color:#10B981;">↑ +18,2%</div>
+    <div class="kpi-sub" style="color:#666;">к апрелю</div>
+    <svg id="s2" class="spark" preserveAspectRatio="none"></svg>
+  </div>
+  <!-- Crimson KPI -->
+  <div class="card" style="background:#181818;">
+    <div class="kpi-label" style="color:#666;">Расходы</div>
+    <div class="kpi-value">410 К ₽</div>
+    <div class="kpi-delta" style="color:#F43F5E;">↓ −5,3%</div>
+    <div class="kpi-sub" style="color:#666;">к апрелю</div>
+    <svg id="s3" class="spark" preserveAspectRatio="none"></svg>
+  </div>
+  <!-- Empty state KPI -->
+  <div class="card" style="background:#181818;align-items:center;justify-content:center;gap:8px;">
+    <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="#666" stroke-width="1.5"><path d="M3 3v18h18"/><path d="M18.4 9.6C16 7 12 6 9.5 8.5S6.5 15 9 17.5"/></svg>
+    <div style="font-size:11px;color:#666;text-align:center;">Нет данных<br/>за период</div>
+  </div>
+</div>
+</body>
+</html>

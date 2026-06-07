@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Brand" name="Brand — Social Tokens" subtitle="Цвета · типографика 340px и 1080px · отступы · структура" viewport="1000x600" -->
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<title>AIVISION · Social Tokens</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#111;font-family:'Inter',system-ui,sans-serif;-webkit-font-smoothing:antialiased;padding:28px;color:#fff;}
+.grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:12px;}
+.card{background:#181818;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);padding:16px;}
+.card-label{font-size:9px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:#555;margin-bottom:12px;}
+table{width:100%;border-collapse:collapse;}
+th{text-align:left;font-size:9px;font-weight:600;letter-spacing:0.1em;text-transform:uppercase;color:#555;padding:4px 0;border-bottom:1px solid #2A2A2A;}
+td{font-size:11px;padding:5px 0;border-bottom:1px solid #1A1A1A;color:#A3A3A3;font-variant-numeric:tabular-nums;vertical-align:middle;}
+td:first-child{color:#fff;font-weight:500;white-space:nowrap;}
+td code{font-family:'SF Mono',monospace;font-size:10px;color:#666;background:#222;padding:1px 5px;}
+.swatch{display:inline-block;width:14px;height:14px;vertical-align:middle;margin-right:6px;flex-shrink:0;}
+.sp-row{display:flex;align-items:center;gap:8px;margin-bottom:6px;}
+.sp-bar{height:6px;background:#3F6EE8;}
+.sp-val{font-size:10px;font-variant-numeric:tabular-nums;color:#666;width:60px;flex-shrink:0;}
+.sp-lbl{font-size:10px;color:#A3A3A3;}
+.type-row{margin-bottom:10px;padding-bottom:10px;border-bottom:1px solid #1A1A1A;}
+.type-row:last-child{border-bottom:none;margin-bottom:0;padding-bottom:0;}
+.type-meta{font-size:9px;color:#555;margin-bottom:3px;}
+</style>
+</head>
+<body>
+
+<div style="display:flex;align-items:center;gap:10px;margin-bottom:24px;">
+  <svg width="16" height="16" viewBox="0 0 256 256"><path d="M0 0L256 0L256 208L208 256L0 256Z" fill="#3F6EE8"/></svg>
+  <div style="font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#444;">AIVISION Social · Tokens Reference</div>
+</div>
+
+<div class="grid">
+
+  <!-- COLORS -->
+  <div class="card">
+    <div class="card-label">Цвета — закрытая система</div>
+    <table>
+      <tr><th>Роль</th><th>Hex</th><th></th></tr>
+      <tr><td>bg White</td><td><code>#FAFAFA</code></td><td><span class="swatch" style="background:#FAFAFA;border:1px solid #333;"></span></td></tr>
+      <tr><td>bg Black</td><td><code>#0A0A0A</code></td><td><span class="swatch" style="background:#0A0A0A;border:1px solid #333;"></span></td></tr>
+      <tr><td>bg Blue</td><td><code>#3F6EE8</code></td><td><span class="swatch" style="background:#3F6EE8;"></span></td></tr>
+      <tr><td style="color:#A3A3A3;font-weight:400;">text на белом</td><td><code>#0A0A0A</code></td><td></td></tr>
+      <tr><td style="color:#A3A3A3;font-weight:400;">muted на белом</td><td><code>#525252</code></td><td></td></tr>
+      <tr><td style="color:#A3A3A3;font-weight:400;">accent на белом</td><td><code>#3F6EE8</code></td><td></td></tr>
+      <tr><td style="color:#A3A3A3;font-weight:400;">text на чёрном</td><td><code>#FFFFFF</code></td><td></td></tr>
+      <tr><td style="color:#A3A3A3;font-weight:400;">muted на чёрном</td><td><code>#A3A3A3</code></td><td></td></tr>
+      <tr><td style="color:#A3A3A3;font-weight:400;">accent на чёрном</td><td><code>#3F6EE8</code></td><td></td></tr>
+      <tr><td style="color:#A3A3A3;font-weight:400;">text на синем</td><td><code>#FFFFFF</code></td><td></td></tr>
+      <tr><td style="color:#A3A3A3;font-weight:400;">muted на синем</td><td><code>rgba(255,255,255,.78)</code></td><td></td></tr>
+      <tr><td style="color:#555;font-weight:400;font-size:10px;" colspan="3">⚠ Никаких emerald/crimson/sun на слайдах</td></tr>
+    </table>
+  </div>
+
+  <!-- TYPE SCALE -->
+  <div class="card">
+    <div class="card-label">Типографика · Preview 340px</div>
+    <div class="type-row">
+      <div class="type-meta">H1 · 22px · 800 · ls -0.03em · lh 1.05–1.15</div>
+      <div style="font-size:22px;font-weight:800;letter-spacing:-0.03em;line-height:1.1;color:#fff;">Заголовок</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">H2 · 19px · 800 · ls -0.025em · lh 1.15</div>
+      <div style="font-size:19px;font-weight:800;letter-spacing:-0.025em;line-height:1.15;color:#fff;">Внутренний</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Sub · 11px · 500 · lh 1.4</div>
+      <div style="font-size:11px;font-weight:500;line-height:1.4;color:#A3A3A3;">Подпись под заголовком</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Eyebrow · 8px · 600 · ls 0.15em · UPPERCASE</div>
+      <div style="font-size:8px;font-weight:600;letter-spacing:0.15em;text-transform:uppercase;color:#A3A3A3;">5 УРОВНЕЙ ЗРЕЛОСТИ</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Body · 10px · 400 · lh 1.45</div>
+      <div style="font-size:10px;font-weight:400;line-height:1.45;color:#A3A3A3;">Текст объяснения, контекст</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Level num · 11px · 700</div>
+      <div style="font-size:11px;font-weight:700;color:#3F6EE8;">Уровень 1</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Level title · 13px · 700 · lh 1.25</div>
+      <div style="font-size:13px;font-weight:700;line-height:1.25;color:#fff;">Хаос</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Level desc · 9.5px · 400 · lh 1.4</div>
+      <div style="font-size:9.5px;font-weight:400;line-height:1.4;color:#A3A3A3;">Нет систем. Всё держится на людях.</div>
+    </div>
+    <div class="type-row">
+      <div class="type-meta">Logo word · 8px · 700 · ls 0.18em · UPPERCASE</div>
+      <div style="font-size:8px;font-weight:700;letter-spacing:0.18em;text-transform:uppercase;color:#fff;">AIVISION</div>
+    </div>
+  </div>
+
+  <!-- SIZES ON 1080 + SPACING -->
+  <div class="card">
+    <div class="card-label">Размеры на 1080×1080</div>
+    <table style="margin-bottom:14px;">
+      <tr><th>Роль</th><th>1080px</th><th>Preview</th></tr>
+      <tr><td>H1 короткий</td><td>90–110px</td><td>22px</td></tr>
+      <tr><td>H1 средний</td><td>70–85px</td><td>22px</td></tr>
+      <tr><td>H1 длинный</td><td>55–70px</td><td>22px</td></tr>
+      <tr><td>H2</td><td>80px</td><td>19px</td></tr>
+      <tr><td>Sub</td><td>35px</td><td>11px</td></tr>
+      <tr><td>Eyebrow</td><td>25px</td><td>8px</td></tr>
+      <tr><td>Body</td><td>32px</td><td>10px</td></tr>
+      <tr><td>Level num</td><td>35px</td><td>11px</td></tr>
+      <tr><td>Level title</td><td>41px</td><td>13px</td></tr>
+      <tr><td>Level desc</td><td>30px</td><td>9.5px</td></tr>
+      <tr><td>Logo mark</td><td>44×44px</td><td>14×14px</td></tr>
+      <tr><td>Logo word</td><td>25px</td><td>8px</td></tr>
+    </table>
+    <div class="card-label">Отступы и геометрия</div>
+    <table>
+      <tr><th>Токен</th><th>Preview</th><th>1080px</th></tr>
+      <tr><td>Padding</td><td>8% = 27px</td><td>8% = 86px</td></tr>
+      <tr><td>Logo gap</td><td>6px</td><td>19px</td></tr>
+      <tr><td>Block margin</td><td>12px</td><td>38px</td></tr>
+      <tr><td>Divider margin</td><td>12px ×2</td><td>38px ×2</td></tr>
+      <tr><td>Divider thick</td><td>1px</td><td>1px</td></tr>
+      <tr><td>CTA btn h</td><td>32px</td><td>~100px</td></tr>
+      <tr><td>CTA chamfer</td><td>6px</td><td>19px</td></tr>
+      <tr><td>Logo chamfer</td><td>polygon 81%</td><td>polygon 81%</td></tr>
+    </table>
+  </div>
+
+</div>
+
+<!-- CANVAS STRUCTURE -->
+<div style="margin-top:12px;background:#181818;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);padding:16px;">
+  <div class="card-label" style="margin-bottom:10px;">Структура карусели · последовательность фонов</div>
+  <div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap;">
+    <div style="text-align:center;">
+      <div style="width:44px;height:44px;background:#FAFAFA;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#0A0A0A;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);margin-bottom:4px;">1</div>
+      <div style="font-size:9px;color:#555;">Обложка<br/>WHITE</div>
+    </div>
+    <div style="color:#3A3A3A;font-size:14px;">→</div>
+    <div style="text-align:center;">
+      <div style="width:44px;height:44px;background:#FAFAFA;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#0A0A0A;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);margin-bottom:4px;">2</div>
+      <div style="font-size:9px;color:#555;">Постановка<br/>WHITE</div>
+    </div>
+    <div style="color:#3A3A3A;font-size:14px;">→</div>
+    <div style="text-align:center;">
+      <div style="width:44px;height:44px;background:#0A0A0A;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);margin-bottom:4px;">3</div>
+      <div style="font-size:9px;color:#555;">Контент<br/>BLACK</div>
+    </div>
+    <div style="color:#3A3A3A;font-size:14px;">→</div>
+    <div style="text-align:center;">
+      <div style="width:44px;height:44px;background:#FAFAFA;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#0A0A0A;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);margin-bottom:4px;">4</div>
+      <div style="font-size:9px;color:#555;">Контент<br/>WHITE</div>
+    </div>
+    <div style="color:#3A3A3A;font-size:14px;">→</div>
+    <div style="text-align:center;">
+      <div style="width:44px;height:44px;background:#3F6EE8;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);margin-bottom:4px;">5 ★</div>
+      <div style="font-size:9px;color:#3F6EE8;font-weight:600;">Кульминация<br/>BLUE</div>
+    </div>
+    <div style="color:#3A3A3A;font-size:14px;">→</div>
+    <div style="text-align:center;">
+      <div style="width:44px;height:44px;background:#0A0A0A;border:1px solid #333;display:flex;align-items:center;justify-content:center;font-size:9px;font-weight:700;color:#fff;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);margin-bottom:4px;">6</div>
+      <div style="font-size:9px;color:#555;">Финал CTA<br/>BLACK</div>
+    </div>
+    <div style="margin-left:16px;flex:1;font-size:10px;color:#555;line-height:1.6;min-width:200px;">
+      ≤ 2 одинаковых фона подряд<br/>
+      Синий — ровно 1 раз<br/>
+      5–7 слайдов оптимально<br/>
+      Обложка — никогда синяя
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

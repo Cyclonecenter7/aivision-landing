@@ -1,0 +1,19 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "dev",
+      "runtimeExecutable": "npm",
+      "runtimeArgs": ["run", "dev"],
+      "port": 4321,
+      "cwd": "/Users/cyclonecenter7/Desktop/AIVISION Code/AIVISION WEB"
+    },
+    {
+      "name": "crm-demo",
+      "runtimeExecutable": "sh",
+      "runtimeArgs": ["-c", "VITE_DEMO=1 npx vite --port 5219 --strictPort"],
+      "port": 5219,
+      "cwd": "/Users/cyclonecenter7/Desktop/AIVISION Code/AIVISION CRM/frontend"
+    }
+  ]
+}

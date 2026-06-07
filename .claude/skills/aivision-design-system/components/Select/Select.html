@@ -1,0 +1,36 @@
+<!-- @dsCard group="Components" name="Component — Select" viewport="640x460" subtitle="Кастомный дропдаун · скошенный триггер + скошенное меню · бренд-галочка · ChamferBorder-фокус · drop-shadow (не box-shadow)" -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link rel="stylesheet" href="../../colors_and_type.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body{background:var(--bg);color:var(--text-primary);font-family:var(--font-ui);padding:30px;-webkit-font-smoothing:antialiased;}
+  .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+  .note{font-size:11px;color:var(--text-muted);margin-bottom:22px;line-height:1.5;max-width:520px;}
+  #root{display:grid;grid-template-columns:1fr 1fr;gap:20px 22px;max-width:520px;align-items:start;}
+</style>
+</head>
+<body>
+<div class="eyebrow">Component · Select</div>
+<div class="note">Замена нативного <code>&lt;select&gt;</code>: скошенный триггер + плавающее скошенное меню с бренд-галочкой. Кликни, чтобы открыть.</div>
+<div id="root"></div>
+<script>
+  const { Select } = window.AIVISIONDesignSystem1_f5b66e;
+  const h = React.createElement;
+  const sources = ['Все источники', 'direct', 'yandex', 'telegram'];
+
+  ReactDOM.createRoot(document.getElementById('root')).render(
+    h(React.Fragment, null,
+      h(Select, { label: 'Источник', options: sources, defaultValue: 'Все источники' }),
+      h(Select, { label: 'Менеджер', options: ['Не назначен','Иван Петров','Мария Сидорова','Ольга Козлова'], placeholder: 'Выберите менеджера' }),
+      h(Select, { label: 'Статус (ошибка)', options: ['Новая','В работе','Завершена'], error: true, placeholder: 'Обязательное поле' }),
+      h(Select, { label: 'Период (заблокирован)', options: sources, defaultValue: 'Все источники', disabled: true })
+    )
+  );
+</script>
+</body>
+</html>

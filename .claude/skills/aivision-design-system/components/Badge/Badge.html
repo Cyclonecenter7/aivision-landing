@@ -1,0 +1,41 @@
+<!-- @dsCard group="Components" name="Component — Badge" viewport="640x300" subtitle="Статус-пилюля / счётчик · микро-скос 4px · тинт или solid · точка-индикатор" -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link rel="stylesheet" href="../../colors_and_type.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body{background:var(--bg);color:var(--text-primary);font-family:var(--font-ui);padding:30px;-webkit-font-smoothing:antialiased;}
+  .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:18px;}
+  .lab{font-family:var(--font-mono);font-size:10px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin:18px 0 9px;}
+  .row{display:flex;gap:8px;flex-wrap:wrap;align-items:center;}
+</style>
+</head>
+<body>
+<div class="eyebrow">Component · Badge</div>
+<div id="root"></div>
+<script>
+  const { Badge } = window.AIVISIONDesignSystem1_f5b66e;
+  const h = React.createElement;
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null,
+    h('div',{className:'lab'},'тинт'),
+    h('div',{className:'row'},
+      h(Badge,{variant:'brand'},'В работе'),
+      h(Badge,{variant:'emerald',dot:true},'Завершена'),
+      h(Badge,{variant:'crimson',dot:true},'Провалена'),
+      h(Badge,{variant:'sun'},'Связались'),
+      h(Badge,{variant:'slate'},'Не целевой'),
+      h(Badge,{variant:'neutral'},'direct')),
+    h('div',{className:'lab'},'solid · счётчик'),
+    h('div',{className:'row'},
+      h(Badge,{variant:'brand',solid:true},'12'),
+      h(Badge,{variant:'crimson',solid:true},'3'),
+      h(Badge,{variant:'emerald',solid:true},'NEW'),
+      h(Badge,{variant:'sun',solid:true},'BETA'))
+  ));
+</script>
+</body>
+</html>

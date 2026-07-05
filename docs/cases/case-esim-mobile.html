@@ -1,0 +1,392 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIVISION — eSIM · Mobile</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#3F6EE8;--emerald:#10B981;--crimson:#F43F5E;
+  --sun:#FCD34D;--slate:#94A3B8;--indigo:#6366F1;--tan:#FB923C;
+  --bg:#0A0A0A;--surf:#181818;--surf2:#222222;--surf3:#2A2A2A;
+  --brd:#2A2A2A;--brd2:#3A3A3A;
+  --t1:#FFFFFF;--t2:#A3A3A3;--t3:#555555;
+}
+html,body{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1);min-height:100vh}
+
+.nav{height:48px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--brd);position:sticky;top:0;z-index:100;background:rgba(10,10,10,.92);backdrop-filter:blur(12px)}
+.nav-logo{display:flex;align-items:center;gap:8px;text-decoration:none}
+.nav-mark{width:18px;height:18px;background:var(--brand);clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%)}
+.nav-name{font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--t1)}
+.nav-back{font-size:11px;color:var(--t3);text-decoration:none}
+
+.nda{background:var(--surf2);padding:7px 18px;display:flex;align-items:center;gap:8px;border-bottom:1px solid var(--brd)}
+.nda-pill{font-size:8px;font-weight:800;letter-spacing:.12em;text-transform:uppercase;color:#0A0A0A;background:var(--sun);padding:2px 7px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%);flex-shrink:0}
+.nda-txt{font-size:10px;color:var(--t3)}
+
+.hero{padding:32px 18px 0}
+.ey{display:flex;align-items:center;gap:8px;margin-bottom:12px}
+.ey-ln{width:20px;height:2px;background:var(--brand)}
+.ey-tx{font-size:10px;font-weight:600;letter-spacing:.15em;text-transform:uppercase;color:var(--t2)}
+.tag{font-size:8px;font-weight:700;letter-spacing:.11em;text-transform:uppercase;color:#fff;padding:3px 8px;background:var(--indigo);clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);display:inline-flex;margin-bottom:12px}
+.h1{font-size:24px;font-weight:900;line-height:1.2;color:var(--t1);margin-bottom:10px}
+.lead{font-size:13px;line-height:1.7;color:var(--t2);margin-bottom:20px}
+
+/* TIMELINE (вместо статов) */
+.timeline{margin-bottom:28px}
+.tl-item{display:flex;gap:12px;padding-bottom:16px;position:relative}
+.tl-item:last-child{padding-bottom:0}
+.tl-left{display:flex;flex-direction:column;align-items:center;width:30px;flex-shrink:0}
+.tl-dot{width:28px;height:28px;flex-shrink:0;display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%)}
+.tl-line{width:1px;flex:1;background:var(--brd);margin-top:4px}
+.tl-item:last-child .tl-line{display:none}
+.tl-body{padding-top:4px;flex:1}
+.tl-day{font-size:9px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:2px}
+.tl-ttl{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:3px;line-height:1.3}
+.tl-desc{font-size:11px;color:var(--t2);line-height:1.55}
+
+/* stats 2x2 */
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:28px}
+.stat{background:var(--surf);clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);padding:12px}
+.stat-v{font-size:22px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.stat-l{font-size:9px;color:var(--t3);margin-top:4px}
+
+.section{padding:0 18px;margin-bottom:10px}
+.block{background:var(--surf);clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);padding:20px}
+.bey{display:flex;align-items:center;gap:7px;margin-bottom:14px}
+.bey-ln{width:18px;height:2px;flex-shrink:0}
+.bey-tx{font-size:9px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--t3)}
+.prob-list{list-style:none;display:flex;flex-direction:column;gap:8px}
+.prob-item{display:flex;align-items:flex-start;gap:9px;font-size:12px;line-height:1.6;color:var(--t2)}
+.prob-dot{width:5px;height:5px;border-radius:50%;background:var(--crimson);flex-shrink:0;margin-top:5px}
+
+/* CAROUSEL */
+.actions-wrap{padding:0 18px;margin-bottom:10px}
+.actions-header{display:flex;align-items:center;justify-content:space-between;margin-top:12px;margin-bottom:12px}
+.actions-dots{display:flex;gap:5px}
+.actions-dot{width:16px;height:3px;border-radius:2px;background:var(--brd2);transition:all .25s;cursor:pointer}
+.actions-dot.on{background:var(--indigo);width:24px}
+.carousel{overflow:hidden}
+.carousel-track{display:flex;transition:transform .35s cubic-bezier(.4,0,.2,1)}
+.carousel-slide{flex:0 0 100%;min-width:0}
+.action-card{background:var(--surf);clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);overflow:hidden}
+.action-head{padding:16px 16px 12px;display:flex;align-items:flex-start;gap:12px;border-bottom:1px solid var(--brd)}
+.action-num{width:28px;height:28px;flex-shrink:0;background:var(--indigo);clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:800;color:#fff;margin-top:1px}
+.action-ttl{font-size:14px;font-weight:800;color:var(--t1);line-height:1.25;margin-bottom:4px}
+.action-desc{font-size:12px;color:var(--t2);line-height:1.6}
+.dash-preview{background:var(--bg);padding:14px 16px}
+.dp-label{font-size:8px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--t3);margin-bottom:8px}
+
+/* две колонки KPI */
+.dp-two-col{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px}
+.dp-col-hd{font-size:8px;font-weight:600;letter-spacing:.09em;text-transform:uppercase;color:var(--t3);margin-bottom:5px}
+.dp-kpi{background:var(--surf2);clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);padding:8px 9px;margin-bottom:4px}
+.dp-kpi-v{font-size:13px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.dp-kpi-l{font-size:8px;color:var(--t3);margin-top:2px}
+
+/* воронка мобила */
+.dp-fn-row{display:flex;align-items:center;gap:6px;margin-bottom:5px}
+.dp-fn-bar{height:18px;display:flex;align-items:center;padding-left:6px;clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);border-left:2px solid}
+.dp-fn-lbl{font-size:9px;font-weight:600}
+.dp-fn-val{font-size:11px;font-weight:800;font-variant-numeric:tabular-nums;margin-left:auto;min-width:40px;text-align:right}
+.dp-fn-conv{font-size:9px;font-weight:700;min-width:28px;text-align:right}
+
+/* топ продуктов */
+.dp-top-row{display:flex;align-items:center;gap:7px;padding:5px 0;border-bottom:1px solid var(--brd)}
+.dp-top-n{font-size:9px;font-weight:700;color:var(--t3);min-width:14px}
+.dp-top-name{font-size:11px;color:var(--t1);flex:1;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.dp-top-val{font-size:10px;font-weight:700;font-variant-numeric:tabular-nums}
+
+.carousel-nav{display:flex;justify-content:space-between;align-items:center;padding:10px 16px 0}
+.carousel-btn{font-family:'Inter',sans-serif;font-size:10px;font-weight:600;color:var(--t3);background:transparent;border:1px solid var(--brd);padding:5px 12px;cursor:pointer;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);transition:all .15s}
+.carousel-btn:hover{color:var(--t2)}
+.carousel-btn:disabled{opacity:.3;cursor:default}
+
+.res-grid{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:12px}
+.res-card{background:var(--surf2);clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);padding:12px}
+.res-v{font-size:19px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.res-l{font-size:9px;color:var(--t3);margin-top:4px}
+.res-main{font-size:12px;line-height:1.6;color:var(--t2)}
+.res-main strong{color:var(--t1);font-weight:600}
+
+.cta-bar{margin:0 18px 48px;background:var(--surf);clip-path:polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);padding:20px}
+.cta-ttl{font-size:16px;font-weight:800;color:var(--t1);margin-bottom:6px}
+.cta-sub{font-size:12px;color:var(--t2);margin-bottom:14px}
+.btn{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.05em;background:var(--brand);color:#fff;border:none;cursor:pointer;padding:12px 20px;width:100%;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%)}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#" class="nav-logo"><div class="nav-mark"></div><span class="nav-name">AIVISION</span></a>
+  <a href="#" class="nav-back">← Кейсы</a>
+</nav>
+<div class="nda"><div class="nda-pill">NDA</div><div class="nda-txt">Показатели изменены. Структура — реальная.</div></div>
+
+<div class="hero">
+  <div class="ey"><div class="ey-ln"></div><span class="ey-tx">Кейс · Старт бизнеса</span></div>
+  <div class="tag">eSIM · 2 сайта · 2 гипотезы</div>
+  <div class="h1">От идеи до первого клиента — меньше семи дней</div>
+  <div class="lead">Две гипотезы, два сайта с разным позиционированием, один CRM под оба. Первый заказ — до конца недели.</div>
+
+  <!-- TIMELINE вместо скучных статов -->
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:rgba(63,110,232,.2);color:var(--brand)">1</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-day">День 1</div>
+        <div class="tl-ttl">Идея + выбор API-партнёров</div>
+        <div class="tl-desc">Два провайдера eSIM под разные аудитории. Договорились об условиях.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:rgba(63,110,232,.2);color:var(--brand)">2</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-day">Дни 2–3</div>
+        <div class="tl-ttl">Два сайта — два вайба</div>
+        <div class="tl-desc">Сайт 1 — симки для России (СБП, рубли). Сайт 2 — eSIM для путешественников (крипта, весь мир).</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:rgba(63,110,232,.2);color:var(--brand)">3</div>
+        <div class="tl-line"></div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-day">Дни 4–5</div>
+        <div class="tl-ttl">CRM под оба канала</div>
+        <div class="tl-desc">Один дашборд для двух сайтов. Выручка, маржа, воронка — по каждому каналу отдельно и сравнение рядом.</div>
+      </div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-left">
+        <div class="tl-dot" style="background:rgba(16,185,129,.2);color:var(--emerald)">★</div>
+      </div>
+      <div class="tl-body">
+        <div class="tl-day">День 6</div>
+        <div class="tl-ttl">Первый клиент</div>
+        <div class="tl-desc">Первый реальный заказ. eSIM-код доставлен автоматически. Маржа зафиксирована в системе.</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ПРОБЛЕМА/КОНТЕКСТ -->
+<div class="section">
+  <div class="block">
+    <div class="bey"><div class="bey-ln" style="background:var(--brand)"></div><span class="bey-tx">Две гипотезы</span></div>
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px">
+      <div style="background:var(--surf2);clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%);padding:12px">
+        <div style="font-size:9px;font-weight:700;color:var(--brand);margin-bottom:6px;display:flex;align-items:center;gap:5px"><div style="width:5px;height:5px;border-radius:50%;background:var(--brand)"></div>Гипотеза 01</div>
+        <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:4px">Симки для России</div>
+        <div style="font-size:11px;color:var(--t2);margin-bottom:8px">Рунет, СБП, рубли. Едешь за рубеж — берёшь симку.</div>
+        <div style="font-size:8px;font-weight:700;color:var(--brand);background:rgba(63,110,232,.12);padding:2px 7px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%);display:inline-flex">СБП · ₽</div>
+      </div>
+      <div style="background:var(--surf2);clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%);padding:12px">
+        <div style="font-size:9px;font-weight:700;color:var(--indigo);margin-bottom:6px;display:flex;align-items:center;gap:5px"><div style="width:5px;height:5px;border-radius:50%;background:var(--indigo)"></div>Гипотеза 02</div>
+        <div style="font-size:12px;font-weight:700;color:var(--t1);margin-bottom:4px">eSIM для мира</div>
+        <div style="font-size:11px;color:var(--t2);margin-bottom:8px">Тревел-аудитория, крипта, весь мир.</div>
+        <div style="font-size:8px;font-weight:700;color:var(--indigo);background:rgba(99,102,241,.12);padding:2px 7px;clip-path:polygon(0 0,100% 0,100% calc(100% - 3px),calc(100% - 3px) 100%,0 100%);display:inline-flex">Крипта · $</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CAROUSEL -->
+<div class="actions-wrap">
+  <div class="bey" style="margin-bottom:0"><div class="bey-ln" style="background:var(--indigo)"></div><span class="bey-tx">Система</span></div>
+  <div class="actions-header">
+    <div class="actions-dots" id="dots2"></div>
+    <span style="font-size:10px;color:var(--t3)" id="counter2">1 / 3</span>
+  </div>
+
+  <div class="carousel">
+    <div class="carousel-track" id="track2">
+
+      <!-- СЛАЙД 1: Два канала в одном дашборде -->
+      <div class="carousel-slide">
+        <div class="action-card">
+          <div class="action-head">
+            <div class="action-num">01</div>
+            <div>
+              <div class="action-ttl">Два канала — один дашборд</div>
+              <div class="action-desc">Канал 1 (СБП) и Канал 2 (Крипта) рядом. Выручка, маржа, заказы и конверсия — с пересчётом в рублях для честного сравнения.</div>
+            </div>
+          </div>
+          <div class="dash-preview">
+            <div class="dp-label">Дашборд · оба канала</div>
+            <div class="dp-two-col">
+              <div>
+                <div class="dp-col-hd">Канал 1 · СБП</div>
+                <div class="dp-kpi"><div class="dp-kpi-v" style="color:var(--brand)">31 240 ₽</div><div class="dp-kpi-l">Выручка</div></div>
+                <div class="dp-kpi"><div class="dp-kpi-v" style="color:var(--emerald)">8 680 ₽</div><div class="dp-kpi-l">Маржа</div></div>
+                <div class="dp-kpi"><div class="dp-kpi-v" style="color:var(--t1)">142</div><div class="dp-kpi-l">Заказов</div></div>
+                <div class="dp-kpi"><div class="dp-kpi-v" style="color:var(--emerald)">40%</div><div class="dp-kpi-l">Конверсия</div></div>
+              </div>
+              <div>
+                <div class="dp-col-hd">Канал 2 · Крипта</div>
+                <div class="dp-kpi"><div class="dp-kpi-v" style="color:var(--indigo)">26,40 $</div><div class="dp-kpi-l">Выручка</div></div>
+                <div class="dp-kpi"><div class="dp-kpi-v" style="color:var(--emerald)">6,08 $</div><div class="dp-kpi-l">Маржа</div></div>
+                <div class="dp-kpi"><div class="dp-kpi-v" style="color:var(--t1)">16</div><div class="dp-kpi-l">Заказов</div></div>
+                <div class="dp-kpi"><div class="dp-kpi-v" style="color:var(--sun)">8%</div><div class="dp-kpi-l">Конверсия</div></div>
+              </div>
+            </div>
+            <div style="padding:6px 8px;background:rgba(63,110,232,.08);border-left:2px solid var(--brand);font-size:10px;color:var(--t2)">Канал 1 доминирует по всем метрикам — <span style="color:var(--brand);font-weight:700">×17</span> по выручке</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- СЛАЙД 2: Воронка -->
+      <div class="carousel-slide">
+        <div class="action-card">
+          <div class="action-head">
+            <div class="action-num">02</div>
+            <div>
+              <div class="action-ttl">Воронка от визита до eSIM-кода</div>
+              <div class="action-desc">Уники → посещения → клики → заказы → оплата → выполнено. Видно где теряются клиенты в каждом канале.</div>
+            </div>
+          </div>
+          <div class="dash-preview">
+            <div class="dp-label">Воронка · Канал 1 (СБП)</div>
+            <div class="dp-fn-row">
+              <div style="flex:1"><div class="dp-fn-bar" style="width:100%;background:rgba(163,163,163,.1);border-color:var(--t3)"><span class="dp-fn-lbl" style="color:var(--t2)">Уники</span></div></div>
+              <div class="dp-fn-val">1 280</div>
+            </div>
+            <div class="dp-fn-row">
+              <div style="flex:1"><div class="dp-fn-bar" style="width:100%;background:rgba(99,102,241,.15);border-color:var(--indigo)"><span class="dp-fn-lbl" style="color:var(--indigo)">Клики</span></div></div>
+              <div class="dp-fn-val" style="color:var(--indigo)">8 550</div>
+              <div class="dp-fn-conv" style="color:var(--indigo)">×54</div>
+            </div>
+            <div class="dp-fn-row">
+              <div style="flex:1"><div class="dp-fn-bar" style="width:55%;background:rgba(63,110,232,.2);border-color:var(--brand)"><span class="dp-fn-lbl" style="color:var(--brand)">Заказы</span></div></div>
+              <div class="dp-fn-val">142</div>
+              <div class="dp-fn-conv" style="color:var(--brand)">11%</div>
+            </div>
+            <div class="dp-fn-row">
+              <div style="flex:1"><div class="dp-fn-bar" style="width:38%;background:rgba(16,185,129,.25);border-color:var(--emerald)"><span class="dp-fn-lbl" style="color:var(--emerald)">Выполнено</span></div></div>
+              <div class="dp-fn-val" style="color:var(--emerald)">57</div>
+              <div class="dp-fn-conv" style="color:var(--emerald)">40%</div>
+            </div>
+            <div style="margin-top:8px;display:grid;grid-template-columns:1fr 1fr;gap:5px">
+              <div style="background:rgba(63,110,232,.07);padding:7px 9px;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%)">
+                <div style="font-size:8px;color:var(--t3);margin-bottom:2px">Конверсия К1</div>
+                <div style="font-size:16px;font-weight:900;color:var(--brand)">40%</div>
+              </div>
+              <div style="background:rgba(252,211,77,.07);padding:7px 9px;clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%)">
+                <div style="font-size:8px;color:var(--t3);margin-bottom:2px">Конверсия К2</div>
+                <div style="font-size:16px;font-weight:900;color:var(--sun)">8%</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- СЛАЙД 3: Топ продуктов -->
+      <div class="carousel-slide">
+        <div class="action-card">
+          <div class="action-head">
+            <div class="action-num">03</div>
+            <div>
+              <div class="action-ttl">Топ продуктов и управление наценкой</div>
+              <div class="action-desc">Видно какие направления продаются. Наценки для каждого партнёра и курс обмена — настраиваются из одного места.</div>
+            </div>
+          </div>
+          <div class="dash-preview">
+            <div class="dp-label">Топ продуктов · Канал 1</div>
+            <div class="dp-top-row">
+              <div class="dp-top-n">1</div>
+              <div><div class="dp-top-name">Global eSIM · 20GB · 31 Day</div><div style="font-size:9px;color:var(--t3)">Global · 4 заказа</div></div>
+              <div class="dp-top-val" style="color:var(--emerald)">10 640 ₽</div>
+            </div>
+            <div class="dp-top-row">
+              <div class="dp-top-n">2</div>
+              <div><div class="dp-top-name">Kazakhstan eSIM · 5GB · 7 Day</div><div style="font-size:9px;color:var(--t3)">KZ · 3 заказа</div></div>
+              <div class="dp-top-val">2 320 ₽</div>
+            </div>
+            <div class="dp-top-row">
+              <div class="dp-top-n">3</div>
+              <div><div class="dp-top-name">Turkiye eSIM · Unlimited · 1 Day</div><div style="font-size:9px;color:var(--t3)">TR · 4 заказа</div></div>
+              <div class="dp-top-val">950 ₽</div>
+            </div>
+            <div style="margin-top:10px;padding:8px 10px;background:var(--surf2);clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%)">
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                <span style="font-size:10px;color:var(--t2)">Наценка Канал 1</span>
+                <span style="font-size:12px;font-weight:700;color:var(--brand)">55%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+                <span style="font-size:10px;color:var(--t2)">Наценка Канал 2</span>
+                <span style="font-size:12px;font-weight:700;color:var(--indigo)">30%</span>
+              </div>
+              <div style="display:flex;justify-content:space-between">
+                <span style="font-size:10px;color:var(--t2)">Курс USDT → ₽</span>
+                <span style="font-size:12px;font-weight:700;color:var(--t1)">70 ₽</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+  <div class="carousel-nav">
+    <button class="carousel-btn" id="prev-btn2" onclick="move2(-1)" disabled>← Назад</button>
+    <button class="carousel-btn" id="next-btn2" onclick="move2(1)">Далее →</button>
+  </div>
+</div>
+
+<!-- РЕЗУЛЬТАТ -->
+<div class="section">
+  <div class="block">
+    <div class="bey"><div class="bey-ln" style="background:var(--t3)"></div><span class="bey-tx">Результат</span></div>
+    <div class="res-grid">
+      <div class="res-card"><div class="res-v" style="color:var(--emerald)">< 7 дн.</div><div class="res-l">от идеи до клиента</div></div>
+      <div class="res-card"><div class="res-v" style="color:var(--brand)">2 сайта</div><div class="res-l">в одной системе</div></div>
+      <div class="res-card"><div class="res-v" style="color:var(--indigo)">×17</div><div class="res-l">разрыв каналов — сразу видно</div></div>
+      <div class="res-card"><div class="res-v" style="color:var(--sun)">0 ₽</div><div class="res-l">найм команды</div></div>
+    </div>
+    <div class="res-main"><strong>Главное:</strong> бизнес с нуля, без команды. Первый клиент пришёл раньше чем кончилась неделя.</div>
+  </div>
+</div>
+
+<div class="cta-bar">
+  <div class="cta-ttl">Хотите бизнес за 7 дней?</div>
+  <div class="cta-sub">Разберём вашу идею — покажем как собрать систему с нуля быстро</div>
+  <button class="btn">Начать диагностику →</button>
+</div>
+
+<script>
+function makeCarousel(trackId, dotsId, counterId, prevId, nextId){
+  let cur=0;const total=3;
+  const track=document.getElementById(trackId);
+  const dotsEl=document.getElementById(dotsId);
+  const counter=document.getElementById(counterId);
+  const prevBtn=document.getElementById(prevId);
+  const nextBtn=document.getElementById(nextId);
+  for(let i=0;i<total;i++){const d=document.createElement('div');d.className='actions-dot'+(i===0?' on':'');d.onclick=()=>go(i);dotsEl.appendChild(d);}
+  function go(n){
+    cur=Math.max(0,Math.min(total-1,n));
+    track.style.transform=`translateX(-${cur*100}%)`;
+    dotsEl.querySelectorAll('.actions-dot').forEach((d,i)=>d.classList.toggle('on',i===cur));
+    counter.textContent=`${cur+1} / ${total}`;
+    prevBtn.disabled=cur===0;nextBtn.disabled=cur===total-1;
+  }
+  prevBtn.onclick=()=>go(cur-1);
+  nextBtn.onclick=()=>go(cur+1);
+  let sx=0;
+  track.addEventListener('touchstart',e=>sx=e.touches[0].clientX,{passive:true});
+  track.addEventListener('touchend',e=>{const dx=e.changedTouches[0].clientX-sx;if(Math.abs(dx)>40)go(cur+(dx<0?1:-1));},{passive:true});
+}
+makeCarousel('track2','dots2','counter2','prev-btn2','next-btn2');
+
+// WB carousel (from other file doesn't apply here, this is esim)
+</script>
+</body>
+</html>

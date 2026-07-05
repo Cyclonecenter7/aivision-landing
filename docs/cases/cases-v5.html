@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIVISION — Кейсы v5</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --brand:#3F6EE8; --emerald:#10B981; --crimson:#F43F5E;
+  --slate:#94A3B8; --indigo:#6366F1; --sun:#FCD34D;
+  --bg:#0A0A0A; --surf:#181818; --surf2:#222222;
+  --brd:#2A2A2A; --brd2:#3A3A3A;
+  --t1:#FFFFFF; --t2:#A3A3A3; --t3:#555555;
+}
+html,body { font-family:'Inter',sans-serif; background:#0D0D0D; color:var(--t1); }
+
+/* page header */
+.ph { padding:18px 28px; border-bottom:1px solid #181818; display:flex; align-items:center; gap:10px; }
+.ph-logo { width:20px; height:20px; background:var(--brand); clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%); }
+.ph-txt { font-size:10px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--t3); }
+.ph-sep { width:1px; height:12px; background:#222; }
+.ph-sub { font-size:10px; color:#333; }
+
+/* two panel */
+.panels { display:grid; grid-template-columns:1fr 390px; min-height:calc(100vh - 55px); }
+.panel-lbl { padding:10px 22px; font-size:9px; font-weight:600; letter-spacing:.14em; text-transform:uppercase; color:var(--t3); border-bottom:1px solid #181818; display:flex; align-items:center; gap:7px; }
+.panel-dot { width:5px; height:5px; border-radius:50%; }
+.panel-d { border-right:1px solid #181818; }
+
+/* device */
+.mob-wrap { display:flex; justify-content:center; padding:24px 20px 40px; position:sticky; top:0; max-height:100vh; }
+.device { border:7px solid #1E1E1E; border-radius:44px; overflow:hidden; box-shadow:0 0 0 1px #2A2A2A, 0 32px 80px rgba(0,0,0,.8); width:338px; position:relative; flex-shrink:0; }
+.notch { position:absolute; top:0; left:50%; transform:translateX(-50%); width:92px; height:23px; background:#1E1E1E; border-radius:0 0 14px 14px; z-index:20; }
+.dscroll { height:652px; overflow-y:auto; scrollbar-width:none; background:var(--bg); }
+.dscroll::-webkit-scrollbar { display:none; }
+
+/* section */
+.sect { background:var(--bg); padding:56px 36px 64px; }
+.sect-m { background:var(--bg); padding:44px 14px 52px; }
+
+/* eyebrow */
+.ey { display:flex; align-items:center; gap:10px; margin-bottom:36px; }
+.ey-m { display:flex; align-items:center; gap:10px; margin-bottom:22px; }
+.ey-ln { width:24px; height:2px; background:var(--brand); }
+.ey-tx { font-size:11px; font-weight:600; letter-spacing:.16em; text-transform:uppercase; color:var(--t2); }
+
+/* grids desktop */
+.gd { display:grid; grid-template-columns:1.1fr 1fr; gap:8px; }
+.gd-r { display:grid; grid-template-rows:1fr 1fr; gap:8px; }
+.gd-b { display:grid; grid-template-columns:1fr 1fr; gap:8px; }
+
+/* card */
+.card {
+  --ch:16px; --ac:var(--brand);
+  background:var(--surf);
+  clip-path:polygon(0 0,100% 0,100% calc(100% - var(--ch)),calc(100% - var(--ch)) 100%,0 100%);
+  padding:24px; display:flex; flex-direction:column;
+  text-decoration:none; color:inherit; position:relative; overflow:hidden;
+  transition:background .18s; cursor:pointer;
+}
+.card:hover { background:var(--surf2); }
+.card::before { content:''; position:absolute; left:0; top:0; width:2px; height:0; background:var(--ac); transition:height .22s ease; }
+.card:hover::before { height:100%; }
+.card.sm { --ch:11px; padding:18px; }
+.card.xs { --ch:9px; padding:15px; }
+
+/* svg pattern layer */
+.pat { position:absolute; right:0; bottom:0; pointer-events:none; opacity:.07; transition:opacity .25s; }
+.card:hover .pat { opacity:.13; }
+
+/* tag */
+.tag { display:inline-flex; align-items:center; font-size:9px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:#fff; padding:3px 9px; clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%); margin-bottom:12px; align-self:flex-start; }
+.tag-sub { font-size:8px; font-weight:500; opacity:.6; margin-left:4px; }
+.t-br { background:var(--brand); }
+.t-sl { background:var(--slate); color:#0A0A0A; }
+.t-em { background:var(--emerald); }
+.t-in { background:var(--indigo); }
+
+.ttl   { font-size:17px; font-weight:800; line-height:1.25; color:var(--t1); margin-bottom:8px; }
+.ttl-m { font-size:14px; font-weight:700; line-height:1.3;  color:var(--t1); margin-bottom:7px; }
+.ttl-s { font-size:12px; font-weight:700; line-height:1.35; color:var(--t1); margin-bottom:6px; }
+.prob   { font-size:12px; line-height:1.65; color:var(--t2); margin-bottom:14px; flex-grow:1; }
+.prob-s { font-size:11px; line-height:1.6;  color:var(--t2); margin-bottom:12px; flex-grow:1; }
+.div { height:1px; background:var(--brd); margin-bottom:14px; }
+.kr { display:flex; gap:16px; flex-wrap:wrap; margin-bottom:14px; }
+.kr.sm { gap:11px; margin-bottom:10px; }
+.kv   { font-size:20px; font-weight:900; line-height:1; font-variant-numeric:tabular-nums; }
+.kv-m { font-size:16px; font-weight:900; line-height:1; font-variant-numeric:tabular-nums; }
+.kv-s { font-size:13px; font-weight:900; line-height:1; font-variant-numeric:tabular-nums; }
+.kl   { font-size:9px; color:var(--t3); margin-top:3px; }
+.c-br { color:var(--brand); } .c-em { color:var(--emerald); }
+.c-cr { color:var(--crimson); } .c-in { color:var(--indigo); }
+.cta { font-size:11px; font-weight:600; letter-spacing:.05em; color:var(--brand); display:flex; align-items:center; gap:4px; margin-top:auto; transition:color .15s; }
+.cta.dim { color:var(--t3); }
+.cta-a { transition:transform .18s; }
+.card:hover .cta .cta-a { transform:translateX(4px); }
+.card:hover .cta { color:#6688f8; }
+.card:hover .cta.dim { color:var(--t2); }
+
+/* hero sparkline */
+.spark-wrap { margin-bottom:16px; }
+.spark-lbl { font-size:9px; color:var(--t3); letter-spacing:.09em; text-transform:uppercase; margin-bottom:5px; }
+
+/* mobile hero */
+.mob-hero { background:var(--surf); clip-path:polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%); padding:20px; display:flex; flex-direction:column; text-decoration:none; color:inherit; margin-bottom:8px; position:relative; overflow:hidden; }
+.mob-hero:hover { background:var(--surf2); }
+.pills { display:grid; grid-template-columns:1fr 1fr 1fr; gap:6px; margin-bottom:14px; }
+.pill { background:var(--surf2); clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%); padding:8px 8px 7px; }
+.pill-v { font-size:14px; font-weight:900; line-height:1; font-variant-numeric:tabular-nums; }
+.pill-l { font-size:8px; color:var(--t3); margin-top:3px; }
+.mob-row { overflow-x:auto; scrollbar-width:none; display:flex; gap:8px; padding-bottom:2px; }
+.mob-row::-webkit-scrollbar { display:none; }
+.mob-row .card { flex:0 0 210px; }
+.mob-hint { font-size:9px; color:var(--t3); text-align:right; margin-bottom:6px; letter-spacing:.06em; }
+</style>
+</head>
+<body>
+
+<!-- SVG SYMBOLS — вдохновлены компонентами WB-дашборда -->
+<svg width="0" height="0" style="position:absolute;overflow:hidden">
+<defs>
+
+  <!-- ── ОБРАЗОВАНИЕ: KPI-карточки + sparkline (как KpiCard) ── -->
+  <symbol id="p-edu" viewBox="0 0 240 150">
+    <!-- три KPI карточки с chamfer -->
+    <rect x="0"   y="60" width="68" height="56" fill="white" opacity=".06"/>
+    <rect x="0"   y="60" width="68" height="56" fill="none" stroke="white" stroke-width=".8" opacity=".15"/>
+    <!-- chamfer углы карточек -->
+    <polygon points="56,116 68,104 68,116" fill="#0A0A0A" opacity=".8"/>
+
+    <rect x="76"  y="60" width="68" height="56" fill="white" opacity=".06"/>
+    <rect x="76"  y="60" width="68" height="56" fill="none" stroke="white" stroke-width=".8" opacity=".15"/>
+    <polygon points="132,116 144,104 144,116" fill="#0A0A0A" opacity=".8"/>
+
+    <rect x="152" y="60" width="68" height="56" fill="white" opacity=".06"/>
+    <rect x="152" y="60" width="68" height="56" fill="none" stroke="white" stroke-width=".8" opacity=".15"/>
+    <polygon points="208,116 220,104 220,116" fill="#0A0A0A" opacity=".8"/>
+
+    <!-- значения в карточках -->
+    <text x="10" y="82" font-family="Inter,sans-serif" font-size="7" font-weight="600" fill="white" opacity=".35" letter-spacing=".1em">МАРЖА</text>
+    <text x="10" y="100" font-family="Inter,sans-serif" font-size="20" font-weight="900" fill="white" opacity=".9">+27%</text>
+    <text x="86" y="82" font-family="Inter,sans-serif" font-size="7" font-weight="600" fill="white" opacity=".35" letter-spacing=".1em">РАСХОДЫ</text>
+    <text x="86" y="100" font-family="Inter,sans-serif" font-size="20" font-weight="900" fill="white" opacity=".9">−20%</text>
+    <text x="162" y="82" font-family="Inter,sans-serif" font-size="7" font-weight="600" fill="white" opacity=".35" letter-spacing=".1em">ПЛАН/ФАКТ</text>
+    <text x="162" y="100" font-family="Inter,sans-serif" font-size="20" font-weight="900" fill="white" opacity=".9">85%</text>
+
+    <!-- sparkline под каждой карточкой (как в KpiCard) -->
+    <!-- маржа — растёт -->
+    <polyline points="2,128 10,126 18,124 26,121 34,118 42,115 54,112 66,108"
+      fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".5"/>
+    <!-- расходы — падает -->
+    <polyline points="78,110 86,112 94,115 102,117 110,120 118,122 130,124 142,126"
+      fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".3"/>
+    <!-- план/факт — ровно -->
+    <polyline points="154,120 162,119 170,121 178,118 186,120 194,119 202,120 218,119"
+      fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" opacity=".4"/>
+  </symbol>
+
+  <!-- ── СТРОИТЕЛЬСТВО: 4 StructureBar (как 30/40/30 stacked bar) ── -->
+  <symbol id="p-bld" viewBox="0 0 200 140">
+    <!-- 4 проекта — каждый стопка из 3 сегментов (нагрузка/прибыль/себес) -->
+    <!-- Проект 1 — нормальный -->
+    <rect x="8"  y="28" width="32" height="28" fill="white" opacity=".22"/> <!-- нагрузка -->
+    <rect x="8"  y="58" width="32" height="38" fill="white" opacity=".55"/> <!-- прибыль -->
+    <rect x="8"  y="98" width="32" height="22" fill="white" opacity=".3"/>  <!-- себес -->
+    <polygon points="28,120 40,108 40,120" fill="#0A0A0A" opacity=".9"/>
+
+    <!-- Проект 2 — лучший -->
+    <rect x="56" y="10" width="32" height="24" fill="white" opacity=".22"/>
+    <rect x="56" y="36" width="32" height="52" fill="white" opacity=".7"/>
+    <rect x="56" y="90" width="32" height="30" fill="white" opacity=".3"/>
+    <polygon points="76,120 88,108 88,120" fill="#0A0A0A" opacity=".9"/>
+
+    <!-- Проект 3 — убыточный (гашеный) -->
+    <rect x="104" y="42" width="32" height="18" fill="white" opacity=".1"/>
+    <rect x="104" y="62" width="32" height="16" fill="white" opacity=".1"/>
+    <rect x="104" y="80" width="32" height="40" fill="white" opacity=".1"/>
+    <polygon points="124,120 136,108 136,120" fill="#0A0A0A" opacity=".9"/>
+    <!-- крест-маркер убыточного -->
+    <line x1="104" y1="42" x2="136" y2="120" stroke="white" stroke-width=".8" opacity=".2"/>
+    <line x1="136" y1="42" x2="104" y2="120" stroke="white" stroke-width=".8" opacity=".2"/>
+
+    <!-- Проект 4 — хороший -->
+    <rect x="152" y="20" width="32" height="26" fill="white" opacity=".22"/>
+    <rect x="152" y="48" width="32" height="46" fill="white" opacity=".6"/>
+    <rect x="152" y="96" width="32" height="24" fill="white" opacity=".3"/>
+    <polygon points="172,120 184,108 184,120" fill="#0A0A0A" opacity=".9"/>
+
+    <!-- разделитель baseline -->
+    <line x1="0" y1="120" x2="200" y2="120" stroke="white" stroke-width=".5" opacity=".15"/>
+
+    <!-- лейблы -->
+    <text x="24"  y="134" font-family="Inter,sans-serif" font-size="8" fill="white" opacity=".3" text-anchor="middle">П1</text>
+    <text x="72"  y="134" font-family="Inter,sans-serif" font-size="8" fill="white" opacity=".3" text-anchor="middle">П2</text>
+    <text x="120" y="134" font-family="Inter,sans-serif" font-size="8" fill="white" opacity=".15" text-anchor="middle">П3</text>
+    <text x="168" y="134" font-family="Inter,sans-serif" font-size="8" fill="white" opacity=".3" text-anchor="middle">П4</text>
+  </symbol>
+
+  <!-- ── E-COMMERCE: Funnel (как компонент Funnel из дашборда) ── -->
+  <symbol id="p-eco" viewBox="0 0 200 140">
+    <!-- chamfer-бары воронки, каждый меньше предыдущего -->
+    <!-- Показы -->
+    <rect x="0"  y="8"  width="200" height="22" fill="white" opacity=".08"/>
+    <polygon points="186,30 200,16 200,30" fill="#0A0A0A" opacity=".9"/>
+    <rect x="0"  y="8"  width="3" height="22" fill="white" opacity=".5"/>
+    <text x="8"  y="23" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="white" opacity=".4">Показы</text>
+    <text x="170" y="23" font-family="Inter,sans-serif" font-size="9" fill="white" opacity=".3">100%</text>
+
+    <!-- Корзина -->
+    <rect x="0"  y="40" width="156" height="22" fill="white" opacity=".1"/>
+    <polygon points="142,62 156,48 156,62" fill="#0A0A0A" opacity=".9"/>
+    <rect x="0"  y="40" width="3" height="22" fill="white" opacity=".45"/>
+    <text x="8"  y="55" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="white" opacity=".4">Корзина</text>
+    <text x="126" y="55" font-family="Inter,sans-serif" font-size="9" fill="white" opacity=".3">→10%</text>
+
+    <!-- Заказы -->
+    <rect x="0"  y="72" width="104" height="22" fill="white" opacity=".2"/>
+    <polygon points="90,94 104,80 104,94" fill="#0A0A0A" opacity=".9"/>
+    <rect x="0"  y="72" width="3" height="22" fill="white" opacity=".6"/>
+    <text x="8"  y="87" font-family="Inter,sans-serif" font-size="9" font-weight="600" fill="white" opacity=".55">Заказы</text>
+    <text x="74"  y="87" font-family="Inter,sans-serif" font-size="9" fill="white" opacity=".4">→62%</text>
+
+    <!-- Выкупы -->
+    <rect x="0"  y="104" width="64" height="22" fill="white" opacity=".4"/>
+    <polygon points="50,126 64,112 64,126" fill="#0A0A0A" opacity=".9"/>
+    <rect x="0"  y="104" width="3" height="22" fill="white" opacity=".9"/>
+    <text x="8"  y="119" font-family="Inter,sans-serif" font-size="9" font-weight="700" fill="white" opacity=".8">Выкупы</text>
+    <text x="34"  y="119" font-family="Inter,sans-serif" font-size="9" fill="white" opacity=".6">→88%</text>
+  </symbol>
+
+  <!-- ── eSIM: MainChart (как chart с 2 линиями + crosshair) ── -->
+  <symbol id="p-esim" viewBox="0 0 220 140">
+    <!-- grid lines -->
+    <line x1="20" y1="20"  x2="220" y2="20"  stroke="white" stroke-width=".4" opacity=".1"/>
+    <line x1="20" y1="55"  x2="220" y2="55"  stroke="white" stroke-width=".4" opacity=".1"/>
+    <line x1="20" y1="90"  x2="220" y2="90"  stroke="white" stroke-width=".4" opacity=".1"/>
+    <line x1="20" y1="125" x2="220" y2="125" stroke="white" stroke-width=".4" opacity=".15"/>
+
+    <!-- area fills -->
+    <path d="M20,100 C50,95 70,80 90,70 C110,60 130,58 160,45 C180,36 200,30 220,22 L220,125 L20,125 Z"
+      fill="white" opacity=".05"/>
+    <path d="M20,115 C50,112 70,105 90,100 C110,95 130,92 160,86 C180,82 200,78 220,73 L220,125 L20,125 Z"
+      fill="white" opacity=".04"/>
+
+    <!-- линия 1: сайт A (крипта) -->
+    <path d="M20,100 C50,95 70,80 90,70 C110,60 130,58 160,45 C180,36 200,30 220,22"
+      fill="none" stroke="white" stroke-width="2" stroke-linecap="round" opacity=".8"/>
+
+    <!-- линия 2: сайт B (СБП) — пунктир -->
+    <path d="M20,115 C50,112 70,105 90,100 C110,95 130,92 160,86 C180,82 200,78 220,73"
+      fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-dasharray="5 3" opacity=".5"/>
+
+    <!-- crosshair на точке схождения -->
+    <line x1="160" y1="20" x2="160" y2="125" stroke="white" stroke-width=".8" stroke-dasharray="3 3" opacity=".25"/>
+    <circle cx="160" cy="45" r="3.5" fill="white" opacity=".8"/>
+    <circle cx="160" cy="86" r="3.5" fill="white" opacity=".5"/>
+
+    <!-- tooltip мок -->
+    <rect x="166" y="32" width="50" height="30" fill="white" opacity=".06"/>
+    <polygon points="204,62 216,50 216,62" fill="#0A0A0A" opacity=".9"/>
+    <text x="171" y="45" font-family="Inter,sans-serif" font-size="7" fill="white" opacity=".4">Сайт A</text>
+    <text x="171" y="57" font-family="Inter,sans-serif" font-size="7" fill="white" opacity=".3">Сайт B</text>
+
+    <!-- легенда -->
+    <line x1="20" y1="10" x2="34" y2="10" stroke="white" stroke-width="1.5" opacity=".5"/>
+    <text x="37" y="13" font-family="Inter,sans-serif" font-size="7" fill="white" opacity=".35">Крипта</text>
+    <line x1="80" y1="10" x2="94" y2="10" stroke="white" stroke-width="1.5" stroke-dasharray="4 2" opacity=".4"/>
+    <text x="97" y="13" font-family="Inter,sans-serif" font-size="7" fill="white" opacity=".3">СБП</text>
+  </symbol>
+
+</defs>
+</svg>
+
+<!-- PAGE HEADER -->
+<div class="ph">
+  <div class="ph-logo"></div>
+  <span class="ph-txt">AIVISION</span>
+  <div class="ph-sep"></div>
+  <span class="ph-sub">Кейсы — v5</span>
+</div>
+
+<div class="panels">
+
+  <!-- ════ DESKTOP ════ -->
+  <div class="panel-d">
+    <div class="panel-lbl"><div class="panel-dot" style="background:var(--brand)"></div>Desktop</div>
+    <div class="sect">
+      <div class="ey"><div class="ey-ln"></div><span class="ey-tx">Кейсы</span></div>
+
+      <div class="gd">
+
+        <!-- HERO: Образование -->
+        <a class="card" href="#" style="--ac:var(--brand)">
+          <div class="tag t-br">Образование <span class="tag-sub">· Офлайн + онлайн · 5+ лет</span></div>
+          <div class="ttl">Как образовательный проект перестал терять маржу</div>
+          <div class="prob">Доход рос на 3% в год — расходы на 6% ежемесячно. 60–70% бюджета уходило в ФОТ без привязки к результату. Клиентская база не работала на повторные продажи.</div>
+
+          <!-- sparkline десктоп (monotone, как MainChart) -->
+          <div class="spark-wrap">
+            <div class="spark-lbl">Маржинальность после внедрения</div>
+            <svg width="100%" height="56" viewBox="0 0 380 56" preserveAspectRatio="none">
+              <defs>
+                <linearGradient id="sg-d" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stop-color="#10B981" stop-opacity=".18"/>
+                  <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+                </linearGradient>
+              </defs>
+              <!-- baseline -->
+              <line x1="0" y1="50" x2="380" y2="50" stroke="#2A2A2A" stroke-width="1"/>
+              <!-- area -->
+              <path d="M0,48 C30,47 60,43 90,38 C130,31 160,24 200,18 C240,12 290,7 340,4 L380,3 L380,56 L0,56 Z" fill="url(#sg-d)"/>
+              <!-- monotone line -->
+              <path d="M0,48 C30,47 60,43 90,38 C130,31 160,24 200,18 C240,12 290,7 340,4 L380,3"
+                fill="none" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+              <!-- точки -->
+              <circle cx="0"   cy="48" r="2.5" fill="#555"/>
+              <circle cx="190" cy="19" r="2.5" fill="#10B981" opacity=".6"/>
+              <circle cx="380" cy="3"  r="3.5" fill="#10B981"/>
+              <!-- лейблы событий -->
+              <text x="4"   y="44" font-family="Inter,sans-serif" font-size="8" fill="#555">—</text>
+              <text x="194" y="15" font-family="Inter,sans-serif" font-size="8" fill="#10B981" opacity=".7">+18%</text>
+              <text x="342" y="14" font-family="Inter,sans-serif" font-size="8" fill="#10B981">+27%</text>
+            </svg>
+          </div>
+
+          <div class="div"></div>
+          <div class="kr">
+            <div><div class="kv c-em">+18–27%</div><div class="kl">Маржинальность</div></div>
+            <div><div class="kv c-cr">−20%</div><div class="kl">Расходы</div></div>
+            <div><div class="kv c-br">85%+</div><div class="kl">Точность план/факт</div></div>
+          </div>
+          <span class="cta">Открыть кейс <span class="cta-a">→</span></span>
+        </a>
+
+        <!-- RIGHT -->
+        <div class="gd-r">
+
+          <!-- Строительство -->
+          <a class="card sm" href="#" style="--ac:var(--slate)">
+            <svg class="pat" width="180" height="120"><use href="#p-bld"/></svg>
+            <div class="tag t-sl">Строительство <span class="tag-sub">· 200+ млн ₽/год · 4 проекта</span></div>
+            <div class="ttl-m">Система в бизнесе с оборотом 200+ млн ₽ и 4 проектами</div>
+            <div class="prob-s">Общий PnL без разбивки — один из проектов тихо съедал ресурс. Выстроили раздельный учёт и дашборд за 30 дней.</div>
+            <div class="kr sm">
+              <div><div class="kv-m c-em">4 PnL</div><div class="kl">Раздельно</div></div>
+              <div><div class="kv-m c-br">0</div><div class="kl">Разрывов</div></div>
+              <div><div class="kv-m c-em">+20%</div><div class="kl">Рост 2 проектов</div></div>
+            </div>
+            <span class="cta">Открыть кейс <span class="cta-a">→</span></span>
+          </a>
+
+          <div class="gd-b">
+            <!-- E-commerce -->
+            <a class="card xs" href="#" style="--ac:var(--emerald)">
+              <svg class="pat" width="160" height="110"><use href="#p-eco"/></svg>
+              <div class="tag t-em">E-commerce <span class="tag-sub">· WB</span></div>
+              <div class="ttl-s">Продажи на маркетплейсе — управляемый процесс</div>
+              <div class="prob-s">2–3 ч/день ручного сбора. Автоматизировали через API.</div>
+              <div class="kr sm">
+                <div><div class="kv-s c-em">+35%</div><div class="kl">Выручка/кв.</div></div>
+                <div><div class="kv-s c-cr">−35%</div><div class="kl">Нагрузка</div></div>
+              </div>
+              <span class="cta">Открыть <span class="cta-a">→</span></span>
+            </a>
+
+            <!-- eSIM -->
+            <a class="card xs" href="#" style="--ac:var(--indigo)">
+              <svg class="pat" width="190" height="110"><use href="#p-esim"/></svg>
+              <div class="tag t-in">eSIM <span class="tag-sub">· Крипта + СБП</span></div>
+              <div class="ttl-s">Два сайта, два партнёра — одна система</div>
+              <div class="prob-s">Разные платёжки — данные не сводились.</div>
+              <div class="kr sm">
+                <div><div class="kv-s c-in">2 сайта</div><div class="kl">В дашборде</div></div>
+                <div><div class="kv-s c-br">100%</div><div class="kl">Учтено</div></div>
+              </div>
+              <span class="cta dim">Скоро <span class="cta-a">→</span></span>
+            </a>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ════ MOBILE ════ -->
+  <div>
+    <div class="panel-lbl"><div class="panel-dot" style="background:var(--indigo)"></div>Mobile 390px</div>
+    <div class="mob-wrap">
+      <div class="device">
+        <div class="notch"></div>
+        <div class="dscroll">
+          <div class="sect-m" style="padding-top:42px">
+
+            <div class="ey-m"><div class="ey-ln"></div><span class="ey-tx">Кейсы</span></div>
+
+            <!-- HERO мобила -->
+            <a class="mob-hero" href="#">
+              <div class="tag t-br" style="font-size:8px;margin-bottom:10px">Образование <span class="tag-sub">· Офлайн + онлайн</span></div>
+              <div class="ttl" style="font-size:15px;margin-bottom:7px">Как образовательный проект перестал терять маржу</div>
+              <div class="prob" style="font-size:11px;margin-bottom:0">Доход рос — расходы быстрее. ФОТ без привязки к результату. За 30 дней — система.</div>
+
+              <!-- sparkline мобила -->
+              <div style="margin:12px 0 14px">
+                <div class="spark-lbl">Маржа после внедрения</div>
+                <svg width="100%" height="34" viewBox="0 0 280 34" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="sg-m" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#10B981" stop-opacity=".22"/>
+                      <stop offset="100%" stop-color="#10B981" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <line x1="0" y1="30" x2="280" y2="30" stroke="#2A2A2A" stroke-width="1"/>
+                  <path d="M0,28 C30,27 60,23 100,18 C140,13 180,8 220,5 L280,3 L280,34 L0,34 Z" fill="url(#sg-m)"/>
+                  <path d="M0,28 C30,27 60,23 100,18 C140,13 180,8 220,5 L280,3" fill="none" stroke="#10B981" stroke-width="1.8" stroke-linecap="round"/>
+                  <circle cx="280" cy="3" r="3" fill="#10B981"/>
+                </svg>
+              </div>
+
+              <div class="pills">
+                <div class="pill"><div class="pill-v c-em">+27%</div><div class="pill-l">Маржа</div></div>
+                <div class="pill"><div class="pill-v c-cr">−20%</div><div class="pill-l">Расходы</div></div>
+                <div class="pill"><div class="pill-v c-br">85%</div><div class="pill-l">План/факт</div></div>
+              </div>
+              <span class="cta" style="font-size:10px">Открыть кейс <span class="cta-a">→</span></span>
+            </a>
+
+            <div class="mob-hint">ещё кейсы →</div>
+            <div class="mob-row">
+
+              <a class="card sm" href="#" style="--ac:var(--slate)">
+                <svg class="pat" width="130" height="95"><use href="#p-bld"/></svg>
+                <div class="tag t-sl" style="font-size:8px">Строительство <span class="tag-sub">· 200+ млн ₽</span></div>
+                <div class="ttl-s">Система с 4 проектами</div>
+                <div class="prob-s" style="font-size:10px">Один из проектов съедал ресурс — нашли за 30 дней.</div>
+                <div class="kr sm">
+                  <div><div class="kv-s c-em">4 PnL</div><div class="kl">Раздельно</div></div>
+                  <div><div class="kv-s c-br">0</div><div class="kl">Разрывов</div></div>
+                </div>
+                <span class="cta" style="font-size:10px">Открыть <span class="cta-a">→</span></span>
+              </a>
+
+              <a class="card sm" href="#" style="--ac:var(--emerald)">
+                <svg class="pat" width="140" height="95"><use href="#p-eco"/></svg>
+                <div class="tag t-em" style="font-size:8px">E-commerce <span class="tag-sub">· WB</span></div>
+                <div class="ttl-s">Продажи на WB — управляемый процесс</div>
+                <div class="prob-s" style="font-size:10px">2–3 ч/день ручного сбора. Автоматизировали через API.</div>
+                <div class="kr sm">
+                  <div><div class="kv-s c-em">+35%</div><div class="kl">Выручка</div></div>
+                  <div><div class="kv-s c-cr">−35%</div><div class="kl">Нагрузка</div></div>
+                </div>
+                <span class="cta" style="font-size:10px">Открыть <span class="cta-a">→</span></span>
+              </a>
+
+              <a class="card sm" href="#" style="--ac:var(--indigo)">
+                <svg class="pat" width="160" height="95"><use href="#p-esim"/></svg>
+                <div class="tag t-in" style="font-size:8px">eSIM <span class="tag-sub">· Крипта + СБП</span></div>
+                <div class="ttl-s">Два сайта, два партнёра — одна система</div>
+                <div class="prob-s" style="font-size:10px">Разные платёжки — данные не сводились.</div>
+                <div class="kr sm">
+                  <div><div class="kv-s c-in">2 сайта</div><div class="kl">В дашборде</div></div>
+                  <div><div class="kv-s c-br">100%</div><div class="kl">Учтено</div></div>
+                </div>
+                <span class="cta dim" style="font-size:10px">Скоро <span class="cta-a">→</span></span>
+              </a>
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+</body>
+</html>

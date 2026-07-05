@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>AIVISION — Кейс: E-commerce WB</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" crossorigin></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" crossorigin></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" crossorigin></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --brand:#3F6EE8;--emerald:#10B981;--crimson:#F43F5E;
+  --sun:#FCD34D;--slate:#94A3B8;--indigo:#6366F1;--tan:#FB923C;
+  --bg:#0A0A0A;--surf:#181818;--surf2:#222222;--surf3:#2A2A2A;
+  --brd:#2A2A2A;--brd2:#3A3A3A;
+  --t1:#FFFFFF;--t2:#A3A3A3;--t3:#555555;--t4:#333333;
+}
+html{font-family:'Inter',sans-serif;background:var(--bg);color:var(--t1)}
+body{min-height:100vh}
+
+.nav{position:sticky;top:0;z-index:200;background:rgba(10,10,10,.92);backdrop-filter:blur(12px);border-bottom:1px solid var(--brd);padding:0 48px;height:52px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{display:flex;align-items:center;gap:10px;text-decoration:none}
+.nav-mark{width:20px;height:20px;background:var(--brand);clip-path:polygon(0 0,100% 0,100% 72%,72% 100%,0 100%)}
+.nav-name{font-size:12px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:var(--t1)}
+.nav-back{font-size:11px;color:var(--t3);text-decoration:none;transition:color .15s}
+.nav-back:hover{color:var(--t2)}
+
+.nda-bar{background:var(--surf2);border-bottom:1px solid var(--brd);padding:8px 48px;display:flex;align-items:center;gap:10px}
+.nda-pill{font-size:9px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;color:#0A0A0A;background:var(--sun);padding:3px 8px;clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);flex-shrink:0}
+.nda-txt{font-size:11px;color:var(--t3)}
+.nda-txt strong{color:var(--t2);font-weight:600}
+
+.hero{padding:52px 48px 0;max-width:1320px;margin:0 auto}
+.ey{display:flex;align-items:center;gap:10px;margin-bottom:16px}
+.ey-ln{width:24px;height:2px;background:var(--brand)}
+.ey-tx{font-size:11px;font-weight:600;letter-spacing:.16em;text-transform:uppercase;color:var(--t2)}
+.tag-pill{font-size:9px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:#fff;padding:4px 10px;background:var(--emerald);clip-path:polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%)}
+.hero h1{font-size:36px;font-weight:900;line-height:1.15;color:var(--t1);margin-bottom:12px;max-width:700px}
+.hero-lead{font-size:15px;line-height:1.75;color:var(--t2);max-width:620px;margin-bottom:20px}
+.hero-stats{display:flex;gap:0;margin-bottom:48px;border:1px solid var(--brd);overflow:hidden;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%)}
+.hstat{padding:14px 22px;border-right:1px solid var(--brd)}
+.hstat:last-child{border-right:none}
+.hstat-v{font-size:24px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.hstat-l{font-size:10px;color:var(--t3);margin-top:4px}
+
+.layout{display:grid;grid-template-columns:1fr 620px;gap:28px;padding:0 48px 80px;max-width:1320px;margin:0 auto;align-items:start}
+.col-r{position:sticky;top:68px}
+
+.block{background:var(--surf);clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);padding:24px 26px;margin-bottom:10px}
+.bey{display:flex;align-items:center;gap:8px;margin-bottom:14px}
+.bey-ln{width:20px;height:2px;flex-shrink:0}
+.bey-tx{font-size:10px;font-weight:700;letter-spacing:.15em;text-transform:uppercase;color:var(--t3)}
+.prob-list{list-style:none;display:flex;flex-direction:column;gap:9px}
+.prob-item{display:flex;align-items:flex-start;gap:10px;font-size:13px;line-height:1.55;color:var(--t2)}
+.prob-dot{width:6px;height:6px;border-radius:50%;background:var(--crimson);flex-shrink:0;margin-top:5px}
+.action{display:flex;align-items:flex-start;gap:12px;padding:12px 14px;background:var(--surf2);clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%);margin-bottom:6px}
+.action:last-child{margin-bottom:0}
+.action-num{width:26px;height:26px;flex-shrink:0;background:var(--brand);clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);display:flex;align-items:center;justify-content:center;font-size:10px;font-weight:800;color:#fff}
+.action-ttl{font-size:13px;font-weight:700;color:var(--t1);margin-bottom:3px}
+.action-desc{font-size:12px;color:var(--t2);line-height:1.5}
+.res-grid{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin-bottom:14px}
+.res-card{background:var(--surf2);clip-path:polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%);padding:14px}
+.res-v{font-size:21px;font-weight:900;line-height:1;font-variant-numeric:tabular-nums}
+.res-l{font-size:10px;color:var(--t3);margin-top:4px}
+.res-main{font-size:13px;line-height:1.6;color:var(--t2)}
+.res-main strong{color:var(--t1);font-weight:600}
+.btn-primary{font-family:'Inter',sans-serif;font-size:12px;font-weight:700;letter-spacing:.06em;background:var(--brand);color:#fff;border:none;cursor:pointer;padding:12px 24px;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);transition:background .15s;white-space:nowrap}
+.btn-primary:hover{background:#2D5BD4}
+#dash-root{background:var(--surf);clip-path:polygon(0 0,100% 0,100% calc(100% - 20px),calc(100% - 20px) 100%,0 100%);overflow:hidden}
+</style>
+</head>
+<body>
+
+<nav class="nav">
+  <a href="#" class="nav-logo"><div class="nav-mark"></div><span class="nav-name">AIVISION</span></a>
+  <a href="#" class="nav-back">← Все кейсы</a>
+</nav>
+<div class="nda-bar">
+  <div class="nda-pill">NDA</div>
+  <div class="nda-txt"><strong>Показатели изменены.</strong> Структура, динамика и логика — реальные.</div>
+</div>
+
+<div class="hero">
+  <div class="ey"><div class="ey-ln"></div><span class="ey-tx">Кейс · E-commerce</span></div>
+  <div style="display:flex;align-items:center;gap:8px;margin-bottom:14px">
+    <div class="tag-pill">WB · 3 бренда · 5+ млн ₽/мес</div>
+    <span style="font-size:11px;color:var(--t3)">Действующий проект</span>
+  </div>
+  <h1>Как продажи на маркетплейсе стали управляемым процессом</h1>
+  <p class="hero-lead">2–3 часа в день на ручной сбор данных. Конверсия не отслеживалась. Закупки в таблицах, склады вслепую. Менеджер тонул в операционке вместо того чтобы расти.</p>
+  <div class="hero-stats">
+    <div class="hstat"><div class="hstat-v" style="color:var(--emerald)">+35%</div><div class="hstat-l">выручка за квартал</div></div>
+    <div class="hstat"><div class="hstat-v" style="color:var(--brand)">−35%</div><div class="hstat-l">нагрузка менеджера</div></div>
+    <div class="hstat"><div class="hstat-v" style="color:var(--indigo)">3 API</div><div class="hstat-l">источника данных</div></div>
+    <div class="hstat"><div class="hstat-v" style="color:var(--sun)">7 стадий</div><div class="hstat-l">контроль закупок</div></div>
+  </div>
+</div>
+
+<div class="layout">
+<div>
+  <div class="block">
+    <div class="bey"><div class="bey-ln" style="background:var(--crimson)"></div><span class="bey-tx">Точка А — Проблема</span></div>
+    <ul class="prob-list">
+      <li class="prob-item"><div class="prob-dot"></div>2–3 часа ежедневно на ручной сбор данных из ЛК WB — выгрузка, копипаст, сведение в таблицы</li>
+      <li class="prob-item"><div class="prob-dot"></div>Воронка не отслеживалась: показы → корзина → заказ → выкуп — все потери невидимы</li>
+      <li class="prob-item"><div class="prob-dot"></div>Закупки в Excel без статусов: непонятно где груз — в Китае, на Байкале, на ФФ или уже на ВБ</li>
+      <li class="prob-item"><div class="prob-dot"></div>Склады не оптимизированы: 97% остатков в Центральном регионе, Урал и Сибирь голые — индекс локализации красный</li>
+      <li class="prob-item"><div class="prob-dot"></div>ABC-анализ не проводился: убыточный артикул «Шорты Pro Fit» тянул маржу вниз незаметно</li>
+    </ul>
+  </div>
+
+  <div class="block">
+    <div class="bey"><div class="bey-ln" style="background:var(--brand)"></div><span class="bey-tx">Что сделали</span></div>
+    <div class="action"><div class="action-num">01</div><div><div class="action-ttl">API-интеграция с WB — данные сами</div><div class="action-desc">Заказы, просмотры, остатки и реклама подтягиваются автоматически. Менеджер не заходит в ЛК за цифрами.</div></div></div>
+    <div class="action"><div class="action-num">02</div><div><div class="action-ttl">Воронка показы → выкуп с конверсией на каждом этапе</div><div class="action-desc">Видно где теряются покупатели. По каждому артикулу отдельно. Выявили слабое место — переход корзина → заказ.</div></div></div>
+    <div class="action"><div class="action-num">03</div><div><div class="action-ttl">Канбан закупок: 7 стадий от плана до закрытия</div><div class="action-desc">План → Оплачено → В пути Китай → На Байкале → На ФФ → На ВБ → Закрыто. Грузы, приёмка, поставки, себес и курс юаня — всё в одной карточке закупа.</div></div></div>
+    <div class="action"><div class="action-num">04</div><div><div class="action-ttl">Индекс локализации и оптимизация складов</div><div class="action-desc">Матрица регион × склад показывает где не хватает остатков. ИЛ 1.14 — умеренный. Приоритет: довезти в Урал и Сибирь.</div></div></div>
+    <div class="action"><div class="action-num">05</div><div><div class="action-ttl">ABC-анализ + структура 30/40/30</div><div class="action-desc">Артикулы автоматически делятся на A/B/C по выручке. Убыточный артикул выявлен и переведён в стоп. Структура нагрузка/прибыль/себес — цель 30/40/30.</div></div></div>
+  </div>
+
+  <div class="block" style="margin-bottom:0">
+    <div class="bey"><div class="bey-ln" style="background:var(--t4)"></div><span class="bey-tx">Результат</span></div>
+    <div class="res-grid">
+      <div class="res-card"><div class="res-v" style="color:var(--emerald)">+35%</div><div class="res-l">Выручка за квартал</div></div>
+      <div class="res-card"><div class="res-v" style="color:var(--brand)">−35%</div><div class="res-l">Нагрузка менеджера</div></div>
+      <div class="res-card"><div class="res-v" style="color:var(--sun)">2 ч/день</div><div class="res-l">Сэкономлено на сборе</div></div>
+      <div class="res-card"><div class="res-v" style="color:var(--indigo)">12.3%</div><div class="res-l">Конверсия в заказ</div></div>
+      <div class="res-card"><div class="res-v" style="color:var(--tan)">7 стадий</div><div class="res-l">Полный контроль закупок</div></div>
+      <div class="res-card"><div class="res-v" style="color:var(--emerald)">ИЛ 1.14</div><div class="res-l">Индекс локализации</div></div>
+    </div>
+    <div class="res-main"><strong>Главное:</strong> менеджер занимается ростом, а не сбором цифр. Система сама считает, предупреждает и показывает где проблема.</div>
+  </div>
+</div>
+
+<!-- ЖИВОЙ ДАШБОРД -->
+<div class="col-r"><div id="dash-root"></div></div>
+</div>
+
+<div style="padding:0 48px 80px;max-width:1320px;margin:0 auto">
+  <div style="background:var(--surf);clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);padding:28px 32px;display:flex;align-items:center;justify-content:space-between;gap:24px">
+    <div>
+      <div style="font-size:18px;font-weight:800;color:var(--t1);margin-bottom:6px">Хотите такой же результат?</div>
+      <div style="font-size:13px;color:var(--t2)">Начнём с диагностики — покажем где теряется маржа именно в вашем бизнесе</div>
+    </div>
+    <button class="btn-primary">Начать диагностику →</button>
+  </div>
+</div>
+
+<script type="text/babel">
+const{useState,useEffect,useRef,useMemo,Fragment}=React;
+const T={bg:'#0A0A0A',card:'#181818',cardHov:'#1E1E1E',border:'#2A2A2A',borderMed:'#333',text:'#FFFFFF',textSec:'#A3A3A3',textMut:'#555555'};
+const C={brand:'#3F6EE8',emerald:'#10B981',crimson:'#F43F5E',sun:'#FCD34D',indigo:'#6366F1',tangerine:'#FB923C',slate:'#94A3B8',teal:'#14B8A6'};
+const ch=(px=8)=>({clipPath:`polygon(0 0,100% 0,100% calc(100% - ${px}px),calc(100% - ${px}px) 100%,0 100%)`});
+const hexA=(hex,a)=>{const h=hex.replace('#','');return`rgba(${parseInt(h.slice(0,2),16)},${parseInt(h.slice(2,4),16)},${parseInt(h.slice(4,6),16)},${a})`};
+const fmtK=v=>{const av=Math.abs(v);const sg=v<0?'−':'';if(av>=1e6)return sg+(av/1e6).toFixed(1)+'M ₽';if(av>=1e3)return sg+Math.round(av/1e3)+'К ₽';return sg+Math.round(av)+' ₽'};
+const fmtNum=v=>new Intl.NumberFormat('ru-RU').format(Math.round(v));
+const fmtPct=v=>(+v).toFixed(1)+'%';
+
+function seed(s){let h=0;for(let i=0;i<s.length;i++)h=(Math.imul(31,h)+s.charCodeAt(i))|0;return Math.abs(h);}
+function rng(s,mn,mx){return mn+((seed(s)*16807+7)%2147483647)/2147483647*(mx-mn);}
+
+function smooth(pts){
+  const n=pts.length;if(n<2)return'';if(n===2)return`M${pts[0][0]},${pts[0][1]} L${pts[1][0]},${pts[1][1]}`;
+  const t=new Array(n);
+  for(let i=1;i<n-1;i++){const dx1=pts[i][0]-pts[i-1][0],dx2=pts[i+1][0]-pts[i][0];const s1=(pts[i][1]-pts[i-1][1])/dx1,s2=(pts[i+1][1]-pts[i][1])/dx2;if(s1*s2<=0)t[i]=0;else{const p=(s1*dx2+s2*dx1)/(dx1+dx2);t[i]=Math.sign(s1)*Math.min(Math.abs(s1),Math.abs(s2),.5*Math.abs(p));}}
+  t[0]=(pts[1][1]-pts[0][1])/(pts[1][0]-pts[0][0]);t[n-1]=(pts[n-1][1]-pts[n-2][1])/(pts[n-1][0]-pts[n-2][0]);
+  let d=`M${pts[0][0]},${pts[0][1]}`;for(let i=0;i<n-1;i++){const dx=(pts[i+1][0]-pts[i][0])/3;d+=` C${pts[i][0]+dx},${pts[i][1]+t[i]*dx} ${pts[i+1][0]-dx},${pts[i+1][1]-t[i+1]*dx} ${pts[i+1][0]},${pts[i+1][1]}`;}
+  return d;
+}
+
+const mc=v=>v>20?C.emerald:v>=10?C.sun:C.crimson;
+const dc=v=>v<10?C.emerald:v<=20?C.sun:C.crimson;
+const sc=v=>v>14?C.emerald:v>=7?C.sun:C.crimson;
+const nagrC=v=>v<30?C.emerald:v<=40?C.sun:C.crimson;
+const ilC=v=>v<1?C.emerald:v<=1.3?C.sun:C.crimson;
+
+const ARTICLES=[
+  {id:'GH-N',name:'Палочка Гарри NEW',brand:'Косалея',stock:23,stockDays:7,marginPct:13.5,drr:8.2,abc:'A'},
+  {id:'GH-M',name:'Палочка Малфой',brand:'Косалея',stock:6,stockDays:2,marginPct:17.3,drr:11.4,abc:'A'},
+  {id:'BF-1',name:'Леггинсы Sport Pro',brand:'Be as fit',stock:87,stockDays:21,marginPct:28.4,drr:6.1,abc:'A'},
+  {id:'BF-2',name:'Топ Fit Active',brand:'Be as fit',stock:12,stockDays:5,marginPct:8.2,drr:14.3,abc:'B'},
+  {id:'BF-3',name:'Шорты Pro Fit',brand:'Be as fit',stock:33,stockDays:12,marginPct:-8.0,drr:22.1,abc:'C'},
+  {id:'EB-A',name:'Кроссовки беговые',brand:'Easy buy',stock:52,stockDays:16,marginPct:22.1,drr:7.8,abc:'A'},
+  {id:'EB-B',name:'Носки набор 5 пар',brand:'Easy buy',stock:0,stockDays:0,marginPct:11.2,drr:9.4,abc:'B'},
+];
+
+const FUNNEL=[
+  {label:'Показы',v:48320,c:T.textSec},
+  {label:'Корзина',v:4190,c:C.indigo},
+  {label:'Заказы',v:5940,c:C.brand},
+  {label:'Выкупы',v:5230,c:C.emerald},
+];
+
+const KANBAN_ORDERS=[
+  {id:'3.1',brand:'Косалея',month:'апр',status:'wb',statusLabel:'НА ВБ',color:C.emerald,items:['Палочка Гарри NEW','Палочка Малфой'],qty:340,rateY:12.4,sumRub:186000,cargos:[{label:'Карго Байкал',arrived:true},{label:'Белая',arrived:true}],deliveries:[{num:'П-2024-11',warehouse:'Коледино',status:'Принята ВБ ✓'},{num:'П-2024-12',warehouse:'Казань',status:'В пути'}]},
+  {id:'3.2',brand:'Easy buy',month:'апр',status:'baikal',statusLabel:'НА БАЙКАЛЕ',color:C.tangerine,items:['Кроссовки беговые','Носки набор 5 пар'],qty:210,rateY:12.1,sumRub:142000,cargos:[{label:'Байкал Карго',arrived:false}],deliveries:[]},
+  {id:'3.3',brand:'Be as fit',month:'май',status:'china',statusLabel:'В ПУТИ КИТАЙ',color:C.sun,items:['Леггинсы Sport Pro','Топ Fit Active'],qty:500,rateY:12.8,sumRub:0,cargos:[],deliveries:[]},
+  {id:'3.4',brand:'Be as fit',month:'июн',status:'plan',statusLabel:'ПЛАН',color:C.slate,items:['Шорты Pro Fit'],qty:0,rateY:0,sumRub:0,cargos:[],deliveries:[]},
+];
+
+const STATUSES=['plan','paid','china','baikal','ff','wb','closed'];
+const STATUS_LABELS={plan:'ПЛАН',paid:'ОПЛАЧЕНО',china:'В ПУТИ КИТАЙ',baikal:'НА БАЙКАЛЕ',ff:'НА ФФ',wb:'НА ВБ',closed:'ЗАКРЫТО'};
+const STATUS_COLORS={plan:C.slate,paid:C.indigo,china:C.sun,baikal:C.tangerine,ff:C.brand,wb:C.emerald,closed:C.slate};
+
+const REGIONS=[
+  {label:'Центральный',localPct:97.1,shareUs:36.5,shareWb:32.2,gap:-4.3,stock:2087},
+  {label:'Южный + СКФ',localPct:29.4,shareUs:14.5,shareWb:17.1,gap:2.6,stock:610},
+  {label:'Приволжский',localPct:7.1,shareUs:14.8,shareWb:15.4,gap:0.6,stock:332},
+  {label:'Уральский',localPct:7.6,shareUs:6.3,shareWb:7.4,gap:1.1,stock:247},
+  {label:'Дальневост+Сиб',localPct:2.8,shareUs:13.6,shareWb:13.8,gap:0.2,stock:101},
+  {label:'Северо-Западный',localPct:3.1,shareUs:9.3,shareWb:8.3,gap:-1.0,stock:408},
+];
+
+function Spark({data,color,h=24}){
+  if(!data||data.length<2)return<div style={{height:h}}/>;
+  const mn=Math.min(...data),mx=Math.max(...data),range=mx-mn||1;
+  const w=100;const pts=data.map((v,i)=>[(i/(data.length-1))*w,h-((v-mn)/range)*h*.8-2]);
+  const line=smooth(pts);const area=line+` L${pts[pts.length-1][0]},${h} L${pts[0][0]},${h} Z`;
+  const id='s'+color.replace('#','');
+  return(
+    <svg width="100%" height={h} viewBox={`0 0 ${w} ${h}`} preserveAspectRatio="none" style={{display:'block'}}>
+      <defs><linearGradient id={id} x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stopColor={color} stopOpacity=".2"/><stop offset="100%" stopColor={color} stopOpacity="0"/></linearGradient></defs>
+      <path d={area} fill={`url(#${id})`}/><path d={line} fill="none" stroke={color} strokeWidth="1.5" strokeLinecap="round"/>
+    </svg>
+  );
+}
+
+function KpiRow(){
+  const items=[
+    {label:'Реализация',val:'4,2М ₽',sub:'+35% vs пред.',color:C.brand,spark:[40,55,48,62,58,71,65,80,74,88]},
+    {label:'Маржа',val:'18.4%',sub:'цель >20%',color:C.sun,spark:[14,15,16,14,17,16,18,17,19,18]},
+    {label:'Нагрузка ВБ',val:'31.2%',sub:'цель <30%',color:C.crimson,spark:[34,33,32,35,31,33,31,32,31,31]},
+    {label:'Остатки',val:'3 620 шт',sub:'~14 дней',color:C.slate,spark:[42,40,38,36,35,34,33,35,36,36]},
+  ];
+  return(
+    <div style={{display:'flex',gap:5}}>
+      {items.map((it,i)=>(
+        <div key={i} style={{flex:1,background:T.card,padding:'10px 11px 0',display:'flex',flexDirection:'column',...ch(8)}}>
+          <div style={{fontSize:8,fontWeight:600,letterSpacing:'.12em',textTransform:'uppercase',color:T.textSec,marginBottom:2}}>{it.label}</div>
+          <div style={{fontSize:17,fontWeight:800,color:it.color,lineHeight:1,fontVariantNumeric:'tabular-nums'}}>{it.val}</div>
+          <div style={{fontSize:9,color:T.textSec,marginBottom:2}}>{it.sub}</div>
+          <div style={{marginLeft:-11,marginRight:-11}}><Spark data={it.spark} color={it.color} h={22}/></div>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+/* ВОРОНКА полная */
+function FunnelPanel(){
+  const max=FUNNEL[0].v;
+  return(
+    <div style={{background:T.card,padding:'12px 14px',...ch(8)}}>
+      <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:10}}>
+        <span style={{width:14,height:1,background:C.indigo,display:'block'}}/>
+        <span style={{fontSize:9,fontWeight:600,letterSpacing:'.13em',textTransform:'uppercase',color:T.textMut}}>Воронка · Показы → Выкупы</span>
+      </div>
+      {FUNNEL.map((s,i)=>{
+        const pct=Math.round(s.v/max*100);
+        const conv=i>0?Math.round(s.v/FUNNEL[i-1].v*100):null;
+        const convColor=conv===null?null:conv>80?C.emerald:conv>50?C.sun:C.crimson;
+        return(
+          <div key={i} style={{marginBottom:8}}>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:4}}>
+              <span style={{fontSize:11,fontWeight:600,color:s.c,minWidth:64}}>{s.label}</span>
+              <span style={{fontSize:13,fontWeight:800,color:T.text,fontVariantNumeric:'tabular-nums',flex:1}}>{fmtNum(s.v)}</span>
+              {conv!==null&&<span style={{fontSize:11,fontWeight:700,color:convColor,background:hexA(convColor,.12),padding:'1px 7px',...ch(4)}}>→ {conv}%</span>}
+            </div>
+            <div style={{height:18,background:T.border,...ch(5),overflow:'hidden'}}>
+              <div style={{height:'100%',width:pct+'%',background:hexA(s.c,.3),borderLeft:`2px solid ${s.c}`,transition:'width .4s ease'}}/>
+            </div>
+          </div>
+        );
+      })}
+      <div style={{display:'grid',gridTemplateColumns:'1fr 1fr',gap:6,marginTop:10}}>
+        <div style={{background:hexA(C.brand,.07),padding:'8px 10px',...ch(6)}}>
+          <div style={{fontSize:9,color:T.textSec,marginBottom:2}}>Конверсия показы → заказ</div>
+          <div style={{fontSize:18,fontWeight:900,color:C.brand,fontVariantNumeric:'tabular-nums'}}>12.3%</div>
+        </div>
+        <div style={{background:hexA(C.emerald,.07),padding:'8px 10px',...ch(6)}}>
+          <div style={{fontSize:9,color:T.textSec,marginBottom:2}}>Процент выкупа</div>
+          <div style={{fontSize:18,fontWeight:900,color:C.emerald,fontVariantNumeric:'tabular-nums'}}>88.1%</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* ABC полный */
+function AbcPanel(){
+  const groups=[{k:'A',c:C.emerald,label:'Топ 80% выручки'},{k:'B',c:C.sun,label:'Следующие 15%'},{k:'C',c:C.crimson,label:'Аутсайдеры 5%'}];
+  return(
+    <div style={{background:T.card,...ch(8),overflow:'hidden'}}>
+      <div style={{padding:'10px 14px',borderBottom:`1px solid ${T.border}`}}>
+        <div style={{display:'flex',alignItems:'center',gap:6}}>
+          <span style={{width:14,height:1,background:C.emerald,display:'block'}}/>
+          <span style={{fontSize:9,fontWeight:600,letterSpacing:'.13em',textTransform:'uppercase',color:T.textMut}}>ABC-анализ артикулов · {ARTICLES.length} позиций</span>
+        </div>
+      </div>
+      {groups.map(g=>{
+        const grp=ARTICLES.filter(a=>a.abc===g.k);if(!grp.length)return null;
+        return(
+          <Fragment key={g.k}>
+            <div style={{padding:'6px 14px',background:hexA(g.c,.08),borderBottom:`1px solid ${hexA(g.c,.2)}`,display:'flex',alignItems:'center',gap:8}}>
+              <span style={{fontSize:12,fontWeight:800,color:g.c}}>{g.k}</span>
+              <span style={{fontSize:10,color:g.c}}>{g.label}</span>
+              <span style={{fontSize:10,color:T.textMut,marginLeft:'auto'}}>{grp.length} арт.</span>
+            </div>
+            {grp.map((a,ri)=>(
+              <div key={a.id} style={{display:'flex',alignItems:'center',gap:8,padding:'7px 14px',background:ri%2===1?hexA('#fff',.012):T.card,borderBottom:`1px solid ${T.border}`}}>
+                <span style={{display:'inline-flex',alignItems:'center',justifyContent:'center',width:20,height:20,fontSize:10,fontWeight:800,color:g.c,background:hexA(g.c,.15),...ch(4)}}>{a.abc}</span>
+                <div style={{flex:1,minWidth:0}}>
+                  <div style={{fontSize:11,fontWeight:500,color:T.text,overflow:'hidden',textOverflow:'ellipsis',whiteSpace:'nowrap'}}>{a.name}</div>
+                  <div style={{fontSize:9,color:T.textMut}}>{a.brand}</div>
+                </div>
+                <div style={{display:'flex',flexDirection:'column',alignItems:'flex-end',gap:2}}>
+                  <span style={{display:'inline-flex',padding:'1px 6px',fontSize:10,fontWeight:700,color:mc(a.marginPct),background:hexA(mc(a.marginPct),.12),...ch(3)}}>{fmtPct(a.marginPct)}</span>
+                  <span style={{display:'inline-flex',padding:'1px 6px',fontSize:9,fontWeight:600,color:dc(a.drr),background:hexA(dc(a.drr),.1),...ch(3)}}>ДРР {fmtPct(a.drr)}</span>
+                </div>
+                <div style={{flexShrink:0,textAlign:'right',minWidth:38}}>
+                  {a.stock===0
+                    ?<span style={{fontSize:11,fontWeight:700,color:C.crimson}}>СТОП</span>
+                    :<span style={{fontSize:11,fontWeight:700,color:sc(a.stockDays)}}>{a.stockDays}д</span>
+                  }
+                  <div style={{fontSize:9,color:T.textMut}}>{a.stock} шт</div>
+                </div>
+              </div>
+            ))}
+          </Fragment>
+        );
+      })}
+    </div>
+  );
+}
+
+/* КАНБАН ЗАКУПОК */
+function KanbanPanel(){
+  const[selected,setSelected]=useState(null);
+  const order=selected?KANBAN_ORDERS.find(o=>o.id===selected):null;
+
+  return(
+    <div style={{background:T.card,...ch(8),overflow:'hidden'}}>
+      {/* стадии */}
+      <div style={{padding:'8px 14px',borderBottom:`1px solid ${T.border}`,overflowX:'auto'}}>
+        <div style={{display:'flex',gap:2,minWidth:'max-content'}}>
+          {STATUSES.map(s=>{
+            const active=KANBAN_ORDERS.some(o=>o.status===s);
+            const c=STATUS_COLORS[s];
+            return(
+              <div key={s} style={{padding:'3px 8px',fontSize:8,fontWeight:700,letterSpacing:'.08em',background:active?hexA(c,.15):'transparent',color:active?c:T.textMut,borderBottom:active?`2px solid ${c}`:'2px solid transparent'}}>
+                {STATUS_LABELS[s]}
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* карточки закупов */}
+      <div style={{padding:'10px 14px',display:'flex',flexDirection:'column',gap:6}}>
+        {KANBAN_ORDERS.map(o=>(
+          <div key={o.id}
+            onClick={()=>setSelected(selected===o.id?null:o.id)}
+            style={{border:`1px solid ${selected===o.id?hexA(o.color,.4):T.border}`,background:selected===o.id?hexA(o.color,.06):T.bg,padding:'10px 12px',cursor:'pointer',...ch(8),transition:'all .15s'}}>
+            <div style={{display:'flex',alignItems:'center',gap:8,marginBottom:6}}>
+              <span style={{fontSize:9,fontWeight:800,letterSpacing:'.1em',color:o.color,background:hexA(o.color,.12),padding:'2px 7px',...ch(4)}}>{o.statusLabel}</span>
+              <span style={{fontSize:11,fontWeight:600,color:T.text}}>Закуп #{o.id}</span>
+              <span style={{fontSize:10,color:T.textSec}}>{o.brand}</span>
+              <span style={{fontSize:10,color:T.textMut,marginLeft:'auto'}}>{o.month} 2026</span>
+            </div>
+            <div style={{display:'flex',gap:8,flexWrap:'wrap'}}>
+              {o.items.map((it,i)=><span key={i} style={{fontSize:10,color:T.textSec,background:hexA('#fff',.05),padding:'1px 6px',...ch(3)}}>{it}</span>)}
+              {o.qty>0&&<span style={{fontSize:10,color:T.textMut}}>{fmtNum(o.qty)} шт</span>}
+              {o.sumRub>0&&<span style={{fontSize:10,fontWeight:700,color:C.brand,marginLeft:'auto'}}>{fmtK(o.sumRub)}</span>}
+            </div>
+
+            {selected===o.id&&(
+              <div style={{marginTop:10,borderTop:`1px solid ${T.border}`,paddingTop:10}}>
+                {/* прогресс стадий */}
+                <div style={{display:'flex',gap:1,marginBottom:10,height:3}}>
+                  {STATUSES.filter(s=>s!=='closed').map(s=>{
+                    const done=STATUSES.indexOf(s)<=STATUSES.indexOf(o.status);
+                    return<div key={s} style={{flex:1,background:done?o.color:T.border,transition:'background .3s'}}/>;
+                  })}
+                </div>
+
+                {/* грузы */}
+                {o.cargos.length>0&&(
+                  <div style={{marginBottom:8}}>
+                    <div style={{fontSize:9,fontWeight:600,letterSpacing:'.1em',textTransform:'uppercase',color:T.textMut,marginBottom:5}}>Грузы</div>
+                    {o.cargos.map((cargo,i)=>(
+                      <div key={i} style={{display:'flex',alignItems:'center',gap:8,padding:'5px 0',borderBottom:`1px solid ${T.border}`}}>
+                        <div style={{width:7,height:7,borderRadius:50,background:cargo.arrived?C.emerald:C.sun,flexShrink:0}}/>
+                        <span style={{fontSize:11,color:T.text,flex:1}}>{cargo.label}</span>
+                        <span style={{fontSize:10,fontWeight:600,color:cargo.arrived?C.emerald:C.sun}}>{cargo.arrived?'✓ Прибыл':'В пути'}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {/* поставки */}
+                {o.deliveries.length>0&&(
+                  <div>
+                    <div style={{fontSize:9,fontWeight:600,letterSpacing:'.1em',textTransform:'uppercase',color:T.textMut,marginBottom:5}}>Поставки на ВБ</div>
+                    {o.deliveries.map((d,i)=>(
+                      <div key={i} style={{display:'flex',alignItems:'center',gap:8,padding:'5px 0',borderBottom:`1px solid ${T.border}`}}>
+                        <span style={{fontSize:10,color:T.textMut,fontVariantNumeric:'tabular-nums'}}>{d.num}</span>
+                        <span style={{fontSize:11,color:T.text,flex:1}}>{d.warehouse}</span>
+                        <span style={{fontSize:10,fontWeight:600,color:d.status.includes('✓')?C.emerald:C.sun}}>{d.status}</span>
+                      </div>
+                    ))}
+                  </div>
+                )}
+
+                {o.cargos.length===0&&o.deliveries.length===0&&(
+                  <div style={{fontSize:11,color:T.textMut,textAlign:'center',padding:'8px 0'}}>Грузы и поставки ещё не добавлены</div>
+                )}
+              </div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  );
+}
+
+/* ЛОКАЛИЗАЦИЯ */
+function LocalPanel(){
+  return(
+    <div style={{background:T.card,...ch(8),overflow:'hidden'}}>
+      <div style={{padding:'10px 14px',borderBottom:`1px solid ${T.border}`}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <div style={{display:'flex',alignItems:'center',gap:6}}>
+            <span style={{width:14,height:1,background:C.teal,display:'block'}}/>
+            <span style={{fontSize:9,fontWeight:600,letterSpacing:'.13em',textTransform:'uppercase',color:T.textMut}}>Индекс локализации · апрель 2026</span>
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:6}}>
+            <span style={{fontSize:9,color:T.textMut}}>ИЛ</span>
+            <span style={{fontSize:16,fontWeight:900,color:C.sun,fontVariantNumeric:'tabular-nums'}}>1.14</span>
+            <span style={{fontSize:10,color:T.textMut}}>умеренный</span>
+          </div>
+        </div>
+      </div>
+      <div style={{padding:'10px 14px'}}>
+        <div style={{display:'grid',gridTemplateColumns:'1fr auto auto auto',gap:'4px 12px',marginBottom:8}}>
+          <div style={{fontSize:8,fontWeight:600,letterSpacing:'.1em',textTransform:'uppercase',color:T.textMut}}>Регион</div>
+          <div style={{fontSize:8,fontWeight:600,letterSpacing:'.1em',textTransform:'uppercase',color:T.textMut,textAlign:'right'}}>Нас.</div>
+          <div style={{fontSize:8,fontWeight:600,letterSpacing:'.1em',textTransform:'uppercase',color:T.textMut,textAlign:'right'}}>Наш %</div>
+          <div style={{fontSize:8,fontWeight:600,letterSpacing:'.1em',textTransform:'uppercase',color:T.textMut,textAlign:'right'}}>ИЛ</div>
+        </div>
+        {REGIONS.map((r,i)=>{
+          const il=r.shareUs>0?(r.shareWb/r.shareUs).toFixed(2):0;
+          const ilV=parseFloat(il);
+          const localPctColor=r.localPct>80?C.emerald:r.localPct>30?C.sun:C.crimson;
+          return(
+            <div key={i} style={{display:'grid',gridTemplateColumns:'1fr auto auto auto',gap:'4px 12px',padding:'6px 0',borderBottom:`1px solid ${T.border}`}}>
+              <div>
+                <div style={{fontSize:11,fontWeight:500,color:T.text}}>{r.label}</div>
+                {/* локализация бар */}
+                <div style={{display:'flex',alignItems:'center',gap:5,marginTop:3}}>
+                  <div style={{flex:1,height:3,background:T.border,...ch(2)}}>
+                    <div style={{height:'100%',width:Math.min(r.localPct,100)+'%',background:localPctColor,...ch(2)}}/>
+                  </div>
+                  <span style={{fontSize:9,color:localPctColor,fontVariantNumeric:'tabular-nums',minWidth:32}}>{r.localPct}%</span>
+                </div>
+              </div>
+              <div style={{textAlign:'right',fontSize:11,color:T.textSec,alignSelf:'center',fontVariantNumeric:'tabular-nums'}}>{fmtNum(r.stock)}</div>
+              <div style={{textAlign:'right',fontSize:11,fontWeight:600,color:T.text,alignSelf:'center',fontVariantNumeric:'tabular-nums'}}>{r.shareUs}%</div>
+              <div style={{textAlign:'right',alignSelf:'center'}}>
+                <span style={{display:'inline-flex',padding:'1px 6px',fontSize:10,fontWeight:700,color:ilC(ilV),background:hexA(ilC(ilV),.12),...ch(3)}}>{il}</span>
+              </div>
+            </div>
+          );
+        })}
+        <div style={{marginTop:10,padding:'8px 10px',background:hexA(C.crimson,.07),border:`1px solid ${hexA(C.crimson,.2)}`,...ch(6)}}>
+          <div style={{fontSize:10,fontWeight:600,color:C.crimson,marginBottom:3}}>⚠ Приоритет: довезти в регионы</div>
+          <div style={{fontSize:10,color:T.textSec}}>Дальневост+Сиб: ИЛ 1.01, локализация 2.8% — нужна поставка в Новосибирск. Приволжский: локализация 7.1% при доле 14.8%.</div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/* СТРУКТУРА */
+function StructPanel(){
+  const sales=4200000,nagr=1310400,profit=1470000;
+  const nagrPct=+(nagr/sales*100).toFixed(1);
+  const profPct=+(profit/sales*100).toFixed(1);
+  const sebPct=+(100-nagrPct-profPct).toFixed(1);
+  const segs=[{l:'Нагрузка ВБ',p:nagrPct,c:C.crimson,t:30},{l:'Прибыль (до себеса)',p:profPct,c:C.emerald,t:40},{l:'Себес',p:sebPct,c:C.slate,t:30}];
+  return(
+    <div style={{background:T.card,padding:'10px 14px',...ch(8)}}>
+      <div style={{display:'flex',alignItems:'center',gap:6,marginBottom:8}}>
+        <span style={{width:14,height:1,background:C.brand,display:'block'}}/>
+        <span style={{fontSize:9,fontWeight:600,letterSpacing:'.13em',textTransform:'uppercase',color:T.textMut}}>Куда ушёл рубль · цель 30/40/30</span>
+        <span style={{fontSize:10,color:T.textMut,marginLeft:'auto'}}>Маржа: <span style={{color:mc(18.4),fontWeight:700}}>18.4%</span></span>
+      </div>
+      <div style={{display:'flex',height:22,gap:1,marginBottom:8,...ch(6),overflow:'hidden'}}>
+        {segs.map((s,i)=><div key={i} style={{width:s.p+'%',background:hexA(s.c,.3),display:'flex',alignItems:'center',justifyContent:'center',minWidth:s.p>9?'auto':0}}>{s.p>12&&<span style={{fontSize:9,fontWeight:700,color:s.c}}>{s.p.toFixed(0)}%</span>}</div>)}
+      </div>
+      {segs.map((s,i)=>{
+        const diff=s.p-s.t;
+        return(
+          <div key={i} style={{display:'flex',alignItems:'center',gap:7,marginBottom:4}}>
+            <span style={{width:8,height:8,background:hexA(s.c,.35),border:`1px solid ${s.c}`,flexShrink:0,...ch(2)}}/>
+            <span style={{fontSize:11,color:T.textSec,flex:1}}>{s.l}</span>
+            <span style={{fontSize:12,fontWeight:700,color:s.c,fontVariantNumeric:'tabular-nums'}}>{s.p.toFixed(1)}%</span>
+            <span style={{fontSize:9,color:T.textMut}}>цель {s.t}%</span>
+            <span style={{fontSize:9,fontWeight:600,color:Math.abs(diff)<3?C.emerald:diff>0&&i===0?C.crimson:diff<0&&i>0?C.crimson:C.sun}}>{diff>0?'+':''}{diff.toFixed(1)}пп</span>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+function Dashboard(){
+  const[tab,setTab]=useState('overview');
+  const TABS=[['overview','Обзор'],['funnel','Воронка'],['abc','ABC'],['kanban','Закупки'],['local','Склады']];
+  const TBTN={height:24,padding:'0 9px',fontSize:9,fontWeight:600,letterSpacing:'.07em',textTransform:'uppercase',border:'none',cursor:'pointer',fontFamily:'Inter,sans-serif',transition:'all .12s'};
+
+  return(
+    <div style={{background:T.bg,fontFamily:'Inter,sans-serif'}}>
+
+      {/* header */}
+      <div style={{background:T.card,borderBottom:`1px solid ${T.border}`,padding:'0 14px'}}>
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between',height:40}}>
+          <span style={{fontSize:10,fontWeight:700,letterSpacing:'.1em',color:T.textSec}}>WB АНАЛИТИКА · 3 бренда</span>
+          <div style={{display:'flex',gap:1,background:'#0D0D0D',padding:2,...ch(5)}}>
+            {TABS.map(([k,l])=>{const a=tab===k;return<button key={k} onClick={()=>setTab(k)} style={{...TBTN,background:a?'#3F6EE8':'transparent',color:a?'#fff':T.textSec,...ch(4)}}>{l}</button>;})}
+          </div>
+        </div>
+      </div>
+
+      <div style={{padding:'10px 14px',display:'flex',flexDirection:'column',gap:7}}>
+
+        <KpiRow/>
+
+        {tab==='overview'&&(
+          <>
+            <StructPanel/>
+            <AbcPanel/>
+          </>
+        )}
+        {tab==='funnel'&&<FunnelPanel/>}
+        {tab==='abc'&&<AbcPanel/>}
+        {tab==='kanban'&&<KanbanPanel/>}
+        {tab==='local'&&<LocalPanel/>}
+
+        <div style={{display:'flex',alignItems:'center',justifyContent:'space-between'}}>
+          <span style={{fontSize:8,color:T.textMut}}>WB API · данные изменены · NDA</span>
+          <div style={{display:'flex',alignItems:'center',gap:4}}><div style={{width:5,height:5,borderRadius:'50%',background:C.emerald}}/><span style={{fontSize:8,color:T.textMut}}>live</span></div>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('dash-root')).render(<Dashboard/>);
+</script>
+</body>
+</html>

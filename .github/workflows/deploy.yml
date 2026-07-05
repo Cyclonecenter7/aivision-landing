@@ -28,7 +28,10 @@ jobs:
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
             echo "PUBLIC_ENV=development" >> $GITHUB_ENV
             echo "PUBLIC_SITE_URL=https://aivisiontest.ru" >> $GITHUB_ENV
-            echo "PUBLIC_API_URL=https://api.aivisiontest.ru" >> $GITHUB_ENV
+            echo "PUBLIC_API_URL=https://admin.aivisiontest.ru" >> $GITHUB_ENV
+            # PUBLIC keyed-ingest token by design: ships in the client bundle,
+            # rate-limited server-side, so a plain env var in the dev build is fine.
+            echo "PUBLIC_INGEST_KEY=av_dev_100b8251f21fc6f0a9ff2012addb34429f213b72" >> $GITHUB_ENV
           fi
 
       - name: Build (Astro)

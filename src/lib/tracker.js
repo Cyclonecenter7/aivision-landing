@@ -104,13 +104,25 @@ export function trackClick(element_text, element_id = '', source_block = '') {
 }
 
 export async function saveLead({ name, contact, contact_type, source_block, website }) {
-  const tracking = getTrackingData();
+  const t = getTrackingData();
   let res;
   try {
-    res = await fetch(`${API_BASE}/api/leads`, {
+    res = await fetch(`${API_BASE}/api/v1/ingest/leads`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, contact, contact_type, source_block, website, status: 'new', ...tracking }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Ingest-Key': import.meta.env.PUBLIC_INGEST_KEY,
+      },
+      body: JSON.stringify({
+        contact,
+        name,
+        contact_type,
+        source_block,
+        utm_source: t.utm_source,
+        utm_medium: t.utm_medium,
+        utm_campaign: t.utm_campaign,
+        website, // honeypot — humans leave empty
+      }),
     });
   } catch (netErr) {
     throw new Error('Нет связи. Проверь интернет и попробуй снова.');

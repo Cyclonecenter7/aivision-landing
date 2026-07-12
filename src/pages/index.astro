@@ -5,7 +5,6 @@ import { SEO, seoUrl } from '@/lib/seo';
 // Композиция главной под 9 блоков ТЗ (v2 драфт):
 // Hero · Соц-бар · Чек-лист · Что получите · Как работаем · Цены · Кейсы · FAQ · Форма
 import Hero from '@/components/v2/Hero.astro';
-import SocialProof from '@/components/v2/SocialProof.astro';
 import Diagnostic from '@/components/v2/Diagnostic.astro';
 import WhatYouGet from '@/components/v2/WhatYouGet.astro';
 import HowWeWork from '@/components/v2/HowWeWork.astro';
@@ -30,7 +29,6 @@ const seo = SEO.home;
   robots={seo.robots}
 >
   <Hero />
-  <SocialProof />
   <Diagnostic />
   <WhatYouGet />
   <HowWeWork />

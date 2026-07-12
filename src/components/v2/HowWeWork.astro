@@ -84,26 +84,27 @@ const DAYS = [
           в&nbsp;похожих внедрениях.
         </p>
       </div>
-    </div>
 
-    <div class="hww-closing">
-      <p class="hww-closing-text">
-        Внедряем функцию управления <strong>под ключ</strong>, без нагрузки на&nbsp;вашу
-        команду. Подготовка, миграция, настройка и&nbsp;обучение полностью
-        на&nbsp;стороне команды AIVISION.
-      </p>
-      <div class="hww-invest">
-        <div class="hww-inv">
-          <span class="hww-inv-val">30 минут</span>
-          <span class="hww-inv-lab">на диагностику</span>
-        </div>
-        <div class="hww-inv">
-          <span class="hww-inv-val">2–3 часа</span>
-          <span class="hww-inv-lab">на внедрение за весь период</span>
-        </div>
-        <div class="hww-inv">
-          <span class="hww-inv-val">30 минут / мес</span>
-          <span class="hww-inv-lab">на статус-звонки</span>
+      <!-- 5-я ячейка · участие клиента (заполняет пустой угол сетки) -->
+      <div class="hww-invest-card">
+        <p class="hww-invest-lead">
+          Внедряем функцию управления <strong>под ключ</strong>, без нагрузки
+          на&nbsp;вашу команду. Подготовка, миграция, настройка и&nbsp;обучение&nbsp;—
+          на&nbsp;стороне AIVISION.
+        </p>
+        <div class="hww-invest">
+          <div class="hww-inv">
+            <span class="hww-inv-val">30 минут</span>
+            <span class="hww-inv-lab">на диагностику</span>
+          </div>
+          <div class="hww-inv">
+            <span class="hww-inv-val">2–3 часа</span>
+            <span class="hww-inv-lab">на внедрение</span>
+          </div>
+          <div class="hww-inv">
+            <span class="hww-inv-val">30 мин/мес</span>
+            <span class="hww-inv-lab">на статус-звонки</span>
+          </div>
         </div>
       </div>
     </div>
@@ -209,31 +210,29 @@ const DAYS = [
     color: var(--l-text-sec);
   }
 
-  .hww-closing {
-    margin-top: 12px;
+  .hww-invest-card {
     background: #0A0A0A;
     color: #fff;
-    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
-    padding: 34px 40px;
-    display: grid;
-    grid-template-columns: 1fr auto;
-    gap: 44px;
-    align-items: center;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);
+    padding: 26px 26px 28px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    gap: 22px;
   }
-  .hww-closing-text {
-    font-size: 16px;
-    line-height: 1.6;
+  .hww-invest-lead {
+    font-size: 14px;
+    line-height: 1.55;
     color: #C4C4C4;
-    max-width: 560px;
   }
-  .hww-closing-text strong { color: var(--brand); font-weight: 700; }
+  .hww-invest-lead strong { color: var(--brand); font-weight: 700; }
   .hww-invest {
     display: flex;
-    gap: 28px;
+    gap: 18px;
   }
   .hww-inv { display: flex; flex-direction: column; gap: 4px; }
   .hww-inv-val {
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 800;
     color: #fff;
     font-variant-numeric: tabular-nums;
@@ -241,10 +240,9 @@ const DAYS = [
     white-space: nowrap;
   }
   .hww-inv-lab {
-    font-size: 11px;
+    font-size: 10px;
     color: #8A8A8A;
-    line-height: 1.35;
-    max-width: 130px;
+    line-height: 1.3;
   }
 
   @media (max-width: 768px) {
@@ -253,12 +251,7 @@ const DAYS = [
     .hww-step-wide { grid-row: auto; }
     .hww-step { padding: 22px 20px; }
     .hww-day { grid-template-columns: 68px 1fr; gap: 10px; }
-    .hww-closing {
-      grid-template-columns: 1fr;
-      gap: 24px;
-      padding: 26px 22px;
-    }
-    .hww-invest { flex-direction: column; gap: 16px; }
-    .hww-inv-lab { max-width: none; }
+    .hww-invest-card { padding: 22px 20px; }
+    .hww-invest { gap: 14px; flex-wrap: wrap; }
   }
 </style>

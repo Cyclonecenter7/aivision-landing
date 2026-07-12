@@ -5,6 +5,7 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
   const [name, setName] = useState('');
   const [mode, setMode] = useState('telegram');
   const [contact, setContact] = useState('');
+  const [revenue, setRevenue] = useState('');
   const [consent, setConsent] = useState(true);
   const [website, setWebsite] = useState('');
   const [sent, setSent] = useState(false);
@@ -52,6 +53,7 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
         contact: preparedContact,
         contact_type: isPhone ? 'phone' : 'telegram',
         source_block: sourceBlock,
+        turnover: revenue,
         website,
       });
       setSent(true);
@@ -144,6 +146,38 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
           onChange={(e) => setContact(e.target.value)}
           required
         />
+      </div>
+
+      <div className="cta-field">
+        <div className="cta-field-lab">Оборот в месяц</div>
+        <select
+          className="cta-input"
+          value={revenue}
+          onChange={(e) => setRevenue(e.target.value)}
+          style={{
+            appearance: 'none',
+            WebkitAppearance: 'none',
+            MozAppearance: 'none',
+            paddingRight: 40,
+            backgroundImage:
+              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\")",
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'right 14px center',
+            color: revenue ? undefined : '#BDBDBD',
+            cursor: 'pointer',
+          }}
+        >
+          <option value="">Выберите диапазон</option>
+          <option value="до 10 млн ₽">до 10 млн ₽</option>
+          <option value="10–25 млн ₽">10–25 млн ₽</option>
+          <option value="25–50 млн ₽">25–50 млн ₽</option>
+          <option value="50–100 млн ₽">50–100 млн ₽</option>
+          <option value="100+ млн ₽">100+ млн ₽</option>
+        </select>
+        <div className="cta-hint">
+          Это помогает заранее понять, подходит&nbsp;ли AIVISION под ваш масштаб,
+          и не тратить ваше время на неподходящее решение.
+        </div>
       </div>
 
       <label className="cta-consent">

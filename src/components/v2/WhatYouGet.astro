@@ -1,0 +1,238 @@
+---
+// Блок 4 · Что вы получите. Платформа + кастомизация.
+import DashboardSlider from '@/components/islands/DashboardSlider.jsx';
+
+const CARDS = [
+  {
+    num: '01',
+    title: 'Видеть деньги',
+    body: 'Вся нужная информация всегда под рукой и обновляется в реальном времени: маржа, платежи, расходы и риски кассового разрыва. Не ждите, пока кто-то пересоберёт таблицы: интеграция CRM с сайтом помогает связать заявки, сделки и оплату, а вы смотрите маржу по направлениям, проектам и менеджерам с телефона в 9 утра по пути на работу. Принимайте решения на основе наглядного дашборда для бизнеса с актуальными данными.',
+    modules: ['Финансы', 'P&L', 'Платежи', 'Дашборды собственника', 'Заявки с сайта', 'CRM', 'Интеграции'],
+  },
+  {
+    num: '02',
+    title: 'Контролировать команду',
+    body: 'Все процессы видны в системе. Сделки, переписки, задачи и договорённости больше не остаются в головах сотрудников, личных таблицах или записных книжках. Команда понимает, какие шаги нужно делать дальше.',
+    modules: ['CRM', 'Задачи', 'Регламенты', 'Воронки', 'Роли', 'Уведомления', 'История изменений', 'Интеграции'],
+  },
+  {
+    num: '03',
+    title: 'Управлять ростом',
+    body: 'Причины роста или стагнации становятся понятны. Маржа упала на 8%? Не опирайтесь на интуицию: смотрите, что изменилось — выросла стоимость материалов, изменились издержки переменные и постоянные, растянулся цикл сделки или появились лишние ручные операции. Корректируйте процессы на основе фактов.',
+    modules: [],
+  },
+];
+---
+<section id="platform" class="bg-dark section wyg-sect">
+  <div class="container">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Платформа</span>
+    </div>
+
+    <div class="wyg-head">
+      <h2 class="wyg-h2">Посмотрите на свой бизнес <em>по-новому</em> с&nbsp;AIVISION</h2>
+      <p class="wyg-lead">
+        Всё, что вам важно знать, собрано в&nbsp;одной технологической платформе:
+        потоки информации из&nbsp;CRM, учёта, сайта и&nbsp;задач превращаются
+        в&nbsp;понятные инсайты для принятия решений на&nbsp;основе данных.
+      </p>
+    </div>
+  </div>
+
+  <div class="wyg-screen">
+    <DashboardSlider variant="platform" client:visible />
+  </div>
+
+  <div class="container">
+    <div class="wyg-grid">
+      {CARDS.map((c) => (
+        <div class="wyg-card">
+          <div class="wyg-card-top">
+            <span class="wyg-card-num">{c.num}</span>
+            <h3 class="wyg-card-title">{c.title}</h3>
+          </div>
+          <p class="wyg-card-body">{c.body}</p>
+          {c.modules.length > 0 && (
+            <div class="wyg-mods">
+              <span class="wyg-mods-lab">Модули</span>
+              <div class="wyg-mods-row">
+                {c.modules.map((m) => <span class="wyg-mod">{m}</span>)}
+              </div>
+            </div>
+          )}
+        </div>
+      ))}
+    </div>
+
+    <div class="wyg-cst">
+      <div class="wyg-cst-eb">
+        <span class="wyg-cst-eb-line"></span>
+        Кастомизация
+      </div>
+      <p class="wyg-cst-text">
+        Платформа AIVISION адаптируется под ваш бизнес, не&nbsp;ломая текущие процессы.
+        Несколько юрлиц, разные направления, интеграция систем учёта, ручные расчёты
+        и&nbsp;другие особенности настраиваются на&nbsp;этапе внедрения&nbsp;—
+        <strong>без программистов и&nbsp;без остановки работы компании.</strong>
+      </p>
+      <a
+        class="btn btn-on-dark wyg-cta"
+        href="/demo/"
+        target="_blank"
+        rel="noopener"
+        data-track="whatyouget_demo"
+        data-track-block="platform"
+      >
+        Посмотреть демо-кабинет
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wyg-head { max-width: 780px; margin-bottom: 40px; }
+  .wyg-h2 {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.12;
+    letter-spacing: -0.02em;
+    color: var(--d-text);
+    margin-bottom: 16px;
+  }
+  .wyg-h2 em { font-style: normal; color: var(--brand); }
+  .wyg-lead {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--d-text-sec);
+  }
+
+  .wyg-screen {
+    max-width: 1200px;
+    margin: 0 auto 56px;
+  }
+
+  .wyg-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .wyg-card {
+    background: var(--d-surface);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);
+    padding: 28px 26px 26px;
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+    transition: background 0.16s;
+  }
+  .wyg-card::before {
+    content: '';
+    position: absolute;
+    left: 0; top: 0;
+    width: 2px; height: 0;
+    background: var(--brand);
+    transition: height 0.22s ease;
+  }
+  .wyg-card:hover { background: var(--d-surface-alt); }
+  .wyg-card:hover::before { height: 100%; }
+
+  .wyg-card-top {
+    display: flex;
+    align-items: baseline;
+    gap: 12px;
+    margin-bottom: 14px;
+  }
+  .wyg-card-num {
+    font-size: 13px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--brand);
+    letter-spacing: 0.05em;
+  }
+  .wyg-card-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--d-text);
+    letter-spacing: -0.01em;
+  }
+  .wyg-card-body {
+    font-size: 14px;
+    line-height: 1.65;
+    color: var(--d-text-sec);
+    margin-bottom: 20px;
+    flex-grow: 1;
+  }
+
+  .wyg-mods {
+    border-top: 1px solid var(--d-border);
+    padding-top: 16px;
+    margin-top: auto;
+  }
+  .wyg-mods-lab {
+    display: block;
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--d-text-mut);
+    margin-bottom: 10px;
+  }
+  .wyg-mods-row { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wyg-mod {
+    font-size: 11px;
+    font-weight: 600;
+    color: var(--d-text-sec);
+    background: var(--d-surface-alt);
+    padding: 5px 10px 6px;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);
+    white-space: nowrap;
+  }
+
+  .wyg-cst {
+    margin-top: 12px;
+    background: linear-gradient(120deg, rgba(63,110,232,0.10), rgba(63,110,232,0.02));
+    box-shadow: inset 0 0 0 1px rgba(63,110,232,0.25);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+    padding: 32px 36px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+  .wyg-cst-eb {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .wyg-cst-eb-line { width: 20px; height: 2px; background: var(--brand); }
+  .wyg-cst-text {
+    font-size: 17px;
+    line-height: 1.6;
+    color: var(--d-text);
+    max-width: 900px;
+    font-weight: 500;
+    letter-spacing: -0.01em;
+  }
+  .wyg-cst-text strong { color: var(--brand); font-weight: 700; }
+
+  @media (max-width: 768px) {
+    .wyg-h2 { font-size: 27px; }
+    .wyg-screen { margin-bottom: 36px; }
+    .wyg-grid { grid-template-columns: 1fr; }
+    .wyg-card { padding: 24px 20px; }
+    .wyg-cst { padding: 26px 22px; }
+    .wyg-cst-text { font-size: 15px; }
+    .wyg-cta { width: 100%; justify-content: center; }
+  }
+</style>

@@ -1,84 +1,266 @@
 ---
+// Блок 5 · Как мы работаем. Сроки и участие клиента.
+const DAYS = [
+  ['День 1–2', 'Собираем данные из всех источников, уточняем воронки, роли и зоны ответственности.'],
+  ['День 3–5', 'Настраиваем платформу под ваши задачи, процессы и правила работы.'],
+  ['День 7', 'Открываем доступ к дашборду собственника. Уже на этом этапе клиенты часто находят 1–3 убыточных направления, которые можно оптимизировать.'],
+];
 ---
-<section id="how" class="bg-dark section">
-  <div class="how-head">
+<section id="how" class="bg-light section hww-sect">
+  <div class="container">
     <div class="eyebrow">
       <div class="eyebrow-line"></div>
       <span class="eyebrow-text">Как работаем</span>
     </div>
-    <h2 class="how-h2">От <em>диагностики</em> до работающей<br />системы управления</h2>
-  </div>
 
-  <div class="how-flow">
-    <div class="how-step">
-      <div class="how-step-top">
-        <span class="how-step-num">01 · Диагностика</span>
-        <span class="how-step-time">30 мин</span>
+    <div class="hww-head">
+      <h2 class="hww-h2">Как мы <em>работаем</em></h2>
+      <p class="hww-lead">
+        Ваш бизнес продолжает работать в&nbsp;штатном режиме, пока команда AIVISION
+        собирает нужные данные, настраивает решение, проводит обучение
+        и&nbsp;готовит запуск платформы.
+      </p>
+    </div>
+
+    <div class="hww-grid">
+      <!-- 01 Диагностика -->
+      <div class="hww-step">
+        <div class="hww-step-top">
+          <span class="hww-step-num">01</span>
+          <span class="hww-step-time">30 минут</span>
+        </div>
+        <div class="hww-step-title">Диагностика</div>
+        <p class="hww-step-desc">
+          За&nbsp;30&nbsp;минут разбираем процессы, команду, текущие системы
+          и&nbsp;таблицы. Рассказываем, как AIVISION упростит управление
+          и&nbsp;какие блоки нужно запускать в&nbsp;первую очередь.
+        </p>
       </div>
-      <div class="how-step-title">Разбор бизнеса</div>
-      <div class="how-step-desc">
-        30 минут разговора. Разбираем где собственник теряет управление —
-        в видимости, контроле или управляемости.
+
+      <!-- 02 Внедрение (с таймлайном) -->
+      <div class="hww-step hww-step-wide">
+        <div class="hww-step-top">
+          <span class="hww-step-num">02</span>
+          <span class="hww-step-time">7 дней</span>
+        </div>
+        <div class="hww-step-title">Внедрение</div>
+        <p class="hww-step-desc">
+          Через 7&nbsp;дней вы видите реальную картину бизнеса в&nbsp;одном дашборде.
+        </p>
+        <div class="hww-days">
+          {DAYS.map(([d, t]) => (
+            <div class="hww-day">
+              <span class="hww-day-lbl">{d}</span>
+              <span class="hww-day-txt">{t}</span>
+            </div>
+          ))}
+        </div>
       </div>
-      <div class="how-step-foot">
-        <span class="how-step-price-lab">Стоимость</span>
-        <span class="how-step-price-val">бесплатно</span>
+
+      <!-- 03 Стабилизация -->
+      <div class="hww-step">
+        <div class="hww-step-top">
+          <span class="hww-step-num">03</span>
+          <span class="hww-step-time">1 месяц</span>
+        </div>
+        <div class="hww-step-title">Стабилизация</div>
+        <p class="hww-step-desc">
+          В&nbsp;течение месяца проверяем, как команда пользуется платформой,
+          настраиваем поля под реальные сценарии, фиксируем правила работы
+          и&nbsp;помогаем перевести контроль процессов из&nbsp;переписок в&nbsp;AIVISION.
+        </p>
+      </div>
+
+      <!-- 04 Поддержка -->
+      <div class="hww-step">
+        <div class="hww-step-top">
+          <span class="hww-step-num">04</span>
+          <span class="hww-step-time">раз в месяц</span>
+        </div>
+        <div class="hww-step-title">Поддержка</div>
+        <p class="hww-step-desc">
+          Раз в&nbsp;месяц смотрим, что изменилось в&nbsp;бизнесе, и&nbsp;донастраиваем
+          платформу с&nbsp;учётом ваших отзывов и&nbsp;опыта команды AIVISION
+          в&nbsp;похожих внедрениях.
+        </p>
       </div>
     </div>
 
-    <div class="how-step">
-      <div class="how-step-top">
-        <span class="how-step-num">02 · Конфигурация и внедрение</span>
-        <span class="how-step-time">1–6 нед</span>
+    <div class="hww-closing">
+      <p class="hww-closing-text">
+        Внедряем функцию управления <strong>под ключ</strong>, без нагрузки на&nbsp;вашу
+        команду. Подготовка, миграция, настройка и&nbsp;обучение полностью
+        на&nbsp;стороне команды AIVISION.
+      </p>
+      <div class="hww-invest">
+        <div class="hww-inv">
+          <span class="hww-inv-val">30 минут</span>
+          <span class="hww-inv-lab">на диагностику</span>
+        </div>
+        <div class="hww-inv">
+          <span class="hww-inv-val">2–3 часа</span>
+          <span class="hww-inv-lab">на внедрение за весь период</span>
+        </div>
+        <div class="hww-inv">
+          <span class="hww-inv-val">30 минут / мес</span>
+          <span class="hww-inv-lab">на статус-звонки</span>
+        </div>
       </div>
-      <div class="how-step-title">Платформа под задачу</div>
-      <div class="how-step-desc">
-        Конфигурация под клиента. Базовый запуск — 1 неделя.
-        Полная стабилизация — 4–6 недель.
-      </div>
-      <div class="how-step-foot">
-        <span class="how-step-price-lab">Стоимость</span>
-        <span class="how-step-price-val">от 200 000 ₽</span>
-      </div>
-    </div>
-
-    <div class="how-step">
-      <div class="how-step-top">
-        <span class="how-step-num">03 · Стабилизация</span>
-        <span class="how-step-time">1 мес</span>
-      </div>
-      <div class="how-step-title">Команда привыкает</div>
-      <div class="how-step-desc">
-        Обратная связь, донастройка, помощь команде клиента.
-        Этот месяц поддержки — без оплаты.
-      </div>
-      <div class="how-step-foot">
-        <span class="how-step-price-lab">Стоимость</span>
-        <span class="how-step-price-val">0 ₽</span>
-      </div>
-    </div>
-
-    <div class="how-step">
-      <div class="how-step-top">
-        <span class="how-step-num">04 · Жизнь системы</span>
-        <span class="how-step-time">с 2-го мес</span>
-      </div>
-      <div class="how-step-title">Поддержка и развитие</div>
-      <div class="how-step-desc">
-        Технические обновления, донастройки под изменения бизнеса,
-        консультационный созвон раз в месяц.
-      </div>
-      <div class="how-step-foot">
-        <span class="how-step-price-lab">Поддержка</span>
-        <span class="how-step-price-val">от 25 000 ₽/мес</span>
-      </div>
-    </div>
-  </div>
-
-  <div class="how-closing">
-    <div class="how-closing-text">
-      Управленческая система — <em>это не статика.</em><br />
-      Каждый месяц бизнес меняется. Система меняется вместе с ним.
     </div>
   </div>
 </section>
+
+<style>
+  .hww-head { max-width: 720px; margin-bottom: 40px; }
+  .hww-h2 {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--l-text);
+    margin-bottom: 16px;
+  }
+  .hww-h2 em { font-style: normal; color: var(--brand); }
+  .hww-lead {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--l-text-sec);
+  }
+
+  .hww-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .hww-step-wide { grid-row: span 2; }
+
+  .hww-step {
+    background: var(--l-surface);
+    box-shadow: inset 0 0 0 1px var(--l-border);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);
+    padding: 26px 26px 28px;
+    display: flex;
+    flex-direction: column;
+    transition: box-shadow 0.16s;
+  }
+  .hww-step:hover { box-shadow: inset 0 0 0 1px var(--l-border-strong); }
+
+  .hww-step-top {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 16px;
+  }
+  .hww-step-num {
+    font-size: 13px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--brand);
+    letter-spacing: 0.05em;
+  }
+  .hww-step-time {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--l-text-mut);
+    background: var(--l-surface-alt);
+    padding: 5px 10px 6px;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);
+  }
+  .hww-step-title {
+    font-size: 20px;
+    font-weight: 700;
+    color: var(--l-text);
+    letter-spacing: -0.01em;
+    margin-bottom: 10px;
+  }
+  .hww-step-desc {
+    font-size: 14px;
+    line-height: 1.6;
+    color: var(--l-text-sec);
+  }
+
+  .hww-days {
+    margin-top: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+  .hww-day {
+    display: grid;
+    grid-template-columns: 88px 1fr;
+    gap: 14px;
+    align-items: start;
+    background: var(--l-surface-alt);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);
+    padding: 14px 16px;
+  }
+  .hww-day-lbl {
+    font-size: 12px;
+    font-weight: 800;
+    color: var(--brand);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: 0.01em;
+    padding-top: 1px;
+  }
+  .hww-day-txt {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--l-text-sec);
+  }
+
+  .hww-closing {
+    margin-top: 12px;
+    background: #0A0A0A;
+    color: #fff;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+    padding: 34px 40px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 44px;
+    align-items: center;
+  }
+  .hww-closing-text {
+    font-size: 16px;
+    line-height: 1.6;
+    color: #C4C4C4;
+    max-width: 560px;
+  }
+  .hww-closing-text strong { color: var(--brand); font-weight: 700; }
+  .hww-invest {
+    display: flex;
+    gap: 28px;
+  }
+  .hww-inv { display: flex; flex-direction: column; gap: 4px; }
+  .hww-inv-val {
+    font-size: 20px;
+    font-weight: 800;
+    color: #fff;
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.01em;
+    white-space: nowrap;
+  }
+  .hww-inv-lab {
+    font-size: 11px;
+    color: #8A8A8A;
+    line-height: 1.35;
+    max-width: 130px;
+  }
+
+  @media (max-width: 768px) {
+    .hww-h2 { font-size: 28px; }
+    .hww-grid { grid-template-columns: 1fr; }
+    .hww-step-wide { grid-row: auto; }
+    .hww-step { padding: 22px 20px; }
+    .hww-day { grid-template-columns: 68px 1fr; gap: 10px; }
+    .hww-closing {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 26px 22px;
+    }
+    .hww-invest { flex-direction: column; gap: 16px; }
+    .hww-inv-lab { max-width: none; }
+  }
+</style>

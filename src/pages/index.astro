@@ -2,16 +2,16 @@
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SEO, seoUrl } from '@/lib/seo';
 
+// Композиция главной под 9 блоков ТЗ (v2 драфт):
+// Hero · Соц-бар · Чек-лист · Что получите · Как работаем · Цены · Кейсы · FAQ · Форма
 import Hero from '@/components/v2/Hero.astro';
-import Problem from '@/components/v2/Problem.astro';
-import Solution from '@/components/v2/Solution.astro';
-import Advantages from '@/components/v2/Advantages.astro';
-import Platform from '@/components/v2/Platform.astro';
-import Customization from '@/components/v2/Customization.astro';
-import Integrations from '@/components/v2/Integrations.astro';
+import SocialProof from '@/components/v2/SocialProof.astro';
+import Diagnostic from '@/components/v2/Diagnostic.astro';
+import WhatYouGet from '@/components/v2/WhatYouGet.astro';
 import HowWeWork from '@/components/v2/HowWeWork.astro';
-import Difference from '@/components/v2/Difference.astro';
+import Pricing from '@/components/v2/Pricing.astro';
 import Cases from '@/components/v2/Cases.astro';
+import Faq from '@/components/v2/Faq.astro';
 import FinalCTA from '@/components/v2/FinalCTA.astro';
 import StickyCta from '@/components/v2/StickyCta.astro';
 import Footer from '@/components/v2/Footer.astro';
@@ -30,15 +30,13 @@ const seo = SEO.home;
   robots={seo.robots}
 >
   <Hero />
-  <Problem />
-  <Solution />
-  <Advantages />
-  <Platform />
-  <Customization />
-  <Integrations />
+  <SocialProof />
+  <Diagnostic />
+  <WhatYouGet />
   <HowWeWork />
-  <Difference />
+  <Pricing />
   <Cases />
+  <Faq />
   <FinalCTA />
   <Footer />
 

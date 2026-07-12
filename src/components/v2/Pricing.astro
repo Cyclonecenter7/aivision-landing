@@ -1,0 +1,223 @@
+---
+// Блок 6 · Цены — открыто.
+const IMPL_TIERS = [
+  ['1–3 рабочие области', 'Для одной команды или направления, базовых интеграций и первого дашборда собственника.'],
+  ['4–6 рабочих областей', 'Для нескольких направлений, юрлиц или ролей, которым нужны отдельные процессы и отчёты.'],
+  ['7+ рабочих областей', 'Для сложной структуры, кастомных интеграций, учёта по нескольким юрлицам и расширенной аналитики.'],
+];
+const SUP_TIERS = [
+  ['25 000 ₽ / мес', 'Экспертное сопровождение базовой системы и небольшие донастройки.'],
+  ['30 000 ₽ / мес', 'Регулярная адаптация процессов, отчётов и ролей.'],
+  ['40 000 ₽ / мес', 'Сложные структуры, новые направления и расширенные интеграции.'],
+];
+---
+<section id="pricing" class="bg-dark section pr-sect">
+  <div class="container">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Стоимость</span>
+    </div>
+
+    <div class="pr-head">
+      <h2 class="pr-h2">Стоимость — <em>открыто</em></h2>
+      <p class="pr-lead">
+        Вы можете оценить бюджет самостоятельно ещё до&nbsp;диагностики&nbsp;—
+        мы говорим о&nbsp;стоимости всех этапов открыто.
+      </p>
+    </div>
+
+    <p class="pr-note">
+      В&nbsp;стоимость входит не&nbsp;просто настройка платформы, а&nbsp;внедрение
+      управленческого учёта в&nbsp;формате, который подходит вашему масштабу,
+      структуре и&nbsp;текущим процессам.
+    </p>
+
+    <div class="pr-grid">
+      <!-- Внедрение -->
+      <div class="pr-card">
+        <div class="pr-card-head">
+          <span class="pr-kind">Внедрение платформы</span>
+          <div class="pr-price">200 000<span class="pr-dash">–</span>350 000&nbsp;<span class="pr-cur">₽</span></div>
+          <span class="pr-once">разово, за весь запуск</span>
+        </div>
+        <div class="pr-tiers">
+          {IMPL_TIERS.map(([t, d]) => (
+            <div class="pr-tier">
+              <div class="pr-tier-t">{t}</div>
+              <div class="pr-tier-d">{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <!-- Поддержка -->
+      <div class="pr-card">
+        <div class="pr-card-head">
+          <span class="pr-kind">Поддержка</span>
+          <div class="pr-price">25 000<span class="pr-dash">–</span>40 000&nbsp;<span class="pr-cur">₽ / мес</span></div>
+          <span class="pr-once">по объёму сопровождения</span>
+        </div>
+        <div class="pr-tiers">
+          {SUP_TIERS.map(([t, d]) => (
+            <div class="pr-tier">
+              <div class="pr-tier-t">{t}</div>
+              <div class="pr-tier-d">{d}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+
+    <div class="pr-bottom">
+      <div class="pr-bcol">
+        <div class="pr-bcol-h">Запускайте в удобном объёме</div>
+        <p class="pr-bcol-p">
+          AIVISION устроен так, чтобы его можно было запускать в&nbsp;удобном для бизнеса
+          объёме. Можно начать с&nbsp;базового рабочего контура, проверить платформу
+          на&nbsp;реальных процессах, а&nbsp;затем легко расширять функционал: добавлять
+          направления, интеграции, отчёты, роли и&nbsp;новые уровни контроля. Если задача
+          требует полного запуска сразу, платформа позволяет собрать более сложную систему
+          уже на&nbsp;первом этапе.
+        </p>
+      </div>
+      <div class="pr-bcol">
+        <div class="pr-bcol-h">За счёт чего окупается</div>
+        <p class="pr-bcol-p">
+          AIVISION окупается в&nbsp;первую очередь за&nbsp;счёт того, что помогает быстро
+          увидеть утечки прибыли: убыточные проекты, зависшие сделки, ручные ошибки
+          и&nbsp;неиспользуемые направления.
+        </p>
+      </div>
+    </div>
+
+    <p class="pr-fine">
+      Финальная сумма, доступы, роли и&nbsp;форматы выгрузки данных фиксируются после
+      диагностики в&nbsp;договоре, когда понятны объём данных, количество интеграций
+      и&nbsp;первый этап запуска.
+    </p>
+  </div>
+</section>
+
+<style>
+  .pr-head { max-width: 720px; margin-bottom: 24px; }
+  .pr-h2 {
+    font-size: 38px;
+    font-weight: 800;
+    line-height: 1.1;
+    letter-spacing: -0.02em;
+    color: var(--d-text);
+    margin-bottom: 16px;
+  }
+  .pr-h2 em { font-style: normal; color: var(--brand); }
+  .pr-lead {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--d-text-sec);
+  }
+  .pr-note {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--d-text);
+    font-weight: 500;
+    max-width: 900px;
+    padding-left: 18px;
+    border-left: 2px solid var(--brand);
+    margin-bottom: 40px;
+  }
+
+  .pr-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+  .pr-card {
+    background: var(--d-surface);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+    padding: 32px 32px 8px;
+    display: flex;
+    flex-direction: column;
+  }
+  .pr-card-head {
+    padding-bottom: 24px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid var(--d-border);
+  }
+  .pr-kind {
+    display: block;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 14px;
+  }
+  .pr-price {
+    font-size: 40px;
+    font-weight: 800;
+    line-height: 1;
+    color: var(--d-text);
+    font-variant-numeric: tabular-nums;
+    letter-spacing: -0.02em;
+    margin-bottom: 8px;
+  }
+  .pr-dash { color: var(--d-text-mut); font-weight: 500; padding: 0 2px; }
+  .pr-cur { font-size: 20px; font-weight: 700; color: var(--d-text-sec); }
+  .pr-once { font-size: 13px; color: var(--d-text-mut); }
+
+  .pr-tiers { display: flex; flex-direction: column; }
+  .pr-tier {
+    padding: 18px 0;
+    border-bottom: 1px solid var(--d-border);
+  }
+  .pr-tier:last-child { border-bottom: none; }
+  .pr-tier-t {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--d-text);
+    margin-bottom: 5px;
+  }
+  .pr-tier-d {
+    font-size: 13px;
+    line-height: 1.55;
+    color: var(--d-text-sec);
+  }
+
+  .pr-bottom {
+    margin-top: 12px;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+  }
+  .pr-bcol {
+    background: var(--d-surface);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);
+    padding: 26px 28px;
+  }
+  .pr-bcol-h {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--d-text);
+    margin-bottom: 10px;
+  }
+  .pr-bcol-p {
+    font-size: 13px;
+    line-height: 1.6;
+    color: var(--d-text-sec);
+  }
+  .pr-fine {
+    margin-top: 24px;
+    font-size: 12px;
+    line-height: 1.6;
+    color: var(--d-text-mut);
+    max-width: 900px;
+  }
+
+  @media (max-width: 768px) {
+    .pr-h2 { font-size: 28px; }
+    .pr-grid { grid-template-columns: 1fr; }
+    .pr-bottom { grid-template-columns: 1fr; }
+    .pr-card { padding: 26px 22px 4px; }
+    .pr-price { font-size: 32px; }
+  }
+</style>

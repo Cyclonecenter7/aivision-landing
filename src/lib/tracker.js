@@ -30,25 +30,6 @@ export async function initTracker() {
   if (!visitor_id) {
     visitor_id = generateUUID();
     localStorage.setItem('aivision_visitor_id', visitor_id);
-    const utm = parseUTM();
-    const referrer = document.referrer || '';
-    try {
-      await fetch(`${API_BASE}/api/visitors`, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          visitor_id,
-          user_agent: navigator.userAgent,
-          first_utm_source: utm.utm_source,
-          first_utm_medium: utm.utm_medium,
-          first_utm_campaign: utm.utm_campaign,
-          first_utm_term: utm.utm_term,
-          first_utm_content: utm.utm_content,
-          first_referrer: referrer,
-          first_page: window.location.href,
-        }),
-      });
-    } catch (e) { /* silent */ }
   }
 
   let session_id = sessionStorage.getItem('aivision_session_id');
@@ -65,13 +46,18 @@ export async function initTracker() {
       localStorage.setItem('aivision_touches', JSON.stringify(touches));
     }
 
+    // Новый контракт: один session-эвент на новую сессию (visitor_id внутри).
     try {
-      await fetch(`${API_BASE}/api/sessions`, {
+      await fetch(`${API_BASE}/api/v1/ingest/track`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: {
+          'Content-Type': 'application/json',
+          'X-Ingest-Key': import.meta.env.PUBLIC_INGEST_KEY,
+        },
         body: JSON.stringify({
-          session_id,
+          event: 'session',
           visitor_id,
+          session_id,
           utm_source: utm.utm_source,
           utm_medium: utm.utm_medium,
           utm_campaign: utm.utm_campaign,
@@ -100,31 +86,44 @@ export function getTrackingData() {
 export function trackClick(element_text, element_id = '', source_block = '') {
   const { visitor_id, session_id } = getTrackingData();
   const payload = JSON.stringify({
+    event: 'click',
     visitor_id, session_id, element_id, element_text,
-    page_url: window.location.href, source_block,
+    source_block, page_url: window.location.href,
   });
-  // sendBeacon гарантирует доставку даже при unload/навигации
-  if (navigator.sendBeacon) {
-    const blob = new Blob([payload], { type: 'application/json' });
-    if (navigator.sendBeacon(`${API_BASE}/api/clicks`, blob)) return;
-  }
-  // Fallback: fetch с keepalive
-  fetch(`${API_BASE}/api/clicks`, {
+  // sendBeacon не умеет ставить кастомные заголовки → не может нести X-Ingest-Key.
+  // fetch с keepalive сохраняет доставку при unload/навигации.
+  fetch(`${API_BASE}/api/v1/ingest/track`, {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
+    headers: {
+      'Content-Type': 'application/json',
+      'X-Ingest-Key': import.meta.env.PUBLIC_INGEST_KEY,
+    },
     body: payload,
     keepalive: true,
   }).catch(() => {});
 }
 
-export async function saveLead({ name, contact, contact_type, source_block, website }) {
-  const tracking = getTrackingData();
+export async function saveLead({ name, contact, contact_type, source_block, turnover, website }) {
+  const t = getTrackingData();
   let res;
   try {
-    res = await fetch(`${API_BASE}/api/leads`, {
+    res = await fetch(`${API_BASE}/api/v1/ingest/leads`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ name, contact, contact_type, source_block, website, status: 'new', ...tracking }),
+      headers: {
+        'Content-Type': 'application/json',
+        'X-Ingest-Key': import.meta.env.PUBLIC_INGEST_KEY,
+      },
+      body: JSON.stringify({
+        contact,
+        name,
+        contact_type,
+        source_block,
+        turnover: turnover || '', // диапазон оборота из формы диагностики (опц.)
+        utm_source: t.utm_source,
+        utm_medium: t.utm_medium,
+        utm_campaign: t.utm_campaign,
+        website, // honeypot — humans leave empty
+      }),
     });
   } catch (netErr) {
     throw new Error('Нет связи. Проверь интернет и попробуй снова.');

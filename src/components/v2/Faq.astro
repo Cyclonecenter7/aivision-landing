@@ -79,16 +79,18 @@ const FAQ = [
 ---
 <section id="faq" class="bg-light section faq-sect">
   <div class="container">
-    <div class="eyebrow">
-      <div class="eyebrow-line"></div>
-      <span class="eyebrow-text">FAQ</span>
-    </div>
+    <div class="faq-layout">
+      <div class="faq-aside">
+        <div class="eyebrow">
+          <div class="eyebrow-line"></div>
+          <span class="eyebrow-text">FAQ</span>
+        </div>
+        <div class="faq-head">
+          <h2 class="faq-h2">Частые <em>вопросы</em></h2>
+        </div>
+      </div>
 
-    <div class="faq-head">
-      <h2 class="faq-h2">Частые <em>вопросы</em></h2>
-    </div>
-
-    <div class="faq-list">
+      <div class="faq-list">
       {FAQ.map((item, i) => (
         <details class="faq-item" name="faq">
           <summary class="faq-q" data-track={`faq_open_${i + 1}`} data-track-block="faq">
@@ -103,13 +105,21 @@ const FAQ = [
           </div>
         </details>
       ))}
+      </div>
     </div>
   </div>
 </section>
 
 <style>
   .faq-sect { background: #EDEEF2; }
-  .faq-head { margin-bottom: 32px; }
+  .faq-layout {
+    display: grid;
+    grid-template-columns: 300px 1fr;
+    gap: 56px;
+    align-items: start;
+  }
+  .faq-aside { position: sticky; top: 96px; }
+  .faq-head { margin-bottom: 0; }
   .faq-h2 {
     font-size: 38px;
     font-weight: 800;
@@ -123,7 +133,6 @@ const FAQ = [
     display: flex;
     flex-direction: column;
     gap: 8px;
-    max-width: 900px;
   }
   .faq-item {
     background: var(--l-surface);
@@ -175,6 +184,8 @@ const FAQ = [
   .faq-a-p + .faq-a-p { margin-top: 12px; }
 
   @media (max-width: 768px) {
+    .faq-layout { grid-template-columns: 1fr; gap: 24px; }
+    .faq-aside { position: static; }
     .faq-h2 { font-size: 28px; }
     .faq-q { padding: 18px 18px; gap: 12px; }
     .faq-q-text { font-size: 14px; }

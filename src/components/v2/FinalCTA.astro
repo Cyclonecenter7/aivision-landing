@@ -1,7 +1,14 @@
 ---
 import InlineLeadForm from '@/components/islands/InlineLeadForm.jsx';
+
+// Блок 9 · Финальная форма диагностики.
+const STEPS = [
+  'Вы расскажете о бизнесе: оборот, направления, команда, текущие системы и зоны, где уже чувствуется потеря контроля. Если пока неясно, где именно проседает управление, разберёмся вместе.',
+  'Мы покажем, как AIVISION может помочь именно вам: какие данные собрать, какие процессы связать и какие управленческие задачи закрыть в первую очередь. Если платформа сейчас избыточна для вашего бизнеса, честно скажем об этом и подскажем более простой вариант.',
+  'Покажем платформу на демо-данных: как в AIVISION выглядят CRM, финансы, задачи, дашборды и первый запуск под ваш масштаб. Вы увидите, как система собирает разрозненные данные в понятную картину для решений.',
+];
 ---
-<section id="cta" class="cta-section cta-section--light">
+<section id="cta" class="cta-section cta-section--light fcta-sect">
   <div class="cta-wrap">
     <div class="cta-left">
       <div class="eyebrow">
@@ -9,29 +16,70 @@ import InlineLeadForm from '@/components/islands/InlineLeadForm.jsx';
         <span class="eyebrow-text">Диагностика</span>
       </div>
 
-      <h2 class="cta-h2">Разберём ваш бизнес<br />за <em>30 минут</em></h2>
+      <h2 class="cta-h2">Диагностика вашего бизнеса за&nbsp;<em>30&nbsp;минут</em></h2>
 
-      <p class="cta-sub">
-        Покажем где у вас проблема — в видимости, контроле или управляемости.
-        Покажем платформу на demo-данных, ответим на вопросы.
-      </p>
+      <div class="fcta-label">Что будет на диагностике</div>
 
-      <div class="cta-stats cta-stats--bordered">
-        <div class="cta-stat">
-          <div class="cta-stat-val">30 мин</div>
-          <div class="cta-stat-lab">разбор бизнеса</div>
-        </div>
-        <div class="cta-stat">
-          <div class="cta-stat-val">0 ₽</div>
-          <div class="cta-stat-lab">первая консультация</div>
-        </div>
-        <div class="cta-stat">
-          <div class="cta-stat-val">5 минут</div>
-          <div class="cta-stat-lab">реакция на заявку</div>
-        </div>
+      <div class="fcta-steps">
+        {STEPS.map((text) => (
+          <div class="fcta-step">
+            <svg class="fcta-ico" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <p class="fcta-step-text">{text}</p>
+          </div>
+        ))}
+      </div>
+
+      <div class="fcta-assure">
+        Никаких презентаций. Никаких продаж. Только разбор вашей ситуации.
       </div>
     </div>
 
     <InlineLeadForm sourceBlock="final_cta" client:load />
   </div>
 </section>
+
+<style>
+  .fcta-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--brand);
+    margin-bottom: 18px;
+  }
+  .fcta-steps {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    margin-bottom: 28px;
+  }
+  .fcta-step {
+    display: flex;
+    align-items: flex-start;
+    gap: 14px;
+  }
+  .fcta-ico {
+    flex-shrink: 0;
+    color: var(--brand);
+    margin-top: 2px;
+  }
+  .fcta-step-text {
+    font-size: 14px;
+    line-height: 1.6;
+    color: #3F3F46;
+  }
+  .fcta-assure {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.5;
+    color: #0A0A0A;
+    padding-left: 16px;
+    border-left: 2px solid var(--brand);
+  }
+
+  @media (max-width: 768px) {
+    .fcta-assure { font-size: 13px; }
+  }
+</style>

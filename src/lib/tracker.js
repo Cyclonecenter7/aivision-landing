@@ -103,7 +103,7 @@ export function trackClick(element_text, element_id = '', source_block = '') {
   }).catch(() => {});
 }
 
-export async function saveLead({ name, contact, contact_type, source_block, website }) {
+export async function saveLead({ name, contact, contact_type, source_block, turnover, website }) {
   const t = getTrackingData();
   let res;
   try {
@@ -118,6 +118,7 @@ export async function saveLead({ name, contact, contact_type, source_block, webs
         name,
         contact_type,
         source_block,
+        turnover: turnover || '', // диапазон оборота из формы диагностики (опц.)
         utm_source: t.utm_source,
         utm_medium: t.utm_medium,
         utm_campaign: t.utm_campaign,

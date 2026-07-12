@@ -2103,6 +2103,12 @@
     color: var(--d-text-mut);
     text-align: center;
   }
+  .cta-hint {
+    font-size: 11px;
+    line-height: 1.5;
+    color: var(--d-text-mut);
+    margin-top: 8px;
+  }
 
   /* ─── FinalCTA · light variant (бел.фон, белая форма) ─── */
   .cta-section--light {

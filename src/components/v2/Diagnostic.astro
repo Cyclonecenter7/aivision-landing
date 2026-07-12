@@ -1,0 +1,182 @@
+---
+// Блок 3 · Диагностический чек-лист «Узнаёте себя?» — 6 признаков.
+const SIGNS = [
+  'За последнюю неделю в систему заходила меньше половины команды.',
+  'Сделок в CRM заметно меньше, чем реальных заявок и оплат.',
+  'Неясно, кто, когда и по каким критериям переводит сделки дальше.',
+  'Отчёты когда-то смотрели, но всё равно вернулись к Excel.',
+  'Личный файл финансиста важнее CRM, учёта и любых дашбордов.',
+  'Маржа по проектам видна раз в квартал, когда часть прибыли уже потеряна.',
+];
+---
+<section id="diagnostic" class="bg-light section dg-sect">
+  <div class="container">
+    <div class="eyebrow">
+      <div class="eyebrow-line"></div>
+      <span class="eyebrow-text">Узнаёте себя?</span>
+    </div>
+
+    <div class="dg-head">
+      <h2 class="dg-h2">
+        Как работает ваша <em>система управления</em> сейчас
+        и&nbsp;что нужно исправить?
+      </h2>
+      <p class="dg-lead">
+        6&nbsp;признаков того, что система управления не&nbsp;показывает,
+        где находятся деньги, куда они уходят и&nbsp;хватит&nbsp;ли их бизнесу завтра.
+      </p>
+    </div>
+
+    <div class="dg-grid">
+      {SIGNS.map((text, i) => (
+        <div class="dg-item">
+          <div class="dg-box">
+            <span class="dg-num">{String(i + 1).padStart(2, '0')}</span>
+            <svg class="dg-check" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+          </div>
+          <p class="dg-text">{text}</p>
+        </div>
+      ))}
+    </div>
+
+    <div class="dg-note">
+      <div class="dg-note-body">
+        <p class="dg-note-p">
+          Если для вас актуальны хотя&nbsp;бы <strong>3&nbsp;пункта</strong> из&nbsp;списка&nbsp;—
+          это повод задуматься об&nbsp;изменениях. Проблема не&nbsp;всегда в&nbsp;команде
+          или выборе CRM: возможно, бизнес перерос привычные инструменты, и&nbsp;ему нужна
+          единая платформа управления деньгами под&nbsp;ключ.
+        </p>
+        <p class="dg-note-p dg-note-p2">
+          Начните с&nbsp;бесплатной диагностики: мы&nbsp;покажем, где система
+          расходится с&nbsp;реальностью, что можно исправить уже сейчас,
+          и&nbsp;составим план построения новой системы без&nbsp;остановки текущих
+          процессов.
+        </p>
+      </div>
+      <button
+        type="button"
+        class="btn btn-on-light dg-cta js-open-contact"
+        data-source="diagnostic"
+        data-track="diagnostic_cta"
+        data-track-block="diagnostic"
+      >
+        Записаться на диагностику
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M5 12h14M12 5l7 7-7 7" />
+        </svg>
+      </button>
+    </div>
+  </div>
+</section>
+
+<style>
+  .dg-head { max-width: 760px; margin-bottom: 44px; }
+  .dg-h2 {
+    font-size: 36px;
+    font-weight: 800;
+    line-height: 1.15;
+    letter-spacing: -0.02em;
+    color: var(--l-text);
+    margin-bottom: 16px;
+  }
+  .dg-h2 em { font-style: normal; color: var(--brand); }
+  .dg-lead {
+    font-size: 16px;
+    line-height: 1.65;
+    color: var(--l-text-sec);
+  }
+
+  .dg-grid {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px;
+    margin-bottom: 40px;
+  }
+  .dg-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+    background: var(--l-surface);
+    box-shadow: inset 0 0 0 1px var(--l-border);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);
+    padding: 22px 24px;
+    transition: box-shadow 0.16s, transform 0.16s;
+  }
+  .dg-item:hover {
+    box-shadow: inset 0 0 0 1px var(--l-border-strong);
+    transform: translateY(-1px);
+  }
+  .dg-box {
+    position: relative;
+    flex-shrink: 0;
+    width: 34px;
+    height: 34px;
+    background: var(--l-surface-alt);
+    box-shadow: inset 0 0 0 1px var(--l-border-strong);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .dg-num {
+    font-size: 12px;
+    font-weight: 800;
+    font-variant-numeric: tabular-nums;
+    color: var(--l-text-mut);
+    transition: opacity 0.16s;
+  }
+  .dg-check {
+    position: absolute;
+    color: var(--brand);
+    opacity: 0;
+    transition: opacity 0.16s;
+  }
+  .dg-item:hover .dg-num { opacity: 0; }
+  .dg-item:hover .dg-check { opacity: 1; }
+  .dg-text {
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--l-text);
+    font-weight: 500;
+    padding-top: 4px;
+  }
+
+  .dg-note {
+    background: #0A0A0A;
+    color: #fff;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+    padding: 40px 44px;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 40px;
+    align-items: center;
+  }
+  .dg-note-body { max-width: 720px; }
+  .dg-note-p {
+    font-size: 15px;
+    line-height: 1.65;
+    color: #C4C4C4;
+  }
+  .dg-note-p strong { color: #fff; font-weight: 700; }
+  .dg-note-p2 { margin-top: 14px; color: #E4E4E7; }
+  .btn.btn-on-light.dg-cta {
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  @media (max-width: 768px) {
+    .dg-h2 { font-size: 27px; }
+    .dg-grid { grid-template-columns: 1fr; gap: 8px; margin-bottom: 28px; }
+    .dg-item { padding: 18px 18px; gap: 13px; }
+    .dg-text { font-size: 14px; }
+    .dg-note {
+      grid-template-columns: 1fr;
+      gap: 24px;
+      padding: 28px 22px;
+    }
+    .btn.btn-on-light.dg-cta { width: 100%; justify-content: center; }
+  }
+</style>

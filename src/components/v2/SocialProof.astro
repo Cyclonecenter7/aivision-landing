@@ -1,0 +1,111 @@
+---
+// Блок 2 · Бар позиционирования / «работает в любой отрасли».
+// Логотипов клиентов пока нет (NDA) — используем нейтральные
+// отраслевые иконки-категории + подписи, без выдуманных брендов.
+const INDUSTRIES = [
+  {
+    name: 'Строительство',
+    // здание
+    path: 'M3 21h18M6 21V7l6-4 6 4v14M10 12h4M10 16h4',
+  },
+  {
+    name: 'E-commerce',
+    // корзина
+    path: 'M6 6h15l-1.5 9h-12zM6 6l-1-3H2M9 21a1 1 0 100-2 1 1 0 000 2zM18 21a1 1 0 100-2 1 1 0 000 2z',
+  },
+  {
+    name: 'Услуги B2B',
+    // рукопожатие/связь
+    path: 'M4 12h4l2 3 4-8 2 5h4',
+  },
+  {
+    name: 'Образование',
+    // диплом
+    path: 'M3 8l9-4 9 4-9 4-9-4zM7 10v5c0 1 2.5 2.5 5 2.5s5-1.5 5-2.5v-5',
+  },
+  {
+    name: 'Опт и дистрибуция',
+    // коробки
+    path: 'M3 8l4-4h10l4 4M3 8v11h18V8M3 8h18M12 8v11',
+  },
+];
+---
+<section class="sp-sect">
+  <div class="sp-container">
+    <p class="sp-lead">
+      Платформа AIVISION работает <span class="sp-ac">в&nbsp;любой отрасли</span>,
+      где руководителю важно видеть, что происходит с&nbsp;деньгами сегодня
+      и&nbsp;что будет с&nbsp;бизнесом через&nbsp;полгода.
+    </p>
+
+    <div class="sp-row">
+      {INDUSTRIES.map((it) => (
+        <div class="sp-chip">
+          <svg class="sp-ico" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d={it.path} />
+          </svg>
+          <span class="sp-name">{it.name}</span>
+        </div>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .sp-sect {
+    background: #0A0A0A;
+    padding: 48px 48px 52px;
+    border-top: 1px solid #1A1A1A;
+  }
+  .sp-container {
+    max-width: 1100px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 32px;
+    text-align: center;
+  }
+  .sp-lead {
+    font-size: 19px;
+    line-height: 1.55;
+    font-weight: 500;
+    color: #E4E4E7;
+    max-width: 780px;
+    letter-spacing: -0.01em;
+  }
+  .sp-ac { color: var(--brand); font-weight: 600; }
+
+  .sp-row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  .sp-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 9px;
+    padding: 11px 18px 13px;
+    background: #161616;
+    color: #A3A3A3;
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 7px),calc(100% - 7px) 100%,0 100%);
+    transition: color 0.16s, background 0.16s;
+  }
+  .sp-chip:hover { background: #1E1E1E; color: #FFFFFF; }
+  .sp-ico { color: var(--brand); flex-shrink: 0; }
+  .sp-name {
+    font-size: 13px;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 768px) {
+    .sp-sect { padding: 36px 20px 40px; }
+    .sp-lead { font-size: 16px; }
+    .sp-chip { padding: 9px 14px 11px; gap: 7px; }
+    .sp-name { font-size: 12px; }
+    .sp-ico { width: 17px; height: 17px; }
+  }
+</style>

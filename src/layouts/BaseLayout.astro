@@ -1,5 +1,13 @@
 ---
 import '@/styles/global.css';
+// Self-hosted Inter (замена Google Fonts). Каждый {weight}.css включает все
+// подмножества, в т.ч. latin + cyrillic + cyrillic-ext (unicode-range), font-display: swap.
+import '@fontsource/inter/400.css';
+import '@fontsource/inter/500.css';
+import '@fontsource/inter/600.css';
+import '@fontsource/inter/700.css';
+import '@fontsource/inter/800.css';
+import '@fontsource/inter/900.css';
 import { organizationSchema, websiteSchema } from '@/lib/jsonld';
 import BannerHostIsland from '@/components/islands/BannerHostIsland.jsx';
 import CookieBanner from '@/components/v2/CookieBanner.astro';
@@ -51,6 +59,8 @@ else robotsContent = 'index, follow';
 
 const ogTitleFinal = ogTitle || title;
 const ogDescriptionFinal = ogDescription || description;
+
+const apiUrl = import.meta.env.PUBLIC_API_URL;
 ---
 
 <!doctype html>
@@ -71,6 +81,7 @@ const ogDescriptionFinal = ogDescription || description;
     <meta property="og:image" content={ogImageFull} />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content={ogTitleFinal} />
     <meta property="og:locale" content="ru_RU" />
     <meta property="og:site_name" content="AIVISION" />
 
@@ -78,6 +89,7 @@ const ogDescriptionFinal = ogDescription || description;
     <meta name="twitter:title" content={ogTitleFinal} />
     <meta name="twitter:description" content={ogDescriptionFinal} />
     <meta name="twitter:image" content={twitterImageFull} />
+    <meta name="twitter:image:alt" content={ogTitleFinal} />
 
     <meta name="yandex-verification" content="a580ae03a42eedfc" />
 
@@ -87,8 +99,7 @@ const ogDescriptionFinal = ogDescription || description;
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
     ))}
 
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    {apiUrl && <link rel="preconnect" href={apiUrl} crossorigin />}
   </head>
 
   <body class="font-inter overflow-x-hidden">

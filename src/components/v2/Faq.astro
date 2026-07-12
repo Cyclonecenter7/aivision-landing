@@ -108,7 +108,7 @@ const FAQ = [
 </section>
 
 <style>
-  .faq-sect { background: #F1F2F5; }
+  .faq-sect { background: #EDEEF2; }
   .faq-head { margin-bottom: 32px; }
   .faq-h2 {
     font-size: 38px;
@@ -127,11 +127,10 @@ const FAQ = [
   }
   .faq-item {
     background: var(--l-surface);
-    box-shadow: inset 0 0 0 1px var(--l-border);
     clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);
-    transition: box-shadow 0.16s;
+    transition: background 0.16s;
   }
-  .faq-item[open] { box-shadow: inset 0 0 0 1px var(--l-border-strong); }
+  .faq-item[open] { background: #F4F7FF; }
 
   .faq-q {
     display: flex;

@@ -111,6 +111,7 @@ const DAYS = [
 </section>
 
 <style>
+  .hww-sect { background: #EDEEF2; }
   .hww-head { max-width: 720px; margin-bottom: 40px; }
   .hww-h2 {
     font-size: 38px;
@@ -137,14 +138,11 @@ const DAYS = [
 
   .hww-step {
     background: var(--l-surface);
-    box-shadow: inset 0 0 0 1px var(--l-border);
     clip-path: polygon(0 0,100% 0,100% calc(100% - 12px),calc(100% - 12px) 100%,0 100%);
     padding: 26px 26px 28px;
     display: flex;
     flex-direction: column;
-    transition: box-shadow 0.16s;
   }
-  .hww-step:hover { box-shadow: inset 0 0 0 1px var(--l-border-strong); }
 
   .hww-step-top {
     display: flex;

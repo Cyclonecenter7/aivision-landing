@@ -5,7 +5,7 @@ import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 import StickyCta from '@/components/v2/StickyCta.astro';
 import EsimDashboard from '@/components/islands/EsimDashboard.jsx';
 import { SEO, seoUrl } from '@/lib/seo';
-import { caseSchema } from '@/lib/jsonld';
+import { caseSchema, breadcrumbSchema } from '@/lib/jsonld';
 import '@/styles/case-page-v3.css';
 
 const seo = SEO.caseEsim;
@@ -14,6 +14,11 @@ const ldCase = caseSchema({
   ogImage: seo.ogImage,
   datePublished: '2026-05-22',
 });
+const ldBreadcrumb = breadcrumbSchema([
+  { name: 'Главная', url: '/' },
+  { name: 'Кейсы', url: '/#cases' },
+  { name: 'eSIM', url: seoUrl(seo) },
+]);
 ---
 <BaseLayout
   title={seo.title}
@@ -25,7 +30,7 @@ const ldCase = caseSchema({
   twitterImage={seo.twitterImage}
   ogType="article"
   robots={seo.robots}
-  jsonLd={[ldCase]}
+  jsonLd={[ldCase, ldBreadcrumb]}
 >
 
 <div class="case-v3 case-esim">

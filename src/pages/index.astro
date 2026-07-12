@@ -1,6 +1,8 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import { SEO, seoUrl } from '@/lib/seo';
+import { faqSchema, serviceSchema } from '@/lib/jsonld';
+import { FAQ } from '@/data/faq';
 
 // Композиция главной под 9 блоков ТЗ (v2 драфт):
 // Hero · Соц-бар · Чек-лист · Что получите · Как работаем · Цены · Кейсы · FAQ · Форма
@@ -17,6 +19,8 @@ import Footer from '@/components/v2/Footer.astro';
 import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 
 const seo = SEO.home;
+// Структурные данные: FAQPage (из FAQ) + Service с открытыми ценами.
+const homeJsonLd = [faqSchema(FAQ), serviceSchema];
 ---
 <BaseLayout
   title={seo.title}
@@ -27,6 +31,7 @@ const seo = SEO.home;
   ogImage={seo.ogImage}
   twitterImage={seo.twitterImage}
   robots={seo.robots}
+  jsonLd={homeJsonLd}
 >
   <Hero />
   <Diagnostic />

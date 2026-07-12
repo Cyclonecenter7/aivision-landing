@@ -73,6 +73,7 @@ const SIGNS = [
 </section>
 
 <style>
+  .dg-sect { background: #EDEEF2; }
   .dg-head { max-width: 760px; margin-bottom: 44px; }
   .dg-h2 {
     font-size: 36px;
@@ -100,22 +101,20 @@ const SIGNS = [
     align-items: flex-start;
     gap: 16px;
     background: var(--l-surface);
-    box-shadow: inset 0 0 0 1px var(--l-border);
     clip-path: polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);
     padding: 22px 24px;
-    transition: box-shadow 0.16s, transform 0.16s;
+    transition: transform 0.16s, background 0.16s;
   }
   .dg-item:hover {
-    box-shadow: inset 0 0 0 1px var(--l-border-strong);
     transform: translateY(-1px);
+    background: #FBFCFF;
   }
   .dg-box {
     position: relative;
     flex-shrink: 0;
     width: 34px;
     height: 34px;
-    background: var(--l-surface-alt);
-    box-shadow: inset 0 0 0 1px var(--l-border-strong);
+    background: #E6E7EC;
     clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);
     display: flex;
     align-items: center;

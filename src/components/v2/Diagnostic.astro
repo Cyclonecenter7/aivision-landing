@@ -58,7 +58,7 @@ const SIGNS = [
       </div>
       <button
         type="button"
-        class="btn btn-on-light dg-cta js-open-contact"
+        class="btn btn-on-brand dg-cta js-open-contact"
         data-source="diagnostic"
         data-track="diagnostic_cta"
         data-track-block="diagnostic"
@@ -145,7 +145,7 @@ const SIGNS = [
   }
 
   .dg-note {
-    background: #0A0A0A;
+    background: var(--brand);
     color: #fff;
     clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
     padding: 40px 44px;
@@ -158,11 +158,11 @@ const SIGNS = [
   .dg-note-p {
     font-size: 15px;
     line-height: 1.65;
-    color: #C4C4C4;
+    color: rgba(255,255,255,0.82);
   }
   .dg-note-p strong { color: #fff; font-weight: 700; }
-  .dg-note-p2 { margin-top: 14px; color: #E4E4E7; }
-  .btn.btn-on-light.dg-cta {
+  .dg-note-p2 { margin-top: 14px; color: #fff; }
+  .btn.btn-on-brand.dg-cta {
     white-space: nowrap;
     flex-shrink: 0;
   }

@@ -1,22 +1,24 @@
 ---
 // Блок 4 · Что вы получите. Платформа + кастомизация.
-import DashboardSlider from '@/components/islands/DashboardSlider.jsx';
-
+// 2×2: 3 текст-карты (col-major 1 3 / 2 4) + 4-й блок = demo-визуализация.
 const CARDS = [
   {
     num: '01',
+    ac: 'var(--brand)',
     title: 'Видеть деньги',
-    body: 'Вся нужная информация всегда под рукой и обновляется в реальном времени: маржа, платежи, расходы и риски кассового разрыва. Не ждите, пока кто-то пересоберёт таблицы: интеграция CRM с сайтом помогает связать заявки, сделки и оплату, а вы смотрите маржу по направлениям, проектам и менеджерам с телефона в 9 утра по пути на работу. Принимайте решения на основе наглядного дашборда для бизнеса с актуальными данными.',
-    modules: ['Финансы', 'P&L', 'Платежи', 'Дашборды собственника', 'Заявки с сайта', 'CRM', 'Интеграции'],
+    body: 'Вся нужная информация всегда под рукой и обновляется в реальном времени: маржа, платежи, расходы и риски кассового разрыва. Не ждите, пока кто-то пересоберёт таблицы: интеграция CRM с сайтом помогает связать заявки, сделки и оплату, а вы смотрите маржу по направлениям, проектам и менеджерам с телефона в 9 утра по пути на работу.',
+    modules: ['Финансы', 'P&L', 'Платежи', 'Дашборды собственника', 'CRM', 'Интеграции'],
   },
   {
     num: '02',
+    ac: 'var(--indigo)',
     title: 'Контролировать команду',
     body: 'Все процессы видны в системе. Сделки, переписки, задачи и договорённости больше не остаются в головах сотрудников, личных таблицах или записных книжках. Команда понимает, какие шаги нужно делать дальше.',
-    modules: ['CRM', 'Задачи', 'Регламенты', 'Воронки', 'Роли', 'Уведомления', 'История изменений', 'Интеграции'],
+    modules: ['CRM', 'Задачи', 'Регламенты', 'Воронки', 'Роли', 'Уведомления', 'История', 'Интеграции'],
   },
   {
     num: '03',
+    ac: 'var(--emerald)',
     title: 'Управлять ростом',
     body: 'Причины роста или стагнации становятся понятны. Маржа упала на 8%? Не опирайтесь на интуицию: смотрите, что изменилось — выросла стоимость материалов, изменились издержки переменные и постоянные, растянулся цикл сделки или появились лишние ручные операции. Корректируйте процессы на основе фактов.',
     modules: [],
@@ -38,16 +40,10 @@ const CARDS = [
         в&nbsp;понятные инсайты для принятия решений на&nbsp;основе данных.
       </p>
     </div>
-  </div>
 
-  <div class="wyg-screen">
-    <DashboardSlider variant="platform" client:visible />
-  </div>
-
-  <div class="container">
     <div class="wyg-grid">
       {CARDS.map((c) => (
-        <div class="wyg-card">
+        <div class="wyg-card" style={`--ac:${c.ac}`}>
           <div class="wyg-card-top">
             <span class="wyg-card-num">{c.num}</span>
             <h3 class="wyg-card-title">{c.title}</h3>
@@ -63,6 +59,72 @@ const CARDS = [
           )}
         </div>
       ))}
+
+      <!-- 4-й блок · demo-визуализация -->
+      <div class="wyg-demo">
+        <div class="wyg-demo-bar">
+          <span class="wyg-demo-eb">Демо-кабинет</span>
+          <span class="wyg-demo-live"><span class="wyg-demo-dot"></span>LIVE</span>
+        </div>
+
+        <div class="wyg-kpis">
+          <div class="wyg-kpi">
+            <span class="wyg-kpi-lab">Маржа</span>
+            <span class="wyg-kpi-val" style="color:var(--brand)">1,84 <span class="wyg-kpi-u">М&nbsp;₽</span></span>
+            <span class="wyg-kpi-d" style="color:var(--brand)">+27%</span>
+          </div>
+          <div class="wyg-kpi">
+            <span class="wyg-kpi-lab">Доход</span>
+            <span class="wyg-kpi-val" style="color:var(--emerald)">4,2 <span class="wyg-kpi-u">М&nbsp;₽</span></span>
+            <span class="wyg-kpi-d" style="color:var(--emerald)">+14%</span>
+          </div>
+          <div class="wyg-kpi">
+            <span class="wyg-kpi-lab">Расход</span>
+            <span class="wyg-kpi-val" style="color:var(--crimson)">2,36 <span class="wyg-kpi-u">М&nbsp;₽</span></span>
+            <span class="wyg-kpi-d" style="color:var(--crimson)">+6%</span>
+          </div>
+        </div>
+
+        <div class="wyg-chart">
+          <svg viewBox="0 0 320 96" preserveAspectRatio="none" width="100%" height="96" aria-hidden="true">
+            <defs>
+              <linearGradient id="wygArea" x1="0" y1="0" x2="0" y2="1">
+                <stop offset="0%" stop-color="#10B981" stop-opacity="0.22" />
+                <stop offset="100%" stop-color="#10B981" stop-opacity="0" />
+              </linearGradient>
+            </defs>
+            <line x1="0" y1="30" x2="320" y2="30" stroke="#222" stroke-width="1" stroke-dasharray="2 4" />
+            <line x1="0" y1="62" x2="320" y2="62" stroke="#222" stroke-width="1" stroke-dasharray="2 4" />
+            <!-- доход (emerald) + заливка -->
+            <path d="M4,70 C50,64 80,52 120,44 C160,36 200,30 260,20 C285,16 305,13 316,11 L316,92 L4,92 Z" fill="url(#wygArea)" />
+            <path d="M4,70 C50,64 80,52 120,44 C160,36 200,30 260,20 C285,16 305,13 316,11" fill="none" stroke="#10B981" stroke-width="2.25" stroke-linecap="round" />
+            <!-- маржа (brand) -->
+            <path d="M4,80 C50,77 80,72 120,68 C160,64 200,58 260,50 C285,47 305,44 316,42" fill="none" stroke="#3F6EE8" stroke-width="2.25" stroke-linecap="round" />
+            <!-- расход (crimson, пунктир) -->
+            <path d="M4,84 C50,83 80,80 120,78 C160,76 200,74 260,70 C285,68 305,67 316,66" fill="none" stroke="#F43F5E" stroke-width="1.75" stroke-linecap="round" stroke-dasharray="3 3" />
+            <circle cx="316" cy="11" r="3" fill="#0A0A0A" stroke="#10B981" stroke-width="2" />
+          </svg>
+          <div class="wyg-chart-lg">
+            <span><span class="wyg-lg-d" style="background:var(--brand)"></span>Маржа</span>
+            <span><span class="wyg-lg-d" style="background:var(--emerald)"></span>Доход</span>
+            <span><span class="wyg-lg-d" style="background:var(--crimson)"></span>Расход</span>
+          </div>
+        </div>
+
+        <a
+          class="btn btn-on-dark wyg-demo-cta"
+          href="/demo/"
+          target="_blank"
+          rel="noopener"
+          data-track="whatyouget_demo"
+          data-track-block="platform"
+        >
+          Посмотреть демо-кабинет
+          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14M12 5l7 7-7 7" />
+          </svg>
+        </a>
+      </div>
     </div>
 
     <div class="wyg-cst">
@@ -76,19 +138,6 @@ const CARDS = [
         и&nbsp;другие особенности настраиваются на&nbsp;этапе внедрения&nbsp;—
         <strong>без программистов и&nbsp;без остановки работы компании.</strong>
       </p>
-      <a
-        class="btn btn-on-dark wyg-cta"
-        href="/demo/"
-        target="_blank"
-        rel="noopener"
-        data-track="whatyouget_demo"
-        data-track-block="platform"
-      >
-        Посмотреть демо-кабинет
-        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-          <path d="M5 12h14M12 5l7 7-7 7" />
-        </svg>
-      </a>
     </div>
   </div>
 </section>
@@ -110,18 +159,18 @@ const CARDS = [
     color: var(--d-text-sec);
   }
 
-  .wyg-screen {
-    max-width: 1200px;
-    margin: 0 auto 56px;
-  }
-
+  /* 2×2, col-major: 1 3 / 2 4 */
   .wyg-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: auto auto;
+    grid-auto-flow: column;
     gap: 10px;
     margin-bottom: 12px;
   }
+
   .wyg-card {
+    --ac: var(--brand);
     background: var(--d-surface);
     clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);
     padding: 28px 26px 26px;
@@ -136,7 +185,7 @@ const CARDS = [
     position: absolute;
     left: 0; top: 0;
     width: 2px; height: 0;
-    background: var(--brand);
+    background: var(--ac);
     transition: height 0.22s ease;
   }
   .wyg-card:hover { background: var(--d-surface-alt); }
@@ -152,7 +201,7 @@ const CARDS = [
     font-size: 13px;
     font-weight: 800;
     font-variant-numeric: tabular-nums;
-    color: var(--brand);
+    color: var(--ac);
     letter-spacing: 0.05em;
   }
   .wyg-card-title {
@@ -194,16 +243,79 @@ const CARDS = [
     white-space: nowrap;
   }
 
-  .wyg-cst {
-    margin-top: 12px;
-    background: linear-gradient(120deg, rgba(63,110,232,0.10), rgba(63,110,232,0.02));
-    box-shadow: inset 0 0 0 1px rgba(63,110,232,0.25);
-    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
-    padding: 32px 36px;
+  /* ─── demo-визуализация (4-й блок) ─── */
+  .wyg-demo {
+    background: var(--d-surface);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 14px),calc(100% - 14px) 100%,0 100%);
+    padding: 20px 22px 22px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
-    gap: 20px;
+    box-shadow: inset 0 0 0 1px rgba(63,110,232,0.25);
+  }
+  .wyg-demo-bar {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 14px;
+    margin-bottom: 14px;
+    border-bottom: 1px solid var(--d-border);
+  }
+  .wyg-demo-eb {
+    font-size: 10px;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--brand);
+  }
+  .wyg-demo-live {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 9px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    color: var(--emerald);
+  }
+  .wyg-demo-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--emerald); }
+
+  .wyg-kpis { display: grid; grid-template-columns: repeat(3,1fr); gap: 8px; margin-bottom: 16px; }
+  .wyg-kpi {
+    background: var(--d-surface-alt);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 5px),calc(100% - 5px) 100%,0 100%);
+    padding: 10px 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 3px;
+  }
+  .wyg-kpi-lab { font-size: 9px; font-weight: 600; letter-spacing: 0.08em; text-transform: uppercase; color: var(--d-text-mut); }
+  .wyg-kpi-val { font-size: 17px; font-weight: 800; line-height: 1; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .wyg-kpi-u { font-size: 11px; font-weight: 700; }
+  .wyg-kpi-d { font-size: 10px; font-weight: 700; font-variant-numeric: tabular-nums; }
+
+  .wyg-chart { margin-bottom: 18px; }
+  .wyg-chart svg { display: block; }
+  .wyg-chart-lg {
+    display: flex;
+    gap: 16px;
+    margin-top: 8px;
+    font-size: 10px;
+    color: var(--d-text-sec);
+  }
+  .wyg-chart-lg span { display: inline-flex; align-items: center; gap: 5px; }
+  .wyg-lg-d { width: 8px; height: 2px; border-radius: 1px; }
+
+  .wyg-demo-cta { margin-top: auto; width: 100%; justify-content: center; }
+
+  /* ─── кастомизация (без градиента, DS) ─── */
+  .wyg-cst {
+    margin-top: 12px;
+    background: rgba(63,110,232,0.07);
+    box-shadow: inset 0 0 0 1px rgba(63,110,232,0.25);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);
+    padding: 30px 34px;
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
   }
   .wyg-cst-eb {
     display: flex;
@@ -228,11 +340,9 @@ const CARDS = [
 
   @media (max-width: 768px) {
     .wyg-h2 { font-size: 27px; }
-    .wyg-screen { margin-bottom: 36px; }
-    .wyg-grid { grid-template-columns: 1fr; }
+    .wyg-grid { grid-template-columns: 1fr; grid-auto-flow: row; }
     .wyg-card { padding: 24px 20px; }
-    .wyg-cst { padding: 26px 22px; }
+    .wyg-cst { padding: 24px 20px; }
     .wyg-cst-text { font-size: 15px; }
-    .wyg-cta { width: 100%; justify-content: center; }
   }
 </style>

@@ -1,6 +1,7 @@
 ---
 import '@/styles/global.css';
 import { organizationSchema, websiteSchema } from '@/lib/jsonld';
+import BannerHostIsland from '@/components/islands/BannerHostIsland.jsx';
 
 interface Props {
   title: string;
@@ -116,9 +117,15 @@ const GA_ID = 'G-PRM6XBSJZS';
   <body class="font-inter overflow-x-hidden">
     <slot />
 
+    <!-- Хост баннеров по действиям визитора (слушает 'aivision:show-banner') -->
+    <BannerHostIsland client:load />
+
     <script>
       import { initTracker, trackClick } from '@/lib/tracker';
-      initTracker();
+      import { initBanners } from '@/lib/banners';
+      initTracker()
+        .then((ids) => initBanners(ids))
+        .catch(() => {});
       document.addEventListener('click', (e) => {
         const target = e.target as Element | null;
         if (!target) return;

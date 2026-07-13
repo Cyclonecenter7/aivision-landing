@@ -16,7 +16,16 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     mdx(),
     sitemap({
-      filter: (page) => !page.includes('/demo/'),
+      // Исключаем demo и служебные noindex-страницы из карты (T3).
+      filter: (page) =>
+        !page.includes('/demo/') &&
+        !page.includes('/privacy-policy') &&
+        !page.includes('/consent'),
+      // lastmod = время сборки → обновляется при каждом деплое (T2).
+      serialize(item) {
+        item.lastmod = new Date().toISOString();
+        return item;
+      },
     }),
   ],
   vite: {

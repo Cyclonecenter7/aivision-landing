@@ -70,15 +70,13 @@ export default function BannerHostIsland() {
 
   const card = (
     <div
-      role={isX2 ? 'dialog' : 'region'}
-      aria-modal={isX2 ? 'true' : undefined}
+      role="region"
       aria-label={banner.title || 'Баннер'}
-      onClick={(e) => e.stopPropagation()}
       style={{
         position: 'relative',
-        width: isX2 ? '100%' : 'auto',
-        maxWidth: isX2 ? 460 : 360,
-        padding: isX2 ? '36px 34px 32px' : '22px 22px 20px',
+        width: 'auto',
+        maxWidth: isX2 ? 440 : 340,
+        padding: isX2 ? '30px 30px 26px' : '22px 22px 20px',
         color: fg,
         background: chamferBg(10, bgColor),
         boxShadow: '0 18px 48px rgba(10,10,10,0.32)',
@@ -178,30 +176,8 @@ export default function BannerHostIsland() {
     </div>
   );
 
-  // x2 — крупный, модалко-подобный по центру с backdrop.
-  if (isX2) {
-    return (
-      <div
-        onClick={close}
-        style={{
-          position: 'fixed',
-          inset: 0,
-          zIndex: 60,
-          display: 'flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: '16px',
-          background: 'rgba(10,10,10,0.7)',
-          backdropFilter: 'blur(4px)',
-          WebkitBackdropFilter: 'blur(4px)',
-        }}
-      >
-        {card}
-      </div>
-    );
-  }
-
-  // x1 — компактный, угловой (bottom-right), fixed.
+  // Оба размера — в углу (bottom-right), fixed, БЕЗ backdrop: баннер не
+  // перекрывает страницу и «не прыгает в лицо». x2 просто крупнее x1.
   return (
     <div
       style={{

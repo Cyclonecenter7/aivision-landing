@@ -175,7 +175,7 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
           <option value="100+ млн ₽">100+ млн ₽</option>
         </select>
         <div className="cta-hint">
-          Это помогает заранее понять, подходит&nbsp;ли AIVISION под ваш масштаб,
+          Это помогает заранее понять, подходит&nbsp;ли SHVEC под ваш масштаб,
           и не тратить ваше время на неподходящее решение.
         </div>
       </div>

@@ -1,136 +1,87 @@
 const API_BASE = import.meta.env.PUBLIC_API_URL || '';
+const INGEST_KEY = import.meta.env.PUBLIC_INGEST_KEY || '';
+const VISITOR_KEY = 'shvec_visitor_id';
+const SESSION_KEY = 'shvec_session_id';
+const CONTEXT_KEY = 'shvec_session_context';
+const TRACKED_KEY = 'shvec_session_tracked';
+let ready;
 
-function generateUUID() {
-  if (typeof crypto !== 'undefined' && crypto.randomUUID) {
-    return crypto.randomUUID();
-  }
-  return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, (c) => {
-    const r = (crypto.getRandomValues(new Uint8Array(1))[0]) % 16;
-    return (c === 'x' ? r : (r & 0x3 | 0x8)).toString(16);
-  });
+function uuid() {
+  return crypto.randomUUID();
 }
 
-function parseUTM() {
-  const params = new URLSearchParams(window.location.search);
-  return {
-    utm_source: params.get('utm_source') || '',
-    utm_medium: params.get('utm_medium') || '',
-    utm_campaign: params.get('utm_campaign') || '',
-    utm_term: params.get('utm_term') || '',
-    utm_content: params.get('utm_content') || '',
-  };
+function readUTM() {
+  const p = new URLSearchParams(window.location.search);
+  return Object.fromEntries(['source', 'medium', 'campaign', 'term', 'content'].map((key) => [`utm_${key}`, p.get(`utm_${key}`) || '']));
 }
 
-function hasUTM(utm) {
-  return Object.values(utm).some(v => v);
-}
-
-export async function initTracker() {
-  let visitor_id = localStorage.getItem('aivision_visitor_id');
-  if (!visitor_id) {
-    visitor_id = generateUUID();
-    localStorage.setItem('aivision_visitor_id', visitor_id);
-  }
-
-  let session_id = sessionStorage.getItem('aivision_session_id');
-  if (!session_id) {
-    session_id = generateUUID();
-    sessionStorage.setItem('aivision_session_id', session_id);
-    const utm = parseUTM();
-    const referrer = document.referrer || '';
-
-    if (hasUTM(utm) || (referrer && !referrer.includes(window.location.hostname))) {
-      const touches = JSON.parse(localStorage.getItem('aivision_touches') || '[]');
-      touches.push({ ...utm, referrer, ts: Date.now() });
-      if (touches.length > 50) touches.splice(0, touches.length - 50);
-      localStorage.setItem('aivision_touches', JSON.stringify(touches));
-    }
-
-    // Новый контракт: один session-эвент на новую сессию (visitor_id внутри).
-    try {
-      await fetch(`${API_BASE}/api/v1/ingest/track`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-Ingest-Key': import.meta.env.PUBLIC_INGEST_KEY,
-        },
-        body: JSON.stringify({
-          event: 'session',
-          visitor_id,
-          session_id,
-          utm_source: utm.utm_source,
-          utm_medium: utm.utm_medium,
-          utm_campaign: utm.utm_campaign,
-          utm_term: utm.utm_term,
-          utm_content: utm.utm_content,
-          referrer,
-          landing_page: window.location.href,
-          user_agent: navigator.userAgent,
-        }),
-      });
-    } catch (e) { /* silent */ }
-  }
-
+function ids() {
+  let visitor_id = localStorage.getItem(VISITOR_KEY);
+  if (!visitor_id) { visitor_id = uuid(); localStorage.setItem(VISITOR_KEY, visitor_id); }
+  let session_id = sessionStorage.getItem(SESSION_KEY);
+  if (!session_id) { session_id = uuid(); sessionStorage.setItem(SESSION_KEY, session_id); }
   return { visitor_id, session_id };
 }
 
-export function getTrackingData() {
-  const visitor_id = localStorage.getItem('aivision_visitor_id') || '';
-  const session_id = sessionStorage.getItem('aivision_session_id') || '';
-  const utm = parseUTM();
-  const referrer = document.referrer || '';
-  const landing_page = sessionStorage.getItem('aivision_landing') || window.location.href;
-  return { visitor_id, session_id, ...utm, referrer, landing_page };
+function sessionContext() {
+  const existing = sessionStorage.getItem(CONTEXT_KEY);
+  if (existing) {
+    try { return JSON.parse(existing); } catch { sessionStorage.removeItem(CONTEXT_KEY); }
+  }
+  const context = { ...ids(), ...readUTM(), referrer: document.referrer || '', landing_page: window.location.href };
+  sessionStorage.setItem(CONTEXT_KEY, JSON.stringify(context));
+  return context;
 }
 
-export function trackClick(element_text, element_id = '', source_block = '') {
-  const { visitor_id, session_id } = getTrackingData();
-  const payload = JSON.stringify({
-    event: 'click',
-    visitor_id, session_id, element_id, element_text,
-    source_block, page_url: window.location.href,
+async function postTrack(payload, keepalive = false) {
+  const res = await fetch(`${API_BASE}/api/v1/ingest/track`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+    body: JSON.stringify(payload), keepalive,
   });
-  // sendBeacon не умеет ставить кастомные заголовки → не может нести X-Ingest-Key.
-  // fetch с keepalive сохраняет доставку при unload/навигации.
-  fetch(`${API_BASE}/api/v1/ingest/track`, {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json',
-      'X-Ingest-Key': import.meta.env.PUBLIC_INGEST_KEY,
-    },
-    body: payload,
-    keepalive: true,
-  }).catch(() => {});
+  if (!res.ok) throw new Error(`track failed: ${res.status}`);
+}
+
+// A click waits for this promise. We prefer dropping an early click to storing a
+// click without its session: the latter makes funnels look real while being wrong.
+export function initTracker() {
+  if (ready) return ready;
+  ready = (async () => {
+    const context = sessionContext();
+    if (!sessionStorage.getItem(TRACKED_KEY)) {
+      await postTrack({ event: 'session', ...context, user_agent: navigator.userAgent });
+      sessionStorage.setItem(TRACKED_KEY, '1');
+    }
+    return context;
+  })().catch((error) => {
+    // Do not poison the tab after a transient outage: the next user action or
+    // page init starts a fresh session-write attempt with the same session id.
+    ready = null;
+    throw error;
+  });
+  return ready;
+}
+
+export function getTrackingData() { return sessionContext(); }
+
+export function trackClick(element_text, element_id = '', source_block = '', options = {}) {
+  const event_id = uuid();
+  initTracker().then((context) => postTrack({
+    event: 'click', event_id, visitor_id: context.visitor_id, session_id: context.session_id,
+    element_id, element_text: String(element_text || '').slice(0, 240), source_block,
+    page_url: window.location.href, banner_id: options.bannerId || undefined,
+  }, true)).catch(() => {});
+  return event_id;
 }
 
 export async function saveLead({ name, contact, contact_type, source_block, turnover, website }) {
-  const t = getTrackingData();
-  let res;
-  try {
-    res = await fetch(`${API_BASE}/api/v1/ingest/leads`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'X-Ingest-Key': import.meta.env.PUBLIC_INGEST_KEY,
-      },
-      body: JSON.stringify({
-        contact,
-        name,
-        contact_type,
-        source_block,
-        turnover: turnover || '', // диапазон оборота из формы диагностики (опц.)
-        utm_source: t.utm_source,
-        utm_medium: t.utm_medium,
-        utm_campaign: t.utm_campaign,
-        website, // honeypot — humans leave empty
-      }),
-    });
-  } catch (netErr) {
-    throw new Error('Нет связи. Проверь интернет и попробуй снова.');
-  }
+  const t = await initTracker();
+  const res = await fetch(`${API_BASE}/api/v1/ingest/leads`, {
+    method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
+    body: JSON.stringify({ contact, name, contact_type, source_block, turnover: turnover || '', website,
+      visitor_id: t.visitor_id, session_id: t.session_id, landing_page: t.landing_page, referrer: t.referrer,
+      utm_source: t.utm_source, utm_medium: t.utm_medium, utm_campaign: t.utm_campaign }),
+  });
   const data = await res.json().catch(() => ({}));
-  if (!res.ok) {
-    throw new Error(data.error || `Ошибка сервера (${res.status}). Попробуй снова.`);
-  }
+  if (!res.ok) throw new Error(data.error || `Ошибка сервера (${res.status}). Попробуй снова.`);
   return data.lead || data;
 }

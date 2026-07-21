@@ -399,7 +399,7 @@ function Balance({ isMobile }) {
   );
 }
 
-export default function BuildDashboard({ only, hideHeader = false, hideFooter = false }) {
+export default function BuildDashboard({ only = null, hideHeader = false, hideFooter = false }) {
   const [tab, setTab] = useState(only || 'pnl');
   const isMobile = useIsMobile(540);
   const active = only || tab;
@@ -427,7 +427,7 @@ export default function BuildDashboard({ only, hideHeader = false, hideFooter = 
         {active === 'balance' && <Balance isMobile={isMobile} />}
         {!hideFooter && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
-            <span style={{ fontSize: 8, color: T.t3 }}>Платформа AIVISION · NDA · данные изменены</span>
+            <span style={{ fontSize: 8, color: T.t3 }}>Платформа SHVEC · NDA · данные изменены</span>
           </div>
         )}
       </div>

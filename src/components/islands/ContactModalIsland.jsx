@@ -14,8 +14,8 @@ export default function ContactModalIsland() {
         demoGate: !!detail.demoGate,
       });
     };
-    window.addEventListener('aivision:open-contact', handler);
-    return () => window.removeEventListener('aivision:open-contact', handler);
+    window.addEventListener('shvec:open-contact', handler);
+    return () => window.removeEventListener('shvec:open-contact', handler);
   }, []);
 
   const close = () => setState((s) => ({ ...s, open: false }));

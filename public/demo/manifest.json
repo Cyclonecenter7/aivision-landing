@@ -1,7 +1,7 @@
 {
-  "name": "AIVISION CRM",
-  "short_name": "AIVISION",
-  "description": "AIVISION CRM Panel",
+  "name": "Швец",
+  "short_name": "Швец",
+  "description": "Финансовая книга и кабинет бизнеса",
   "start_url": "/admin/dashboard",
   "scope": "/",
   "display": "standalone",

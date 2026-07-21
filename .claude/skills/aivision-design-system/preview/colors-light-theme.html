@@ -1,0 +1,198 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Colors" name="Colors — Light Theme Components" subtitle="CRM в светлой теме · rail-акценты, ChamferBorder-фокус, таблица, кнопки" viewport="720x500" -->
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Onest:wght@500;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#ECECEC;font-family:'IBM Plex Sans',system-ui,sans-serif;padding:22px;-webkit-font-smoothing:antialiased;}
+.ch10{clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}
+.ch4{clip-path:polygon(0 0,100% 0,100% calc(100% - 4px),calc(100% - 4px) 100%,0 100%);}
+
+/* Light theme tokens */
+:root{
+  --bg:#FAFAFA;--surface:#FFFFFF;--surface-alt:#F4F4F4;
+  --border:#EAEAEA;--border-strong:#D2D2D2;
+  --text-primary:#0A0A0A;--text-secondary:#525252;--text-muted:#9A9A9A;
+  --brand:#3F6EE8;--emerald:#10B981;--crimson:#F43F5E;--sun:#FCD34D;--slate:#94A3B8;
+}
+
+.row{display:flex;gap:12px;align-items:flex-start;}
+
+/* Sidebar */
+.sidebar{background:var(--surface);padding:16px 12px;display:flex;flex-direction:column;gap:3px;width:166px;flex-shrink:0;}
+.brand-mark{display:flex;align-items:center;gap:7px;padding:4px 8px 14px;border-bottom:1px solid var(--border);margin-bottom:8px;}
+.nav-item{position:relative;display:flex;align-items:center;gap:9px;height:34px;padding:0 10px;font-size:12.5px;font-weight:500;color:var(--text-secondary);cursor:pointer;}
+.nav-item.active{background:rgba(63,110,232,.09);color:var(--brand);font-weight:600;}
+.nav-item.active::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--brand);}
+.nav-icon{width:15px;height:15px;opacity:.7;}
+
+/* Right column */
+.main{flex:1;display:flex;flex-direction:column;gap:12px;min-width:0;}
+
+/* Header */
+.header{padding:13px 16px;background:var(--surface);display:flex;align-items:center;justify-content:space-between;}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--text-muted);margin-bottom:5px;}
+.eyebrow::before{content:'';width:18px;height:1px;background:var(--brand);}
+.headline{font-family:'Onest',system-ui,sans-serif;font-size:21px;font-weight:500;letter-spacing:-.02em;color:var(--text-primary);}
+
+/* ChamferBorder input — focus & rest drawn by SVG stroke, never border */
+.cf{position:relative;display:block;width:168px;height:36px;flex-shrink:0;}
+.cf input{display:block;width:100%;height:100%;padding:0 12px;background:var(--surface-alt);color:var(--text-primary);font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:12.5px;border:none;outline:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}
+.cf input::placeholder{color:var(--text-muted);}
+.cf .stroke{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+.cf .stroke polygon{fill:none;stroke:var(--border-strong);stroke-width:1.5;}
+.cf.focused .stroke polygon{stroke:var(--brand);stroke-width:2;}
+.cf .caret{position:absolute;left:54px;top:50%;width:1.5px;height:17px;transform:translateY(-50%);background:var(--brand);}
+
+/* Buttons */
+.btn{height:36px;padding:0 16px;font-family:'IBM Plex Sans',system-ui,sans-serif;font-size:13px;font-weight:600;border:none;cursor:pointer;display:inline-flex;align-items:center;}
+.btn-primary{background:var(--brand);color:#fff;}
+.btn-secondary{background:var(--surface-alt);color:var(--text-primary);font-weight:500;}
+.btn-ghost{background:transparent;color:var(--brand);font-weight:600;}
+.btn-ghost:hover{background:rgba(63,110,232,.07);}
+
+/* KPI card — left rail accent (chamfer-safe ::before, never border) */
+.kpi{position:relative;background:var(--surface);padding:15px 16px 0 19px;height:104px;display:flex;flex-direction:column;gap:4px;overflow:hidden;}
+.kpi::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;}
+.kpi.r-brand::before{background:var(--brand);}
+.kpi.r-emerald::before{background:var(--emerald);}
+.kpi.r-crimson::before{background:var(--crimson);}
+.kpi-label{font-size:9px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--text-muted);}
+.kpi-value{font-family:'Onest',system-ui,sans-serif;font-size:25px;font-weight:700;letter-spacing:-.025em;font-variant-numeric:tabular-nums;line-height:1.1;color:var(--text-primary);}
+.kpi-delta{font-size:11px;font-weight:600;display:inline-flex;align-items:center;gap:3px;}
+.kpi-sub{font-size:10px;color:var(--text-muted);}
+
+/* Table */
+.table-wrap{background:var(--surface);overflow:hidden;}
+table{width:100%;border-collapse:collapse;font-size:12px;}
+thead tr{background:var(--surface-alt);}
+th{padding:9px 12px;text-align:left;font-size:9.5px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+td{padding:11px 12px;border-top:1px solid var(--border);color:var(--text-primary);}
+tr:hover td{background:var(--surface-alt);}
+.tag{display:inline-flex;align-items:center;white-space:nowrap;padding:2px 8px;font-size:10px;font-weight:600;}
+.num{font-family:'Onest',system-ui,sans-serif;font-size:13px;font-weight:700;font-variant-numeric:tabular-nums;letter-spacing:-.02em;}
+
+/* Theme badge */
+.theme-badge{display:inline-flex;align-items:center;gap:7px;background:var(--surface);padding:6px 12px;font-size:10px;font-weight:600;color:var(--text-secondary);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;}
+.btn-label{font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);margin-right:6px;}
+</style>
+</head>
+<body>
+
+<div class="theme-badge ch4">
+  <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="var(--sun)" stroke-width="2.2"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/></svg>
+  Light Theme · data-theme="light"
+</div>
+
+<div class="row">
+  <!-- Sidebar -->
+  <div class="sidebar ch10">
+    <div class="brand-mark">
+      <svg width="15" height="15" viewBox="0 0 256 256"><path d="M0 0L256 0L256 208L208 256L0 256Z" fill="#3F6EE8"/></svg>
+      <span style="font-family:'Onest',system-ui,sans-serif;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--text-primary);">AIVISION</span>
+    </div>
+    <div class="nav-item active">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 3v18h18M3 9h18M9 21V9"/></svg>
+      Дашборд
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2M9 11a4 4 0 1 0 0-8 4 4 0 0 0 0 8"/></svg>
+      Заявки
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M22 12h-4l-3 9L9 3l-3 9H2"/></svg>
+      Сделки
+    </div>
+    <div class="nav-item">
+      <svg class="nav-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2v20M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg>
+      Финансы
+    </div>
+  </div>
+
+  <!-- Main -->
+  <div class="main">
+    <!-- Header -->
+    <div class="header ch10">
+      <div>
+        <div class="eyebrow">МАЙ 2026</div>
+        <div class="headline"><span style="color:#3F6EE8;">48</span> заявок. <span style="color:#10B981;">+18%</span></div>
+      </div>
+      <div style="display:flex;gap:8px;align-items:center;">
+        <!-- focused state: ChamferBorder stroke recoloured to --brand -->
+        <label class="cf focused">
+          <input value="Поиск" aria-label="Поиск"/>
+          <span class="caret"></span>
+          <svg class="stroke" viewBox="0 0 168 36" preserveAspectRatio="none"><polygon points="1,1 167,1 167,25 157,35 1,35"/></svg>
+        </label>
+        <button class="btn btn-primary ch10">+ Заявка</button>
+      </div>
+    </div>
+
+    <!-- KPI row -->
+    <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;">
+      <div class="kpi r-brand ch10">
+        <div class="kpi-label">Маржа</div>
+        <div class="kpi-value" style="color:#3F6EE8;">1,54 М ₽</div>
+        <div class="kpi-delta" style="color:#10B981;">↑ +18,4%</div>
+      </div>
+      <div class="kpi r-emerald ch10">
+        <div class="kpi-label">Доходы</div>
+        <div class="kpi-value">1,95 М ₽</div>
+        <div class="kpi-delta" style="color:#10B981;">↑ +18,2%</div>
+        <div class="kpi-sub">к апрелю</div>
+      </div>
+      <div class="kpi r-crimson ch10">
+        <div class="kpi-label">Расходы</div>
+        <div class="kpi-value">410 К ₽</div>
+        <div class="kpi-delta" style="color:#F43F5E;">↓ −5,3%</div>
+        <div class="kpi-sub">к апрелю</div>
+      </div>
+    </div>
+
+    <!-- Table -->
+    <div class="table-wrap ch10">
+      <table>
+        <thead><tr>
+          <th></th><th>Имя</th><th>Статус</th><th>Источник</th><th style="text-align:right;">Сумма</th>
+        </tr></thead>
+        <tbody>
+          <tr>
+            <td><svg width="11" height="11" viewBox="0 0 32 32" fill="none" style="color:#F43F5E;"><path d="M4 4L28 4L28 22L22 28L4 28Z" fill="currentColor"/></svg></td>
+            <td style="font-weight:500;">Иван Петров</td>
+            <td><span class="tag ch4" style="background:rgba(63,110,232,.12);color:#3F6EE8;">В работе</span></td>
+            <td><span class="tag ch4" style="background:rgba(63,110,232,.1);color:#3F6EE8;font-size:9px;">direct</span></td>
+            <td style="text-align:right;"><span class="num">376 185 ₽</span></td>
+          </tr>
+          <tr>
+            <td><svg width="11" height="11" viewBox="0 0 32 32" fill="none" style="color:#FCD34D;"><path d="M4 4L28 4L28 22L22 28L4 28Z" fill="currentColor" fill-opacity=".4"/><path d="M4 4L28 4L28 22L22 28L4 28Z" stroke="currentColor" stroke-width="3"/></svg></td>
+            <td style="font-weight:500;">Мария Сидорова</td>
+            <td><span class="tag ch4" style="background:rgba(252,211,77,.25);color:#B45309;">Связались</span></td>
+            <td><span class="tag ch4" style="background:rgba(99,102,241,.1);color:#6366F1;font-size:9px;">yandex</span></td>
+            <td style="text-align:right;"><span class="num" style="color:#9A9A9A;">84 000 ₽</span></td>
+          </tr>
+          <tr>
+            <td><svg width="11" height="11" viewBox="0 0 32 32" fill="none" style="color:#10B981;"><path d="M4 4L28 4L28 22L22 28L4 28Z" fill="currentColor"/></svg></td>
+            <td style="font-weight:500;">Ольга Козлова</td>
+            <td><span class="tag ch4" style="background:rgba(16,185,129,.12);color:#059669;">Завершена</span></td>
+            <td><span class="tag ch4" style="background:rgba(63,110,232,.1);color:#3F6EE8;font-size:9px;">direct</span></td>
+            <td style="text-align:right;"><span class="num" style="color:#10B981;">1 200 000 ₽</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <!-- Buttons row -->
+    <div class="header ch10" style="gap:8px;justify-content:flex-start;">
+      <span class="btn-label">Кнопки</span>
+      <button class="btn btn-primary ch10">Начать диагностику</button>
+      <button class="btn btn-secondary ch10">Отмена</button>
+      <button class="btn btn-ghost ch10">Подробнее</button>
+    </div>
+  </div>
+</div>
+
+</body>
+</html>

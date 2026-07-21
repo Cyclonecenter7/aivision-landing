@@ -191,80 +191,37 @@ const ldBreadcrumb = breadcrumbSchema([
     </div>
   </div>
 
-  <div class="car-wrap">
-    <div class="bey" style="margin-bottom:0"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Система в действии · 3 разреза</span></div>
-    <div class="car-hdr">
-      <div class="car-dots" id="bdots"></div>
-      <span class="car-ctr" id="bctr">1 / 3</span>
-    </div>
-    <div class="car">
-      <div class="car-track" id="btrack">
-
-        <!-- слайд 1: ОПУ — тот же React-island, что и на десктопе -->
-        <div class="car-slide on">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">01</div>
-              <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-                  <span class="car-tab-pill">ОПУ</span>
-                  <span style="font-size:9px;color:#555">P&L по 4 проектам · апрель</span>
-                </div>
-                <div class="car-ttl">Раздельная прибыль каждого проекта</div>
-                <div class="car-desc">4 независимых PnL. Маржа в реальном времени. Один проект — убыточный, решение принято на цифрах.</div>
-              </div>
-            </div>
-            <div class="car-body car-body-island">
-              <BuildDashboard client:visible only="pnl" hideHeader hideFooter />
-            </div>
-          </div>
+  <div class="m-sec">
+    <div class="m-bl">
+      <div class="bey" style="margin-bottom:14px"><div class="bey-ln" style="background:#3F6EE8"></div><span class="bey-tx">Что сделали</span></div>
+      <div class="m-action">
+        <div class="m-action-num">01</div>
+        <div>
+          <div class="m-action-ttl">Видимость — разделили бизнес на 4 финансовые единицы</div>
+          <div class="m-action-desc">Каждый проект — отдельный P&L с собственным учётом. Маржинальность каждого проекта в реальном времени. Собственник видит четыре проекта как четыре отдельных бизнеса и одновременно как один общий.</div>
         </div>
-
-        <!-- слайд 2: ДДС -->
-        <div class="car-slide">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">02</div>
-              <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-                  <span class="car-tab-pill">ДДС</span>
-                  <span style="font-size:9px;color:#555">Движение денег · 12 месяцев</span>
-                </div>
-                <div class="car-ttl">Денежный поток без разрывов</div>
-                <div class="car-desc">Приходы и расходы по 12 месяцам, прогноз 6–12 мес. Кассовые разрывы устранены алертами в системе.</div>
-              </div>
-            </div>
-            <div class="car-body car-body-island">
-              <BuildDashboard client:visible only="dds" hideHeader hideFooter />
-            </div>
-          </div>
+      </div>
+      <div class="m-action">
+        <div class="m-action-num">02</div>
+        <div>
+          <div class="m-action-ttl">Контроль — процессы и роли внутри системы</div>
+          <div class="m-action-desc">Прописали ключевые бизнес-процессы и зашили в платформу. Разделили зоны ответственности. Настроили CRM и связали с финансовым учётом. Бизнес перестал замыкаться на собственнике.</div>
         </div>
-
-        <!-- слайд 3: Баланс -->
-        <div class="car-slide">
-          <div class="car-card">
-            <div class="car-head">
-              <div class="car-num">03</div>
-              <div style="flex:1;min-width:0">
-                <div style="display:flex;align-items:center;gap:6px;margin-bottom:4px">
-                  <span class="car-tab-pill">Баланс</span>
-                  <span style="font-size:9px;color:#555">Активы / Обязательства</span>
-                </div>
-                <div class="car-ttl">Чистые активы и долговая нагрузка</div>
-                <div class="car-desc">ROE, ликвидность, оборачиваемость — собственник видит реальную финансовую устойчивость, а не «остаток на счёте».</div>
-              </div>
-            </div>
-            <div class="car-body car-body-island">
-              <BuildDashboard client:visible only="balance" hideHeader hideFooter />
-            </div>
-          </div>
+      </div>
+      <div class="m-action">
+        <div class="m-action-num">03</div>
+        <div>
+          <div class="m-action-ttl">Управляемость — решения на данных</div>
+          <div class="m-action-desc">Признали один проект убыточным и приняли решение по его судьбе. Усилили два стратегических проекта. Контроль налоговых оплат через алерты. Прогноз ДДС на 6–12 месяцев.</div>
         </div>
-
       </div>
     </div>
-    <div class="car-nav">
-      <button class="car-btn" id="bprev" disabled>← Назад</button>
-      <button class="car-btn" id="bnext">Далее →</button>
+  </div>
+
+  <div class="m-sec">
+    <div class="bey" style="margin-bottom:12px;padding:0 4px"><div class="bey-ln" style="background:#94A3B8"></div><span class="bey-tx">Система в действии</span></div>
+    <div class="sales-dash-m">
+      <BuildDashboard client:visible />
     </div>
   </div>
 
@@ -296,38 +253,3 @@ const ldBreadcrumb = breadcrumbSchema([
 
 </BaseLayout>
 
-<script>
-  (function () {
-    const track = document.getElementById('btrack');
-    const dotsEl = document.getElementById('bdots');
-    const ctr = document.getElementById('bctr');
-    const prev = document.getElementById('bprev') as HTMLButtonElement | null;
-    const next = document.getElementById('bnext') as HTMLButtonElement | null;
-    if (!track || !dotsEl || !ctr || !prev || !next) return;
-    const total = track.children.length;
-    let cur = 0;
-    for (let i = 0; i < total; i++) {
-      const d = document.createElement('div');
-      d.className = 'car-dot' + (i === 0 ? ' on' : '');
-      d.addEventListener('click', () => go(i));
-      dotsEl.appendChild(d);
-    }
-    const slides = Array.from(track!.children) as HTMLElement[];
-    function go(n: number) {
-      cur = Math.max(0, Math.min(total - 1, n));
-      slides.forEach((s, i) => s.classList.toggle('on', i === cur));
-      dotsEl!.querySelectorAll('.car-dot').forEach((d, i) => d.classList.toggle('on', i === cur));
-      ctr!.textContent = `${cur + 1} / ${total}`;
-      prev!.disabled = cur === 0;
-      next!.disabled = cur === total - 1;
-    }
-    prev.addEventListener('click', () => go(cur - 1));
-    next.addEventListener('click', () => go(cur + 1));
-    let sx = 0;
-    track.addEventListener('touchstart', (e) => { sx = e.touches[0].clientX; }, { passive: true });
-    track.addEventListener('touchend', (e) => {
-      const dx = e.changedTouches[0].clientX - sx;
-      if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
-    }, { passive: true });
-  })();
-</script>

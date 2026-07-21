@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<!-- @dsCard group="Components" name="Components — Icon & Segmented" subtitle="Icon buttons · сегментированный переключатель периода — паттерны сверх базовой кнопки" viewport="700x260" -->
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans:wght@400;500;600;700&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{background:#0A0A0A;color:#fff;padding:24px;-webkit-font-smoothing:antialiased;font-family:'IBM Plex Sans',system-ui,sans-serif;}
+.note{font-size:11px;color:#666;margin-bottom:20px;line-height:1.5;}
+.note b{color:#A3A3A3;font-weight:600;}
+.row{display:flex;align-items:center;gap:10px;margin-bottom:14px;flex-wrap:wrap;}
+.label{font-size:10px;font-weight:600;letter-spacing:0.12em;text-transform:uppercase;color:#666;width:130px;flex-shrink:0;}
+.ch{clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);}
+.ch6{clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);}
+button{font-family:'IBM Plex Sans',system-ui,sans-serif;border:none;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:6px;}
+.divider{height:1px;background:#1A1A1A;margin:18px 0;}
+</style>
+</head>
+<body>
+  <div class="note">Базовые варианты (primary / secondary / ghost / danger) и размеры — в карточке <b>Component — Button</b>. Здесь только то, чего там нет.</div>
+
+  <div class="row">
+    <div class="label">Icon · solid</div>
+    <button class="ch" style="width:40px;height:40px;background:#3F6EE8;color:#fff;padding:0;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+    </button>
+    <button class="ch" style="width:40px;height:40px;background:#222;color:#A3A3A3;padding:0;">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"/><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"/></svg>
+    </button>
+    <button class="ch6" style="width:36px;height:36px;background:transparent;color:#666;padding:0;">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+    </button>
+  </div>
+
+  <div class="divider"></div>
+
+  <div class="row">
+    <div class="label">Segmented</div>
+    <div style="display:flex;background:#222;padding:3px;gap:2px;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);">
+      <button style="height:30px;padding:0 14px;font-size:12px;font-weight:600;white-space:nowrap;background:#181818;color:#fff;clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);">Сегодня</button>
+      <button style="height:30px;padding:0 14px;font-size:12px;font-weight:500;white-space:nowrap;background:transparent;color:#A3A3A3;clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);">Неделя</button>
+      <button style="height:30px;padding:0 14px;font-size:12px;font-weight:500;white-space:nowrap;background:transparent;color:#A3A3A3;clip-path:polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);">Этот месяц</button>
+    </div>
+  </div>
+</body>
+</html>

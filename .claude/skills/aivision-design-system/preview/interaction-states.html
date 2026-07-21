@@ -1,0 +1,90 @@
+<!-- @dsCard group="Motion" name="Motion — Interaction States" viewport="940x620" subtitle="rest / hover / press / focus / disabled / loading · единый набор по компонентам · фокус = ChamferBorder, не border" -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link rel="stylesheet" href="../colors_and_type.css"/>
+<style>
+  body{background:var(--bg);color:var(--text-primary);font-family:var(--font-ui);padding:30px;-webkit-font-smoothing:antialiased;}
+  .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:6px;}
+  h1{font-family:var(--font-display);font-weight:500;font-size:28px;letter-spacing:-.02em;margin-bottom:4px;}
+  .lede{color:var(--text-secondary);font-size:13.5px;max-width:720px;margin-bottom:26px;text-wrap:pretty;}
+  code{font-family:var(--font-mono);font-size:.85em;color:var(--text-secondary);background:var(--surface-alt);padding:1px 5px;}
+  .sec{font-family:var(--font-mono);font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:var(--brand);margin:26px 0 14px;display:flex;align-items:center;gap:10px;}
+  .sec::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  .states{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;}
+  .st{display:flex;flex-direction:column;align-items:flex-start;gap:10px;}
+  .st .name{font-family:var(--font-mono);font-size:10px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);}
+  .st .meta{font-size:10.5px;color:var(--text-muted);line-height:1.4;}
+  .st .meta b{color:var(--text-secondary);font-weight:600;}
+
+  /* Button base */
+  .btn{position:relative;height:40px;padding:0 16px;display:inline-flex;align-items:center;gap:7px;font-family:var(--font-ui);font-size:13px;font-weight:600;color:#fff;background:var(--brand);border:none;cursor:pointer;white-space:nowrap;
+       clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}
+  /* hover/press are TRANSIENT motion — animate deep then back to 10px on a loop */
+  @keyframes demo-hover{0%,100%{clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}40%,70%{clip-path:polygon(0 0,100% 0,100% calc(100% - 16px),calc(100% - 16px) 100%,0 100%);}}
+  @keyframes demo-press{0%,100%{clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}40%,70%{clip-path:polygon(0 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%);}}
+  .btn.hover{background:#5580ec;animation:demo-hover 2.4s var(--ease-out) infinite;}
+  .btn.press{background:#3560cf;animation:demo-press 2.4s var(--ease-out) infinite;}
+  @media (prefers-reduced-motion: reduce){.btn.hover,.btn.press{animation:none;}}
+  .btn.disabled{opacity:.4;cursor:not-allowed;}
+  .btn.loading{color:rgba(255,255,255,.85);}
+  .focus-wrap{position:relative;display:inline-flex;}
+  .focus-wrap svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+  .focus-wrap svg polygon{fill:none;stroke:var(--brand);stroke-width:2;}
+  .spin{width:15px;height:15px;animation:aiv-spin .8s linear infinite;}
+
+  /* Input field */
+  .ipt{position:relative;width:100%;}
+  .ipt input{display:block;width:100%;height:38px;padding:0 12px;background:var(--surface-alt);color:var(--text-primary);font-family:var(--font-ui);font-size:13px;border:none;outline:none;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);}
+  .ipt svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+  .ipt svg polygon{fill:none;stroke-width:1.5;}
+
+  /* KPI */
+  .kpi{position:relative;background:var(--surface);padding:13px 15px;width:100%;clip-path:polygon(0 0,100% 0,100% calc(100% - 10px),calc(100% - 10px) 100%,0 100%);}
+  .kpi .l{font-family:var(--font-mono);font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--text-muted);}
+  .kpi .v{font-family:var(--font-display);font-size:26px;font-weight:500;letter-spacing:-.02em;}
+  .kpi.sel svg{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;overflow:visible;}
+  .kpi.sel svg polygon{fill:none;stroke:var(--brand);stroke-width:2;}
+  .twocol{display:grid;grid-template-columns:1fr 1fr;gap:30px;align-items:start;}
+  .col h2{font-size:13px;font-weight:600;margin-bottom:14px;}
+  .stack{display:flex;flex-direction:column;gap:14px;}
+  .field-row{display:flex;flex-direction:column;gap:6px;}
+  .field-row .name{font-family:var(--font-mono);font-size:9px;letter-spacing:.08em;text-transform:uppercase;color:var(--text-muted);}
+</style>
+</head>
+<body>
+  <div class="eyebrow">Канон · состояния</div>
+  <h1>Единый набор состояний</h1>
+  <p class="lede">Каждый интерактивный компонент проходит один и тот же набор. Скос — фиксированные <b>10px</b>; на hover/press он <b>транзиентно</b> углубляется и сразу возвращается к 10px (motion, не размер — «больше срез» НЕ значит «важнее»). Фокус и выбор — всегда <code>ChamferBorder</code> SVG-обводка по собственному скосу, никогда <code>border</code>/<code>outline</code>.</p>
+
+  <div class="sec">Button — 6 состояний</div>
+  <div class="states">
+    <div class="st"><span class="name">rest</span><button class="btn">Создать</button><span class="meta">скос <b>10px</b></span></div>
+    <div class="st"><span class="name">hover</span><button class="btn hover">Создать</button><span class="meta">скос <b>10→16→10px</b> · <code>instant</code></span></div>
+    <div class="st"><span class="name">press</span><button class="btn press">Создать</button><span class="meta">скос <b>10→18→10px</b> · <code>fast</code></span></div>
+    <div class="st"><span class="name">focus</span><div class="focus-wrap"><button class="btn">Создать</button><svg viewBox="0 0 110 40" preserveAspectRatio="none"><polygon points="1,1 109,1 109,29 99,39 1,39"/></svg></div><span class="meta"><b>ChamferBorder</b> stroke</span></div>
+    <div class="st"><span class="name">disabled</span><button class="btn disabled">Создать</button><span class="meta">opacity <b>.4</b></span></div>
+    <div class="st"><span class="name">loading</span><button class="btn loading"><svg class="spin" viewBox="0 0 24 24"><circle cx="12" cy="12" r="9" fill="none" stroke="rgba(255,255,255,.3)" stroke-width="2.5"/><circle cx="12" cy="12" r="9" fill="none" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-dasharray="16 56"/></svg>Создаём</button><span class="meta">Spinner + текст</span></div>
+  </div>
+
+  <div class="twocol" style="margin-top:30px;">
+    <div class="col">
+      <div class="sec" style="margin-top:0;">Input — поле</div>
+      <div class="stack">
+        <div class="field-row"><span class="name">rest</span><div class="ipt"><input value="Иван Петров"/><svg viewBox="0 0 280 38" preserveAspectRatio="none"><polygon points="0,0 280,0 280,30 272,38 0,38" style="stroke:var(--border-strong);"/></svg></div></div>
+        <div class="field-row"><span class="name">focus</span><div class="ipt"><input value="Иван Петров"/><svg viewBox="0 0 280 38" preserveAspectRatio="none"><polygon points="0,0 280,0 280,30 272,38 0,38" style="stroke:var(--brand);stroke-width:2;"/></svg></div></div>
+        <div class="field-row"><span class="name">error</span><div class="ipt"><input value="неверный_email"/><svg viewBox="0 0 280 38" preserveAspectRatio="none"><polygon points="0,0 280,0 280,30 272,38 0,38" style="stroke:var(--crimson);stroke-width:2;"/></svg></div></div>
+      </div>
+    </div>
+    <div class="col">
+      <div class="sec" style="margin-top:0;">KPICard — выбор на месте</div>
+      <div class="stack">
+        <div class="field-row"><span class="name">rest</span><div class="kpi"><div class="l">Сделки</div><div class="v">42</div></div></div>
+        <div class="field-row"><span class="name">selected — ChamferBorder</span><div class="kpi sel"><svg viewBox="0 0 280 66" preserveAspectRatio="none"><polygon points="1,1 279,1 279,55 269,65 1,65"/></svg><div class="l">Сделки</div><div class="v" style="color:var(--brand);">42</div></div></div>
+      </div>
+    </div>
+  </div>
+</body>
+</html>

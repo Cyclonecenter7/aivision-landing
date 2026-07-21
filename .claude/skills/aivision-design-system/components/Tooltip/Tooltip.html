@@ -1,0 +1,34 @@
+<!-- @dsCard group="Components" name="Component — Tooltip" viewport="640x320" subtitle="Подсказка по hover/focus · скос + drop-shadow · pop-in · 4 стороны · задержка 120мс" -->
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8"/>
+<link rel="stylesheet" href="../../colors_and_type.css"/>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="../../_ds_bundle.js"></script>
+<style>
+  body{background:var(--bg);color:var(--text-primary);font-family:var(--font-ui);padding:30px;-webkit-font-smoothing:antialiased;}
+  .eyebrow{font-family:var(--font-mono);font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:var(--text-muted);margin-bottom:8px;}
+  .note{font-size:11px;color:var(--text-muted);margin-bottom:28px;}
+  #root{display:flex;gap:16px;flex-wrap:wrap;padding:40px 0;}
+  .trg{height:36px;padding:0 14px;display:inline-flex;align-items:center;font-size:13px;font-weight:500;color:var(--text-primary);background:var(--surface-alt);border:none;cursor:default;clip-path:polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);}
+</style>
+</head>
+<body>
+<div class="eyebrow">Component · Tooltip</div>
+<div class="note">Наведи на любую кнопку (в статичном превью открыта одна).</div>
+<div id="root"></div>
+<script>
+  const { Tooltip } = window.AIVISIONDesignSystem1_f5b66e;
+  const h = React.createElement;
+  const Btn = (t) => h('button',{className:'trg'},t);
+  ReactDOM.createRoot(document.getElementById('root')).render(h(React.Fragment, null,
+    h(Tooltip,{label:'Сверху',placement:'top'},Btn('Top')),
+    h(Tooltip,{label:'Снизу',placement:'bottom'},Btn('Bottom')),
+    h(Tooltip,{label:'Слева',placement:'left'},Btn('Left')),
+    h(Tooltip,{label:'Экспорт в CSV',placement:'right'},Btn('Right'))
+  ));
+</script>
+</body>
+</html>

@@ -1,4 +1,4 @@
-// AIVISION CRM Service Worker
+// SHVEC Service Worker
 // Handles incoming web-push events + click → focus/navigate.
 // Kept minimal — no caching strategies (CRM is online-only).
 
@@ -22,7 +22,7 @@ self.addEventListener('push', (event) => {
   } catch (e) {
     data = { title: 'Уведомление', body: event.data ? event.data.text() : '' };
   }
-  const title = data.title || 'AIVISION CRM';
+  const title = data.title || 'Швец';
   // Tag = unique per entity (link contains entity id) → each event = separate notification.
   // Same entity updated → previous replaced (avoids spam on repeated edits of same lead/deal).
   const tag = data.link || data.type + ':' + Date.now();
@@ -87,7 +87,7 @@ self.addEventListener('notificationclick', (event) => {
   event.waitUntil(
     (async () => {
       const wins = await self.clients.matchAll({ type: 'window', includeUncontrolled: true });
-      // Try to focus an existing CRM tab and navigate it.
+      // Try to focus an existing SHVEC tab and navigate it.
       for (const w of wins) {
         if (w.url.includes('/admin')) {
           await w.focus();
@@ -104,7 +104,7 @@ self.addEventListener('notificationclick', (event) => {
           return;
         }
       }
-      // No CRM tab open → open new window
+      // No SHVEC tab open → open new window
       await self.clients.openWindow(targetUrl);
     })()
   );

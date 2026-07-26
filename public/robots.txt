@@ -5,4 +5,4 @@ Disallow: /demo/
 # Рекламные метки не создают дубли страниц (Yandex Clean-param)
 Clean-param: utm_source&utm_medium&utm_campaign&utm_term&utm_content&yclid&gclid&_openstat&from
 
-Sitemap: https://aivisionpro.ru/sitemap-index.xml
+Sitemap: https://shvec.tech/sitemap-index.xml

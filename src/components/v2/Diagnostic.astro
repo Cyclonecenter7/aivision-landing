@@ -43,7 +43,7 @@ const SIGNS = [
     <div class="dg-note">
       <div class="dg-note-body">
         <p class="dg-note-p">
-          Если для вас актуальны хотя&nbsp;бы <strong>3&nbsp;пункта</strong> из&nbsp;списка&nbsp;—
+          Если для вас актуальны хотя&nbsp;бы <strong>2&nbsp;пункта</strong> из&nbsp;списка&nbsp;—
           это повод задуматься об&nbsp;изменениях. Проблема не&nbsp;всегда в&nbsp;команде
           или выборе CRM: возможно, бизнес перерос привычные инструменты, и&nbsp;ему нужна
           единая система управления под&nbsp;ключ.
@@ -62,7 +62,7 @@ const SIGNS = [
         data-track="diagnostic_cta"
         data-track-block="diagnostic"
       >
-        Записаться на диагностику
+        Найти слепые зоны
         <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
           <path d="M5 12h14M12 5l7 7-7 7" />
         </svg>
@@ -166,15 +166,20 @@ const SIGNS = [
   }
 
   @media (max-width: 768px) {
-    .dg-h2 { font-size: 27px; }
-    .dg-grid { grid-template-columns: 1fr; gap: 8px; margin-bottom: 28px; }
-    .dg-item { padding: 18px 18px; gap: 13px; }
-    .dg-text { font-size: 14px; }
+    .dg-h2 { font-size: 26px; }
+    .dg-head { margin-bottom: 24px; }
+    .dg-lead { font-size: 15px; }
+    .dg-grid { grid-template-columns: 1fr; gap: 6px; margin-bottom: 20px; }
+    .dg-item { padding: 13px 15px; gap: 11px; }
+    .dg-box { width: 26px; height: 26px; }
+    .dg-num { font-size: 11px; }
+    .dg-text { font-size: 14px; line-height: 1.45; padding-top: 2px; }
     .dg-note {
       grid-template-columns: 1fr;
-      gap: 24px;
-      padding: 28px 22px;
+      gap: 18px;
+      padding: 22px 18px;
     }
-    .btn.btn-on-light.dg-cta { width: 100%; justify-content: center; }
+    .dg-note-p { font-size: 14px; }
+    .btn.btn-on-brand.dg-cta { width: 100%; justify-content: center; }
   }
 </style>

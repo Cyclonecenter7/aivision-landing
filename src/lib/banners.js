@@ -11,7 +11,7 @@ const INGEST_KEY = import.meta.env.PUBLIC_INGEST_KEY;
 // --- клиентский дедуп показа (второй слой к серверному freq_cap) ---
 
 function dedupKey(bannerId) {
-  return `aivision_banner_shown:${bannerId}`;
+  return `shvec_banner_shown:${bannerId}`;
 }
 
 // Уже показывали этот баннер в рамках текущего freq-окна?
@@ -19,6 +19,7 @@ function alreadyShown(banner) {
   const cap = banner.freq_cap || 'once_session';
   const key = dedupKey(banner.id);
   try {
+    if (sessionStorage.getItem(`shvec_banner_seen_page:${banner.id}`)) return true;
     if (cap === 'every_visit') return false;
     if (cap === 'once_session') return !!sessionStorage.getItem(key);
     // once_visitor (и любые незнакомые cap-значения) — долгоживущий localStorage
@@ -36,7 +37,7 @@ function markShown(banner) {
     if (cap === 'once_session') sessionStorage.setItem(key, ts);
     else if (cap !== 'every_visit') localStorage.setItem(key, ts);
     // в пределах одной загрузки страницы не рендерим повторно никогда
-    sessionStorage.setItem(`aivision_banner_seen_page:${banner.id}`, ts);
+    sessionStorage.setItem(`shvec_banner_seen_page:${banner.id}`, ts);
   } catch {
     /* хранилище недоступно — не критично */
   }
@@ -55,6 +56,7 @@ async function recordImpression(banner, ids) {
       },
       body: JSON.stringify({
         banner_id: banner.id,
+        event_id: crypto.randomUUID(),
         visitor_id: ids.visitor_id,
         session_id: ids.session_id,
       }),
@@ -80,7 +82,7 @@ function showBanner(banner, ids) {
   markShown(banner);
 
   // Island BannerHost смонтирован в BaseLayout и слушает это событие.
-  window.dispatchEvent(new CustomEvent('aivision:show-banner', { detail: banner }));
+  window.dispatchEvent(new CustomEvent('shvec:show-banner', { detail: banner }));
 
   // Показ фиксируем сразу после рендера.
   recordImpression(banner, ids);
@@ -107,8 +109,8 @@ export async function initBanners(ids) {
   if (typeof window === 'undefined') return;
   if (!API_BASE || !INGEST_KEY) return;
 
-  const visitor_id = ids?.visitor_id || localStorage.getItem('aivision_visitor_id') || '';
-  const session_id = ids?.session_id || sessionStorage.getItem('aivision_session_id') || '';
+  const visitor_id = ids?.visitor_id || localStorage.getItem('shvec_visitor_id') || '';
+  const session_id = ids?.session_id || sessionStorage.getItem('shvec_session_id') || '';
   if (!visitor_id || !session_id) return;
 
   const params = new URLSearchParams({

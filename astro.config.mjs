@@ -6,7 +6,7 @@ import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
 export default defineConfig({
-  site: process.env.PUBLIC_SITE_URL || 'https://aivisionpro.ru',
+  site: process.env.PUBLIC_SITE_URL || 'https://shvec.tech',
   trailingSlash: 'always',
   build: {
     format: 'directory',

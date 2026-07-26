@@ -1,4 +1,4 @@
-# AIVISION Landing
+# SHVEC Landing
 
 Лендинг-сайт. Только фронтенд (статика, билд через Vite).
 
@@ -20,7 +20,7 @@ npm run dev                # http://localhost:5173
 npm run build              # → dist/
 ```
 
-`dist/` раздаётся через Nginx с домена `aivisionpro.ru`.
+`dist/` раздаётся через Nginx с домена `shvec.tech`.
 
 ## Зависимости
 
@@ -41,7 +41,7 @@ git add public/demo
 git commit -m "chore(demo): rebuild — <причина>"
 ```
 
-Скрипт ожидает CRM в `../AIVISION CRM` (можно переопределить `CRM_PATH`).
+Скрипт ожидает кабинет в `../Швец ап/aivision-sp-front` (можно переопределить `CRM_PATH`).
 Автоматизация через GitHub Action — отложено, текущий процесс ручной (тех долг).
 
 ## Demo gate

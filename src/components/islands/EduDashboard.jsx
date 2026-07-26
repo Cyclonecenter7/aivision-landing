@@ -223,7 +223,7 @@ export default function EduDashboard() {
         {tab === 'products' && <DashProducts />}
         {tab === 'motiv' && <DashMotivation />}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: 7, color: T.t3 }}>Платформа AIVISION · NDA · данные изменены</span>
+          <span style={{ fontSize: 7, color: T.t3 }}>Платформа SHVEC · NDA · данные изменены</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}><div style={{ width: 5, height: 5, borderRadius: '50%', background: C.emerald }} /><span style={{ fontSize: 7, color: T.t3 }}>live</span></div>
         </div>
       </div>

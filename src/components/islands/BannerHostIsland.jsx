@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 import { X } from 'lucide-react';
 
-// Смонтирован один раз в BaseLayout (client:load). Слушает 'aivision:show-banner'
+// Смонтирован один раз в BaseLayout (client:load). Слушает 'shvec:show-banner'
 // (dispatch из src/lib/banners.js) и рендерит скошенный бокс в цвете DS-палитры.
 //
 // Скос (chamfer) — канон DS: один 10px снизу справа. Реализован ГРАДИЕНТОМ,
@@ -9,7 +9,7 @@ import { X } from 'lucide-react';
 // диагональ без «лестницы»). Прозрачный угол проявляет фон под баннером —
 // геометрически идентично DS clip-path polygon.
 
-// 7 цветов палитры AIVISION v1.0 (закрытая система) → hex.
+// 7 цветов палитры SHVEC v1.0 (закрытая система) → hex.
 const PALETTE = {
   brand: '#3F6EE8',
   emerald: '#10B981',
@@ -33,8 +33,8 @@ export default function BannerHostIsland() {
 
   useEffect(() => {
     const handler = (e) => setBanner(e.detail || null);
-    window.addEventListener('aivision:show-banner', handler);
-    return () => window.removeEventListener('aivision:show-banner', handler);
+    window.addEventListener('shvec:show-banner', handler);
+    return () => window.removeEventListener('shvec:show-banner', handler);
   }, []);
 
   if (!banner) return null;
@@ -63,7 +63,7 @@ export default function BannerHostIsland() {
     }
     // Открытие формы заявки — тот же CustomEvent, что и остальные CTA лендинга.
     window.dispatchEvent(
-      new CustomEvent('aivision:open-contact', { detail: { source } })
+      new CustomEvent('shvec:open-contact', { detail: { source } })
     );
     close();
   };
@@ -116,7 +116,7 @@ export default function BannerHostIsland() {
             color: eyebrowColor,
           }}
         >
-          AIVISION
+          SHVEC
         </span>
       </div>
 
@@ -155,6 +155,7 @@ export default function BannerHostIsland() {
         onClick={onCta}
         data-track="banner_cta"
         data-track-block={source}
+        data-banner-id={banner.id}
         data-track-text={banner.cta_text || 'Оставить заявку'}
         style={{
           display: 'inline-flex',

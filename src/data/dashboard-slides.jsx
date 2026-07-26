@@ -52,7 +52,7 @@ function Callout({ children, tag, t }) {
   return (
     <div style={{ background: '#0A0A0A', padding: '10px 14px', marginTop: 10, ...ch(6) }}>
       <div style={{ fontSize: 7, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#555', marginBottom: 3 }}>
-        {tag || 'ВЫВОД AIVISION'}
+        {tag || 'ВЫВОД SHVEC'}
       </div>
       <div style={{ fontSize: 11, color: '#fff', lineHeight: 1.5 }}>{children}</div>
     </div>
@@ -442,7 +442,7 @@ function CrmSlidePnL() {
           </div>
         ))}
       </div>
-      <Callout tag="ДИАГНОСТИКА AIVISION">Проект В убыточен — маржа −900 000 ₽. Скрыт в общем PnL до внедрения системы.</Callout>
+      <Callout tag="ДИАГНОСТИКА SHVEC">Проект В убыточен — маржа −900 000 ₽. Скрыт в общем PnL до внедрения системы.</Callout>
     </div>
   );
 }
@@ -600,7 +600,7 @@ function EcomSlideProducts() {
 }
 
 // ─────────────────────────────────────────────────────────────
-// VARIANT: "platform" — реальные экраны AIVISION CRM (dark)
+// VARIANT: "platform" — реальные экраны SHVEC CRM (dark)
 // Дашборд / Заявки / Клиенты / Задачи
 // ─────────────────────────────────────────────────────────────
 

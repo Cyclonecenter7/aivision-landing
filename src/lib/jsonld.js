@@ -1,4 +1,4 @@
-const SITE = import.meta.env.PUBLIC_SITE_URL || 'https://aivisionpro.ru';
+const SITE = import.meta.env.PUBLIC_SITE_URL || 'https://shvec.tech';
 
 // Organization — оператор персональных данных.
 // Данные из пакета партнёра (Будаева Ю.Ю., ИП).
@@ -6,11 +6,11 @@ export const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   '@id': `${SITE}/#organization`,
-  name: 'AIVISION',
+  name: 'SHVEC',
   alternateName: 'Будаева Юлия Юрьевна',
   url: SITE,
   logo: `${SITE}/logo-512.png`,
-  email: 'admin@aivisionpro.ru',
+  email: 'admin@shvec.tech',
   telephone: '+7-985-664-80-01',
   taxID: '333412284650',
   description:
@@ -19,14 +19,12 @@ export const organizationSchema = {
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: '+7-985-664-80-01',
-    email: 'admin@aivisionpro.ru',
+    email: 'admin@shvec.tech',
     contactType: 'sales',
     areaServed: 'RU',
     availableLanguage: 'Russian',
   },
-  sameAs: [
-    'https://t.me/aivision_pro',
-  ],
+  sameAs: [],
 };
 
 export const websiteSchema = {
@@ -34,7 +32,7 @@ export const websiteSchema = {
   '@type': 'WebSite',
   '@id': `${SITE}/#website`,
   url: SITE,
-  name: 'AIVISION',
+  name: 'SHVEC',
   publisher: { '@id': `${SITE}/#organization` },
   inLanguage: 'ru-RU',
 };
@@ -89,11 +87,22 @@ export const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   '@id': `${SITE}/#service`,
-  name: 'Управленческая платформа AIVISION',
+  name: 'Управленческая платформа SHVEC',
   serviceType: 'Внедрение управленческого учёта и BI',
   provider: { '@id': `${SITE}/#organization` },
   areaServed: { '@type': 'Country', name: 'Россия' },
   offers: [
+    {
+      '@type': 'Offer',
+      name: 'Подписка на платформу',
+      priceCurrency: 'RUB',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        minPrice: 5000,
+        priceCurrency: 'RUB',
+        unitCode: 'MON',
+      },
+    },
     {
       '@type': 'Offer',
       name: 'Внедрение платформы',

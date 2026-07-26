@@ -40,7 +40,7 @@ const {
   jsonLd = [],
 } = Astro.props;
 
-const SITE = import.meta.env.PUBLIC_SITE_URL || 'https://aivisionpro.ru';
+const SITE = import.meta.env.PUBLIC_SITE_URL || 'https://shvec.tech';
 const ogImageFull = ogImage.startsWith('http') ? ogImage : `${SITE}${ogImage}`;
 const twitterImageRaw = twitterImage || ogImage;
 const twitterImageFull = twitterImageRaw.startsWith('http')
@@ -83,7 +83,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL;
     <meta property="og:image:height" content="630" />
     <meta property="og:image:alt" content={ogTitleFinal} />
     <meta property="og:locale" content="ru_RU" />
-    <meta property="og:site_name" content="AIVISION" />
+    <meta property="og:site_name" content="SHVEC" />
 
     <meta name="twitter:card" content="summary_large_image" />
     <meta name="twitter:title" content={ogTitleFinal} />
@@ -108,7 +108,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL;
   <body class="font-inter overflow-x-hidden">
     <slot />
 
-    <!-- Хост баннеров по действиям визитора (слушает 'aivision:show-banner') -->
+    <!-- Хост баннеров по действиям визитора (слушает 'shvec:show-banner') -->
     <BannerHostIsland client:load />
 
     <!-- Cookie-consent: грузит Я.Метрику только после согласия (prod) -->
@@ -127,7 +127,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL;
         const openBtn = target.closest('.js-open-contact') as HTMLElement | null;
         if (openBtn) {
           const source = openBtn.dataset.source || 'modal';
-          window.dispatchEvent(new CustomEvent('aivision:open-contact', { detail: { source } }));
+          window.dispatchEvent(new CustomEvent('shvec:open-contact', { detail: { source } }));
         }
 
         const el = target.closest('[data-track]') as HTMLElement | null;
@@ -135,7 +135,7 @@ const apiUrl = import.meta.env.PUBLIC_API_URL;
         const id = el.dataset.track || '';
         const block = el.dataset.trackBlock || '';
         const text = el.dataset.trackText || el.textContent?.trim() || '';
-        trackClick(text, id, block);
+        trackClick(text, id, block, { bannerId: el.dataset.bannerId || '' });
       });
     </script>
   </body>

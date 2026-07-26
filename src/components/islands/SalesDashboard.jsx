@@ -334,7 +334,7 @@ export default function SalesDashboard() {
         {tab === 'purchases' && <TabPurchases isMobile={isMobile} />}
         {tab === 'finance' && <TabFinance isMobile={isMobile} />}
         <div style={{ paddingTop: 2 }}>
-          <span style={{ fontSize: 7, color: T.t3 }}>Платформа AIVISION · NDA · данные изменены</span>
+          <span style={{ fontSize: 7, color: T.t3 }}>Платформа SHVEC · NDA · данные изменены</span>
         </div>
       </div>
     </div>

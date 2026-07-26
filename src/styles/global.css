@@ -71,6 +71,11 @@
 
   html {
     scroll-behavior: smooth;
+    /* Прилепленный навбар не должен накрывать якорную секцию */
+    scroll-padding-top: 76px;
+  }
+  @media (max-width: 768px) {
+    html { scroll-padding-top: 64px; }
   }
 
   /* No italic anywhere — brand uses color accent, not italic */
@@ -86,7 +91,7 @@
   .bg-black    { background: #000000;                color: #fff; }
 
   .section {
-    padding: 96px 48px;
+    padding: 76px 48px;
     position: relative;
   }
   .container {
@@ -155,20 +160,40 @@
   .bg-light .btn-ghost { color: var(--l-text-sec); }
   .bg-black .btn-ghost { color: var(--d-text-sec); }
 
+  /* Базовый бар — во всю ширину. Центрирование контента — на .nav-inner.
+     Страницы кейсов перекрывают .nav через `.case-v3 .nav` (своя геометрия). */
   .nav {
     position: absolute;
     top: 0; left: 0; right: 0;
-    z-index: 10;
-    padding: 24px 48px;
+    width: 100%;
+    z-index: 100;
+  }
+  /* Главная: бар прилеплен к верху экрана всегда. */
+  .nav--sticky {
+    position: fixed;
+    border-bottom: 1px solid transparent;
+    transition: background 0.2s ease, border-color 0.2s ease;
+  }
+  .nav--sticky.nav--solid {
+    background: rgba(10,10,10,0.92);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom-color: #2A2A2A;
+  }
+  .nav-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 22px 48px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-    max-width: 1200px;
-    margin: 0 auto;
-    width: 100%;
-    left: 50%;
-    transform: translateX(-50%);
+    gap: 24px;
+    transition: padding 0.2s ease;
   }
+  .nav--solid .nav-inner { padding: 12px 48px; }
+  .nav-actions { display: flex; align-items: center; gap: 12px; }
+  .nav--solid .btn { padding: 11px 22px; }
+
   .nav-logo {
     display: flex;
     align-items: center;
@@ -176,6 +201,8 @@
     font-size: 14px;
     font-weight: 700;
     letter-spacing: 0.15em;
+    color: #fff;
+    text-decoration: none;
   }
   .nav-logo svg { width: 22px; height: 22px; }
   .nav-links {
@@ -510,11 +537,14 @@
     background: #fff;
   }
 
+  /* Подписи висят справа от фигуры (left:100%), поэтому stage прижат к началу
+     колонки — иначе «Управляемость» уезжает за правый край вьюпорта. */
   .triad-stage {
     position: relative;
     width: 340px;
     height: 340px;
-    margin: 0 auto;
+    margin: 0;
+    justify-self: start;
   }
 
   .triad-svg {
@@ -1963,7 +1993,7 @@
   }
   .diff-col-h.us { color: var(--brand); }
 
-  .cta-section { padding: 140px 48px; }
+  .cta-section { padding: 96px 48px; }
 
   .cta-wrap {
     max-width: 1100px;
@@ -2215,38 +2245,42 @@
     max-width: 100vw !important;
   }
 
-  .section { padding: 64px 20px; }
-  .problem-section { padding: 64px 20px; }
-  .cta-section { padding: 80px 20px; }
+  .section { padding: 48px 20px; }
+  .problem-section { padding: 48px 20px; }
+  .cta-section { padding: 56px 20px; }
 
-  .nav {
-    padding: 16px 20px;
-    flex-wrap: wrap;
+  .nav-inner {
+    padding: 14px 20px;
     gap: 12px;
   }
+  .nav--solid .nav-inner { padding: 10px 20px; }
   .nav-links { display: none; }
   .nav-logo { font-size: 12px; }
   .nav-logo svg { width: 18px; height: 18px; }
   .nav-tg { width: 40px; height: 40px; }
-  .nav .btn { padding: 12px 18px; font-size: 13px; }
+  .nav .btn { padding: 11px 16px; font-size: 12px; }
+  .nav--solid .btn { padding: 10px 16px; font-size: 12px; }
 
   .hero {
     grid-template-columns: 1fr;
-    gap: 48px;
-    padding: 100px 20px 80px;
+    gap: 28px;
+    padding: 76px 20px 40px;
     min-height: auto;
   }
   .hero-grid {
     grid-template-columns: 1fr;
-    gap: 48px;
+    gap: 28px;
   }
-  .hero-h1 { font-size: 38px; }
-  .hero-sub { font-size: 15px; }
+  .hero-h1 { font-size: 34px; margin-bottom: 16px; }
+  .hero-sub { font-size: 15px; margin-bottom: 24px; }
+  .hero-cta-block { gap: 10px; margin-bottom: 0; }
   .hero-cta-row { flex-wrap: wrap; gap: 12px; }
 
+  /* Схема должна помещаться в первый экран вместе с CTA:
+     подписи уводим под фигуру, а не вправо (иначе уезжает за вьюпорт). */
   .triad-stage {
-    width: 200px;
-    height: 200px;
+    width: 148px;
+    height: 148px;
     aspect-ratio: 1/1;
     margin: 0;
     display: block;
@@ -2262,12 +2296,13 @@
     display: flex;
     flex-direction: column;
     gap: 0;
+    max-width: calc(100vw - 40px - 160px);
   }
-  .t-label-num { margin-bottom: 3px; font-size: 9px; }
-  .t-label-name { font-size: 14px; white-space: nowrap; }
-  .t-label-01 { top: 15px; }
-  .t-label-02 { top: 52px; }
-  .t-label-03 { top: 85px; }
+  .t-label-num { margin-bottom: 2px; font-size: 9px; }
+  .t-label-name { font-size: 13px; white-space: normal; }
+  .t-label-01 { top: 11px; }
+  .t-label-02 { top: 38px; }
+  .t-label-03 { top: 63px; }
 
   .problem-head {
     grid-template-columns: 1fr;

@@ -2,28 +2,28 @@
 // Cookie-баннер (152-ФЗ / позиция РКН 2025): аналитические cookie (Я.Метрика)
 // грузятся ТОЛЬКО после явного согласия. Собственный трекер (tracker.js)
 // работает на законных интересах (Политика §4.2) и здесь не гейтится.
-// Только prod.
+// Баннер показывается во всех окружениях (чтобы согласие можно было проверить
+// на dev), но Я.Метрика грузится только в prod.
 const YM_ID = 109325036;
 const isProd = import.meta.env.PUBLIC_ENV === 'production';
 ---
-{isProd && (
-  <>
-    <div id="cookie-banner" class="ck-banner" hidden>
-      <p class="ck-text">
-        Сайт использует cookie для веб-аналитики (Яндекс.Метрика). Нажимая «Принять»,
-        вы соглашаетесь на&nbsp;их обработку согласно
-        <a href="/privacy-policy"> Политике обработки ПДн</a>.
-      </p>
-      <div class="ck-actions">
-        <button type="button" id="cookie-reject" class="ck-btn ck-reject">Отклонить</button>
-        <button type="button" id="cookie-accept" class="ck-btn ck-accept">Принять</button>
-      </div>
-    </div>
+<div id="cookie-banner" class="ck-banner" hidden>
+  <p class="ck-text">
+    Сайт использует cookie для веб-аналитики (Яндекс.Метрика). Нажимая «Принять»,
+    вы соглашаетесь на&nbsp;их обработку согласно
+    <a href="/privacy-policy"> Политике обработки ПДн</a>.
+  </p>
+  <div class="ck-actions">
+    <button type="button" id="cookie-reject" class="ck-btn ck-reject">Отклонить</button>
+    <button type="button" id="cookie-accept" class="ck-btn ck-accept">Принять</button>
+  </div>
+</div>
 
-    <script is:inline define:vars={{ YM_ID }}>
+    <script is:inline define:vars={{ YM_ID, isProd }}>
       (function () {
         var KEY = 'shvec_cookie_consent';
         function loadYM() {
+          if (!isProd) return;
           if (window.__ym_loaded) return;
           window.__ym_loaded = true;
           (function (m, e, t, r, i, k, a) {
@@ -53,8 +53,6 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
         if (rej) rej.addEventListener('click', function () { decide('rejected'); });
       })();
     </script>
-  </>
-)}
 
 <style>
   .ck-banner {
@@ -94,7 +92,8 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
   .ck-accept { background: #3F6EE8; color: #fff; }
   .ck-accept:hover { background: #5A85F0; }
 
-  @media (max-width: 480px) {
-    .ck-banner { left: 12px; right: 12px; bottom: 12px; max-width: none; }
+  /* Выше sticky-CTA — на мобилке они делят низ экрана */
+  @media (max-width: 768px) {
+    .ck-banner { left: 12px; right: 12px; bottom: 72px; max-width: none; }
   }
 </style>

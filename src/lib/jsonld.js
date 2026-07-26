@@ -94,6 +94,17 @@ export const serviceSchema = {
   offers: [
     {
       '@type': 'Offer',
+      name: 'Подписка на платформу',
+      priceCurrency: 'RUB',
+      priceSpecification: {
+        '@type': 'UnitPriceSpecification',
+        minPrice: 5000,
+        priceCurrency: 'RUB',
+        unitCode: 'MON',
+      },
+    },
+    {
+      '@type': 'Offer',
       name: 'Внедрение платформы',
       priceCurrency: 'RUB',
       priceSpecification: {

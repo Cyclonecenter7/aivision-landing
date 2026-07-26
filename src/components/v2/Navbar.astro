@@ -1,28 +1,47 @@
 ---
 ---
-<nav class="nav">
-  <div class="nav-logo">
-    <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0 0 L32 0 L32 26 L26 32 L0 32 Z" fill="#fff" />
-    </svg>
-    SHVEC
-  </div>
-  <div class="nav-links">
-    <a href="#platform">Платформа</a>
-    <a href="#how">Как работаем</a>
-    <a href="#pricing">Цены</a>
-    <a href="#cases">Кейсы</a>
-    <a href="#faq">FAQ</a>
-  </div>
-  <div style="display:flex;align-items:center;gap:12px">
-    <button
-      type="button"
-      class="btn btn-on-brand js-open-contact"
-      data-source="navbar"
-      data-track="nav_cta"
-      data-track-block="navbar"
-    >
-      Записаться на диагностику
-    </button>
+<nav class="nav nav--sticky" id="site-nav">
+  <div class="nav-inner">
+    <a href="#top" class="nav-logo" data-track="nav_logo" data-track-block="navbar">
+      <svg viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+        <path d="M0 0 L32 0 L32 26 L26 32 L0 32 Z" fill="currentColor" />
+      </svg>
+      SHVEC
+    </a>
+    <div class="nav-links">
+      <a href="#platform">Платформа</a>
+      <a href="#how">Как работаем</a>
+      <a href="#pricing">Цены</a>
+      <a href="#cases">Кейсы</a>
+      <a href="#about">О нас</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <div class="nav-actions">
+      <button
+        type="button"
+        class="btn btn-on-brand js-open-contact"
+        data-source="navbar"
+        data-track="nav_cta"
+        data-track-block="navbar"
+      >
+        Записаться на диагностику
+      </button>
+    </div>
   </div>
 </nav>
+
+<script is:inline>
+  (function () {
+    var nav = document.getElementById('site-nav');
+    if (!nav) return;
+    var solid = false;
+    function onScroll() {
+      var next = window.scrollY > 24;
+      if (next === solid) return;
+      solid = next;
+      nav.classList.toggle('nav--solid', solid);
+    }
+    onScroll();
+    window.addEventListener('scroll', onScroll, { passive: true });
+  })();
+</script>

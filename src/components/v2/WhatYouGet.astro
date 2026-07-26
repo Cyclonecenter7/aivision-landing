@@ -24,6 +24,14 @@ const CARDS = [
     modules: [],
   },
 ];
+
+// Кастомизация — буллетами вместо сплошного абзаца.
+const CUSTOM = [
+  'Несколько юрлиц и разных направлений — раздельный учёт и общая картина',
+  'Интеграция ваших систем учёта, CRM и сайта',
+  'Ручные расчёты и нетиповые правила вашей модели',
+  'Роли, права доступа и отчёты под вашу структуру управления',
+];
 ---
 <section id="platform" class="bg-dark section wyg-sect">
   <div class="container">
@@ -128,15 +136,28 @@ const CARDS = [
       </div>
     </div>
 
+    <div class="wyg-swipe">Листайте карточки →</div>
+
     <div class="wyg-cst">
       <div class="wyg-cst-eb">
         <span class="wyg-cst-eb-line"></span>
         Кастомизация
       </div>
       <p class="wyg-cst-text">
-        Платформа SHVEC адаптируется под ваш бизнес, не&nbsp;ломая текущие процессы.
-        Несколько юрлиц, разные направления, интеграция систем учёта, ручные расчёты
-        и&nbsp;другие особенности настраиваются на&nbsp;этапе внедрения&nbsp;—
+        Платформа SHVEC адаптируется под ваш бизнес, не&nbsp;ломая текущие процессы:
+      </p>
+      <ul class="wyg-cst-list">
+        {CUSTOM.map((item) => (
+          <li class="wyg-cst-li">
+            <svg class="wyg-cst-ico" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+              <polyline points="20 6 9 17 4 12" />
+            </svg>
+            <span>{item}</span>
+          </li>
+        ))}
+      </ul>
+      <p class="wyg-cst-foot">
+        Всё настраивается на&nbsp;этапе внедрения&nbsp;—
         <strong>без программистов и&nbsp;без остановки работы компании.</strong>
       </p>
     </div>
@@ -345,13 +366,78 @@ const CARDS = [
     font-weight: 500;
     letter-spacing: -0.01em;
   }
-  .wyg-cst-text strong { color: var(--brand); font-weight: 700; }
+  .wyg-swipe { display: none; }
+
+  .wyg-cst-list {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 10px 32px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .wyg-cst-li {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    font-size: 15px;
+    line-height: 1.55;
+    color: var(--d-text-sec);
+  }
+  .wyg-cst-ico {
+    flex-shrink: 0;
+    color: var(--brand);
+    margin-top: 3px;
+  }
+  .wyg-cst-foot {
+    font-size: 15px;
+    line-height: 1.6;
+    color: var(--d-text);
+    font-weight: 500;
+  }
+  .wyg-cst-foot strong { color: var(--brand); font-weight: 700; }
 
   @media (max-width: 768px) {
-    .wyg-h2 { font-size: 27px; }
-    .wyg-grid { grid-template-columns: 1fr; grid-auto-flow: row; }
-    .wyg-card { padding: 24px 20px; }
-    .wyg-cst { padding: 24px 20px; }
+    .wyg-h2 { font-size: 26px; }
+    .wyg-head { margin-bottom: 24px; }
+    .wyg-lead { font-size: 15px; }
+
+    /* Карточки — горизонтальной прокруткой, чтобы блок не растягивался
+       на 4 экрана по вертикали. */
+    .wyg-grid {
+      display: flex;
+      grid-auto-flow: unset;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin: 0 -20px 8px;
+      padding: 0 20px 4px;
+    }
+    .wyg-grid::-webkit-scrollbar { display: none; }
+    .wyg-card,
+    .wyg-demo {
+      flex: 0 0 86%;
+      scroll-snap-align: start;
+      padding: 22px 20px;
+    }
+    .wyg-card-body { font-size: 13.5px; margin-bottom: 16px; }
+
+    .wyg-swipe {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--d-text-mut);
+      margin-bottom: 12px;
+    }
+
+    .wyg-cst { padding: 22px 20px; gap: 12px; }
     .wyg-cst-text { font-size: 15px; }
+    .wyg-cst-list { grid-template-columns: 1fr; gap: 9px; }
+    .wyg-cst-li { font-size: 14px; }
+    .wyg-cst-foot { font-size: 14px; }
   }
 </style>

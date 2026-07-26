@@ -4,14 +4,17 @@ import { SEO, seoUrl } from '@/lib/seo';
 import { faqSchema, serviceSchema } from '@/lib/jsonld';
 import { FAQ } from '@/data/faq';
 
-// Композиция главной под 9 блоков ТЗ (v2 драфт):
-// Hero · Соц-бар · Чек-лист · Что получите · Как работаем · Цены · Кейсы · FAQ · Форма
+// Композиция главной:
+// Hero · Чек-лист · Платформа · Как работаем · Диагностика (форма) ·
+// Цены · Кейсы · О нас · FAQ · Футер
+// Форма диагностики поднята сразу после «Как работаем» — до цен и кейсов.
 import Hero from '@/components/v2/Hero.astro';
 import Diagnostic from '@/components/v2/Diagnostic.astro';
 import WhatYouGet from '@/components/v2/WhatYouGet.astro';
 import HowWeWork from '@/components/v2/HowWeWork.astro';
 import Pricing from '@/components/v2/Pricing.astro';
 import Cases from '@/components/v2/Cases.astro';
+import About from '@/components/v2/About.astro';
 import Faq from '@/components/v2/Faq.astro';
 import FinalCTA from '@/components/v2/FinalCTA.astro';
 import StickyCta from '@/components/v2/StickyCta.astro';
@@ -37,10 +40,11 @@ const homeJsonLd = [faqSchema(FAQ), serviceSchema];
   <Diagnostic />
   <WhatYouGet />
   <HowWeWork />
+  <FinalCTA />
   <Pricing />
   <Cases />
+  <About />
   <Faq />
-  <FinalCTA />
   <Footer />
 
   <StickyCta />

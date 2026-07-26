@@ -73,6 +73,8 @@ const STEPS = [
         </div>
       ))}
     </div>
+
+    <div class="hww-swipe">Листайте этапы →</div>
   </div>
 </section>
 
@@ -95,12 +97,17 @@ const STEPS = [
   }
   .hww-lead strong { color: var(--brand); font-weight: 700; }
 
+  /* align-items:start — иначе короткие карточки (01, 03, 04) растягиваются
+     под высоту 02 с раскладкой по дням и внизу зияет пустота. */
   .hww-grid {
     display: grid;
     grid-template-columns: 1fr 1fr;
+    align-items: start;
     gap: 10px;
     margin-bottom: 12px;
   }
+
+  .hww-swipe { display: none; }
 
   .hww-step {
     background: var(--l-surface);
@@ -193,9 +200,42 @@ const STEPS = [
   .hww-step-res-lab::after { content: ':'; }
 
   @media (max-width: 768px) {
-    .hww-h2 { font-size: 28px; }
-    .hww-grid { grid-template-columns: 1fr; }
-    .hww-step { padding: 22px 20px; }
-    .hww-day { grid-template-columns: 68px 1fr; gap: 10px; }
+    .hww-h2 { font-size: 26px; }
+    .hww-head { margin-bottom: 24px; }
+    .hww-lead { font-size: 15px; }
+
+    /* Этапы — горизонтальной прокруткой: 4 карточки подряд по вертикали
+       занимали три экрана. */
+    .hww-grid {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      overflow-x: auto;
+      scroll-snap-type: x mandatory;
+      -webkit-overflow-scrolling: touch;
+      scrollbar-width: none;
+      margin: 0 -20px;
+      padding: 0 20px 4px;
+    }
+    .hww-grid::-webkit-scrollbar { display: none; }
+    .hww-step {
+      flex: 0 0 86%;
+      scroll-snap-align: start;
+      padding: 20px 18px 22px;
+    }
+    .hww-step-desc { font-size: 13.5px; margin-bottom: 14px; }
+    .hww-days { margin-top: 14px; gap: 6px; }
+    .hww-day { grid-template-columns: 64px 1fr; gap: 10px; padding: 10px 12px; }
+    .hww-day-txt { font-size: 12.5px; }
+    .hww-step-res { font-size: 12.5px; padding-top: 12px; }
+    .hww-swipe {
+      display: block;
+      font-size: 11px;
+      font-weight: 600;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--l-text-mut);
+      margin-top: 12px;
+    }
   }
 </style>

@@ -99,10 +99,10 @@ function PnL({ isMobile }) {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       {/* 4 KPI каскад ОПУ: Выручка → Валовая → Операционная → Чистая */}
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 6 }}>
-        <KpiBig accent label="Выручка" value="20,5М ₽" sub="+12% к прошлому году" sparkData={[15, 16, 17, 18, 19, 20, 20.5]} idKey="pnl-rev" isMobile={isMobile} />
-        <KpiBig label="Валовая прибыль" value="8,2М ₽" sub="40% маржа" subColor={C.emerald} sparkData={[5, 5.5, 6.5, 7, 7.5, 8, 8.2]} sparkColor={C.emerald} idKey="pnl-gross" isMobile={isMobile} />
-        <KpiBig label="Операционная" value="5,4М ₽" sub="26% маржа" subColor={C.emerald} sparkData={[3, 3.5, 4, 4.5, 5, 5.2, 5.4]} sparkColor={C.emerald} idKey="pnl-op" isMobile={isMobile} />
-        <KpiBig label="Чистая прибыль" value="4,0М ₽" sub="+15% к апрелю" subColor={C.emerald} sparkData={[2.5, 2.8, 3.2, 3.5, 3.8, 3.9, 4]} sparkColor={C.emerald} idKey="pnl-net" isMobile={isMobile} />
+        <KpiBig accent label="Выручка" value="20,5 млн ₽" sub="+12% к прошлому году" sparkData={[15, 16, 17, 18, 19, 20, 20.5]} idKey="pnl-rev" isMobile={isMobile} />
+        <KpiBig label="Валовая прибыль" value="8,2 млн ₽" sub="40% маржа" subColor={C.emerald} sparkData={[5, 5.5, 6.5, 7, 7.5, 8, 8.2]} sparkColor={C.emerald} idKey="pnl-gross" isMobile={isMobile} />
+        <KpiBig label="Операционная" value="5,4 млн ₽" sub="26% маржа" subColor={C.emerald} sparkData={[3, 3.5, 4, 4.5, 5, 5.2, 5.4]} sparkColor={C.emerald} idKey="pnl-op" isMobile={isMobile} />
+        <KpiBig label="Чистая прибыль" value="4,0 млн ₽" sub="+15% к апрелю" subColor={C.emerald} sparkData={[2.5, 2.8, 3.2, 3.5, 3.8, 3.9, 4]} sparkColor={C.emerald} idKey="pnl-net" isMobile={isMobile} />
       </div>
 
       {/* План / Факт — общий + по 4 проектам */}
@@ -194,9 +194,9 @@ function DDS({ isMobile }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 6 }}>
-        <KpiBig accent label="Остаток на счетах" value="14.6М ₽" sub="+2.1М за месяц" sparkData={cumBalance} idKey="dds-bal" isMobile={isMobile} />
-        <KpiBig label="Приходы за год" value="267М ₽" sub="+18% к прошлому году" subColor={C.emerald} sparkData={income} sparkColor={C.emerald} idKey="dds-in" isMobile={isMobile} />
-        <KpiBig label="Расходы за год" value="221М ₽" sub="−3% к плану" subColor={C.crimson} sparkData={outflow} sparkColor={C.crimson} idKey="dds-out" isMobile={isMobile} />
+        <KpiBig accent label="Остаток на счетах" value="14,6 млн ₽" sub="+2,1 млн ₽ за месяц" sparkData={cumBalance} idKey="dds-bal" isMobile={isMobile} />
+        <KpiBig label="Приходы за год" value="267 млн ₽" sub="+18% к прошлому году" subColor={C.emerald} sparkData={income} sparkColor={C.emerald} idKey="dds-in" isMobile={isMobile} />
+        <KpiBig label="Расходы за год" value="221 млн ₽" sub="−3% к плану" subColor={C.crimson} sparkData={outflow} sparkColor={C.crimson} idKey="dds-out" isMobile={isMobile} />
         <KpiBig label="Кассовые разрывы" value="0" sub="за 12 мес." subColor={C.emerald} sparkData={[2, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0]} sparkColor={C.emerald} idKey="dds-gap" isMobile={isMobile} />
       </div>
 
@@ -251,10 +251,10 @@ function DDS({ isMobile }) {
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '.13em', textTransform: 'uppercase', color: T.t3 }}>Приходы · апрель</span>
           </div>
           {[
-            { label: 'Оплата по договорам', val: '18.4М ₽', pct: 78, c: C.brand },
-            { label: 'Авансы заказчиков', val: '3.8М ₽', pct: 16, c: C.indigo },
-            { label: 'Возвраты НДС', val: '1.2М ₽', pct: 5, c: C.slate },
-            { label: 'Прочее', val: '0.2М ₽', pct: 1, c: T.t3 },
+            { label: 'Оплата по договорам', val: '18,4 млн ₽', pct: 78, c: C.brand },
+            { label: 'Авансы заказчиков', val: '3,8 млн ₽', pct: 16, c: C.indigo },
+            { label: 'Возвраты НДС', val: '1,2 млн ₽', pct: 5, c: C.slate },
+            { label: 'Прочее', val: '0,2 млн ₽', pct: 1, c: T.t3 },
           ].map((r, i) => (
             <div key={i} style={{ padding: '9px 14px', borderBottom: i < 3 ? `1px solid ${T.border}` : 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
@@ -274,10 +274,10 @@ function DDS({ isMobile }) {
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '.13em', textTransform: 'uppercase', color: T.t3 }}>Расходы · апрель</span>
           </div>
           {[
-            { label: 'Стройматериалы', val: '8.9М ₽', pct: 46, c: C.crimson },
-            { label: 'ФОТ + подрядчики', val: '6.4М ₽', pct: 33, c: C.tan },
-            { label: 'Спецтехника', val: '2.1М ₽', pct: 11, c: C.sun },
-            { label: 'Налоги + аренда', val: '1.9М ₽', pct: 10, c: C.slate },
+            { label: 'Стройматериалы', val: '8,9 млн ₽', pct: 46, c: C.crimson },
+            { label: 'ФОТ + подрядчики', val: '6,4 млн ₽', pct: 33, c: C.tan },
+            { label: 'Спецтехника', val: '2,1 млн ₽', pct: 11, c: C.sun },
+            { label: 'Налоги + аренда', val: '1,9 млн ₽', pct: 10, c: C.slate },
           ].map((r, i) => (
             <div key={i} style={{ padding: '9px 14px', borderBottom: i < 3 ? `1px solid ${T.border}` : 'none' }}>
               <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
@@ -316,8 +316,8 @@ function Balance({ isMobile }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 8 }}>
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 6 }}>
-        <KpiBig accent label="Чистые активы" value="32.5М ₽" sub="+4.2М за квартал" sparkData={[24, 26, 27, 29, 30, 31, 32, 32.5]} idKey="bal-na" isMobile={isMobile} />
-        <KpiBig label="Оборотный капитал" value="36.5М ₽" sub="ликвидность 1.8" subColor={C.emerald} sparkData={[28, 30, 32, 34, 35, 36, 36.5, 36.5]} sparkColor={C.emerald} idKey="bal-wc" isMobile={isMobile} />
+        <KpiBig accent label="Чистые активы" value="32,5 млн ₽" sub="+4,2 млн ₽ за квартал" sparkData={[24, 26, 27, 29, 30, 31, 32, 32.5]} idKey="bal-na" isMobile={isMobile} />
+        <KpiBig label="Оборотный капитал" value="36,5 млн ₽" sub="ликвидность 1,8" subColor={C.emerald} sparkData={[28, 30, 32, 34, 35, 36, 36.5, 36.5]} sparkColor={C.emerald} idKey="bal-wc" isMobile={isMobile} />
         <KpiBig label="Долговая нагрузка" value="0.43" sub="цель ≤0.5" subColor={C.sun} sparkData={[.6, .55, .5, .48, .46, .44, .43, .43]} sparkColor={C.sun} idKey="bal-debt" isMobile={isMobile} />
         <KpiBig label="ROE годовой" value="28.4%" sub="+5 пп к прошлому году" subColor={C.emerald} sparkData={[19, 21, 23, 24, 25, 26, 27, 28, 28.4]} sparkColor={C.emerald} idKey="bal-roe" isMobile={isMobile} />
       </div>
@@ -327,7 +327,7 @@ function Balance({ isMobile }) {
           <div style={{ padding: '10px 14px', borderBottom: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ width: 10, height: 2, background: C.brand, display: 'block' }} />
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '.13em', textTransform: 'uppercase', color: T.t3 }}>Активы</span>
-            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 700, color: T.t1 }}>{totalAssets.toFixed(1)}М ₽</span>
+            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 700, color: T.t1 }}>{totalAssets.toFixed(1).replace('.', ',')} млн ₽</span>
           </div>
           {assets.map((a, i) => {
             const pct = a.val / totalAssets * 100;
@@ -335,7 +335,7 @@ function Balance({ isMobile }) {
               <div key={i} style={{ padding: '9px 14px', borderBottom: i < assets.length - 1 ? `1px solid ${T.border}` : 'none' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                   <span style={{ fontSize: 11, color: T.t1, flex: 1 }}>{a.label}</span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{a.val.toFixed(1)}М ₽</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{a.val.toFixed(1).replace('.', ',')} млн ₽</span>
                   <span style={{ fontSize: 9, color: T.t3, minWidth: 32, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{pct.toFixed(0)}%</span>
                 </div>
                 <div style={{ height: 3, background: T.border, borderRadius: 1 }}>
@@ -350,7 +350,7 @@ function Balance({ isMobile }) {
           <div style={{ padding: '10px 14px', borderBottom: `1px solid ${T.border}`, display: 'flex', alignItems: 'center', gap: 6 }}>
             <span style={{ width: 10, height: 2, background: C.crimson, display: 'block' }} />
             <span style={{ fontSize: 9, fontWeight: 600, letterSpacing: '.13em', textTransform: 'uppercase', color: T.t3 }}>Обязательства + капитал</span>
-            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 700, color: T.t1 }}>{totalLiabs.toFixed(1)}М ₽</span>
+            <span style={{ marginLeft: 'auto', fontSize: 10, fontWeight: 700, color: T.t1 }}>{totalLiabs.toFixed(1).replace('.', ',')} млн ₽</span>
           </div>
           {liabs.map((a, i) => {
             const pct = a.val / totalLiabs * 100;
@@ -358,7 +358,7 @@ function Balance({ isMobile }) {
               <div key={i} style={{ padding: '9px 14px', borderBottom: i < liabs.length - 1 ? `1px solid ${T.border}` : 'none' }}>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 4 }}>
                   <span style={{ fontSize: 11, color: T.t1, flex: 1 }}>{a.label}</span>
-                  <span style={{ fontSize: 11, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{a.val.toFixed(1)}М ₽</span>
+                  <span style={{ fontSize: 11, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>{a.val.toFixed(1).replace('.', ',')} млн ₽</span>
                   <span style={{ fontSize: 9, color: T.t3, minWidth: 32, textAlign: 'right', fontVariantNumeric: 'tabular-nums' }}>{pct.toFixed(0)}%</span>
                 </div>
                 <div style={{ height: 3, background: T.border, borderRadius: 1 }}>
@@ -427,7 +427,7 @@ export default function BuildDashboard({ only = null, hideHeader = false, hideFo
         {active === 'balance' && <Balance isMobile={isMobile} />}
         {!hideFooter && (
           <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', paddingTop: 4 }}>
-            <span style={{ fontSize: 8, color: T.t3 }}>Платформа SHVEC · NDA · данные изменены</span>
+            <span style={{ fontSize: 8, color: T.t3 }}>Платформа Швец · NDA · данные изменены</span>
           </div>
         )}
       </div>

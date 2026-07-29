@@ -22,8 +22,9 @@ jobs:
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_PROD }}" >> $GITHUB_ENV
             echo "PUBLIC_ENV=production" >> $GITHUB_ENV
-            echo "PUBLIC_SITE_URL=https://aivisionpro.ru" >> $GITHUB_ENV
-            echo "PUBLIC_API_URL=https://api.aivisionpro.ru" >> $GITHUB_ENV
+            echo "PUBLIC_SITE_URL=https://shvec.tech" >> $GITHUB_ENV
+            echo "PUBLIC_API_URL=https://admin.shvec.tech" >> $GITHUB_ENV
+            echo "PUBLIC_YANDEX_VERIFICATION=${{ secrets.YANDEX_VERIFICATION }}" >> $GITHUB_ENV
           else
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
             echo "PUBLIC_ENV=development" >> $GITHUB_ENV

@@ -1,5 +1,13 @@
 # Nginx configs
 
+Актуальный production-контур:
+
+- `shvec-security-prod.conf` — заголовки безопасности и CSP для `shvec.tech`;
+- `shvec.tech.landing-block.conf` — vhost публичного сайта;
+- HTML кешируется на 5 минут в браузере и сутки на shared cache, хешированные ассеты — на год.
+
+Файлы с `aivision*` в названии оставлены как легаси-конфигурация старых доменов.
+
 Серверные конфиги для AIVISION Landing. Источник правды для конфига на сервере.
 Бэкап `/etc/nginx/sites-enabled/aivisiontest.ru.bak-pre-astro-*` лежит в `/root/nginx-backups/` на сервере.
 

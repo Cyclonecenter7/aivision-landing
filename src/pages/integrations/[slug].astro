@@ -1,0 +1,22 @@
+---
+import SeoContentLayout from '@/layouts/SeoContentLayout.astro';
+import { integrations } from '@/data/seo-content';
+
+export function getStaticPaths() {
+  return integrations.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+---
+
+<SeoContentLayout
+  title={item.title}
+  description={item.description}
+  canonical={`https://shvec.tech/integrations/${item.slug}/`}
+  eyebrow={item.eyebrow}
+  heading={item.heading}
+  lead={item.lead}
+  sections={item.sections}
+  backHref="/integrations/"
+  backLabel="Все интеграции"
+/>

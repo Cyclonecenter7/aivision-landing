@@ -1,0 +1,117 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/v2/Footer.astro';
+import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
+
+interface Section {
+  title: string;
+  text?: string[];
+  bullets?: string[];
+  links?: { label: string; href: string }[];
+}
+
+interface Props {
+  title: string;
+  description: string;
+  canonical: string;
+  eyebrow: string;
+  heading: string;
+  lead: string;
+  sections: Section[];
+  jsonLd?: object[];
+  backHref?: string;
+  backLabel?: string;
+}
+
+const {
+  title,
+  description,
+  canonical,
+  eyebrow,
+  heading,
+  lead,
+  sections,
+  jsonLd = [],
+  backHref = '/',
+  backLabel = 'На главную',
+} = Astro.props;
+---
+
+<BaseLayout {title} {description} {canonical} ogTitle={heading} ogDescription={lead} {jsonLd}>
+  <main class="seo-page">
+    <header class="seo-hero">
+      <div class="seo-wrap">
+        <a class="seo-back" href={backHref}>← {backLabel}</a>
+        <p class="seo-eyebrow">{eyebrow}</p>
+        <h1>{heading}</h1>
+        <p class="seo-lead">{lead}</p>
+      </div>
+    </header>
+
+    <div class="seo-wrap seo-body">
+      {sections.map((section, index) => (
+        <section class="seo-section">
+          <div class="seo-num">{String(index + 1).padStart(2, '0')}</div>
+          <div>
+            <h2>{section.title}</h2>
+            {section.text?.map((paragraph) => <p>{paragraph}</p>)}
+            {section.bullets && (
+              <ul>
+                {section.bullets.map((item) => <li>{item}</li>)}
+              </ul>
+            )}
+            {section.links && (
+              <ul class="seo-links">
+                {section.links.map((item) => <li><a href={item.href}>{item.label} →</a></li>)}
+              </ul>
+            )}
+          </div>
+        </section>
+      ))}
+
+      <section class="seo-cta">
+        <p class="seo-eyebrow">Следующий шаг</p>
+        <h2>Разберём задачу и первый рабочий контур за 30 минут</h2>
+        <p>Покажем, какие данные нужно связать и что можно запустить первым этапом.</p>
+        <button class="btn btn-on-dark js-open-contact" data-source="seo-content">
+          Записаться на диагностику
+        </button>
+      </section>
+    </div>
+  </main>
+
+  <Footer />
+  <ContactModalIsland client:load />
+</BaseLayout>
+
+<style>
+  .seo-page { background: #F6F7FA; color: #101114; }
+  .seo-wrap { width: min(100% - 40px, 980px); margin: 0 auto; }
+  .seo-hero { background: #3F6EE8; color: #fff; padding: 36px 0 88px; }
+  .seo-back { color: rgba(255,255,255,.82); text-decoration: none; font-size: 14px; }
+  .seo-eyebrow { margin: 72px 0 20px; text-transform: uppercase; letter-spacing: .16em; font-size: 12px; font-weight: 700; }
+  .seo-hero h1 { max-width: 900px; margin: 0; font-size: clamp(40px, 6vw, 72px); line-height: 1.03; letter-spacing: -.045em; }
+  .seo-lead { max-width: 740px; margin: 30px 0 0; font-size: clamp(18px, 2vw, 22px); line-height: 1.55; color: rgba(255,255,255,.86); }
+  .seo-body { padding: 84px 0 100px; }
+  .seo-section { display: grid; grid-template-columns: 64px 1fr; gap: 24px; padding: 46px 0; border-top: 1px solid #D9DDE7; }
+  .seo-num { color: #3F6EE8; font-size: 12px; font-weight: 700; letter-spacing: .12em; padding-top: 8px; }
+  .seo-section h2, .seo-cta h2 { margin: 0 0 20px; font-size: clamp(28px, 4vw, 44px); line-height: 1.1; letter-spacing: -.035em; }
+  .seo-section p, .seo-section li, .seo-cta p { max-width: 760px; font-size: 17px; line-height: 1.7; color: #4B5260; }
+  .seo-section p { margin: 0 0 16px; }
+  .seo-section ul { margin: 22px 0 0; padding: 0; list-style: none; display: grid; gap: 12px; }
+  .seo-section li { position: relative; padding-left: 26px; }
+  .seo-section li::before { content: '✓'; position: absolute; left: 0; color: #16865B; font-weight: 800; }
+  .seo-section .seo-links li::before { content: '→'; color: #3F6EE8; }
+  .seo-links a { color: #294FAE; font-weight: 700; text-decoration: none; }
+  .seo-cta { margin-top: 44px; padding: 48px; background: #101114; color: #fff; clip-path: polygon(0 0,100% 0,100% calc(100% - 18px),calc(100% - 18px) 100%,0 100%); }
+  .seo-cta .seo-eyebrow { margin: 0 0 18px; color: #7EA1FF; }
+  .seo-cta p { color: #AEB5C2; }
+  .seo-cta .btn { margin-top: 18px; }
+  @media (max-width: 640px) {
+    .seo-hero { padding-bottom: 58px; }
+    .seo-eyebrow { margin-top: 52px; }
+    .seo-body { padding: 50px 0 72px; }
+    .seo-section { grid-template-columns: 1fr; gap: 10px; padding: 36px 0; }
+    .seo-cta { padding: 32px 24px; }
+  }
+</style>

@@ -5,9 +5,8 @@ import { faqSchema, serviceSchema } from '@/lib/jsonld';
 import { FAQ } from '@/data/faq';
 
 // Композиция главной:
-// Hero · Чек-лист · Платформа · Как работаем · Диагностика (форма) ·
-// Цены · Кейсы · О нас · FAQ · Футер
-// Форма диагностики поднята сразу после «Как работаем» — до цен и кейсов.
+// Hero · Проблема собственника · Что объединяет Швец · Кейсы ·
+// Как проходит внедрение · Стоимость · О компании · FAQ · Диагностика · Футер
 import Hero from '@/components/v2/Hero.astro';
 import Diagnostic from '@/components/v2/Diagnostic.astro';
 import WhatYouGet from '@/components/v2/WhatYouGet.astro';
@@ -39,12 +38,12 @@ const homeJsonLd = [faqSchema(FAQ), serviceSchema];
   <Hero />
   <Diagnostic />
   <WhatYouGet />
-  <HowWeWork />
-  <FinalCTA />
-  <Pricing />
   <Cases />
+  <HowWeWork />
+  <Pricing />
   <About />
   <Faq />
+  <FinalCTA />
   <Footer />
 
   <StickyCta />

@@ -116,7 +116,7 @@ export default function BannerHostIsland() {
             color: eyebrowColor,
           }}
         >
-          SHVEC
+          Швец
         </span>
       </div>
 

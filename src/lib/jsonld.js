@@ -6,8 +6,8 @@ export const organizationSchema = {
   '@context': 'https://schema.org',
   '@type': 'Organization',
   '@id': `${SITE}/#organization`,
-  name: 'SHVEC',
-  alternateName: 'Будаева Юлия Юрьевна',
+  name: 'Швец',
+  alternateName: 'SHVEC',
   url: SITE,
   logo: `${SITE}/logo-512.png`,
   email: 'admin@shvec.tech',
@@ -16,6 +16,10 @@ export const organizationSchema = {
   description:
     'Агентство управленческих решений. Видимость, контроль и управляемость бизнеса через одну платформу — сайт, CRM, дашборд, учёт в единой системе.',
   areaServed: { '@type': 'Country', name: 'Россия' },
+  founder: {
+    '@type': 'Person',
+    name: 'Юлия Будаева',
+  },
   contactPoint: {
     '@type': 'ContactPoint',
     telephone: '+7-985-664-80-01',
@@ -32,7 +36,7 @@ export const websiteSchema = {
   '@type': 'WebSite',
   '@id': `${SITE}/#website`,
   url: SITE,
-  name: 'SHVEC',
+  name: 'Швец',
   publisher: { '@id': `${SITE}/#organization` },
   inLanguage: 'ru-RU',
 };
@@ -87,11 +91,17 @@ export const serviceSchema = {
   '@context': 'https://schema.org',
   '@type': 'Service',
   '@id': `${SITE}/#service`,
-  name: 'Управленческая платформа SHVEC',
+  name: 'Управленческая платформа Швец',
   serviceType: 'Внедрение управленческого учёта и BI',
   provider: { '@id': `${SITE}/#organization` },
   areaServed: { '@type': 'Country', name: 'Россия' },
   offers: [
+    {
+      '@type': 'Offer',
+      name: 'Бесплатный старт',
+      price: 0,
+      priceCurrency: 'RUB',
+    },
     {
       '@type': 'Offer',
       name: 'Подписка на платформу',

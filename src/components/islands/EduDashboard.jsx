@@ -56,7 +56,7 @@ function DashMain() {
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <div style={{ display: 'flex', gap: 5 }}>
         {[
-          { label: 'Оборот', val: '640К ₽', sub: '+9% vs пред.', spark: revenueData, color: C.crimson, accent: true },
+          { label: 'Оборот', val: '640 тыс. ₽', sub: '+9% к предыдущему периоду', spark: revenueData, color: C.crimson, accent: true },
           { label: 'Маржа', val: '27%', sub: 'было 12% → сейчас', spark: marginData, color: C.emerald },
           { label: 'Расходы', val: '−20%', sub: 'от пика расходов', spark: expData, color: C.crimson },
           { label: 'Повт. продажи', val: '+20%', sub: 'после реактивации', spark: repeatData, color: C.sun },
@@ -123,11 +123,11 @@ function DashMain() {
 
 function DashProducts() {
   const courses = [
-    { name: 'Онлайн-курс Pro', cat: 'Онлайн', margin: 32, rev: '280К ₽', c: C.emerald },
-    { name: 'Интенсив-воркшоп', cat: 'Мероприятие', margin: 28, rev: '196К ₽', c: C.emerald },
-    { name: 'Онлайн-базовый', cat: 'Онлайн', margin: 21, rev: '164К ₽', c: C.brand },
-    { name: 'Офлайн-курс', cat: 'Офлайн', margin: 11, rev: '88К ₽', c: C.sun },
-    { name: 'Разовые занятия', cat: 'Офлайн', margin: -4, rev: '24К ₽', c: C.crimson, warn: true },
+    { name: 'Онлайн-курс Pro', cat: 'Онлайн', margin: 32, rev: '280 тыс. ₽', c: C.emerald },
+    { name: 'Интенсив-воркшоп', cat: 'Мероприятие', margin: 28, rev: '196 тыс. ₽', c: C.emerald },
+    { name: 'Онлайн-базовый', cat: 'Онлайн', margin: 21, rev: '164 тыс. ₽', c: C.brand },
+    { name: 'Офлайн-курс', cat: 'Офлайн', margin: 11, rev: '88 тыс. ₽', c: C.sun },
+    { name: 'Разовые занятия', cat: 'Офлайн', margin: -4, rev: '24 тыс. ₽', c: C.crimson, warn: true },
   ];
   return (
     <div style={{ background: T.card, ...ch(8), overflow: 'hidden' }}>
@@ -193,7 +193,7 @@ function DashMotivation() {
           <span style={{ fontSize: 10, color: T.t2 }}>Доля ФОТ: </span>
           <span style={{ fontSize: 10, fontWeight: 700, color: C.crimson }}>68% → 55%</span>
           <span style={{ fontSize: 10, color: T.t2 }}> — сэкономлено </span>
-          <span style={{ fontSize: 10, fontWeight: 700, color: C.emerald }}>~83К ₽/мес</span>
+          <span style={{ fontSize: 10, fontWeight: 700, color: C.emerald }}>≈83 тыс. ₽/мес</span>
         </div>
       </div>
     </div>
@@ -223,7 +223,7 @@ export default function EduDashboard() {
         {tab === 'products' && <DashProducts />}
         {tab === 'motiv' && <DashMotivation />}
         <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
-          <span style={{ fontSize: 7, color: T.t3 }}>Платформа SHVEC · NDA · данные изменены</span>
+          <span style={{ fontSize: 7, color: T.t3 }}>Платформа Швец · NDA · данные изменены</span>
           <div style={{ display: 'flex', alignItems: 'center', gap: 3 }}><div style={{ width: 5, height: 5, borderRadius: '50%', background: C.emerald }} /><span style={{ fontSize: 7, color: T.t3 }}>live</span></div>
         </div>
       </div>

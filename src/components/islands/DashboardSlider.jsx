@@ -53,7 +53,7 @@ export default function DashboardSlider({ variant = 'finance', light = false }) 
             </div>
           )}
           <span
-            title="Реальные данные клиентов SHVEC под NDA. Здесь — иллюстрация."
+            title="Реальные данные клиентов Швец под NDA. Здесь — иллюстрация."
             style={{
               fontSize: 9, fontWeight: 700, letterSpacing: '0.15em', textTransform: 'uppercase',
               color: '#fff', background: B, padding: '4px 9px',

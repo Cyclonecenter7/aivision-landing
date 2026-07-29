@@ -5,8 +5,10 @@ import tailwind from '@astrojs/tailwind';
 import mdx from '@astrojs/mdx';
 import sitemap from '@astrojs/sitemap';
 
+const siteUrl = process.env.PUBLIC_SITE_URL || 'https://shvec.tech';
+
 export default defineConfig({
-  site: process.env.PUBLIC_SITE_URL || 'https://shvec.tech',
+  site: siteUrl,
   trailingSlash: 'always',
   build: {
     format: 'directory',
@@ -16,9 +18,11 @@ export default defineConfig({
     tailwind({ applyBaseStyles: false }),
     mdx(),
     sitemap({
-      // Исключаем demo и служебные noindex-страницы из карты (T3).
+      // Встроенное демо — отдельная статическая сборка в public/demo,
+      // поэтому добавляем URL вручную.
+      customPages: [`${siteUrl}/demo/`],
+      // Исключаем служебные noindex-страницы из карты (T3).
       filter: (page) =>
-        !page.includes('/demo/') &&
         !page.includes('/privacy-policy') &&
         !page.includes('/consent'),
       // lastmod = время сборки → обновляется при каждом деплое (T2).

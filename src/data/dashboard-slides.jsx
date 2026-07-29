@@ -52,7 +52,7 @@ function Callout({ children, tag, t }) {
   return (
     <div style={{ background: '#0A0A0A', padding: '10px 14px', marginTop: 10, ...ch(6) }}>
       <div style={{ fontSize: 7, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.14em', color: '#555', marginBottom: 3 }}>
-        {tag || 'ВЫВОД SHVEC'}
+        {tag || 'ВЫВОД ШВЕЦ'}
       </div>
       <div style={{ fontSize: 11, color: '#fff', lineHeight: 1.5 }}>{children}</div>
     </div>
@@ -442,7 +442,7 @@ function CrmSlidePnL() {
           </div>
         ))}
       </div>
-      <Callout tag="ДИАГНОСТИКА SHVEC">Проект В убыточен — маржа −900 000 ₽. Скрыт в общем PnL до внедрения системы.</Callout>
+      <Callout tag="ДИАГНОСТИКА ШВЕЦ">Проект В убыточен — маржа −900 000 ₽. Скрыт в общем PnL до внедрения системы.</Callout>
     </div>
   );
 }
@@ -461,9 +461,9 @@ function EcomSlideOverview() {
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4,1fr)', gap: 6 }}>
         <div style={{ background: B, padding: 10, gridColumn: '1', gridRow: '1 / 3', display: 'flex', flexDirection: 'column', justifyContent: 'space-between' }}>
           <div style={{ fontSize: 7, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.12em', color: 'rgba(255,255,255,0.6)' }}>Прибыль</div>
-          <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>2.4М ₽</div>
+          <div style={{ fontSize: 22, fontWeight: 900, color: '#fff', fontVariantNumeric: 'tabular-nums', lineHeight: 1 }}>2,4 млн ₽</div>
         </div>
-        {[{label:'Заказы',val:'1 247',c:lt.titleC},{label:'Конверсия',val:'12.3%',c:B},{label:'Маржа',val:'46.2%',c:G},{label:'Выручка',val:'5.2М ₽',c:G},{label:'Продано',val:'82 шт',c:lt.titleC},{label:'Просмотры',val:'16 590',c:lt.titleC}].map((m,i)=>(
+        {[{label:'Заказы',val:'1 247',c:lt.titleC},{label:'Конверсия',val:'12,3%',c:B},{label:'Маржа',val:'46,2%',c:G},{label:'Выручка',val:'5,2 млн ₽',c:G},{label:'Продано',val:'82 шт',c:lt.titleC},{label:'Просмотры',val:'16 590',c:lt.titleC}].map((m,i)=>(
           <div key={i} style={{ background: lt.cardBg, border: `1px solid ${lt.cardBorder}`, padding: '8px 10px' }}>
             <div style={{ fontSize: 7, textTransform: 'uppercase', letterSpacing: '0.12em', color: lt.mutedC, marginBottom: 3 }}>{m.label}</div>
             <div style={{ fontSize: i < 3 ? 16 : 12, fontWeight: 800, color: m.c, fontVariantNumeric: 'tabular-nums' }}>{m.val}</div>
@@ -476,9 +476,9 @@ function EcomSlideOverview() {
 
 function EcomSlideBrands() {
   const brands = [
-    { name:'Бренд 1',active:'31/61',orders:450,rev:'850К ₽',conv:'11%',growth:'+8%',bar:62 },
-    { name:'Бренд 2',active:'7/19', orders:380,rev:'720К ₽',conv:'13%',growth:'+15%',bar:48 },
-    { name:'Бренд 3',active:'6/37', orders:417,rev:'830К ₽',conv:'12%',growth:'+11%',bar:55 },
+    { name:'Бренд 1',active:'31/61',orders:450,rev:'850 тыс. ₽',conv:'11%',growth:'+8%',bar:62 },
+    { name:'Бренд 2',active:'7/19', orders:380,rev:'720 тыс. ₽',conv:'13%',growth:'+15%',bar:48 },
+    { name:'Бренд 3',active:'6/37', orders:417,rev:'830 тыс. ₽',conv:'12%',growth:'+11%',bar:55 },
     { name:'Бренд 4',active:'0/3',  orders:0,  rev:'—',     conv:'—',  growth:'—',   bar:0  },
   ];
   return (
@@ -588,7 +588,7 @@ function EcomSlideProducts() {
         </table>
       </div>
       <div style={{ display: 'grid', gridTemplateColumns: 'repeat(3,1fr)', gap: 6 }}>
-        {[{l:'Общий оборот',v:'5.2М ₽',c:B},{l:'Ср. конверсия',v:'12.1%',c:G},{l:'Топ SKU',v:'4 из 4',c:G}].map((m,i)=>(
+        {[{l:'Общий оборот',v:'5,2 млн ₽',c:B},{l:'Ср. конверсия',v:'12,1%',c:G},{l:'Топ SKU',v:'4 из 4',c:G}].map((m,i)=>(
           <div key={i} style={{ background: lt.cardBg, border: `1px solid ${lt.cardBorder}`, padding: '8px 10px', textAlign: 'center' }}>
             <div style={{ fontSize: 8, color: lt.mutedC, textTransform: 'uppercase', letterSpacing: '0.12em', marginBottom: 3 }}>{m.l}</div>
             <div style={{ fontSize: 14, fontWeight: 800, color: m.c, fontVariantNumeric: 'tabular-nums' }}>{m.v}</div>
@@ -632,9 +632,9 @@ function PlatformDashboard({ t }) {
       <PltSectionHead t={t} color={SUN} title="Финансы" sub="Май · 16 из 31 дн." />
 
       <div className="plt-kpis-4">
-        <PltKpi t={t} label="Маржа"  value="1.84 М ₽" valColor={B} delta="+27%" deltaColor={G} />
-        <PltKpi t={t} label="Доход"  value="4.2 М ₽"  delta="+14%" deltaColor={G} />
-        <PltKpi t={t} label="Расход" value="2.36 М ₽" delta="+6%"  deltaColor={R} />
+        <PltKpi t={t} label="Маржа"  value="1,84 млн ₽" valColor={B} delta="+27%" deltaColor={G} />
+        <PltKpi t={t} label="Доход"  value="4,2 млн ₽"  delta="+14%" deltaColor={G} />
+        <PltKpi t={t} label="Расход" value="2,36 млн ₽" delta="+6%"  deltaColor={R} />
         <PltKpi t={t} label="Сделки" value="15"      delta="в работе" />
       </div>
 
@@ -752,10 +752,10 @@ function PlatformLeads({ t }) {
 
 function PlatformClients({ t }) {
   const recent = [
-    { name: 'ООО «Альфа»',         tag: 'B2B услуги',    classif: 'hot',  rev: '1.2 М ₽' },
-    { name: 'ИП Соколов А.',        tag: 'E-com',         classif: 'warm', rev: '420 К ₽' },
-    { name: 'ООО «Стройпроект»',    tag: 'Строительство', classif: 'hot',  rev: '2.8 М ₽' },
-    { name: 'Школа «Логика»',       tag: 'Образование',   classif: 'cold', rev: '180 К ₽' },
+    { name: 'ООО «Альфа»',         tag: 'B2B услуги',    classif: 'hot',  rev: '1,2 млн ₽' },
+    { name: 'ИП Соколов А.',        tag: 'E-com',         classif: 'warm', rev: '420 тыс. ₽' },
+    { name: 'ООО «Стройпроект»',    tag: 'Строительство', classif: 'hot',  rev: '2,8 млн ₽' },
+    { name: 'Школа «Логика»',       tag: 'Образование',   classif: 'cold', rev: '180 тыс. ₽' },
   ];
   const dot = (kind) => kind === 'hot' ? R : kind === 'warm' ? SUN : SLATE;
   return (

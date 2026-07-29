@@ -136,11 +136,11 @@ function TabDashboard({ isMobile }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 5 }}>
-        <Kpi accent label="Выручка" value="5.8M ₽" delta="+12%" deltaLabel="vs пред."
+        <Kpi accent label="Выручка" value="5,8 млн ₽" delta="+12%" deltaLabel="к предыдущему периоду"
           sparkData={[2.1, 2.4, 2.3, 2.8, 3.1, 2.9, 3.4, 3.8, 4.2, 4.5, 5.0, 5.3, 5.6, 5.7, 5.8]} />
         <Kpi label="Реклама / ДРР" value="7%" delta="−5 пп" deltaLabel="к январю" color={C.brand}
           sparkData={[12, 11.5, 11, 10.5, 10, 9.8, 9.4, 9, 8.6, 8.2, 8, 7.8, 7.5, 7.3, 7]} sparkColor={C.brand} />
-        <Kpi label="Продажи, шт" value="1 247" delta="+22%" deltaLabel="vs пред." color={C.emerald}
+        <Kpi label="Продажи, шт" value="1 247" delta="+22%" deltaLabel="к предыдущему периоду" color={C.emerald}
           sparkData={[820, 850, 890, 920, 940, 970, 1010, 1050, 1090, 1130, 1170, 1200, 1220, 1240, 1247]} sparkColor={C.emerald} />
         <Kpi label="Остаток, дн" value="14 дн." deltaLabel="по топу" color={C.sun}
           sparkData={[18, 17, 17, 16, 16, 15, 15, 14, 14, 14, 14, 14, 14, 14, 14]} sparkColor={C.sun} />
@@ -149,7 +149,7 @@ function TabDashboard({ isMobile }) {
       <div style={{ background: T.card, padding: '10px 12px', ...ch(8) }}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 8, gap: 8, flexWrap: 'wrap' }}>
           <Eyebrow color={C.brand}>Закупки в пути</Eyebrow>
-          <span style={{ fontSize: 10, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>9 партий · 2.4M ₽</span>
+          <span style={{ fontSize: 10, fontWeight: 700, color: T.t1, fontVariantNumeric: 'tabular-nums' }}>9 партий · 2,4 млн ₽</span>
         </div>
         <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 5 }}>
           {[
@@ -203,7 +203,7 @@ function TabPurchases({ isMobile }) {
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 5 }}>
         <Kpi accent label="В работе" value="14" delta="2 закупа" deltaLabel="новых"
           sparkData={[8, 9, 10, 11, 12, 12, 13, 13, 13, 14, 14, 14, 14, 14, 14]} />
-        <Kpi label="Вложено" value="3.2M ₽" delta="+18%" deltaLabel="к пред." color={C.brand}
+        <Kpi label="Вложено" value="3,2 млн ₽" delta="+18%" deltaLabel="к предыдущему периоду" color={C.brand}
           sparkData={[1.8, 2.0, 2.1, 2.3, 2.4, 2.6, 2.7, 2.8, 2.9, 3.0, 3.1, 3.1, 3.2, 3.2, 3.2]} sparkColor={C.brand} />
         <Kpi label="Себес точный" value="±0%" deltaLabel="по партиям" color={C.emerald}
           sparkData={[5, 4, 3, 3, 2, 2, 1, 1, 1, .5, .5, .3, .2, .1, 0]} sparkColor={C.emerald} />
@@ -241,9 +241,9 @@ function TabFinance({ isMobile }) {
   return (
     <div style={{ display: 'flex', flexDirection: 'column', gap: 6 }}>
       <div style={{ display: 'grid', gridTemplateColumns: isMobile ? 'repeat(2,1fr)' : 'repeat(4,1fr)', gap: 5 }}>
-        <Kpi accent label="Чистая прибыль" value="442К ₽" delta="+15%" deltaLabel="к апрелю"
+        <Kpi accent label="Чистая прибыль" value="442 тыс. ₽" delta="+15%" deltaLabel="к апрелю"
           sparkData={[280, 300, 320, 340, 360, 370, 380, 400, 410, 420, 430, 438, 440, 441, 442]} />
-        <Kpi label="Маржа" value="33%" delta="+2 пп" deltaLabel="vs пред." color={C.emerald}
+        <Kpi label="Маржа" value="33%" delta="+2 пп" deltaLabel="к предыдущему периоду" color={C.emerald}
           sparkData={[28, 29, 30, 30, 31, 31, 32, 32, 32, 33, 33, 33, 33, 33, 33]} sparkColor={C.emerald} />
         <Kpi label="Нагрузка ВБ" value="29%" deltaLabel="цель ≤30%" color={C.brand}
           sparkData={[35, 34, 33, 33, 32, 31, 31, 30, 30, 30, 29, 29, 29, 29, 29]} sparkColor={C.brand} />
@@ -255,9 +255,9 @@ function TabFinance({ isMobile }) {
         <Eyebrow color={C.emerald}>ABC-анализ · структура продаж</Eyebrow>
         <div style={{ display: 'flex', flexDirection: 'column', gap: 8, marginTop: 8 }}>
           {[
-            { grp: 'A', label: 'Топ 80% выручки', count: '8 артикулов', sum: '4.6М ₽', pct: 80, c: C.emerald, spark: [400, 440, 460, 510, 540, 580, 620, 680, 720, 760, 810, 860, 890, 940, 980] },
-            { grp: 'B', label: 'Следующие 15%', count: '12 артикулов', sum: '870К ₽', pct: 15, c: C.sun, spark: [180, 190, 200, 210, 220, 225, 230, 240, 250, 260, 265, 270, 275, 280, 285] },
-            { grp: 'C', label: 'Остаток 5%', count: '30 артикулов', sum: '290К ₽', pct: 5, c: '#6B7280', spark: [80, 82, 85, 87, 88, 90, 90, 91, 92, 93, 94, 95, 95, 96, 97] },
+            { grp: 'A', label: 'Топ 80% выручки', count: '8 артикулов', sum: '4,6 млн ₽', pct: 80, c: C.emerald, spark: [400, 440, 460, 510, 540, 580, 620, 680, 720, 760, 810, 860, 890, 940, 980] },
+            { grp: 'B', label: 'Следующие 15%', count: '12 артикулов', sum: '870 тыс. ₽', pct: 15, c: C.sun, spark: [180, 190, 200, 210, 220, 225, 230, 240, 250, 260, 265, 270, 275, 280, 285] },
+            { grp: 'C', label: 'Остаток 5%', count: '30 артикулов', sum: '290 тыс. ₽', pct: 5, c: '#6B7280', spark: [80, 82, 85, 87, 88, 90, 90, 91, 92, 93, 94, 95, 95, 96, 97] },
           ].map((g, i) => (
             <div key={i} style={{ display: 'flex', alignItems: 'center', gap: 9 }}>
               <span style={{ width: 22, height: 22, display: 'flex', alignItems: 'center', justifyContent: 'center', background: ha(g.c, .15), color: g.c, fontWeight: 800, fontSize: 11, flexShrink: 0, ...ch(4) }}>{g.grp}</span>
@@ -334,7 +334,7 @@ export default function SalesDashboard() {
         {tab === 'purchases' && <TabPurchases isMobile={isMobile} />}
         {tab === 'finance' && <TabFinance isMobile={isMobile} />}
         <div style={{ paddingTop: 2 }}>
-          <span style={{ fontSize: 7, color: T.t3 }}>Платформа SHVEC · NDA · данные изменены</span>
+          <span style={{ fontSize: 7, color: T.t3 }}>Платформа Швец · NDA · данные изменены</span>
         </div>
       </div>
     </div>

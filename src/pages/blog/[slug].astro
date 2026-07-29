@@ -1,0 +1,32 @@
+---
+import SeoContentLayout from '@/layouts/SeoContentLayout.astro';
+import { articles } from '@/data/seo-content';
+
+export function getStaticPaths() {
+  return articles.map((item) => ({ params: { slug: item.slug }, props: { item } }));
+}
+
+const { item } = Astro.props;
+const jsonLd = [{
+  '@context': 'https://schema.org',
+  '@type': 'Article',
+  headline: item.heading,
+  description: item.description,
+  author: { '@type': 'Organization', name: 'Швец' },
+  publisher: { '@type': 'Organization', name: 'Швец', url: 'https://shvec.tech/' },
+  mainEntityOfPage: `https://shvec.tech/blog/${item.slug}/`,
+}];
+---
+
+<SeoContentLayout
+  title={item.title}
+  description={item.description}
+  canonical={`https://shvec.tech/blog/${item.slug}/`}
+  eyebrow={item.eyebrow}
+  heading={item.heading}
+  lead={item.lead}
+  sections={item.sections}
+  {jsonLd}
+  backHref="/blog/"
+  backLabel="Все статьи"
+/>

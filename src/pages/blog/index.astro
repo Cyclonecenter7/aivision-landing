@@ -1,0 +1,20 @@
+---
+import SeoContentLayout from '@/layouts/SeoContentLayout.astro';
+import { articles } from '@/data/seo-content';
+
+const sections = articles.map((article) => ({
+  title: article.heading,
+  text: [article.lead],
+  links: [{ label: 'Читать статью', href: `/blog/${article.slug}/` }],
+}));
+---
+
+<SeoContentLayout
+  title="Блог об управленческом учёте и системах управления | Швец"
+  description="Практические материалы для собственника: ДДС, БДДС, P&L, план-факт, кассовые разрывы и единая управленческая система."
+  canonical="https://shvec.tech/blog/"
+  eyebrow="Блог Швец"
+  heading="Управленческий учёт без лишней теории"
+  lead="Разбираем отчёты, процессы и интеграции с точки зрения решений собственника."
+  {sections}
+/>

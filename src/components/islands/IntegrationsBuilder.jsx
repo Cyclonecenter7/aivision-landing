@@ -19,6 +19,7 @@ export default function IntegrationsBuilder() {
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [consent, setConsent] = useState(false);
 
   const toggle = (id) => {
     setSelected((prev) => {
@@ -119,13 +120,27 @@ export default function IntegrationsBuilder() {
                   <button
                     type="submit"
                     className="int-form-submit"
-                    disabled={loading}
+                    disabled={loading || !consent}
                     data-track="integration_submit"
                     data-track-block="integrations"
                   >
                     {loading ? '...' : 'Связаться →'}
                   </button>
                 </div>
+                <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginTop: 12 }}>
+                  <input
+                    type="checkbox"
+                    checked={consent}
+                    onChange={(e) => setConsent(e.target.checked)}
+                    style={{ marginTop: 3, accentColor: '#3F6EE8' }}
+                  />
+                  <span style={{ fontSize: 11, color: 'var(--l-text-mut)', lineHeight: 1.45 }}>
+                    Я согласен(-на) с{' '}
+                    <a href="/privacy-policy" target="_blank" rel="noopener">Политикой обработки ПДн</a>
+                    {' '}и{' '}
+                    <a href="/consent" target="_blank" rel="noopener">Согласием на обработку ПДн</a>
+                  </span>
+                </label>
                 {error && <p className="int-form-error">{error}</p>}
                 <p className="int-form-hint">Ответим в течение 5 минут. Первый разбор — бесплатно.</p>
               </form>

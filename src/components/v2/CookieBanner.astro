@@ -1,16 +1,14 @@
 ---
-// Cookie-баннер (152-ФЗ / позиция РКН 2025): аналитические cookie (Метрика + GA4)
-// грузятся ТОЛЬКО после явного согласия. Собственный трекер (tracker.js)
-// работает на законных интересах (Политика §4.2) и здесь не гейтится.
+// Cookie-баннер: Яндекс.Метрика и собственная поведенческая аналитика
+// запускаются ТОЛЬКО после явного согласия.
 // Баннер показывается во всех окружениях (чтобы согласие можно было проверить
 // на dev), но Я.Метрика грузится только в prod.
 const YM_ID = 109325036;
-const GA4_ID = 'G-PRM6XBSJZS';
 const isProd = import.meta.env.PUBLIC_ENV === 'production';
 ---
 <div id="cookie-banner" class="ck-banner" hidden>
   <p class="ck-text">
-    Сайт использует cookie для веб-аналитики (Яндекс.Метрика и Google Analytics).
+    Сайт использует собственную аналитику и аналитические cookie Яндекс.Метрики.
     Нажимая «Принять»,
     вы соглашаетесь на&nbsp;их обработку согласно
     <a href="/privacy-policy"> Политике обработки ПДн</a>.
@@ -21,7 +19,7 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
   </div>
 </div>
 
-    <script is:inline define:vars={{ YM_ID, GA4_ID, isProd }}>
+    <script is:inline define:vars={{ YM_ID, isProd }}>
       (function () {
         var KEY = 'shvec_cookie_consent';
         function loadYM() {
@@ -36,21 +34,8 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
           })(window, document, 'script', 'https://mc.yandex.ru/metrika/tag.js?id=' + YM_ID, 'ym');
           ym(YM_ID, 'init', { ssr: true, webvisor: true, clickmap: true, ecommerce: 'dataLayer', accurateTrackBounce: true, trackLinks: true });
         }
-        function loadGA4() {
-          if (!isProd || !GA4_ID || window.__ga4_loaded) return;
-          window.__ga4_loaded = true;
-          window.dataLayer = window.dataLayer || [];
-          window.gtag = window.gtag || function () { window.dataLayer.push(arguments); };
-          window.gtag('js', new Date());
-          window.gtag('config', GA4_ID, { anonymize_ip: true });
-          var script = document.createElement('script');
-          script.async = true;
-          script.src = 'https://www.googletagmanager.com/gtag/js?id=' + encodeURIComponent(GA4_ID);
-          document.head.appendChild(script);
-        }
         function loadAnalytics() {
           loadYM();
-          loadGA4();
         }
         var consent = null;
         try { consent = localStorage.getItem(KEY); } catch (e) {}
@@ -63,7 +48,17 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
         function decide(val) {
           try { localStorage.setItem(KEY, val); } catch (e) {}
           if (banner) banner.hidden = true;
-          if (val === 'accepted') loadAnalytics();
+          if (val === 'accepted') {
+            loadAnalytics();
+            window.dispatchEvent(new CustomEvent('shvec:analytics-consent'));
+          } else {
+            try { localStorage.removeItem('shvec_visitor_id'); } catch (e) {}
+            try {
+              sessionStorage.removeItem('shvec_session_id');
+              sessionStorage.removeItem('shvec_session_context');
+              sessionStorage.removeItem('shvec_session_tracked');
+            } catch (e) {}
+          }
         }
         var acc = document.getElementById('cookie-accept');
         var rej = document.getElementById('cookie-reject');

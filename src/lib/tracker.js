@@ -4,6 +4,7 @@ const VISITOR_KEY = 'shvec_visitor_id';
 const SESSION_KEY = 'shvec_session_id';
 const CONTEXT_KEY = 'shvec_session_context';
 const TRACKED_KEY = 'shvec_session_tracked';
+const CONSENT_KEY = 'shvec_cookie_consent';
 let ready;
 
 function uuid() {
@@ -41,18 +42,31 @@ async function postTrack(payload, keepalive = false) {
   if (!res.ok) throw new Error(`track failed: ${res.status}`);
 }
 
+export function hasAnalyticsConsent() {
+  try {
+    return localStorage.getItem(CONSENT_KEY) === 'accepted';
+  } catch {
+    return false;
+  }
+}
+
+async function ensureTrackedSession() {
+  const context = sessionContext();
+  if (!sessionStorage.getItem(TRACKED_KEY)) {
+    await postTrack({ event: 'session', ...context, user_agent: navigator.userAgent });
+    sessionStorage.setItem(TRACKED_KEY, '1');
+  }
+  return context;
+}
+
 // A click waits for this promise. We prefer dropping an early click to storing a
 // click without its session: the latter makes funnels look real while being wrong.
 export function initTracker() {
+  if (!hasAnalyticsConsent()) {
+    return Promise.reject(new Error('analytics consent required'));
+  }
   if (ready) return ready;
-  ready = (async () => {
-    const context = sessionContext();
-    if (!sessionStorage.getItem(TRACKED_KEY)) {
-      await postTrack({ event: 'session', ...context, user_agent: navigator.userAgent });
-      sessionStorage.setItem(TRACKED_KEY, '1');
-    }
-    return context;
-  })().catch((error) => {
+  ready = ensureTrackedSession().catch((error) => {
     // Do not poison the tab after a transient outage: the next user action or
     // page init starts a fresh session-write attempt with the same session id.
     ready = null;
@@ -65,6 +79,7 @@ export function getTrackingData() { return sessionContext(); }
 
 export function trackClick(element_text, element_id = '', source_block = '', options = {}) {
   const event_id = uuid();
+  if (!hasAnalyticsConsent()) return event_id;
   initTracker().then((context) => postTrack({
     event: 'click', event_id, visitor_id: context.visitor_id, session_id: context.session_id,
     element_id, element_text: String(element_text || '').slice(0, 240), source_block,
@@ -74,7 +89,10 @@ export function trackClick(element_text, element_id = '', source_block = '', opt
 }
 
 export async function saveLead({ name, contact, contact_type, source_block, turnover, website }) {
-  const t = await initTracker();
+  // The lead-form checkbox is a separate, purpose-specific consent. It allows
+  // sending the application with its attribution context even when optional
+  // behavioural analytics were rejected in the cookie banner.
+  const t = await ensureTrackedSession();
   const res = await fetch(`${API_BASE}/api/v1/ingest/leads`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
     body: JSON.stringify({ contact, name, contact_type, source_block, turnover: turnover || '', website,

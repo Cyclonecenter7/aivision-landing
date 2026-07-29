@@ -1,0 +1,97 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import Footer from '@/components/v2/Footer.astro';
+import { SEO, seoUrl } from '@/lib/seo';
+
+const seo = SEO.registrationConsent;
+const operator = [
+  ['ФИО', 'Будаева Юлия Юрьевна'],
+  ['Статус', 'Индивидуальный предприниматель'],
+  ['ИНН', '333412284650'],
+  ['ОГРНИП', '326774600414959'],
+  ['Email', 'admin@shvec.tech'],
+  ['Телефон', '+7 985 664 8001'],
+  ['Бренд', 'Швец'],
+];
+---
+<BaseLayout title={seo.title} description={seo.description} canonical={seoUrl(seo)} ogTitle={seo.ogTitle} ogDescription={seo.ogDescription} ogImage={seo.ogImage} twitterImage={seo.twitterImage} robots={seo.robots}>
+  <div style="background:#fff;min-height:100vh">
+    <header style="padding:24px 48px;border-bottom:1px solid #E8E8E8">
+      <a href="/" style="display:inline-flex;align-items:center;gap:10px;color:#0A0A0A;text-decoration:none;font-size:14px;font-weight:700;letter-spacing:0.15em">
+        <svg width="22" height="22" viewBox="0 0 32 32" xmlns="http://www.w3.org/2000/svg">
+          <path d="M0 0 L32 0 L32 26 L26 32 L0 32 Z" fill="#0A0A0A" />
+        </svg>
+        Швец
+      </a>
+    </header>
+    <main style="max-width:720px;margin:0 auto;padding:96px 24px 64px;font-family:Inter,sans-serif">
+      <div class="flex items-center gap-3 mb-5">
+        <div class="w-6 h-px bg-blue"></div>
+        <span class="text-blue text-xs font-medium uppercase tracking-widest">Правовая информация</span>
+      </div>
+
+      <h1 style="font-size:28px;font-weight:700;color:#0A0A0A;margin-bottom:8px">
+        Согласие на обработку персональных данных при регистрации
+      </h1>
+      <p style="font-size:13px;color:#888;margin-bottom:32px">Редакция от 29 июля 2026 г. · версия registration-2.0</p>
+
+      <div style="background:#F8F9FC;padding:24px;margin-bottom:32px">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px 24px">
+          {operator.map(([label, value]) => (
+            <div>
+              <div style="font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:0.12em;color:#888;margin-bottom:4px">{label}</div>
+              <div style="font-size:13px;color:#0A0A0A;font-weight:500">{value}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <section class="legal-section">
+        <h2><span class="legal-num">01</span>Субъект и способ предоставления согласия</h2>
+        <p>Настоящее согласие предоставляет физическое лицо, создающее учётную запись в приложении https://app.shvec.tech (далее — «Пользователь»), индивидуальному предпринимателю Будаевой Юлии Юрьевне (далее — «Оператор»).</p>
+        <p>Пользователь предоставляет конкретное, предметное, информированное, сознательное и однозначное согласие путём проставления отдельной отметки (чекбокса) рядом со ссылками на настоящее Согласие и <a href="/privacy-policy" style="color:#3F6EE8">Политику обработки персональных данных</a> до отправки формы регистрации.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2><span class="legal-num">02</span>Перечень персональных данных</h2>
+        <p>Email; криптографический хеш пароля; идентификаторы пользователя и рабочей области; роль и статус учётной записи; сведения о подтверждении email; зашифрованные данные двухфакторной аутентификации и хеши кодов восстановления; идентификаторы и сроки действия сессий; IP-адрес; User-Agent; дата, IP-адрес и версия принятого согласия; сведения о входах и событиях безопасности.</p>
+        <p>Пароль в открытом виде Оператором не хранится. Коды восстановления хранятся в виде криптографических хешей, а секрет двухфакторной аутентификации — в зашифрованном виде.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2><span class="legal-num">03</span>Цели обработки</h2>
+        <p>Создание и администрирование учётной записи; подтверждение email; предоставление доступа к кабинету и функциям платформы; обеспечение двухфакторной аутентификации; предотвращение несанкционированного доступа, злоупотреблений и технических атак; поддержка Пользователя; заключение и исполнение договора по инициативе Пользователя.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2><span class="legal-num">04</span>Действия с данными</h2>
+        <p>Сбор, запись, систематизация, накопление, хранение, уточнение, извлечение, использование, предоставление доступа привлечённым обработчикам, блокирование, удаление и уничтожение с использованием средств автоматизации.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2><span class="legal-num">05</span>Обработчики и территория хранения</h2>
+        <p>Данные могут обрабатываться поставщиками хостинга, баз данных, объектного хранилища и сервисной электронной почты по поручению Оператора. Актуальный перечень и цели привлечения обработчиков указаны в <a href="/privacy-policy" style="color:#3F6EE8">Политике обработки персональных данных</a>.</p>
+        <p>Первичная запись, систематизация, накопление, хранение, уточнение и извлечение персональных данных граждан РФ осуществляются с использованием баз данных на территории Российской Федерации.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2><span class="legal-num">06</span>Срок обработки</h2>
+        <p>Данные незавершённой регистрации обрабатываются в течение срока завершения регистрации, после чего удаляются. Данные активной учётной записи обрабатываются в период использования платформы и действия договора. После удаления аккаунта данные удаляются из активных систем по истечении технического периода, по умолчанию 30 дней, если иной срок не требуется законодательством или для разрешения спора.</p>
+      </section>
+
+      <section class="legal-section">
+        <h2><span class="legal-num">07</span>Отзыв согласия и права Пользователя</h2>
+        <p>Согласие действует до достижения целей обработки либо до его отзыва. Отзыв направляется на <a href="mailto:admin@shvec.tech" style="color:#3F6EE8">admin@shvec.tech</a> с темой «Отзыв согласия на обработку ПДн».</p>
+        <p>После отзыва Оператор прекращает обработку и уничтожает данные в срок, установленный законодательством, если отсутствует иное правовое основание. Отзыв может сделать невозможным дальнейшее использование учётной записи.</p>
+      </section>
+    </main>
+    <Footer />
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .legal-section { margin-top: 32px; padding-top: 32px; border-top: 1px solid #E8E8E8; }
+  .legal-section h2 { font-size: 15px; font-weight: 700; color:#0A0A0A; margin: 0 0 12px; }
+  .legal-section p { font-size: 13px; line-height: 1.75; color:#444; margin-bottom: 10px; }
+  .legal-num { color:#3F6EE8; font-weight:700; margin-right:8px; }
+</style>

@@ -112,15 +112,19 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
     <!-- Хост баннеров по действиям визитора (слушает 'shvec:show-banner') -->
     <BannerHostIsland client:load />
 
-    <!-- Cookie-consent: грузит Я.Метрику только после согласия (prod) -->
+    <!-- Cookie-consent: аналитика запускается только после явного согласия -->
     <CookieBanner />
 
     <script>
       import { initTracker, trackClick } from '@/lib/tracker';
       import { initBanners } from '@/lib/banners';
-      initTracker()
-        .then((ids) => initBanners(ids))
-        .catch(() => {});
+      const startAnalytics = () => {
+        initTracker()
+          .then((ids) => initBanners(ids))
+          .catch(() => {});
+      };
+      startAnalytics();
+      window.addEventListener('shvec:analytics-consent', startAnalytics);
       document.addEventListener('click', (e) => {
         const target = e.target as Element | null;
         if (!target) return;

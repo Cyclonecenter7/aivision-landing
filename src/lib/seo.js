@@ -110,6 +110,18 @@ export const SEO = {
     twitterImage: '/og/og-main.png',
     robots: 'noindex, follow',
   },
+
+  registrationConsent: {
+    title: 'Согласие на обработку данных при регистрации — Швец',
+    description:
+      'Согласие на обработку персональных данных при создании и использовании кабинета Швец.',
+    ogTitle: 'Согласие на обработку данных при регистрации',
+    ogDescription: 'Условия обработки данных при создании кабинета Швец.',
+    path: '/consent-registration',
+    ogImage: '/og/og-main.png',
+    twitterImage: '/og/og-main.png',
+    robots: 'noindex, follow',
+  },
 };
 
 export const seoUrl = (seoEntry) => {

@@ -1,7 +1,7 @@
 {
-  "name": "Швец",
-  "short_name": "Швец",
-  "description": "Финансовая книга и кабинет бизнеса",
+  "name": "ШВЕЦ",
+  "short_name": "ШВЕЦ",
+  "description": "Система управления бизнесом ШВЕЦ",
   "start_url": "/admin/dashboard",
   "scope": "/",
   "display": "standalone",
@@ -13,13 +13,13 @@
       "src": "/icon-192.png",
       "sizes": "192x192",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     },
     {
       "src": "/icon-512.png",
       "sizes": "512x512",
       "type": "image/png",
-      "purpose": "any maskable"
+      "purpose": "any"
     }
   ]
 }

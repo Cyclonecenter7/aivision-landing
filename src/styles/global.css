@@ -196,11 +196,13 @@
   .nav--solid .btn { padding: 11px 22px; }
 
   .nav-logo {
+    --nav-logo-mark: #fff;
     display: flex;
     align-items: center;
     color: #fff;
     text-decoration: none;
   }
+  .nav--solid .nav-logo { --nav-logo-mark: var(--brand); }
   .nav-links {
     display: flex;
     gap: 36px;

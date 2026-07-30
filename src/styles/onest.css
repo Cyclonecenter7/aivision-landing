@@ -1,0 +1,7 @@
+@font-face {
+  font-family: 'Onest';
+  src: url('/fonts/Onest-SemiBold.ttf') format('truetype');
+  font-style: normal;
+  font-weight: 600;
+  font-display: swap;
+}

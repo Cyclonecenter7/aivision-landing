@@ -70,11 +70,13 @@ export default function BannerHostIsland() {
 
   const card = (
     <div
-      role="region"
+      role={isX2 ? 'dialog' : 'region'}
+      aria-modal={isX2 ? 'true' : undefined}
       aria-label={banner.title || 'Баннер'}
+      onClick={(event) => event.stopPropagation()}
       style={{
         position: 'relative',
-        width: 'auto',
+        width: isX2 ? 'min(100%, 520px)' : 'auto',
         maxWidth: isX2 ? 440 : 340,
         padding: isX2 ? '30px 30px 26px' : '22px 22px 20px',
         color: fg,
@@ -177,17 +179,20 @@ export default function BannerHostIsland() {
     </div>
   );
 
-  // Оба размера — в углу (bottom-right), fixed, БЕЗ backdrop: баннер не
-  // перекрывает страницу и «не прыгает в лицо». x2 просто крупнее x1.
   return (
     <div
+      onClick={isX2 ? close : undefined}
       style={{
         position: 'fixed',
-        right: 20,
-        bottom: 20,
-        left: 'auto',
+        inset: isX2 ? 0 : 'auto 20px 20px auto',
         zIndex: 60,
-        maxWidth: 'calc(100vw - 40px)',
+        display: isX2 ? 'flex' : 'block',
+        alignItems: isX2 ? 'center' : undefined,
+        justifyContent: isX2 ? 'center' : undefined,
+        maxWidth: isX2 ? undefined : 'calc(100vw - 40px)',
+        padding: isX2 ? 20 : 0,
+        background: isX2 ? 'rgba(10,10,10,0.72)' : 'transparent',
+        backdropFilter: isX2 ? 'blur(4px)' : undefined,
       }}
     >
       {card}

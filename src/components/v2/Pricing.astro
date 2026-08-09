@@ -17,6 +17,7 @@ const PLANS = [
         href: 'https://app.shvec.tech/signup',
         track: 'pricing_signup_cta',
         yandexGoal: 'reg_begin_click_main',
+        yandexGoals: 'reg_begin_click reg_begin_click_main',
       },
       {
         label: 'Записаться на диагностику',
@@ -102,6 +103,7 @@ const PAYBACK = [
                     data-track={action.track}
                     data-track-block="pricing"
                     data-ym-goal={action.yandexGoal}
+                    data-ym-goals={action.yandexGoals}
                   >
                     {action.label}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">

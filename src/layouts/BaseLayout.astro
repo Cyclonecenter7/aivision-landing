@@ -154,8 +154,10 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
           trackClick(text, id, block, { bannerId: el.dataset.bannerId || '' });
         }
 
-        const yandexGoal = el.dataset.ymGoal || '';
-        if (yandexGoal) reachYandexGoal(yandexGoal);
+        const yandexGoals = (el.dataset.ymGoals || el.dataset.ymGoal || '')
+          .split(/\s+/)
+          .filter(Boolean);
+        [...new Set(yandexGoals)].forEach((goal) => reachYandexGoal(goal));
       });
     </script>
   </body>

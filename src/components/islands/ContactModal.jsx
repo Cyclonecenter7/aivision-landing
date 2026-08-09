@@ -6,10 +6,8 @@ import ContactToggleInput from './ContactToggleInput';
 import { Btn } from '@/components/ui';
 
 const clipCard = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
-const clipBtn  = 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)';
-
 export default function ContactModal({ open, onClose, source = 'modal', demoGate = false, initial = null }) {
-  const [form, setForm] = useState({ name: '', contact: '', website: '' });
+  const [form, setForm] = useState({ name: '', contact: '', website: '', consent: false });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
@@ -20,6 +18,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
         name: initial?.name || '',
         contact: initial?.contact || '',
         website: '',
+        consent: false,
       });
     }
   }, [open, initial?.name, initial?.contact]);
@@ -80,12 +79,15 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
     <div
       data-track="modal_overlay_close"
       data-track-block="contact_modal"
-      className="fixed inset-0 z-50 flex items-center justify-center px-4"
+      className="lead-modal-overlay"
       style={{ background: 'rgba(10,10,10,0.7)', backdropFilter: 'blur(4px)' }}
       onClick={handleClose}
     >
       <div
-        className="bg-[#181818] w-full max-w-md p-8 relative"
+        className="lead-modal-card"
+        role="dialog"
+        aria-modal="true"
+        aria-label={demoGate ? 'Доступ к демо' : 'Записаться на диагностику'}
         style={{ clipPath: clipCard }}
         onClick={e => e.stopPropagation()}
       >
@@ -98,20 +100,20 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
           <X size={18} />
         </button>
 
-        <div className="flex items-center gap-3 mb-5">
+        <div className="flex items-center gap-3 mb-4">
           <div className="w-6 h-px bg-blue" />
           <span className="text-blue text-xs font-medium uppercase tracking-widest">
-            {demoGate ? 'Доступ к демо' : 'Записаться на диагностику'}
+            {demoGate ? 'Доступ к демо' : 'Диагностика'}
           </span>
         </div>
 
         <h3 className="text-white text-2xl font-bold leading-snug mb-2">
-          {demoGate ? 'Откройте демо платформы' : 'Оставьте контакт'}
+          {demoGate ? 'Откройте демо платформы' : 'Попробовать систему'}
         </h3>
-        <p className="text-[#555] text-sm mb-8">
+        <p className="text-[#888] text-sm mb-6">
           {demoGate
             ? 'Оставьте контакт — откроем доступ к интерактивному демо.'
-            : 'Свяжемся в течение 5 минут. Разбор бесплатный.'}
+            : 'Оставьте контакт — разберём задачу и покажем платформу на демо-данных.'}
         </p>
 
         {sent ? (
@@ -156,7 +158,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
             )}
           </div>
         ) : (
-          <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+          <form onSubmit={handleSubmit} className="lead-form">
             {/* Honeypot — скрыто от людей, ловит ботов */}
             <input
               type="text"
@@ -168,25 +170,28 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
               style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
               aria-hidden="true"
             />
-            <div>
-              <label className="text-[#555] text-[10px] uppercase tracking-widest mb-2 block">Имя</label>
-              <div className="bg-[#252525] border border-[#2A2A2A] focus-within:border-blue transition-colors">
-                <input
-                  required
-                  value={form.name}
-                  onChange={e => setForm({ ...form, name: e.target.value })}
-                  placeholder="Ваше имя"
-                  className="w-full bg-transparent text-white text-sm px-4 py-3 focus:outline-none placeholder:text-[#444]"
-                />
-              </div>
-            </div>
+            <input
+              required
+              value={form.name}
+              onChange={e => setForm({ ...form, name: e.target.value })}
+              placeholder="Ваше имя"
+              aria-label="Имя"
+              className="lead-input"
+            />
             <ContactToggleInput
               dark={true}
               value={form.contact}
               onChange={val => setForm({ ...form, contact: val })}
+              trackBlock="contact_modal"
             />
-            <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start' }}>
-              <input type="checkbox" required style={{ marginTop: 3, accentColor: '#3F6EE8' }} />
+            <label className="lead-consent">
+              <input
+                type="checkbox"
+                required
+                checked={form.consent}
+                onChange={e => setForm({ ...form, consent: e.target.checked })}
+                style={{ marginTop: 3, accentColor: '#3F6EE8' }}
+              />
               <span style={{ fontSize: 11, color: '#666', lineHeight: 1.4 }}>
                 Я ознакомлен(-а) и согласен(-а) с{' '}
                 <a href="/privacy-policy" target="_blank" style={{ color: '#3F6EE8', textDecoration: 'underline' }}>
@@ -200,17 +205,31 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
             {error && (
               <p className="text-red text-xs">{error}</p>
             )}
-            <Btn
-              track="modal_submit"
-              trackBlock="contact_modal"
-              type="submit"
-              disabled={loading}
-              className="mt-2 w-full disabled:opacity-50"
-            >
-              {loading
-                ? 'Отправляем...'
-                : demoGate ? 'Смотреть демо' : 'Записаться на диагностику'}
-            </Btn>
+            <div className="lead-actions">
+              <Btn
+                track="modal_submit"
+                trackBlock="contact_modal"
+                type="submit"
+                disabled={loading || !form.consent}
+                className="lead-action disabled:opacity-50"
+              >
+                {loading
+                  ? 'Отправляем...'
+                  : demoGate ? 'Смотреть демо' : 'Записаться на диагностику'}
+              </Btn>
+              {!demoGate && (
+                <a
+                  href="/demo/"
+                  target="_blank"
+                  rel="noopener"
+                  className="btn btn-secondary lead-action"
+                  data-track="modal_form_demo"
+                  data-track-block="contact_modal"
+                >
+                  Посмотреть демо
+                </a>
+              )}
+            </div>
           </form>
         )}
       </div>

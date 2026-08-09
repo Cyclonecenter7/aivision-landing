@@ -1,8 +1,6 @@
 import { useState } from 'react';
 
-
-
-export default function ContactToggleInput({ value, onChange, dark = false }) {
+export default function ContactToggleInput({ value, onChange, dark = false, trackBlock = 'contact_modal' }) {
   const [mode, setMode] = useState('telegram'); // 'telegram' | 'phone'
 
   const handleModeSwitch = (newMode) => {
@@ -45,45 +43,34 @@ export default function ContactToggleInput({ value, onChange, dark = false }) {
 
   const displayValue = value;
 
-  const bg      = dark ? 'bg-[#252525]' : 'bg-[#F4F6FA]';
-  const border  = dark ? 'border-[#2A2A2A] focus-within:border-blue' : 'border-[#E8E8E8] focus-within:border-blue';
-  const text    = dark ? 'text-white' : 'text-background';
-  const ph      = dark ? 'placeholder:text-[#444]' : 'placeholder:text-[#BBB]';
-  const prefix  = dark ? 'text-blue' : 'text-blue';
-  const tabBase = 'text-[10px] font-semibold uppercase tracking-widest px-3 py-1.5 transition-colors cursor-pointer';
-  const tabOff  = dark ? 'text-[#555] hover:text-[#888]' : 'text-[#AAA] hover:text-[#666]';
-  const tabOn   = dark ? 'text-white bg-blue' : 'text-white bg-blue';
-
   return (
-    <div>
-      {/* Toggle */}
-      <div className="flex items-center gap-0 mb-2" style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)' }}>
+    <div className={`lead-contact${dark ? ' lead-contact--dark' : ' lead-contact--light'}`}>
+      <div className="lead-contact-toggle" role="group" aria-label="Предпочтительный способ связи">
         <button
           type="button"
           data-track="modal_toggle_tg"
-          data-track-block="contact_modal"
+          data-track-block={trackBlock}
           onClick={() => handleModeSwitch('telegram')}
-          className={`${tabBase} ${mode === 'telegram' ? tabOn : tabOff}`}
+          className={`lead-contact-tab${mode === 'telegram' ? ' active' : ''}`}
+          aria-pressed={mode === 'telegram'}
         >
           Telegram
         </button>
         <button
           type="button"
           data-track="modal_toggle_phone"
-          data-track-block="contact_modal"
+          data-track-block={trackBlock}
           onClick={() => handleModeSwitch('phone')}
-          className={`${tabBase} ${mode === 'phone' ? tabOn : tabOff}`}
+          className={`lead-contact-tab${mode === 'phone' ? ' active' : ''}`}
+          aria-pressed={mode === 'phone'}
         >
           Телефон
         </button>
       </div>
 
-      {/* Input */}
-      <div
-        className={`flex items-center ${bg} border ${border} transition-colors`}
-      >
+      <div className="lead-contact-input-wrap">
         {mode === 'telegram' && (
-          <span className={`pl-4 pr-1 text-sm font-medium select-none ${prefix}`}>@</span>
+          <span className="lead-contact-prefix">@</span>
         )}
         <input
           required
@@ -93,8 +80,8 @@ export default function ContactToggleInput({ value, onChange, dark = false }) {
           onFocus={handleFocus}
           placeholder={mode === 'telegram' ? 'username' : '(000) 000 00 00'}
           maxLength={mode === 'phone' ? 18 : 32}
-          className={`flex-1 bg-transparent ${text} text-sm px-3 py-3 focus:outline-none ${ph}`}
-          style={mode === 'telegram' ? { paddingLeft: 0 } : {}}
+          className="lead-contact-input"
+          aria-label={mode === 'telegram' ? 'Telegram' : 'Телефон'}
         />
       </div>
     </div>

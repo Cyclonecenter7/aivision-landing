@@ -1,12 +1,11 @@
 import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
 import { reachYandexGoal } from '@/lib/yandexMetrika';
+import ContactToggleInput from './ContactToggleInput';
 
 export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
   const [name, setName] = useState('');
-  const [mode, setMode] = useState('telegram');
   const [contact, setContact] = useState('');
-  const [revenue, setRevenue] = useState('');
   const [consent, setConsent] = useState(false);
   const [website, setWebsite] = useState('');
   const [sent, setSent] = useState(false);
@@ -26,7 +25,7 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
 
     const trimmedName = name.trim();
     let preparedContact = contact.trim();
-    if (mode === 'telegram' && preparedContact && !preparedContact.startsWith('@')) {
+    if (!preparedContact.startsWith('+') && preparedContact && !preparedContact.startsWith('@')) {
       preparedContact = '@' + preparedContact.replace(/^@+/, '');
     }
 
@@ -54,7 +53,6 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
         contact: preparedContact,
         contact_type: isPhone ? 'phone' : 'telegram',
         source_block: sourceBlock,
-        turnover: revenue,
         website,
       });
       reachYandexGoal('reg_ok');
@@ -97,7 +95,7 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
   }
 
   return (
-    <form className="cta-form" onSubmit={handleSubmit}>
+    <form className="cta-form lead-form" onSubmit={handleSubmit}>
       <input
         type="text"
         name="website"
@@ -109,78 +107,26 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
         aria-hidden="true"
       />
 
-      <div className="cta-field">
-        <div className="cta-field-lab">Имя</div>
-        <input
-          className="cta-input"
-          placeholder="Александр"
-          value={name}
-          onChange={(e) => setName(e.target.value)}
-          required
-        />
+      <div className="lead-form-head">
+        <h3>Попробовать систему</h3>
+        <p>Оставьте контакт — разберём задачу и покажем платформу на демо-данных.</p>
       </div>
 
-      <div className="cta-field">
-        <div className="cta-toggle">
-          <button
-            type="button"
-            className={`cta-toggle-btn ${mode === 'telegram' ? 'active' : ''}`}
-            onClick={() => { setMode('telegram'); setContact(''); setError(''); }}
-          >
-            Telegram
-          </button>
-          <button
-            type="button"
-            className={`cta-toggle-btn ${mode === 'phone' ? 'active' : ''}`}
-            onClick={() => { setMode('phone'); setContact(''); setError(''); }}
-          >
-            Телефон
-          </button>
-        </div>
-      </div>
+      <input
+        className="lead-input"
+        aria-label="Имя"
+        placeholder="Ваше имя"
+        value={name}
+        onChange={(e) => setName(e.target.value)}
+        required
+      />
 
-      <div className="cta-field">
-        <input
-          className="cta-input"
-          type={mode === 'phone' ? 'tel' : 'text'}
-          placeholder={mode === 'telegram' ? '@username' : '+7 (000) 000 00 00'}
-          value={contact}
-          onChange={(e) => setContact(e.target.value)}
-          required
-        />
-      </div>
-
-      <div className="cta-field">
-        <div className="cta-field-lab">Оборот в месяц</div>
-        <select
-          className="cta-input"
-          value={revenue}
-          onChange={(e) => setRevenue(e.target.value)}
-          style={{
-            appearance: 'none',
-            WebkitAppearance: 'none',
-            MozAppearance: 'none',
-            paddingRight: 40,
-            backgroundImage:
-              "url(\"data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpolyline points='6 9 12 15 18 9'/%3E%3C/svg%3E\")",
-            backgroundRepeat: 'no-repeat',
-            backgroundPosition: 'right 14px center',
-            color: revenue ? undefined : '#BDBDBD',
-            cursor: 'pointer',
-          }}
-        >
-          <option value="">Выберите диапазон</option>
-          <option value="до 10 млн ₽">до 10 млн ₽</option>
-          <option value="10–25 млн ₽">10–25 млн ₽</option>
-          <option value="25–50 млн ₽">25–50 млн ₽</option>
-          <option value="50–100 млн ₽">50–100 млн ₽</option>
-          <option value="100+ млн ₽">100+ млн ₽</option>
-        </select>
-        <div className="cta-hint">
-          Это помогает заранее понять, подходит&nbsp;ли Швец под ваш масштаб,
-          и не тратить ваше время на неподходящее решение.
-        </div>
-      </div>
+      <ContactToggleInput
+        dark
+        value={contact}
+        onChange={(value) => { setContact(value); setError(''); }}
+        trackBlock="final_cta"
+      />
 
       <label className="cta-consent">
         <input
@@ -198,21 +144,28 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
 
       {error && <p style={{ color: 'var(--crimson)', fontSize: 12 }}>{error}</p>}
 
-      <button
-        type="submit"
-        className="cta-submit"
-        data-track="final_form_submit"
-        data-track-block="final_cta"
-        disabled={!consent || loading}
-        style={!consent || loading ? { opacity: 0.5, cursor: 'not-allowed' } : undefined}
-      >
-        {loading ? 'Отправляем…' : 'Начать диагностику'}
-        {!loading && (
-          <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-            <path d="M5 12h14M12 5l7 7-7 7" />
-          </svg>
-        )}
-      </button>
+      <div className="lead-actions">
+        <button
+          type="submit"
+          className="btn btn-on-dark lead-action"
+          data-track="final_form_submit"
+          data-track-block="final_cta"
+          disabled={!consent || loading}
+        >
+          {loading ? 'Отправляем…' : 'Начать диагностику'}
+        </button>
+        <a
+          href="/demo/"
+          target="_blank"
+          rel="noopener"
+          className="btn btn-secondary lead-action"
+          data-track="final_form_demo"
+          data-track-block="final_cta"
+          data-ym-goal="demo_click_main"
+        >
+          Посмотреть демо
+        </a>
+      </div>
 
       <div className="cta-after">Никаких презентаций. Только разбор вашей ситуации.</div>
     </form>

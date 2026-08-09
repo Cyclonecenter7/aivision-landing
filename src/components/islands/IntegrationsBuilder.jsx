@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
 import { reachYandexGoal } from '@/lib/yandexMetrika';
+import ContactToggleInput from './ContactToggleInput';
 
 const TAGS = [
   { id: 'excel',     label: 'Excel / Google Sheets', text: 'Подключаемся к вашим таблицам — вы получаете живую систему с автообновлением вместо ручного счёта' },
@@ -16,6 +17,7 @@ const TAGS = [
 
 export default function IntegrationsBuilder() {
   const [selected, setSelected] = useState(new Set());
+  const [name, setName] = useState('');
   const [contact, setContact] = useState('');
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -37,7 +39,13 @@ export default function IntegrationsBuilder() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    const trimmedName = name.trim();
     const c = contact.trim();
+    if (trimmedName.length < 2 || trimmedName.length > 100) {
+      setError('Имя 2–100 символов');
+      setLoading(false);
+      return;
+    }
     if (c.length < 3) {
       setError('Введите Telegram или телефон');
       setLoading(false);
@@ -53,7 +61,7 @@ export default function IntegrationsBuilder() {
     try {
       const labels = activeTags.map((t) => t.label).join(', ') || '—';
       await saveLead({
-        name: 'С сайта · интеграции',
+        name: trimmedName,
         contact: c,
         contact_type: isPhone ? 'phone' : 'telegram',
         source_block: `integrations: ${labels}`,
@@ -99,51 +107,70 @@ export default function IntegrationsBuilder() {
       )}
 
       {selected.size > 0 && (
-        <div className="int-form">
+        <div className="int-form int-form--dark">
           {sent ? (
             <div className="int-form-sent">
               <strong>Заявка принята ✓</strong>
-              <p style={{ color: 'var(--l-text-mut)', fontSize: 12, marginTop: 6 }}>
+              <p style={{ color: 'var(--d-text-sec)', fontSize: 12, marginTop: 6 }}>
                 Свяжемся в течение 5 минут
               </p>
             </div>
           ) : (
             <>
-              <div className="int-form-eb">Оставьте контакт — покажем, как это будет работать</div>
-              <form onSubmit={handleSubmit}>
-                <div className="int-form-row">
-                  <input
-                    className="int-form-input"
-                    required
-                    value={contact}
-                    onChange={(e) => setContact(e.target.value)}
-                    placeholder="@username или +7..."
-                  />
-                  <button
-                    type="submit"
-                    className="int-form-submit"
-                    disabled={loading || !consent}
-                    data-track="integration_submit"
-                    data-track-block="integrations"
-                  >
-                    {loading ? '...' : 'Начать диагностику →'}
-                  </button>
-                </div>
-                <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginTop: 12 }}>
+              <div className="lead-form-head">
+                <h3>Попробовать интеграцию</h3>
+                <p>Оставьте контакт — покажем, как выбранные сервисы войдут в вашу систему.</p>
+              </div>
+              <form onSubmit={handleSubmit} className="lead-form">
+                <input
+                  className="lead-input"
+                  required
+                  value={name}
+                  onChange={(e) => setName(e.target.value)}
+                  placeholder="Ваше имя"
+                  aria-label="Имя"
+                />
+                <ContactToggleInput
+                  dark
+                  value={contact}
+                  onChange={(value) => { setContact(value); setError(''); }}
+                  trackBlock="integrations"
+                />
+                <label className="lead-consent">
                   <input
                     type="checkbox"
                     checked={consent}
                     onChange={(e) => setConsent(e.target.checked)}
-                    style={{ marginTop: 3, accentColor: '#3F6EE8' }}
                   />
-                  <span style={{ fontSize: 11, color: 'var(--l-text-mut)', lineHeight: 1.45 }}>
-                    Я согласен(-на) с{' '}
+                  <span>
+                    Я ознакомлен(-а) и согласен(-а) с{' '}
                     <a href="/privacy-policy" target="_blank" rel="noopener">Политикой обработки ПДн</a>
                     {' '}и{' '}
                     <a href="/consent" target="_blank" rel="noopener">Согласием на обработку ПДн</a>
                   </span>
                 </label>
                 {error && <p className="int-form-error">{error}</p>}
+                <div className="lead-actions">
+                  <button
+                    type="submit"
+                    className="btn btn-on-dark lead-action"
+                    disabled={loading || !consent}
+                    data-track="integration_submit"
+                    data-track-block="integrations"
+                  >
+                    {loading ? 'Отправляем…' : 'Начать диагностику'}
+                  </button>
+                  <a
+                    href="/demo/"
+                    target="_blank"
+                    rel="noopener"
+                    className="btn btn-secondary lead-action"
+                    data-track="integration_demo"
+                    data-track-block="integrations"
+                  >
+                    Посмотреть демо
+                  </a>
+                </div>
                 <p className="int-form-hint">Ответим в течение 5 минут. Первый разбор — бесплатно.</p>
               </form>
             </>

@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
+import { reachYandexGoal } from '@/lib/yandexMetrika';
 
 export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
   const [name, setName] = useState('');
@@ -56,6 +57,7 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
         turnover: revenue,
         website,
       });
+      reachYandexGoal('reg_ok');
       setSent(true);
     } catch (err) {
       setError(err.message || 'Что-то пошло не так. Попробуйте ещё раз.');
@@ -87,7 +89,7 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
             data-track-block="final_cta"
             style={{ color: 'var(--brand)', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}
           >
-            Открыть демо платформы →
+            Смотреть демо →
           </a>
         </div>
       </div>

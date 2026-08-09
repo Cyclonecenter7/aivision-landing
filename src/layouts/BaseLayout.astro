@@ -118,8 +118,17 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
 
     <script>
       import { initTracker, trackClick } from '@/lib/tracker';
+      import { reachYandexGoal } from '@/lib/yandexMetrika';
       import { initBanners } from '@/lib/banners';
+      const hasAnalyticsConsent = () => {
+        try {
+          return window.localStorage.getItem('shvec_cookie_consent') === 'accepted';
+        } catch {
+          return false;
+        }
+      };
       const startAnalytics = () => {
+        if (!hasAnalyticsConsent()) return;
         initTracker()
           .then((ids) => initBanners(ids))
           .catch(() => {});
@@ -141,7 +150,12 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
         const id = el.dataset.track || '';
         const block = el.dataset.trackBlock || '';
         const text = el.dataset.trackText || el.textContent?.trim() || '';
-        trackClick(text, id, block, { bannerId: el.dataset.bannerId || '' });
+        if (hasAnalyticsConsent()) {
+          trackClick(text, id, block, { bannerId: el.dataset.bannerId || '' });
+        }
+
+        const yandexGoal = el.dataset.ymGoal || '';
+        if (yandexGoal) reachYandexGoal(yandexGoal);
       });
     </script>
   </body>

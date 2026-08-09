@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { saveLead } from '@/lib/tracker';
+import { reachYandexGoal } from '@/lib/yandexMetrika';
 
 const TAGS = [
   { id: 'excel',     label: 'Excel / Google Sheets', text: 'Подключаемся к вашим таблицам — вы получаете живую систему с автообновлением вместо ручного счёта' },
@@ -57,6 +58,7 @@ export default function IntegrationsBuilder() {
         contact_type: isPhone ? 'phone' : 'telegram',
         source_block: `integrations: ${labels}`,
       });
+      reachYandexGoal('reg_ok');
       setSent(true);
     } catch (err) {
       setError(err.message || 'Ошибка. Попробуйте ещё раз.');
@@ -124,7 +126,7 @@ export default function IntegrationsBuilder() {
                     data-track="integration_submit"
                     data-track-block="integrations"
                   >
-                    {loading ? '...' : 'Связаться →'}
+                    {loading ? '...' : 'Начать диагностику →'}
                   </button>
                 </div>
                 <label style={{ display: 'flex', gap: 8, alignItems: 'flex-start', marginTop: 12 }}>

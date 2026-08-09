@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react';
 import { saveLead } from '@/lib/tracker';
+import { reachYandexGoal } from '@/lib/yandexMetrika';
 import { X } from 'lucide-react';
 import ContactToggleInput from './ContactToggleInput';
 import { Btn } from '@/components/ui';
@@ -61,6 +62,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
     try {
       const contact_type = isPhone ? 'phone' : 'telegram';
       await saveLead({ name, contact, contact_type, source_block: source, website: form.website });
+      reachYandexGoal('reg_ok');
       setSent(true);
     } catch (err) {
       setError(err.message || 'Что-то пошло не так. Попробуйте ещё раз.');
@@ -99,7 +101,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
         <div className="flex items-center gap-3 mb-5">
           <div className="w-6 h-px bg-blue" />
           <span className="text-blue text-xs font-medium uppercase tracking-widest">
-            {demoGate ? 'Доступ к демо' : 'Записаться на разбор'}
+            {demoGate ? 'Доступ к демо' : 'Записаться на диагностику'}
           </span>
         </div>
 
@@ -128,7 +130,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
                   onClick={() => { window.location.href = '/demo/'; }}
                   className="w-full"
                 >
-                  Перейти в демо
+                  Смотреть демо
                 </Btn>
               </>
             ) : (
@@ -146,7 +148,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
                     data-track-block="contact_modal"
                     className="inline-flex items-center gap-2 text-blue text-sm font-semibold no-underline hover:opacity-80 transition-opacity"
                   >
-                    Открыть демо платформы
+                    Смотреть демо
                     <span aria-hidden>→</span>
                   </a>
                 </div>
@@ -207,7 +209,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
             >
               {loading
                 ? 'Отправляем...'
-                : demoGate ? 'Открыть демо' : 'Записаться на разбор'}
+                : demoGate ? 'Смотреть демо' : 'Записаться на диагностику'}
             </Btn>
           </form>
         )}

@@ -141,11 +141,47 @@
     font-family: 'Inter', sans-serif;
     letter-spacing: 0.01em;
     clip-path: polygon(0 0,100% 0,100% calc(100% - 8px),calc(100% - 8px) 100%,0 100%);
+    text-decoration: none;
+    transition: background 0.15s ease, color 0.15s ease, opacity 0.15s ease;
   }
   .btn-primary { background: var(--brand); color: #fff; }
   .btn-on-brand { background: #fff; color: var(--brand); }
   .btn-on-dark  { background: var(--brand); color: #fff; }
   .btn-on-light { background: #0A0A0A; color: #fff; }
+  .btn-primary:hover,
+  .btn-on-dark:hover { background: var(--brand-hover); }
+  .btn-secondary {
+    --btn-secondary-border: var(--brand);
+    --btn-secondary-surface: var(--l-bg);
+    position: relative;
+    isolation: isolate;
+    background: var(--btn-secondary-border);
+    color: var(--brand);
+  }
+  .btn-secondary::before {
+    content: '';
+    position: absolute;
+    inset: 2px;
+    z-index: -1;
+    background: var(--btn-secondary-surface);
+    clip-path: polygon(0 0,100% 0,100% calc(100% - 6px),calc(100% - 6px) 100%,0 100%);
+  }
+  .btn-secondary:hover { --btn-secondary-border: var(--brand-hover); }
+  .bg-dark .btn-secondary,
+  .bg-black .btn-secondary {
+    --btn-secondary-surface: var(--d-bg);
+    color: #fff;
+  }
+  .bg-brand .btn-secondary {
+    --btn-secondary-border: rgba(255,255,255,0.82);
+    --btn-secondary-surface: var(--brand);
+    color: #fff;
+  }
+  .bg-brand .btn-secondary:hover { --btn-secondary-border: #fff; }
+  .btn:focus-visible {
+    outline: 3px solid rgba(63,110,232,0.35);
+    outline-offset: 3px;
+  }
 
   .btn-ghost {
     background: none;

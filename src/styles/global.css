@@ -94,6 +94,12 @@
     padding: 76px 48px;
     position: relative;
   }
+  .anchor-target {
+    display: block;
+    width: 0;
+    height: 0;
+    scroll-margin-top: 80px;
+  }
   .container {
     max-width: 1200px;
     margin: 0 auto;

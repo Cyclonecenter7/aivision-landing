@@ -95,10 +95,10 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
 
     {yandexVerification && <meta name="yandex-verification" content={yandexVerification} />}
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="alternate icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=shvec-20260810" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=shvec-20260810" />
+    <link rel="alternate icon" href="/favicon.ico?v=shvec-20260810" sizes="32x32" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=shvec-20260810" />
 
     {allSchemas.map((schema) => (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />

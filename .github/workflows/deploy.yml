@@ -24,6 +24,7 @@ jobs:
             echo "PUBLIC_ENV=production" >> $GITHUB_ENV
             echo "PUBLIC_SITE_URL=https://shvec.tech" >> $GITHUB_ENV
             echo "PUBLIC_API_URL=https://admin.shvec.tech" >> $GITHUB_ENV
+            echo "PUBLIC_INGEST_KEY=${{ secrets.PUBLIC_INGEST_KEY_PROD }}" >> $GITHUB_ENV
             echo "PUBLIC_YANDEX_VERIFICATION=${{ secrets.YANDEX_VERIFICATION }}" >> $GITHUB_ENV
           else
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
@@ -33,6 +34,27 @@ jobs:
             # PUBLIC keyed-ingest token by design: ships in the client bundle,
             # rate-limited server-side, so a plain env var in the dev build is fine.
             echo "PUBLIC_INGEST_KEY=av_dev_100b8251f21fc6f0a9ff2012addb34429f213b72" >> $GITHUB_ENV
+          fi
+
+      - name: Validate deploy configuration
+        shell: bash
+        run: |
+          for name in DEPLOY_PATH SSH_HOST PUBLIC_SITE_URL PUBLIC_API_URL PUBLIC_INGEST_KEY; do
+            if [ -z "${!name:-}" ]; then
+              echo "::error::$name is required; refusing to build or deploy"
+              exit 1
+            fi
+          done
+
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            if [ "$PUBLIC_SITE_URL" != "https://shvec.tech" ] || [ "$PUBLIC_API_URL" != "https://admin.shvec.tech" ]; then
+              echo "::error::Production URLs are invalid; refusing to deploy"
+              exit 1
+            fi
+            if [ "$PUBLIC_INGEST_KEY" = "av_dev_100b8251f21fc6f0a9ff2012addb34429f213b72" ]; then
+              echo "::error::Development ingest key cannot be used in production"
+              exit 1
+            fi
           fi
 
       - name: Build (Astro)

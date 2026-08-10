@@ -9,8 +9,21 @@
 ## Основные страницы
 - [Главная](https://shvec.tech/): продукт, платформа, стоимость, диагностика бизнеса
 - [О компании](https://shvec.tech/about/): команда, методология, безопасность данных и ответственность за результат
+- [Интеграции](https://shvec.tech/integrations/): подключение CRM, 1С, банков и сайта
+- [Управленческий учёт в строительстве](https://shvec.tech/for/construction/): проектный P&L, ДДС и контроль маржи
+- [Блог](https://shvec.tech/blog/): практические материалы об управленческом учёте
 - [Политика обработки персональных данных](https://shvec.tech/privacy-policy/)
 - [Согласие на обработку персональных данных](https://shvec.tech/consent/)
+
+## Практические материалы
+- [ДДС и кассовый разрыв](https://shvec.tech/blog/dds-cash-gap/)
+- [БДДС и платёжный календарь](https://shvec.tech/blog/bdds-payment-calendar/)
+- [План-факт анализ](https://shvec.tech/blog/plan-fact-analysis/)
+- [Управленческий P&L](https://shvec.tech/blog/management-pnl/)
+
+## Интеграции
+- [Интеграция 1С с сайтом](https://shvec.tech/integrations/1c-website/)
+- [Интеграция банка и 1С](https://shvec.tech/integrations/bank-1c/)
 
 ## Кейсы внедрения
 - [Строительство](https://shvec.tech/cases/construction/): раздельный учёт по проектам, ОПУ/ДДС/баланс

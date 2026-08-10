@@ -2321,9 +2321,15 @@
   .lead-modal-card .lead-action {
     min-height: 44px;
     height: 44px;
+    clip-path: none !important;
+    border-radius: 6px;
+  }
+  .lead-modal-card .lead-action.btn-secondary::before {
+    clip-path: none;
+    border-radius: 4px;
   }
   .lead-action:disabled {
-    opacity: 0.5;
+    opacity: 0.72;
     cursor: not-allowed;
   }
   .lead-modal-card .btn-secondary,

@@ -215,7 +215,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
               >
                 {loading
                   ? 'Отправляем...'
-                  : demoGate ? 'Смотреть демо' : 'Записаться на диагностику'}
+                  : demoGate ? 'Смотреть демо' : 'Получить аудит'}
               </Btn>
               {!demoGate && (
                 <>
@@ -236,7 +236,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
                     data-track="modal_help_submit"
                     data-track-block="contact_modal"
                   >
-                    {loading ? 'Отправляем...' : 'Получить помощь с разбором'}
+                    {loading ? 'Отправляем...' : 'Узнать точки роста'}
                   </button>
                 </>
               )}

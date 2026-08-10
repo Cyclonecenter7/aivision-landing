@@ -29,6 +29,7 @@ jobs:
             echo "PUBLIC_YANDEX_VERIFICATION=${{ secrets.YANDEX_VERIFICATION }}" >> $GITHUB_ENV
           else
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
+            echo "DEPLOY_TARGET=${{ secrets.DEPLOY_PATH_DEV }}/dist" >> $GITHUB_ENV
             echo "SSH_HOST=aivisiontest.ru" >> $GITHUB_ENV
             echo "PUBLIC_ENV=development" >> $GITHUB_ENV
             echo "PUBLIC_SITE_URL=https://aivisiontest.ru" >> $GITHUB_ENV
@@ -66,15 +67,15 @@ jobs:
           fi
 
           case "$matches" in
-            /*/dist/index.html) ;;
+            /var/www/*/index.html|/opt/*/index.html) ;;
             *) echo "::error::Unsafe live shvec.tech index path"; exit 1 ;;
           esac
-          echo "DEPLOY_PATH=${matches%/dist/index.html}" >> $GITHUB_ENV
+          echo "DEPLOY_TARGET=${matches%/index.html}" >> $GITHUB_ENV
 
       - name: Validate deploy configuration
         shell: bash
         run: |
-          for name in DEPLOY_PATH SSH_HOST PUBLIC_SITE_URL PUBLIC_API_URL PUBLIC_INGEST_KEY; do
+          for name in DEPLOY_TARGET SSH_HOST PUBLIC_SITE_URL PUBLIC_API_URL PUBLIC_INGEST_KEY; do
             if [ -z "${!name:-}" ]; then
               echo "::error::$name is required; refusing to build or deploy"
               exit 1
@@ -120,4 +121,4 @@ jobs:
           rsync -avz --delete \
             -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
             dist/ \
-            ${{ secrets.SSH_USER }}@"$SSH_HOST":$DEPLOY_PATH/dist/
+            ${{ secrets.SSH_USER }}@"$SSH_HOST":"$DEPLOY_TARGET"/

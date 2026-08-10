@@ -63,6 +63,7 @@ jobs:
           match_count="$(printf '%s\n' "$matches" | awk 'NF { count++ } END { print count + 0 }')"
           if [ "$match_count" != "1" ]; then
             echo "::error::Expected one server index.html matching live shvec.tech; found $match_count"
+            printf '%s\n' "$matches" | awk 'NF { print "Candidate live index: " $0 }'
             exit 1
           fi
 

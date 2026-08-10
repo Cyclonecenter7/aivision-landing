@@ -21,12 +21,14 @@ jobs:
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_PROD }}" >> $GITHUB_ENV
+            echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
             echo "PUBLIC_ENV=production" >> $GITHUB_ENV
             echo "PUBLIC_SITE_URL=https://shvec.tech" >> $GITHUB_ENV
             echo "PUBLIC_API_URL=https://admin.shvec.tech" >> $GITHUB_ENV
             echo "PUBLIC_YANDEX_VERIFICATION=${{ secrets.YANDEX_VERIFICATION }}" >> $GITHUB_ENV
           else
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_DEV }}" >> $GITHUB_ENV
+            echo "SSH_HOST=aivisiontest.ru" >> $GITHUB_ENV
             echo "PUBLIC_ENV=development" >> $GITHUB_ENV
             echo "PUBLIC_SITE_URL=https://aivisiontest.ru" >> $GITHUB_ENV
             echo "PUBLIC_API_URL=https://admin.aivisiontest.ru" >> $GITHUB_ENV
@@ -43,9 +45,9 @@ jobs:
           mkdir -p ~/.ssh
           echo "${{ secrets.SSH_KEY }}" | base64 -d > ~/.ssh/deploy_key
           chmod 600 ~/.ssh/deploy_key
-          ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts 2>/dev/null
+          ssh-keyscan -T 15 -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
           rsync -avz --delete \
-            -e "ssh -i ~/.ssh/deploy_key" \
+            -e "ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes" \
             dist/ \
-            ${{ secrets.SSH_USER }}@${{ secrets.SSH_HOST }}:$DEPLOY_PATH/dist/
+            ${{ secrets.SSH_USER }}@"$SSH_HOST":$DEPLOY_PATH/dist/

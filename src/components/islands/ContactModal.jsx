@@ -211,7 +211,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
                 trackBlock="contact_modal"
                 type="submit"
                 disabled={loading || !form.consent}
-                className="lead-action disabled:opacity-50"
+                className="lead-action"
               >
                 {loading
                   ? 'Отправляем...'

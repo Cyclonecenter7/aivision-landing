@@ -52,7 +52,7 @@ jobs:
           ssh-keyscan -T 15 -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
           site_config="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
-            "$SSH_USER@$SSH_HOST" "sudo -n nginx -T 2>/dev/null" \
+            "$SSH_USER@$SSH_HOST" "sudo -n nginx -T 2>&1" \
             | awk '/^# configuration file / { file = $0; sub(/^# configuration file /, "", file); sub(/:$/, "", file) }
                    $1 == "server_name" && $0 ~ /(^|[ ;])shvec\.tech([ ;]|$)/ { print file; exit }')"
           case "$site_config" in

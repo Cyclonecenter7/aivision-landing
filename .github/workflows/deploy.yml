@@ -57,6 +57,36 @@ jobs:
             fi
           fi
 
+      # One-time recovery step. Remove after the first successful production run:
+      # only the SHA-256 hash is stored in PostgreSQL; the raw key stays in
+      # GitHub Secrets and the public client bundle by design.
+      - name: Register production ingest key
+        if: github.ref_name == 'main'
+        shell: bash
+        env:
+          SSH_KEY: ${{ secrets.SSH_KEY }}
+          SSH_USER: ${{ secrets.SSH_USER }}
+        run: |
+          set -euo pipefail
+          key_hash="$(printf '%s' "$PUBLIC_INGEST_KEY" | sha256sum | awk '{print $1}')"
+          key_id="$(cat /proc/sys/kernel/random/uuid)"
+          [[ "$key_hash" =~ ^[0-9a-f]{64}$ ]]
+          [[ "$key_id" =~ ^[0-9a-f-]{36}$ ]]
+
+          mkdir -p ~/.ssh
+          echo "$SSH_KEY" | base64 -d > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          ssh-keyscan -T 15 -H "$SSH_HOST" >> ~/.ssh/known_hosts
+
+          registered="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "$SSH_USER@$SSH_HOST" \
+            "sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -d shvec_admin_prod -tAc \"WITH source AS (SELECT tenant_id FROM ingest_keys WHERE key_hash = '2bc1d4215e7c0e2450412ca1dd4115a5720ad9dee557ee68a1d726a2de0e1996'), inserted AS (INSERT INTO ingest_keys (id, tenant_id, key_hash, label) SELECT '$key_id'::uuid, tenant_id, '$key_hash', 'landing-prod-ci-2026-08-10' FROM source ON CONFLICT (key_hash) DO NOTHING RETURNING 1) SELECT count(*) FROM ingest_keys WHERE key_hash = '$key_hash' AND revoked_at IS NULL;\"" \
+            | tr -d '[:space:]')"
+          if [ "$registered" != "1" ]; then
+            echo "::error::Production ingest key was not registered; refusing to deploy"
+            exit 1
+          fi
+
       - name: Build (Astro)
         run: npm run build
 

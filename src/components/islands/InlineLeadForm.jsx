@@ -81,13 +81,13 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
           </p>
           <a
             href="/demo/"
-            target="_blank"
-            rel="noopener"
+            className="js-open-demo"
+            data-source="final_cta_success_demo"
             data-track="final_cta_demo"
             data-track-block="final_cta"
             style={{ color: 'var(--brand)', fontSize: 14, fontWeight: 600, textDecoration: 'none' }}
           >
-            Смотреть демо →
+            Посмотреть демо →
           </a>
         </div>
       </div>
@@ -108,8 +108,9 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
       />
 
       <div className="lead-form-head">
-        <h3>Попробовать систему</h3>
-        <p>Оставьте контакт — разберём задачу и покажем платформу на демо-данных.</p>
+        <div className="lead-modal-badge">Бесплатно · ответ за 5 минут</div>
+        <h3>Получите разбор вашего бизнеса</h3>
+        <p>Разберём слепые зоны и покажем точки роста. Бесплатно, ответим в Telegram или по телефону за 5 минут.</p>
       </div>
 
       <input
@@ -128,23 +129,9 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
         trackBlock="final_cta"
       />
 
-      <label className="cta-consent">
-        <input
-          type="checkbox"
-          checked={consent}
-          onChange={(e) => setConsent(e.target.checked)}
-        />
-        <span>
-          Я ознакомлен(-а) и согласен(-а) с{' '}
-          <a href="/privacy-policy" target="_blank" rel="noopener">Политикой обработки ПДн</a>{' '}
-          и{' '}
-          <a href="/consent" target="_blank" rel="noopener">Согласием на обработку ПДн</a>
-        </span>
-      </label>
-
       {error && <p style={{ color: 'var(--crimson)', fontSize: 12 }}>{error}</p>}
 
-      <div className="lead-actions">
+      <div className="lead-actions lead-actions--audit">
         <button
           type="submit"
           className="btn btn-on-dark lead-action"
@@ -152,22 +139,22 @@ export default function InlineLeadForm({ sourceBlock = 'final_cta' }) {
           data-track-block="final_cta"
           disabled={!consent || loading}
         >
-          {loading ? 'Отправляем…' : 'Начать диагностику'}
+          {loading ? 'Отправляем…' : 'Получить аудит'}
         </button>
-        <a
-          href="/demo/"
-          target="_blank"
-          rel="noopener"
-          className="btn btn-secondary lead-action"
-          data-track="final_form_demo"
-          data-track-block="final_cta"
-          data-ym-goal="demo_click_main"
-        >
-          Посмотреть демо
-        </a>
       </div>
 
-      <div className="cta-after">Никаких презентаций. Только разбор вашей ситуации.</div>
+      <label className="cta-consent">
+        <input
+          type="checkbox"
+          checked={consent}
+          onChange={(e) => setConsent(e.target.checked)}
+        />
+        <span>
+          Нажимая кнопку, я соглашаюсь с{' '}
+          <a href="/privacy-policy" target="_blank" rel="noopener">Политикой обработки ПДн</a>{' '}
+          и <a href="/consent" target="_blank" rel="noopener">Согласием на обработку ПДн</a>
+        </span>
+      </label>
     </form>
   );
 }

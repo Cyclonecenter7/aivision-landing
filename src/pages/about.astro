@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/v2/Footer.astro';
-import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 import { SEO, seoUrl } from '@/lib/seo';
 
 const seo = SEO.about;
@@ -139,14 +138,13 @@ const RESULT = [
         <h2>Разберём вашу систему управления за 30 минут</h2>
         <p>Покажем, какие данные стоит объединить и что реально запустить первым этапом.</p>
         <button type="button" class="btn btn-on-brand js-open-contact" data-source="about_page">
-          Записаться на диагностику
+          Получить аудит
         </button>
       </div>
     </section>
   </main>
 
   <Footer />
-  <ContactModalIsland client:load />
 </BaseLayout>
 
 <style>

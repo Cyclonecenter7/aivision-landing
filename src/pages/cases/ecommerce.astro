@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/v2/Footer.astro';
-import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 import StickyCta from '@/components/v2/StickyCta.astro';
 import SalesDashboard from '@/components/islands/SalesDashboard.jsx';
 import { SEO, seoUrl } from '@/lib/seo';
@@ -142,7 +141,7 @@ const ldBreadcrumb = breadcrumbSchema([
         <div class="cta-t">Продажи есть — роста нет?</div>
         <div class="cta-s">Начнём с диагностики — найдём где операционка тормозит бизнес</div>
       </div>
-      <button type="button" class="btn js-open-contact" data-source="case_sales" data-track="sales_cta_diagnose" data-track-block="case_page">Начать диагностику →</button>
+      <button type="button" class="btn js-open-contact" data-source="case_sales" data-track="sales_cta_diagnose" data-track-block="case_page">Получить аудит →</button>
     </div>
   </div>
   </div>
@@ -241,7 +240,7 @@ const ldBreadcrumb = breadcrumbSchema([
   <div class="m-cta">
     <div class="m-cta-t">Продажи есть — роста нет?</div>
     <div class="m-cta-s">Найдём где операционка тормозит бизнес</div>
-    <button type="button" class="btn btn-full js-open-contact" data-source="case_sales_m" data-track="sales_cta_diagnose_m" data-track-block="case_page">Начать диагностику →</button>
+    <button type="button" class="btn btn-full js-open-contact" data-source="case_sales_m" data-track="sales_cta_diagnose_m" data-track-block="case_page">Получить аудит →</button>
   </div>
   </div>
 
@@ -249,7 +248,5 @@ const ldBreadcrumb = breadcrumbSchema([
 
 <Footer />
 <StickyCta />
-<ContactModalIsland client:load />
 
 </BaseLayout>
-

@@ -158,13 +158,14 @@ export default function IntegrationsBuilder() {
                     data-track="integration_submit"
                     data-track-block="integrations"
                   >
-                    {loading ? 'Отправляем…' : 'Начать диагностику'}
+                    {loading ? 'Отправляем…' : 'Получить аудит'}
                   </button>
                   <a
                     href="/demo/"
                     target="_blank"
                     rel="noopener"
-                    className="btn btn-secondary lead-action"
+                    className="btn btn-secondary lead-action js-open-demo"
+                    data-source="integration_demo"
                     data-track="integration_demo"
                     data-track-block="integrations"
                   >

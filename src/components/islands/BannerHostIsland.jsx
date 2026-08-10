@@ -158,7 +158,7 @@ export default function BannerHostIsland() {
         data-track="banner_cta"
         data-track-block={source}
         data-banner-id={banner.id}
-        data-track-text="Начать диагностику"
+        data-track-text="Получить аудит"
         style={{
           display: 'inline-flex',
           alignItems: 'center',
@@ -174,7 +174,7 @@ export default function BannerHostIsland() {
           fontFamily: 'inherit',
         }}
       >
-        Начать диагностику
+        Получить аудит
       </button>
     </div>
   );

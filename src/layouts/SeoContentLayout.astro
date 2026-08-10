@@ -1,7 +1,6 @@
 ---
 import BaseLayout from '@/layouts/BaseLayout.astro';
 import Footer from '@/components/v2/Footer.astro';
-import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 
 interface Section {
   title: string;
@@ -74,14 +73,13 @@ const {
         <h2>Разберём задачу и первый рабочий контур за 30 минут</h2>
         <p>Покажем, какие данные нужно связать и что можно запустить первым этапом.</p>
         <button class="btn btn-on-dark js-open-contact" data-source="seo-content">
-          Записаться на диагностику
+          Получить аудит
         </button>
       </section>
     </div>
   </main>
 
   <Footer />
-  <ContactModalIsland client:load />
 </BaseLayout>
 
 <style>

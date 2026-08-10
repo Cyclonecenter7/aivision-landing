@@ -3,42 +3,45 @@ import { saveLead } from '@/lib/tracker';
 import { reachYandexGoal } from '@/lib/yandexMetrika';
 import { X } from 'lucide-react';
 import ContactToggleInput from './ContactToggleInput';
-import { Btn } from '@/components/ui';
 
-const clipCard = 'polygon(0 0, 100% 0, 100% calc(100% - 28px), calc(100% - 28px) 100%, 0 100%)';
-export default function ContactModal({ open, onClose, source = 'modal', demoGate = false, initial = null }) {
+const DESTINATIONS = {
+  demo: '/demo/',
+  signup: 'https://app.shvec.tech/signup',
+};
+
+export default function ContactModal({ open, onClose, source = 'modal', mode = 'audit', initial = null }) {
   const [form, setForm] = useState({ name: '', contact: '', website: '', consent: false });
   const [sent, setSent] = useState(false);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const isDemo = mode === 'demo';
 
   useEffect(() => {
-    if (open) {
-      setForm({
-        name: initial?.name || '',
-        contact: initial?.contact || '',
-        website: '',
-        consent: false,
-      });
-    }
-  }, [open, initial?.name, initial?.contact]);
-
-  useEffect(() => {
-    if (sent && demoGate) {
-      const id = setTimeout(() => { window.location.href = '/demo/'; }, 1500);
-      return () => clearTimeout(id);
-    }
-  }, [sent, demoGate]);
+    if (!open) return;
+    setForm({
+      name: initial?.name || '',
+      contact: initial?.contact || '',
+      website: '',
+      consent: false,
+    });
+    setSent(false);
+    setError('');
+  }, [open, initial?.name, initial?.contact, mode]);
 
   if (!open) return null;
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const intent = e.nativeEvent.submitter?.value || (isDemo ? 'demo' : 'audit');
     setLoading(true);
     setError('');
-    // Honeypot
-    if (form.website) { setSent(true); setLoading(false); return; }
-    // Validation
+
+    if (form.website) {
+      setSent(true);
+      setLoading(false);
+      return;
+    }
+
     const name = form.name.trim();
     const contact = form.contact.trim();
     if (name.length < 2 || name.length > 100) {
@@ -48,21 +51,27 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
       setError('Контакт 3–100 символов'); setLoading(false); return;
     }
     const isPhone = /^\+\d{10,15}$/.test(contact.replace(/[\s\-()]/g, ''));
-    const isTg    = /^@?[a-zA-Z0-9_]{5,32}$/.test(contact);
+    const isTg = /^@?[a-zA-Z0-9_]{5,32}$/.test(contact);
     if (!isPhone && !isTg) {
-      if (contact.startsWith('@')) {
-        const handle = contact.slice(1);
-        setError(handle.length < 5 ? 'Ник Telegram: минимум 5 символов' : 'Ник Telegram: только буквы, цифры и _');
-      } else {
-        setError('Введи телефон (+7...) или telegram (@username)');
-      }
-      setLoading(false); return;
+      setError(contact.startsWith('@')
+        ? 'Ник Telegram: минимум 5 символов, только буквы, цифры и _'
+        : 'Введите телефон (+7...) или Telegram (@username)');
+      setLoading(false);
+      return;
     }
+
     try {
-      const contact_type = isPhone ? 'phone' : 'telegram';
-      await saveLead({ name, contact, contact_type, source_block: source, website: form.website });
+      await saveLead({
+        name,
+        contact,
+        contact_type: isPhone ? 'phone' : 'telegram',
+        source_block: `${source}:${intent}`,
+        website: form.website,
+      });
       reachYandexGoal('reg_ok');
       setSent(true);
+      const destination = DESTINATIONS[intent];
+      if (destination) window.setTimeout(() => { window.location.href = destination; }, 500);
     } catch (err) {
       setError(err.message || 'Что-то пошло не так. Попробуйте ещё раз.');
     } finally {
@@ -72,7 +81,7 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
 
   const handleClose = () => {
     onClose();
-    setTimeout(() => { setSent(false); setError(''); }, 300);
+    window.setTimeout(() => { setSent(false); setError(''); }, 300);
   };
 
   return (
@@ -80,91 +89,50 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
       data-track="modal_overlay_close"
       data-track-block="contact_modal"
       className="lead-modal-overlay"
-      style={{ background: 'rgba(10,10,10,0.7)', backdropFilter: 'blur(4px)' }}
+      style={{ background: 'rgba(10,10,10,0.76)', backdropFilter: 'blur(5px)' }}
       onClick={handleClose}
     >
       <div
-        className="lead-modal-card"
+        className={`lead-modal-card lead-modal-card--${mode}`}
         role="dialog"
         aria-modal="true"
-        aria-label={demoGate ? 'Доступ к демо' : 'Записаться на диагностику'}
-        style={{ clipPath: clipCard }}
-        onClick={e => e.stopPropagation()}
+        aria-label={isDemo ? 'Попробовать систему' : 'Получить аудит'}
+        onClick={(e) => e.stopPropagation()}
       >
         <button
           data-track="modal_close"
           data-track-block="contact_modal"
           onClick={handleClose}
-          className="absolute top-5 right-5 text-[#555] hover:text-white transition-colors"
+          className="lead-modal-close"
+          aria-label="Закрыть"
         >
-          <X size={18} />
+          <X size={22} />
         </button>
 
-        <div className="flex items-center gap-3 mb-4">
-          <div className="w-6 h-px bg-blue" />
-          <span className="text-blue text-xs font-medium uppercase tracking-widest">
-            {demoGate ? 'Доступ к демо' : 'Диагностика'}
-          </span>
-        </div>
+        {!isDemo && <div className="lead-modal-badge">Бесплатно · ответ за 5 минут</div>}
 
-        <h3 className="text-white text-2xl font-bold leading-snug mb-2">
-          {demoGate ? 'Откройте демо платформы' : 'Попробовать систему'}
+        <h3 className="lead-modal-title">
+          {isDemo ? 'Попробовать систему' : 'Получите разбор вашего бизнеса'}
         </h3>
-        <p className="text-[#888] text-sm mb-6">
-          {demoGate
-            ? 'Оставьте контакт — откроем доступ к интерактивному демо.'
-            : 'Оставьте контакт — разберём задачу и покажем платформу на демо-данных.'}
+        <p className="lead-modal-description">
+          {isDemo
+            ? 'Загрузите свои данные для бесплатного анализа или начните с демо-версии. Если нужна помощь — поможем с разбором.'
+            : 'Разберём слепые зоны и покажем точки роста. Бесплатно, ответим в Telegram или по телефону за 5 минут.'}
         </p>
 
         {sent ? (
-          <div className="py-6 text-center">
-            <svg width="48" height="48" viewBox="0 0 256 256" className="mx-auto mb-4">
-              <polygon points="0,0 256,0 256,208 208,256 0,256" fill="#0A0A0A" />
-              <polygon points="72,64 192,64 192,148 156,184 72,184" fill="#3F6EE8" />
-            </svg>
-            {demoGate ? (
-              <>
-                <div className="text-white font-semibold mb-1">Спасибо за контакт</div>
-                <p className="text-[#555] text-xs mb-5">Открываем демо…</p>
-                <Btn
-                  track="modal_demo_gate_open"
-                  trackBlock="contact_modal"
-                  onClick={() => { window.location.href = '/demo/'; }}
-                  className="w-full"
-                >
-                  Смотреть демо
-                </Btn>
-              </>
-            ) : (
-              <>
-                <div className="text-white font-semibold mb-1">Заявка принята</div>
-                <p className="text-[#555] text-xs mb-6">Свяжемся в течение 5 минут</p>
-
-                <div className="border-t border-[#2A2A2A] pt-5 mt-2">
-                  <p className="text-[#888] text-xs mb-3 leading-relaxed">
-                    Пока мы связываемся —<br />посмотрите будущую систему
-                  </p>
-                  <a
-                    href="/demo/"
-                    data-track="modal_success_demo"
-                    data-track-block="contact_modal"
-                    className="inline-flex items-center gap-2 text-blue text-sm font-semibold no-underline hover:opacity-80 transition-opacity"
-                  >
-                    Смотреть демо
-                    <span aria-hidden>→</span>
-                  </a>
-                </div>
-              </>
-            )}
+          <div className="lead-modal-success">
+            <div className="lead-modal-success-mark">✓</div>
+            <div className="lead-modal-success-title">Контакт получен</div>
+            <p>{isDemo ? 'Открываем выбранный сценарий…' : 'Ответим в течение 5 минут'}</p>
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="lead-form">
-            {/* Honeypot — скрыто от людей, ловит ботов */}
             <input
               type="text"
               name="website"
               value={form.website}
-              onChange={e => setForm({ ...form, website: e.target.value })}
+              onChange={(e) => setForm({ ...form, website: e.target.value })}
               tabIndex={-1}
               autoComplete="off"
               style={{ position: 'absolute', left: '-9999px', width: 1, height: 1, opacity: 0 }}
@@ -173,74 +141,85 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
             <input
               required
               value={form.name}
-              onChange={e => setForm({ ...form, name: e.target.value })}
+              onChange={(e) => setForm({ ...form, name: e.target.value })}
               placeholder="Ваше имя"
               aria-label="Имя"
               className="lead-input"
             />
             <ContactToggleInput
-              dark={true}
+              dark
               value={form.contact}
-              onChange={val => setForm({ ...form, contact: val })}
-              trackBlock="contact_modal"
+              onChange={(value) => { setForm({ ...form, contact: value }); setError(''); }}
+              trackBlock={isDemo ? 'demo_modal' : 'audit_modal'}
             />
+
+            {error && <p className="lead-form-error">{error}</p>}
+
+            <div className={`lead-actions${isDemo ? ' lead-actions--demo' : ' lead-actions--audit'}`}>
+              {isDemo ? (
+                <>
+                  <button
+                    type="submit"
+                    name="intent"
+                    value="demo"
+                    className="btn btn-on-dark lead-action"
+                    disabled={loading || !form.consent}
+                    data-track="demo_modal_open"
+                    data-track-block="demo_modal"
+                  >
+                    {loading ? 'Отправляем…' : 'Открыть демо-версию'}
+                  </button>
+                  <button
+                    type="submit"
+                    name="intent"
+                    value="signup"
+                    className="btn lead-action lead-action-muted"
+                    disabled={loading || !form.consent}
+                    data-track="demo_modal_signup"
+                    data-track-block="demo_modal"
+                  >
+                    Загрузить мои данные
+                  </button>
+                  <button
+                    type="submit"
+                    name="intent"
+                    value="audit"
+                    className="btn btn-secondary lead-action lead-action-help"
+                    disabled={loading || !form.consent}
+                    data-track="demo_modal_audit"
+                    data-track-block="demo_modal"
+                  >
+                    Получить помощь с разбором
+                  </button>
+                </>
+              ) : (
+                <button
+                  type="submit"
+                  name="intent"
+                  value="audit"
+                  className="btn btn-on-dark lead-action"
+                  disabled={loading || !form.consent}
+                  data-track="audit_modal_submit"
+                  data-track-block="audit_modal"
+                >
+                  {loading ? 'Отправляем…' : 'Получить аудит'}
+                </button>
+              )}
+            </div>
+
             <label className="lead-consent">
               <input
                 type="checkbox"
                 required
                 checked={form.consent}
-                onChange={e => setForm({ ...form, consent: e.target.checked })}
-                style={{ marginTop: 3, accentColor: '#3F6EE8' }}
+                onChange={(e) => setForm({ ...form, consent: e.target.checked })}
               />
-              <span style={{ fontSize: 11, color: '#666', lineHeight: 1.4 }}>
-                Я ознакомлен(-а) и согласен(-а) с{' '}
-                <a href="/privacy-policy" target="_blank" style={{ color: '#3F6EE8', textDecoration: 'underline' }}>
-                  Политикой обработки ПДн
-                </a>{' '}и{' '}
-                <a href="/consent" target="_blank" style={{ color: '#3F6EE8', textDecoration: 'underline' }}>
-                  Согласием на обработку ПДн
-                </a>
+              <span>
+                Нажимая кнопку, я соглашаюсь с{' '}
+                <a href="/privacy-policy" target="_blank" rel="noopener">Политикой обработки ПДн</a>{' '}
+                и <a href="/consent" target="_blank" rel="noopener">Согласием на обработку ПДн</a>
               </span>
             </label>
-            {error && (
-              <p className="text-red text-xs">{error}</p>
-            )}
-            <div className="lead-actions">
-              <Btn
-                track="modal_submit"
-                trackBlock="contact_modal"
-                type="submit"
-                disabled={loading || !form.consent}
-                className="lead-action"
-              >
-                {loading
-                  ? 'Отправляем...'
-                  : demoGate ? 'Смотреть демо' : 'Получить аудит'}
-              </Btn>
-              {!demoGate && (
-                <>
-                  <a
-                    href="/demo/"
-                    target="_blank"
-                    rel="noopener"
-                    className="btn btn-secondary lead-action"
-                    data-track="modal_form_demo"
-                    data-track-block="contact_modal"
-                  >
-                    Посмотреть демо
-                  </a>
-                  <button
-                    type="submit"
-                    disabled={loading || !form.consent}
-                    className="btn btn-secondary lead-action lead-action-help"
-                    data-track="modal_help_submit"
-                    data-track-block="contact_modal"
-                  >
-                    {loading ? 'Отправляем...' : 'Узнать точки роста'}
-                  </button>
-                </>
-              )}
-            </div>
           </form>
         )}
       </div>

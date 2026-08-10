@@ -69,7 +69,7 @@ jobs:
             -H 'Origin: https://shvec.tech' \
             -H "X-Ingest-Key: $PUBLIC_INGEST_KEY" \
             --data '{}')"
-          if [ "$status" != "400" ] && [ "$status" != "422" ]; then
+          if [ "$status" != "200" ]; then
             echo "::error::Production ingest authentication check failed with HTTP $status"
             exit 1
           fi

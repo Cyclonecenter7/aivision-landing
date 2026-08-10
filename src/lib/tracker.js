@@ -92,7 +92,11 @@ export async function saveLead({ name, contact, contact_type, source_block, turn
   // The lead-form checkbox is a separate, purpose-specific consent. It allows
   // sending the application with its attribution context even when optional
   // behavioural analytics were rejected in the cookie banner.
-  const t = await ensureTrackedSession();
+  const t = sessionContext();
+  // Analytics is best-effort. A temporary failure of /track must never block
+  // the business-critical /leads request. The lead carries the same attribution
+  // identifiers, so the backend can still retain its source context.
+  ensureTrackedSession().catch(() => {});
   const res = await fetch(`${API_BASE}/api/v1/ingest/leads`, {
     method: 'POST', headers: { 'Content-Type': 'application/json', 'X-Ingest-Key': INGEST_KEY },
     body: JSON.stringify({ contact, name, contact_type, source_block, turnover: turnover || '', website,

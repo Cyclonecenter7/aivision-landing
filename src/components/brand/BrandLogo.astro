@@ -1,0 +1,58 @@
+---
+interface Props {
+  size?: number;
+  markColor?: string;
+  wordColor?: string;
+}
+
+const {
+  size = 22,
+  markColor = 'var(--brand)',
+  wordColor = 'currentColor',
+} = Astro.props;
+const markSize = size * 0.707;
+const gap = size / 11;
+---
+
+<span
+  class="brand-lockup"
+  style={`--brand-logo-size:${size}px;--brand-logo-mark-size:${markSize}px;--brand-logo-gap:${gap}px;--brand-logo-mark:${markColor};--brand-logo-word:${wordColor}`}
+  role="img"
+  aria-label="ШВЕЦ"
+>
+  <svg class="brand-lockup__mark" viewBox="0 0 256 256" aria-hidden="true">
+    <path
+      d="M0 0h256v208l-48 48H0V0z M66 0h30v160l-30 30V0z M158 0h30v140l-30 30V0z"
+      fill="currentColor"
+      fill-rule="evenodd"
+    />
+  </svg>
+  <span class="brand-lockup__word" aria-hidden="true">ВЕЦ</span>
+</span>
+
+<style>
+  .brand-lockup {
+    display: inline-flex;
+    align-items: baseline;
+    gap: var(--brand-logo-gap);
+    color: var(--brand-logo-word);
+    font-family: 'Onest', sans-serif;
+    font-size: var(--brand-logo-size);
+    font-weight: 600;
+    line-height: 1;
+    white-space: nowrap;
+  }
+
+  .brand-lockup__mark {
+    display: block;
+    width: var(--brand-logo-mark-size);
+    height: var(--brand-logo-mark-size);
+    flex: none;
+    color: var(--brand-logo-mark);
+  }
+
+  .brand-lockup__word {
+    letter-spacing: 0.035em;
+    text-transform: uppercase;
+  }
+</style>

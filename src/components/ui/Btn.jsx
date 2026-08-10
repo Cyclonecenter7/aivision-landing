@@ -28,7 +28,7 @@ export default function Btn({
   return (
     <button
       className={`${VARIANTS[variant]} ${SIZES[size]} font-medium transition-colors ${className}`}
-      style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 16px), calc(100% - 16px) 100%, 0 100%)', ...style }}
+      style={{ clipPath: 'polygon(0 0, 100% 0, 100% calc(100% - 8px), calc(100% - 8px) 100%, 0 100%)', ...style }}
       {...trackProps}
       {...rest}
     >

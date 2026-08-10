@@ -16,9 +16,11 @@ const PLANS = [
         label: 'Зарегистрироваться',
         href: 'https://app.shvec.tech/signup',
         track: 'pricing_signup_cta',
+        yandexGoal: 'reg_begin_click_main',
+        yandexGoals: 'reg_begin_click reg_begin_click_main',
       },
       {
-        label: 'Оставить заявку',
+        label: 'Записаться на диагностику',
         modal: true,
         track: 'pricing_subscription_lead_cta',
       },
@@ -93,13 +95,15 @@ const PAYBACK = [
           </div>
           {p.actions && (
             <div class="pr-actions">
-              {p.actions.map((action, index) => (
+              {p.actions.map((action) => (
                 action.href ? (
                   <a
                     href={action.href}
                     class="btn btn-on-dark pr-cta"
                     data-track={action.track}
                     data-track-block="pricing"
+                    data-ym-goal={action.yandexGoal}
+                    data-ym-goals={action.yandexGoals}
                   >
                     {action.label}
                     <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
@@ -109,7 +113,7 @@ const PAYBACK = [
                 ) : (
                   <button
                     type="button"
-                    class:list={['btn', 'pr-cta', 'js-open-contact', index > 0 && 'pr-cta--secondary']}
+                    class:list={['btn', 'btn-secondary', 'pr-cta', 'js-open-contact']}
                     data-source="pricing_subscription"
                     data-track={action.track}
                     data-track-block="pricing"
@@ -197,6 +201,7 @@ const PAYBACK = [
     display: flex;
     flex-direction: column;
   }
+  .pr-card .btn-secondary { --btn-secondary-surface: var(--d-surface); }
   .pr-card-head {
     padding-bottom: 22px;
     margin-bottom: 8px;
@@ -252,12 +257,6 @@ const PAYBACK = [
     margin: 0;
     text-decoration: none;
   }
-  .pr-cta--secondary {
-    background: transparent;
-    color: var(--d-text);
-    border: 1px solid var(--d-border);
-  }
-
   .pr-swipe { display: none; }
 
   .pr-bottom {

@@ -8,6 +8,7 @@ import '@fontsource/inter/600.css';
 import '@fontsource/inter/700.css';
 import '@fontsource/inter/800.css';
 import '@fontsource/inter/900.css';
+import '@/styles/onest.css';
 import { organizationSchema, websiteSchema } from '@/lib/jsonld';
 import BannerHostIsland from '@/components/islands/BannerHostIsland.jsx';
 import CookieBanner from '@/components/v2/CookieBanner.astro';
@@ -94,10 +95,10 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
 
     {yandexVerification && <meta name="yandex-verification" content={yandexVerification} />}
 
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png" />
-    <link rel="alternate icon" href="/favicon.ico" sizes="32x32" />
-    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg?v=shvec-20260810" />
+    <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32.png?v=shvec-20260810" />
+    <link rel="alternate icon" href="/favicon.ico?v=shvec-20260810" sizes="32x32" />
+    <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png?v=shvec-20260810" />
 
     {allSchemas.map((schema) => (
       <script type="application/ld+json" set:html={JSON.stringify(schema)} />
@@ -117,8 +118,17 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
 
     <script>
       import { initTracker, trackClick } from '@/lib/tracker';
+      import { reachYandexGoal } from '@/lib/yandexMetrika';
       import { initBanners } from '@/lib/banners';
+      const hasAnalyticsConsent = () => {
+        try {
+          return window.localStorage.getItem('shvec_cookie_consent') === 'accepted';
+        } catch {
+          return false;
+        }
+      };
       const startAnalytics = () => {
+        if (!hasAnalyticsConsent()) return;
         initTracker()
           .then((ids) => initBanners(ids))
           .catch(() => {});
@@ -140,7 +150,14 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
         const id = el.dataset.track || '';
         const block = el.dataset.trackBlock || '';
         const text = el.dataset.trackText || el.textContent?.trim() || '';
-        trackClick(text, id, block, { bannerId: el.dataset.bannerId || '' });
+        if (hasAnalyticsConsent()) {
+          trackClick(text, id, block, { bannerId: el.dataset.bannerId || '' });
+        }
+
+        const yandexGoals = (el.dataset.ymGoals || el.dataset.ymGoal || '')
+          .split(/\s+/)
+          .filter(Boolean);
+        [...new Set(yandexGoals)].forEach((goal) => reachYandexGoal(goal));
       });
     </script>
   </body>

@@ -1,5 +1,5 @@
 ---
-// Блок 8 · FAQ — 10 вопросов. Нативный <details>, без JS.
+// Блок 8 · FAQ — 17 вопросов. Нативный <details>, без JS.
 // Данные — в src/data/faq.js (общий источник для блока и FAQPage-схемы).
 import { FAQ } from '@/data/faq';
 ---
@@ -12,7 +12,7 @@ import { FAQ } from '@/data/faq';
           <span class="eyebrow-text">FAQ</span>
         </div>
         <div class="faq-head">
-          <h2 class="faq-h2">Частые <em>вопросы</em></h2>
+          <h2 class="faq-h2">FAQ</h2>
         </div>
       </div>
 
@@ -27,7 +27,14 @@ import { FAQ } from '@/data/faq';
             </svg>
           </summary>
           <div class="faq-a">
-            {item.a.map((p) => <p class="faq-a-p">{p}</p>)}
+            {item.a.map((p) => p.includes('https://') ? (
+              <p class="faq-a-p">
+                {p.slice(0, p.indexOf('https://'))}
+                <a class="faq-a-link" href={p.slice(p.indexOf('https://'))}>
+                  {p.slice(p.indexOf('https://'))}
+                </a>
+              </p>
+            ) : <p class="faq-a-p">{p}</p>)}
           </div>
         </details>
       ))}
@@ -108,6 +115,7 @@ import { FAQ } from '@/data/faq';
     color: var(--l-text-sec);
   }
   .faq-a-p + .faq-a-p { margin-top: 12px; }
+  .faq-a-link { color: var(--brand); text-underline-offset: 3px; }
 
   @media (max-width: 768px) {
     .faq-layout { grid-template-columns: 1fr; gap: 24px; }

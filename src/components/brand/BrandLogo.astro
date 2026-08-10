@@ -1,22 +1,25 @@
 ---
 interface Props {
   size?: number;
+  markSize?: number;
+  align?: 'baseline' | 'center';
   markColor?: string;
   wordColor?: string;
 }
 
 const {
   size = 22,
+  markSize = size * 0.707,
+  align = 'baseline',
   markColor = 'var(--brand)',
   wordColor = 'currentColor',
 } = Astro.props;
-const markSize = size * 0.707;
 const gap = size / 11;
 ---
 
 <span
   class="brand-lockup"
-  style={`--brand-logo-size:${size}px;--brand-logo-mark-size:${markSize}px;--brand-logo-gap:${gap}px;--brand-logo-mark:${markColor};--brand-logo-word:${wordColor}`}
+  style={`--brand-logo-size:${size}px;--brand-logo-mark-size:${markSize}px;--brand-logo-gap:${gap}px;--brand-logo-align:${align};--brand-logo-mark:${markColor};--brand-logo-word:${wordColor}`}
   role="img"
   aria-label="ШВЕЦ"
 >
@@ -33,7 +36,7 @@ const gap = size / 11;
 <style>
   .brand-lockup {
     display: inline-flex;
-    align-items: baseline;
+    align-items: var(--brand-logo-align);
     gap: var(--brand-logo-gap);
     color: var(--brand-logo-word);
     font-family: 'Onest', sans-serif;

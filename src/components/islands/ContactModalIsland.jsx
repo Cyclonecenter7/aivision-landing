@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import ContactModal from './ContactModal';
 
 export default function ContactModalIsland() {
-  const [state, setState] = useState({ open: false, source: 'modal', initial: null, demoGate: false });
+  const [state, setState] = useState({ open: false, source: 'modal', initial: null, mode: 'audit' });
 
   useEffect(() => {
     const handler = (e) => {
@@ -11,7 +11,7 @@ export default function ContactModalIsland() {
         open: true,
         source: detail.source || 'modal',
         initial: detail.initial || null,
-        demoGate: !!detail.demoGate,
+        mode: detail.mode === 'demo' ? 'demo' : 'audit',
       });
     };
     window.addEventListener('shvec:open-contact', handler);
@@ -26,7 +26,7 @@ export default function ContactModalIsland() {
       onClose={close}
       source={state.source}
       initial={state.initial}
-      demoGate={state.demoGate}
+      mode={state.mode}
     />
   );
 }

@@ -11,6 +11,7 @@ import '@fontsource/inter/900.css';
 import '@/styles/onest.css';
 import { organizationSchema, websiteSchema } from '@/lib/jsonld';
 import BannerHostIsland from '@/components/islands/BannerHostIsland.jsx';
+import ContactModalIsland from '@/components/islands/ContactModalIsland.jsx';
 import CookieBanner from '@/components/v2/CookieBanner.astro';
 
 interface Props {
@@ -112,6 +113,7 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
 
     <!-- Хост баннеров по действиям визитора (слушает 'shvec:show-banner') -->
     <BannerHostIsland client:load />
+    <ContactModalIsland client:load />
 
     <!-- Cookie-consent: аналитика запускается только после явного согласия -->
     <CookieBanner />
@@ -142,7 +144,14 @@ const yandexVerification = import.meta.env.PUBLIC_YANDEX_VERIFICATION;
         const openBtn = target.closest('.js-open-contact') as HTMLElement | null;
         if (openBtn) {
           const source = openBtn.dataset.source || 'modal';
-          window.dispatchEvent(new CustomEvent('shvec:open-contact', { detail: { source } }));
+          window.dispatchEvent(new CustomEvent('shvec:open-contact', { detail: { source, mode: 'audit' } }));
+        }
+
+        const demoBtn = target.closest('.js-open-demo') as HTMLElement | null;
+        if (demoBtn) {
+          e.preventDefault();
+          const source = demoBtn.dataset.source || demoBtn.dataset.track || 'demo';
+          window.dispatchEvent(new CustomEvent('shvec:open-contact', { detail: { source, mode: 'demo' } }));
         }
 
         const el = target.closest('[data-track]') as HTMLElement | null;

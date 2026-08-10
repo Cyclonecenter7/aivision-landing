@@ -2302,19 +2302,25 @@
   .lead-consent a,
   .lead-form .cta-consent a { color: var(--d-text-sec); }
   .lead-actions {
-    display: flex;
-    align-items: center;
-    flex-wrap: wrap;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
     gap: 10px;
   }
   .lead-action {
-    width: auto;
+    width: 100%;
     min-height: 42px;
     padding: 11px 16px;
     font-size: 12px;
     justify-content: center;
     text-align: center;
     white-space: nowrap;
+  }
+  .lead-action-help {
+    grid-column: 1 / -1;
+  }
+  .lead-modal-card .lead-action {
+    min-height: 44px;
+    height: 44px;
   }
   .lead-action:disabled {
     opacity: 0.5;

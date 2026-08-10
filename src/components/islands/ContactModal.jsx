@@ -218,16 +218,27 @@ export default function ContactModal({ open, onClose, source = 'modal', demoGate
                   : demoGate ? 'Смотреть демо' : 'Записаться на диагностику'}
               </Btn>
               {!demoGate && (
-                <a
-                  href="/demo/"
-                  target="_blank"
-                  rel="noopener"
-                  className="btn btn-secondary lead-action"
-                  data-track="modal_form_demo"
-                  data-track-block="contact_modal"
-                >
-                  Посмотреть демо
-                </a>
+                <>
+                  <a
+                    href="/demo/"
+                    target="_blank"
+                    rel="noopener"
+                    className="btn btn-secondary lead-action"
+                    data-track="modal_form_demo"
+                    data-track-block="contact_modal"
+                  >
+                    Посмотреть демо
+                  </a>
+                  <button
+                    type="submit"
+                    disabled={loading || !form.consent}
+                    className="btn btn-secondary lead-action lead-action-help"
+                    data-track="modal_help_submit"
+                    data-track-block="contact_modal"
+                  >
+                    {loading ? 'Отправляем...' : 'Получить помощь с разбором'}
+                  </button>
+                </>
               )}
             </div>
           </form>

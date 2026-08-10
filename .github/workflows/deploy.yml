@@ -51,11 +51,18 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -T 15 -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
-          active_root="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+          site_config="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
             "$SSH_USER@$SSH_HOST" "sudo -n nginx -T 2>/dev/null" \
-            | awk '$1 == "server_name" && $0 ~ /(^|[ ;])shvec\.tech([ ;]|$)/ { site = 1; next }
-                   site && $1 == "root" { sub(/;$/, "", $2); print $2; exit }
-                   site && $1 == "}" { site = 0 }')"
+            | awk '/^# configuration file / { file = $0; sub(/^# configuration file /, "", file); sub(/:$/, "", file) }
+                   $1 == "server_name" && $0 ~ /(^|[ ;])shvec\.tech([ ;]|$)/ { print file; exit }')"
+          case "$site_config" in
+            /etc/nginx/*) ;;
+            *) echo "::error::Unsafe or missing shvec.tech Nginx config"; exit 1 ;;
+          esac
+
+          active_root="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "$SSH_USER@$SSH_HOST" \
+            "sudo -n awk '\$1 == \"root\" { sub(/;\$/, \"\", \$2); print \$2; exit }' '$site_config'")"
 
           case "$active_root" in
             /*/dist) ;;

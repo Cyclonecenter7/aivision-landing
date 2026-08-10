@@ -79,10 +79,21 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -T 15 -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
+          owner_tenant_count="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+            "$SSH_USER@$SSH_HOST" \
+            "sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -d shvec_admin_prod -tAc \"SELECT count(DISTINCT tenant_id) FROM users WHERE role = 'owner' AND deleted_at IS NULL;\"" \
+            | tail -n 1 | tr -d '[:space:]')"
+          echo "active_owner_tenant_count=$owner_tenant_count"
+          if [ "$owner_tenant_count" != "1" ]; then
+            echo "::error::Expected exactly one active owner tenant; refusing to register key"
+            exit 1
+          fi
+
           registered="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
             "$SSH_USER@$SSH_HOST" \
             "sudo -n -u postgres psql -X -v ON_ERROR_STOP=1 -d shvec_admin_prod -tAc \"WITH owner_tenants AS (SELECT DISTINCT tenant_id FROM users WHERE role = 'owner' AND deleted_at IS NULL), source AS (SELECT tenant_id FROM owner_tenants WHERE (SELECT count(*) FROM owner_tenants) = 1), inserted AS (INSERT INTO ingest_keys (id, tenant_id, key_hash, label) SELECT '$key_id'::uuid, tenant_id, '$key_hash', 'landing-prod-ci-2026-08-10' FROM source ON CONFLICT (key_hash) DO NOTHING RETURNING 1) SELECT count(*) FROM ingest_keys WHERE key_hash = '$key_hash' AND revoked_at IS NULL;\"" \
-            | tr -d '[:space:]')"
+            | tail -n 1 | tr -d '[:space:]')"
+          echo "active_registered_key_count=$registered"
           if [ "$registered" != "1" ]; then
             echo "::error::Production ingest key was not registered; refusing to deploy"
             exit 1

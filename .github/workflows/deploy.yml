@@ -51,32 +51,25 @@ jobs:
           chmod 600 ~/.ssh/deploy_key
           ssh-keyscan -T 15 -H "$SSH_HOST" >> ~/.ssh/known_hosts
 
-          site_config="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
-            "$SSH_USER@$SSH_HOST" "sudo -n nginx -T 2>&1" \
-            | awk '/^# configuration file / { file = $0; sub(/^# configuration file /, "", file); sub(/:$/, "", file) }
-                   $1 == "server_name" && $0 ~ /(^|[ ;])shvec\.tech([ ;]|$)/ { print file; exit }')"
-          case "$site_config" in
-            /etc/nginx/*) ;;
-            *)
-              echo "::group::Sanitized Nginx server roots"
-              ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
-                "$SSH_USER@$SSH_HOST" "sudo -n nginx -T 2>&1" \
-                | awk '$1 == "server_name" || $1 == "root" { print }'
-              echo "::endgroup::"
-              echo "::error::Unsafe or missing shvec.tech Nginx config"
-              exit 1
-              ;;
-          esac
+          live_hash="$(curl -fsS -H 'Cache-Control: no-cache' \
+            "https://shvec.tech/?deploy_probe=${GITHUB_SHA}" | sha256sum | awk '{print $1}')"
+          [[ "$live_hash" =~ ^[0-9a-f]{64}$ ]]
 
-          active_root="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
+          matches="$(ssh -i ~/.ssh/deploy_key -o IdentitiesOnly=yes \
             "$SSH_USER@$SSH_HOST" \
-            "sudo -n awk '\$1 == \"root\" { sub(/;\$/, \"\", \$2); print \$2; exit }' '$site_config'")"
+            "sudo -n find /var/www /opt -xdev -type f -name index.html -exec sha256sum {} + 2>/dev/null" \
+            | awk -v expected="$live_hash" '$1 == expected { print $2 }')"
+          match_count="$(printf '%s\n' "$matches" | awk 'NF { count++ } END { print count + 0 }')"
+          if [ "$match_count" != "1" ]; then
+            echo "::error::Expected one server index.html matching live shvec.tech; found $match_count"
+            exit 1
+          fi
 
-          case "$active_root" in
-            /*/dist) ;;
-            *) echo "::error::Unsafe or missing shvec.tech Nginx root"; exit 1 ;;
+          case "$matches" in
+            /*/dist/index.html) ;;
+            *) echo "::error::Unsafe live shvec.tech index path"; exit 1 ;;
           esac
-          echo "DEPLOY_PATH=${active_root%/dist}" >> $GITHUB_ENV
+          echo "DEPLOY_PATH=${matches%/dist/index.html}" >> $GITHUB_ENV
 
       - name: Validate deploy configuration
         shell: bash

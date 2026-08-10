@@ -1,16 +1,17 @@
 ---
 interface Props {
   size?: number;
+  markSize?: number;
   markColor?: string;
   wordColor?: string;
 }
 
 const {
   size = 22,
+  markSize = size * 0.707,
   markColor = 'var(--brand)',
   wordColor = 'currentColor',
 } = Astro.props;
-const markSize = size * 0.707;
 const gap = size / 11;
 ---
 

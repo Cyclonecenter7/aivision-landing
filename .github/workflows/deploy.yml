@@ -61,17 +61,24 @@ jobs:
             "sudo -n find /var/www /opt -xdev -type f -name index.html -exec sha256sum {} + 2>/dev/null" \
             | awk -v expected="$live_hash" '$1 == expected { print $2 }')"
           match_count="$(printf '%s\n' "$matches" | awk 'NF { count++ } END { print count + 0 }')"
+          selected="$matches"
           if [ "$match_count" != "1" ]; then
-            echo "::error::Expected one server index.html matching live shvec.tech; found $match_count"
-            printf '%s\n' "$matches" | awk 'NF { print "Candidate live index: " $0 }'
-            exit 1
+            release_prefix="${DEPLOY_PATH%/}/releases/"
+            selected="$(printf '%s\n' "$matches" | awk -v prefix="$release_prefix" 'index($0, prefix) == 1 { print }')"
+            selected_count="$(printf '%s\n' "$selected" | awk 'NF { count++ } END { print count + 0 }')"
+            if [ "$selected_count" != "1" ]; then
+              echo "::error::Expected one live release index for shvec.tech; found $selected_count among $match_count hash matches"
+              printf '%s\n' "$matches" | awk 'NF { print "Candidate live index: " $0 }'
+              exit 1
+            fi
+            echo "::notice::Ignored duplicate non-release copy of the live landing"
           fi
 
-          case "$matches" in
-            /var/www/*/index.html|/opt/*/index.html) ;;
+          case "$selected" in
+            "${DEPLOY_PATH%/}"/releases/*/index.html|"${DEPLOY_PATH%/}"/dist/index.html) ;;
             *) echo "::error::Unsafe live shvec.tech index path"; exit 1 ;;
           esac
-          echo "DEPLOY_TARGET=${matches%/index.html}" >> $GITHUB_ENV
+          echo "DEPLOY_TARGET=${selected%/index.html}" >> $GITHUB_ENV
 
       - name: Validate deploy configuration
         shell: bash

@@ -59,6 +59,21 @@ jobs:
             fi
           fi
 
+      - name: Verify production ingest authentication
+        if: github.ref_name == 'main'
+        shell: bash
+        run: |
+          status="$(curl -sS -o /dev/null -w '%{http_code}' \
+            -X POST "$PUBLIC_API_URL/api/v1/ingest/track" \
+            -H 'Content-Type: application/json' \
+            -H 'Origin: https://shvec.tech' \
+            -H "X-Ingest-Key: $PUBLIC_INGEST_KEY" \
+            --data '{}')"
+          if [ "$status" != "400" ] && [ "$status" != "422" ]; then
+            echo "::error::Production ingest authentication check failed with HTTP $status"
+            exit 1
+          fi
+
       - name: Build (Astro)
         run: npm run build
 

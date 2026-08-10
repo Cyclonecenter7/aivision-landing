@@ -1,6 +1,9 @@
 export const YANDEX_METRIKA_ID = 109677313;
 
-const PENDING_GOALS_KEY = '__shvecYmPendingGoals';
+// Keep the revision in this entry module: the production server serves hashed
+// JS as immutable for one year, so an ingest/auth change must also rotate the
+// tracking chunk URL instead of reusing a cached file from an older build.
+const PENDING_GOALS_KEY = '__shvecYmPendingGoals_v2';
 
 function hasAnalyticsConsent() {
   try {

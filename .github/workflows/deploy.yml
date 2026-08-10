@@ -21,7 +21,7 @@ jobs:
         run: |
           if [ "${{ github.ref_name }}" = "main" ]; then
             echo "DEPLOY_PATH=${{ secrets.DEPLOY_PATH_PROD }}" >> $GITHUB_ENV
-            echo "SSH_HOST=${{ secrets.SSH_HOST }}" >> $GITHUB_ENV
+            echo "SSH_HOST=217.149.25.80" >> $GITHUB_ENV
             echo "PUBLIC_ENV=production" >> $GITHUB_ENV
             echo "PUBLIC_SITE_URL=https://shvec.tech" >> $GITHUB_ENV
             echo "PUBLIC_API_URL=https://admin.shvec.tech" >> $GITHUB_ENV

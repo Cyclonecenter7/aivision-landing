@@ -5,14 +5,6 @@ export const YANDEX_METRIKA_ID = 109677313;
 // tracking chunk URL instead of reusing a cached file from an older build.
 const PENDING_GOALS_KEY = '__shvecYmPendingGoals_v2';
 
-function hasAnalyticsConsent() {
-  try {
-    return window.localStorage.getItem('shvec_cookie_consent') === 'accepted';
-  } catch {
-    return false;
-  }
-}
-
 function queueGoal(goalName, params) {
   const queue = Array.isArray(window[PENDING_GOALS_KEY])
     ? window[PENDING_GOALS_KEY]
@@ -23,7 +15,7 @@ function queueGoal(goalName, params) {
 }
 
 export function flushPendingYandexGoals() {
-  if (typeof window === 'undefined' || !hasAnalyticsConsent() || typeof window.ym !== 'function') {
+  if (typeof window === 'undefined' || typeof window.ym !== 'function') {
     return 0;
   }
 
@@ -40,12 +32,10 @@ export function flushPendingYandexGoals() {
 export function reachYandexGoal(goalName, params) {
   if (typeof window === 'undefined' || !goalName) return false;
 
-  if (!hasAnalyticsConsent()) {
+  if (typeof window.ym !== 'function') {
     queueGoal(goalName, params);
     return false;
   }
-
-  if (typeof window.ym !== 'function') return false;
   window.ym(YANDEX_METRIKA_ID, 'reachGoal', goalName, params);
   return true;
 }

@@ -1,6 +1,6 @@
 ---
-// Cookie-баннер: Яндекс.Метрика и собственная поведенческая аналитика
-// запускаются ТОЛЬКО после явного согласия.
+// Cookie-баннер управляет собственной поведенческой аналитикой.
+// Яндекс.Метрика запускается сразу для рекламной атрибуции.
 // Баннер показывается во всех окружениях (чтобы согласие можно было проверить
 // на dev), но Я.Метрика грузится только в prod.
 const YM_ID = 109677313;
@@ -46,6 +46,8 @@ const isProd = import.meta.env.PUBLIC_ENV === 'production';
         function loadAnalytics() {
           loadYM();
         }
+        // Яндекс.Метрика считает визит сразу; cookie-баннер и его UI не меняем.
+        loadYM();
         var consent = null;
         try { consent = localStorage.getItem(KEY); } catch (e) {}
         var banner = document.getElementById('cookie-banner');
